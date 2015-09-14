@@ -1,0 +1,599 @@
+\chapter*{Conclusion}
+\addcontentsline{toc}{chapter}{Conclusion}
+
+Through this thesis, we developped \dots
+updates of possibilistic MDPs, 
+modelization examples, 
+demonstration of the accuracy of qualitative models,
+graphical results (factorization),
+simplification,
+perspective in a hybrid model
+
+\section*{Perspectives}
+
+%Dans la  continuité directe  de notre travail  de thèse,  nous pouvons
+%\dots
+
+\begin{quote}
+Providing the autonomy to a robot 
+consists in computing a function 
+which returns accurate robot actions
+over time given the system observations. 
+Partially Observable Markov Decision Processes (POMDPs) 
+is a well-suited model 
+for such purpose 
+modeling probabilistic dynamics 
+of the system.
+The use of the POMDPs 
+raises however some practical issues,
+such as the difficulty to encode 
+robot ignorance, 
+or the high complexity 
+of the strategy computation problem. 
+This paper presents recent contributions 
+in the use of the Qualitative Possibility Theory
+for planning under uncertainty, 
+studied to answer to these concerns.
+It begins with an update 
+of the work of Sabbadin 
+about a possibilistic counterpart 
+of POMDPs called $\pi$-POMDP. 
+Then strategies computation time is decreased 
+with the use of Agebraic Decision Diagrams (ADDs)
+and benefiting from the problem structure.
+We compare performances 
+of our solvers with those of 
+its probabilistic counterparts, 
+in terms of computation time, 
+and with criteria measuring 
+the mission achievement. 
+While this possibilistic framework 
+provides good results,
+some highlighted issues
+are finally discussed: 
+conclusion argues for a hydrid POMDP 
+model with both probabilistic 
+and possibilistic settings. 
+\end{quote}
+\section{Introduction}
+Partially Observable Markov Decision Processes 
+(POMDPs) \cite{Smallwood_Sondik} 
+define a useful formalism 
+to express sequential decision problems 
+under uncertainty.
+This framework models 
+an agent and its mission, 
+without assuming 
+that the latter knows directly 
+the current state of the system.
+In our study, 
+the agent is more precisely a robot, 
+and the system state 
+consists of a description of the situation, 
+including robot and environment features
+of interest.
+A POMDP is defined 
+setting up a set of possible system states 
+$s \in \mathcal{S}$,
+and reward values $r \in \mathbb{R}$ on it, 
+modeling the robotic mission. 
+A full definition of this process 
+includes as well the set of 
+possible observations of the system, 
+$o \in \mathcal{O}$, 
+and the set of available actions for the robot, 
+$a \in \mathcal{A}$. 
+Each action redefines 
+the conditional probabilities 
+linking system states over time, 
+namely $\textbf{p} \paren{s' \sachant s, a}$, 
+and those defining uncertainty of observations 
+conditionned on the actual system state, 
+$\textbf{p} \paren{ o' \sachant s', a}$:
+actions have a stochastic control on system states 
+and on system observations, 
+and the aim is to make action choices 
+leading to states with greatest rewards.
+Solving a POMDP consists in computing 
+a function called \textit{strategy} 
+which returns a proper action at each process step, 
+according to all received observations and selected actions  
+\textit{i.e.} all of the data available for the robot.
+A probability distribution known as \textit{belief} 
+estimates the actual system state, 
+as the latter is not directly observable. 
+The belief is updated at each stage of the process 
+using the current observation.
+It can be shown that an optimal strategy
+may be chosen among functions of the belief.
+Figure \ref{ID_pomdp} is a graphical representation 
+of a POMDP called \textit{Influence Diagram}.
+\begin{figure}
+\label{ID_pomdp}
+\caption{Influence Diagram of a POMDP, with system states $s \in \mathcal{S}$, 
+observations $o \in \mathcal{O}$, actions $a \in \mathcal{A}$, 
+rewards encoding mission goal $r \in \mathbb{R}$, 
+and agent beliefs $b$.}
+\end{figure}
+ 
+Consider now robots whose observations 
+come from computer vision algorithms based on statistical learning: 
+perception performances depend on the training dataset of pictures,
+and observation probability distributions $\textbf{p} \paren{ o' \sachant s',a }$
+are also frequencies computed using such a labeled dataset.
+The imprecision about 
+the actual vision algorithm behaviour
+with real world pictures
+has to be taken into account 
+to make the robot autonomous 
+under any circumstances. 
+Moreover, consider missions 
+where a part of the system state,
+describing something that the robot
+is supposed to infer by itself, 
+is initially fully unknown:
+for instance the location 
+or the nature of a target. 
+Classical approaches initialize 
+the belief as 
+a subjective uniform probability distribution. 
+In this case the belief update 
+mixes subjective probabilities and frequencies,
+which is questionable.
+Finally solving a POMDP 
+\textit{i.e.} computing an optimal strategy 
+is at least a PSPACE-complete problem. 
+In practice, optimality can be reached 
+for tiny problems, 
+or highly structured ones. 
+Otherwise, only approximate solutions can be computed.  
+The use of the Qualitative Possibility Theory \cite{DBLP:journals/eor/DuboisPS01}
+is studied here,
+as it appears capable
+to both simplify the POMDPs, 
+and model imprecision and ignorance 
+related to robotic missions.
+
+Qualitative possibilistic POMDPs, 
+$\pi$-POMDPs \cite{Sabbadin:1999:pipomdp}, 
+are alternative processes 
+defined using a qualitative evaluation 
+of events plausibility
+instead of probabilities: 
+it allows to formally represent 
+agent ignorance, 
+and imprecision on observations hazard. 
+In this paper, 
+a possibilistic version of 
+Mixed-Observable MDPs \cite{OngShaoHsuWee-IJRR10}, 
+called $\pi$-MOMDP \cite{Drougard13}, 
+is first presented to reduce dramatically 
+the complexity of solving $\pi$-POMDPs, 
+some state variables of which are fully observable. 
+An algorithm
+for missions with unbounded durations
+is next proposed:
+returned strategies can outperform 
+probabilistic POMDP ones 
+for a target recognition problem 
+where the agent's observations dynamics 
+is not properly defined.
+
+Then factorized $\pi$-MOMDPs
+are defined making possible the processing
+of large structured planning problems. 
+Building upon the probabilistic 
+SPUDD algorithm \cite{Hoey99spudd:stochastic},
+we conceived an algorithm named PPUDD \cite{DBLP:conf/aaai/DrougardTFD14} 
+for solving factorized $\pi$-MOMDPs
+using \textit{Algebraic Decision Diagrams} (ADD).
+Our experiments and the  results 
+of the International Probabilistic Planning Competition (IPPC 2014)
+show that this possibilistic approach
+can involve lower computation time
+and produce better policies
+than its probabilistic counterparts:
+it highlights also some issues 
+of these qualitative models.
+Finally, points raised are added to 
+the symbolic computations limits,
+and lead to the description
+of a future work.
+\section{Background}
+The work of Sabbadin \cite{Sabbadin:1999:pipomdp} 
+proposes a possibilistic counterpart 
+of the POMDPs which models the uncertainty with 
+\textit{qualitative possibility distributions}.
+The \textit{possibility scale}, 
+is defined as 
+$\mathcal{L} = \{0,\frac{1}{k}, \frac{2}{k}, \ldots, \frac{k-1}{k}, 1 \}$ 
+with $k \in \mathbb{N}^*$.
+A qualitative possibility distribution over $\mathcal{S}$ 
+is a function $\pi: \mathcal{S} \rightarrow \mathcal{L}$ 
+such that $\max_{s \in \mathcal{S}} \pi(s) = 1$ 
+(possibilistic normalization).
+Inequality $\pi(s)<\pi(s')$ means that state $s'$ 
+is more plausible than state $s$.
+This modeling needs less information 
+than the probabilistic one since the plausibilities of events 
+are ``only'' classified in $\mathcal{L}$ but not quantified.
+ 
+The transition function $T^{\pi}$ describes
+the uncertainty over the next state: for each $ (s,s') \in \mathcal{S}^2$, $a \in \mathcal{A}$, 
+$T^{\pi}(s,a,s') = \pi \paren{ s'\sachant s,a } \in \mathcal{L}$ is
+the possibility of reaching the system state $s'$ 
+conditionned on the current state $s$ and action $a$.
+Scale $\mathcal{L}$ serves as well to model 
+the \emph{preference} over states: 
+function $\mu: \mathcal{S} \rightarrow \mathcal{L}$ assigns a degree
+at each system state modeling how well this state fulfill the mission. 
+The uncertainty over observations 
+is encoded in the observation function 
+$\Omega^{\pi}$: 
+$\forall o' \in \mathcal{O}$, $s \in \mathcal{S}$, $a \in \mathcal{A}$, 
+$\Omega^{\pi} \paren{ s',a,o' } = \pi \paren{ o' \sachant s,a }$ 
+is the possibility of the current observation $o'$ 
+conditionned on the current state $s'$ and the previous action $a$. 
+
+A $\pi$-POMDP is fully defined by the tuple 
+$\langle \mathcal{S},\mathcal{A},\mathcal{L}, T^{\pi}, 
+\mathcal{O}, \Omega^{\pi}, \mu,\beta_0 \rangle$,
+where $\beta_0$ is the initial possibilistic belief. 
+The agent belief is a possibility distribution 
+over $\mathcal{S}$: total ignorance is defined 
+by a belief equal to $1$ on all states, 
+whereas a given state $s$ is perfectly known 
+if the belief is equal to $1$ on this state 
+and to $0$ on all other states.
+A new observation $o' \in \Omega$ 
+updates the belief
+with equation \ref{possBelUpdate},
+easily derived from the possibilistic 
+Bayes rule \cite{Dubois199023}: 
+at time $t$, if the belief is $\beta_t$, then
+\begin{eqnarray}
+\label{possBelUpdate} \beta_{t+1}(s') & = &  \left \{ \begin{array}{ccc} 1 \mbox{ if } s' \mbox{ maximizes } \pi \paren{ o', s' \sachant \beta_t, a}; \\
+ \pi \paren{ o', s' \sachant \beta_t, a} \mbox{ otherwise,}
+\end{array} \right.
+\end{eqnarray}
+where $\pi \paren{o',s' \sachant \beta_t, a}
+= \displaystyle \max_{s \in \mathcal{S}} \min \set{ 
+\Omega^{\pi} \paren{ s',a, o'}, T^{\pi} \paren{ s,a,s'}, \beta_t(s) }$
+is the joint possibility distribution over $\mathcal{O} \times \mathcal{S}$.
+Then, if the current belief is $\beta$,
+and selected action $a \in \mathcal{A}$, 
+the next belief may be $\beta'$,
+with a possibility $\pi \paren{ \beta' \sachant \beta,a}$
+equal to the possibility of observations leading to it, 
+computed from the joint possibility distibution: 
+$\pi \paren{o' \sachant \beta,a} = \max_{s' \in \mathcal{S}} \pi \paren{o',s' \sachant \beta,a}$.
+%$\pi \paren{o' \sachant \beta_t,a} = \max_{s' \in \mathcal{S}} \pi \paren{ o',s' \sachant \beta_t, a }$.
+%The translation into $\pi$-MDP can be done in a similar way as for POMDPs: we denote by
+
+Now, a belief state has a good preference 
+when it is unlikely, according to it, that the system 
+is in an unsatisfactory state: 
+$\mu(\beta) = \min_{s \in \mathcal{S}} \max \set{ \mu(s), 1-\beta(s) }$. 
+The possibilistic belief space which contains all the possibility 
+distributions defined on $\mathcal{S}$ is denoted by $B^{\pi} \subsetneq \mathcal{L}^{\mathcal{S}}$.
+A \textit{strategy} $\delta$ is defined 
+as a sequence of functions 
+$\delta_t: B^{\pi} \rightarrow \mathcal{A}$:
+$a=\delta_t(\beta)$ is the action 
+selected by the agent 
+at step $t \in \mathbb{N}$.
+%if it is following the strategy $(\delta_t)_{0 \leqslant t}$.
+
+Let $h \in \mathbb{N}^*$ be the mission duration: 
+the set of $h$-length trajectories
+starting with the belief $\beta \in B^{\pi}$ 
+by following strategy $\delta$ 
+is denoted by $\mathcal{T}^{\delta}_h(\beta)$. 
+The \textit{value function}  
+measures the quality of a strategy $\delta$: 
+for the initial belief $\beta_0 \in B^{\pi}$, 
+it is the Sugeno integral of the preference
+according to the possibility measure:
+\begin{equation*}
+\label{optimizationCriterion}
+V_h^{\delta}(\beta_0) = \max_{ \mathcal{T}^{\delta}_h(\beta_0)} \min \set{ \min_{t=0}^{h-1} \pi \paren{ \beta_{t+1} \sachant \beta_{t}, \delta_{t}(\beta_{t})} , \mu(\beta_H) }.
+\end{equation*}
+The maximal value funtion 
+and the associated optimal strategy 
+can be computed 
+using Dynamic Programming (DP) \cite{Sabbadin:1999:pipomdp}.
+However, for concrete problems, 
+the belief space can be dramatically large: 
+$\# B^{\pi} = \# \mathcal{L}^{\# \mathcal{S}} - (\# \mathcal{L}-1)^{\# \mathcal{S}}$ 
+explodes and the computations 
+become intractable.
+Moreover, a criterion without
+the specification of $h$
+is needed to cover missions 
+with unbounded durations.
+
+\section{Qualitatif Possibilistic Mixed-Observable MDPs}
+\label{QPMOMDP}
+
+In practice, states are rarely totally hidden.
+Like in \cite{OngShaoHsuWee-IJRR10}, 
+we consider problems where the state space $\mathcal{S}$ 
+can be written as a Cartesian product of 
+a visible state space $\mathcal{S}_{v}$ 
+and a hidden one $\mathcal{S}_h$: 
+$\mathcal{S}$ = $\mathcal{S}_v$ $\times$ $\mathcal{S}_h$.
+Let $s=(s_v,s_h)$ be a state of the system. 
+The component $s_v$ is directly
+seen by the agent 
+and $s_h$ is partially observed 
+through $o_h' \in \mathcal{O}_h$
+whose possibility distribution 
+is denoted by $\pi \paren{o_h' \sachant s',a }$.
+Figure \ref{figureexp1}.a illustrates this structured model 
+called \textit{Mixed-Observable} MDP ($\pi$-MOMDP). 
+The next theorem leads to avoid 
+some useless computations defining the space $\mathcal{X}$:
+\begin{theorem}
+\label{thm1} Each reachable belief of a $\pi$-MOMDP 
+can be written as an element 
+$x=(s_v,\beta_h)$ of $\mathcal{X} = \mathcal{S}_v \times B^{\pi}_h$ where $\beta_h \in B^{\pi}_h$ 
+is a belief about $\mathcal{S}_h$.
+\end{theorem}
+The size of $B^{\pi}$ is $\# B^{\pi} \sim \# \mathcal{L}^{\# \mathcal{S}_v \cdot \# \mathcal{S}_h - 1}$.
+The criterion is restricted to the space $\mathcal{X}$, whose size is exponentially smaller, 
+$\# \mathcal{X} \sim \# \mathcal{S}_v \cdot \# \mathcal{L}^{\# \mathcal{S}_h-1}$:
+\begin{equation} 
+\label{optcriterion} V^{\delta}(x) = \max_{0 \leqslant h} \max_{ \tau \in \mathcal{T}^{\delta}_{h}(x)} \min \set{ \min_{t=0}^{h-1} \pi \paren{ x_{t+1} \sachant x_t, \delta_{t}(x_t) }, \mu(x_h) },
+\end{equation}
+where $\mu(x) = \mu(s_v,\beta_h) \hspace{-0.1cm} = \hspace{-0.15cm} \min_{s_h \in \mathcal{S}_h} \hspace{-0.1cm} \max  \hspace{-0.1cm} \set{  \hspace{-0.05cm} \mu(s_v,s_h), 1  \hspace{-0.1cm} -  \hspace{-0.1cm} \beta_h(s_h) \hspace{-0.05cm} }$ is the preference function.
+As proved in \cite{Drougard13}, there exists an optimal strategy $\delta^{\ast}$, 
+which is stationary \textit{i.e.} 
+which does not depend on the stage of the process $t$. 
+It can be found by the following Dynamic Programming (DP) scheme: initialization is $\forall x \in \mathcal{X}$, $V_0(x) = \mu(x)$, 
+and until convergence, $ V_{i+1}(x) = \displaystyle \max_{a \in \mathcal{A}} \max_{x' \in \mathcal{X}} \min \set{ \pi \paren{ x' \sachant x , a} , V_i(x') }$,
+\begin{eqnarray}
+\label{DPE2} \mbox{ and if } V_{i+1}(x)>V_i(x), \hspace{0.1cm} \delta^*(x) = \operatorname*{argmax}_{a \in \mathcal{A}} \max_{x' \in \mathcal{X}} \min \set{ \pi \paren{ x' \sachant x , a} , V_i(x') }.
+\end{eqnarray}
+\begin{theorem}
+\label{thmIV} If there exists a ``noop'' action $\overline{a}$ such that, 
+$\forall x \in \mathcal{X}$, 
+$\pi \paren{x' \sachant x, \overline{a} } = 1$ if $x'=x$ and $0$ otherwise, 
+dynamic programming equations \ref{DPE2} compute the maximum 
+criterion and an optimal policy.
+This dynamic programming scheme converges in at most 
+$\# \mathcal{X}$ iterations.
+\end{theorem}
+The hypothesis of the action $\overline{a}$ existence
+is not a constraint in practice
+as it is only selected in some goal states.
+Note that the value function is defined regardless of the mission duration.
+
+The following application shows the efficiency 
+of the $\pi$-MOMDPs framework to provide strategies
+well-suited for a recognition mission. 
+Consider a robot on a grid $g \times g$, 
+which perfectly knows its location $(x,y) \in \{ 1, \ldots, g \}^2$:
+each location is a visible state $s_v \in \mathcal{S}_v$. 
+It starts at location $s_{v,0}=(1,1)$, 
+and knows that a target $T1$ is located 
+in $(x_1,y_1)=(1,g)$, 
+and a target $T2$ in $(x_2,y_2)=(g,1)$.
+%and the robot perfectly knows their positions. 
+One of the targets is $A$, the other $B$,
+and the robot has to identify 
+and reach target $A$ as soon as possible. 
+The two situations, ``$T1$ is $A$'', and ``$T2$ is $A$'', 
+constitute the hidden state space $\mathcal{S}_h$,
+and the robot starts with the ignorant belief $(1,1)$:
+both situations are possible.
+Robot's actions $\mathcal{A}$
+consist in moving in the four directions 
+plus the action ``noop''.
+Targets pictures are analyzed 
+producing an observation 
+of the targets' natures: 
+$oAA$ if both targets are observed as beeing $A$,  
+or $oAB$ if only $T1$, 
+$oBA$ if only $T2$, and $oBB$ if noone.
+The more the robot is far from a target, 
+the more the observation is noisy. 
+The highest reward and preference values
+occur when the robot selects the noop action 
+in the location of target $A$,
+and lowest ones in target $B$ location.
+Without the Mixed Observability exploitation, 
+classical algorithms could not solve even 
+very small $3 \times 3$ grids. 
+
+After the strategies computations, 
+we assume that in reality,
+used computer vision algorithms 
+badly perform when the robot is 
+farther than $r$ from targets,
+as illustrated in Figure \ref{figureexp1}.b.
+Distant view pictures of targets 
+are lacking in the training set, 
+leading to a fixed misperception probability
+$P_{bad} > \frac{1}{2}$.  
+In other spots, the probability 
+of an incorrect observation is lower than $\frac{1}{2}$
+but increases with the distance 
+from the target.  
+We compare the averages of the rewards gathered at execution
+by strategies from the probabilistic and possibilistic models.
+If $k$ is the number of time steps to identify 
+and reach the correct target,
+the total reward is $100-k$,
+as the reward function returns $-1$
+until target $A$ is reached, 
+rewarded by $100$.
+Figure \ref{figureexp1}.c shows that 
+the probabilistic model is more affected by the introduced error 
+than the possibilistic one.
+%it shows the total reward at execution of each model 
+%as a function of $P_{bad}$, 
+%the probability of an incorrect 
+%target observation in the error zone
+The possibilistic belief update (\ref{possBelUpdate})
+is responsible as it only takes into account 
+more reliable observations:
+the next belief is either more skeptic 
+about a state if its confirms the prior belief; 
+or changes to the opposite belief if it contradicts it.
+On the contrary a probabilistic belief is modified at each step. 
+
+
+Consider $\pi$-MOMDPs 
+whose space $\mathcal{X}$ is represented by
+$n$ boolean variables $X=(X_1, \ldots, X_n)$.
+As illustrated in Figure \ref{factADD}.a,
+variables $X_i$ of a \textit{factorized $\pi$-MOMDP} 
+are said post action independent as there are no
+dependences (arrows) between variables of the same time step.
+Resulting transition functions $T^a_i = T^{\pi} \paren{X_i' \sachant X,a}$,
+such that $\min_{i} T_i^a = T^{\pi} \paren{X' \sachant X,a}$,
+are encoded with \textit{Algebraic Decision Diagrams} 
+(ADDs, see Figure \ref{factADD}.b). 
+Algorithm PPUDD is a symbolic version of 
+the Dynamic Programming scheme (\ref{DPE2}).
+Inspired by SPUDD \cite{Hoey99spudd:stochastic}, 
+PPUDD means \emph{Possibilistic Planning Using Decision Diagrams}. 
+As SPUDD, it operates on ADDs 
+encoding value, preference and transition functions.
+That is why $\max$ and $\min$ operators 
+are circled in algorithm PPUDD:
+operations are directly performed 
+between trees reducing the number of calculations.
+While SPUDD uses operators $+$ and $\times$ 
+and creates then news values 
+leading potentially to huge ADDs, PPUDD only uses
+operators $\min$ and $\max$, 
+and the number of values is non increasing: 
+ADDs are smaller, and thus computations are faster.
+First equation of DP scheme (\ref{DPE2}) is divided into $n$ steps (see loop line $6$).
+The second equation corresponds to line $10$. 
+The implementation was performed 
+with the \textit{CU Decision Diagram Package}
+for the ADDs computations. 
+A natural factorisation of $\mathcal{X}$ comes from some independence assumptions
+illustrated by Figure \ref{figureexp2}.a. As proved in \cite{DBLP:conf/aaai/DrougardTFD14}, 
+beliefs of a $\pi$-MOMDP satisfacing these assumptions
+are post action independent beliefs: $x = (s_{v,1}, \ldots, s_{v,m}, \beta_1, \ldots, \beta_{l})$, 
+with $\beta_i$ a belief over variable $s_{h,i}$.
+The independence of sensors and of corresponding hidden states suffice to fullfil these conditions.
+A problem known as 
+the \textit{RockSample} problem, 
+looks like the one 
+of section \ref{QPMOMDP}.
+It is more complex 
+as the number of targets
+is greater than two: 
+targets are rocks, 
+and the robot is expected 
+to sample only ``scientifically good'' ones,
+estimating their nature 
+through specific observation actions.
+As this problem respects assumptions 
+encoded by the graphical 
+representation in Figure \ref{figureexp2}.a, 
+the model is naturally expressed 
+as a factorized $\pi$-MOMDP. 
+PPUDD performances are compared with 
+the probabilistic MOMDP solver APPL \cite{Kurniawati08sarsop:efficient}
+and the symbolic HSVI solver \cite{citeulike:2961378},
+first in terms of computation time, 
+and below with the average of 
+the total reward at execution 
+(see Figure \ref{figureexp2}.b). 
+PPUDD computes a strategy maximizing 
+exactly the possibilistic criterion 
+(\ref{optimizationCriterion})
+while APPL and symb. HSVI compute solutions
+which approximately maximize the expected sum of rewards.
+These experimental results show that using an exact algorithm 
+(PPUDD) for an approximate model ($\pi$-MOMDPs) 
+can run significantly faster 
+than reasoning about exact models, 
+while providing better policies 
+than approximate algorithms (APPL) 
+for exact models.
+
+To focus on the behaviour 
+of this possibilistic qualitative approach 
+in a wide panel of probabilistic problems, 
+we participated  in the fully observable track of the 
+\textit{International Probabilistic Planning Competition 2014} 
+(IPPC 2014\footnote{\url{https://cs.uwaterloo.ca/~mgrzes/IPPC_2014/}})
+with PPUDD. 
+Figure \ref{IPPC} shows performances of competitors
+using ADDs: 
+PPUDD and a probabilistic solver called symbolic LRTDP 
+as a variant of \cite{Bonet03labeledrtdp:}.
+\section{Possibilistic Processes in Human-Machine Interaction}
+\section{An Hybrid POMDP}
+\section{Conclusion and perspectives}
+In this paper, qualitative possibilistic models
+for planning under uncertainty were presented,
+studied to adress some issues 
+of the probabilistic POMDPs.
+While the probabilistic belief space is infinite,
+the possibilistic one $B^{\pi}$ is finite:
+it is a well-suited belief space discretization.
+Moreover, total ignorance
+and imprecision on observation probability distributions
+are well-encoded with this formalism. 
+
+However, as highlighted by the domain ``Traffic''
+of the competition (see Figure \ref{IPPC}), the possibilistic criterion (\ref{optcriterion})
+can be too optimistic.
+Experiments on the left 
+concerning the Navigation problem
+is a good illustration: 
+a robot which has to
+reach a goal, but may disappear in some spots.
+The classical criterion (\ref{optcriterion})
+(M1, optimistic) 
+leads to a poor strategy, 
+while a cautious criterion (M2, pessimistic)
+is more suited: 
+for most of missions however 
+the reverse occurs.
+Proposed approaches involves then 
+the choice of a criterion.
+Note that in this example, 
+SPUDD provides good strategies, but 
+cannot solve big instances. 
+
+Presented models 
+assume also that preference
+and uncertainty degrees
+share the same scale
+which makes it hard to
+set in practice: the use of
+the aggregation operator leximin 
+is a good alternative,
+but makes the problem more complex.
+Finally, state space search algorithms
+(PROST \cite{conf/aips/KellerE12} and GOURMAND) won IPPC 2014,
+and are yet far more efficient than ADD-based methods.
+A future work is motivated by these issues
+and builds a POMDP with possibilistic beliefs in $B_h^{\pi}$,
+rewards in $\mathbb{R}$ attached to them,
+and probabilistic transition functions.
+As ADDs are still efficient for preprocessing,
+they are used to translate this hybrid
+model into a classical Fully Observable MDP.
+Efficient sampling MDP solvers such as PROST 
+are then able to solve this simplified POMDP. 
+
+
+Optimal strategies for presented POMDPs (purely qualitative, and hybrid)
+are computable in finite time, at most exponential in the description of the problem.
+
+(+ CONCLUSION DE CHAQUE PAPIER)
+Nous avons observ\'e la difficult\'e du formalisme possibiliste qualitatif \`a la
+description d'un probl\`eme de robotique autonome. Nous avons aussi confirm\'e
+l'int\'er\^et d'utiliser ce formalisme dans la mod\'elisation de la croyance de l'agent.
+De plus, les r\'esultats de la comp\'etition de planification incite \`a abandonner l'approche symbolique pour
+une recherche dans l'espace d'\'etats. Pour cela, nous d\'eveloppons un mod\`ele hybride ...
+\textbf{D\'eveloppement d'un mod\`ele hybride probabiliste et possibiliste}.

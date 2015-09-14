@@ -1,0 +1,1235 @@
+\subsection{Preliminaries}
+Firstly recall the more general definition of the \textit{conditional 
+expectation} with respect to a random variable:
+a random variable is a measurable function defined on the set $\Omega$
+equipped with the $\sigma$-algebra $\mathcal{F}$ and the probability measure $\mathbb{P}$.
+\begin{Def}[Expectation of $X$ Conditional on $Y$: $\mathbb{E} \croch{ X \sachant Y }$] \label{def_conditional_expectation}
+Let $X$ et $Y$ be two random variables defined on $(\Omega,\mathcal{F},\mathbb{P})$:
+values of $X$ are in $\mathbb{R}$ equipped with the Borel $\sigma$-algebra $\mathcal{B}(\mathbb{R})$ 
+and $X$ is integrable. Values of $Y$ are in a set $\mathcal{Y}$ equipped with a $\sigma$-algebra $\mathcal{V}$.
+Let us denote by $\sigma(Y)$ the $\sigma$-algebra generated 
+by $Y$ \textit{i.e.} $\sigma(Y) = \set{ Y^{-1}(V) \sachant V \in \mathcal{V}} \subset \mathcal{F}$.
+
+The \textbf{expectation of $X$ conditional on $Y$}, denoted by $\mathbb{E} \croch{ X \sachant Y }$, 
+is \textbf{the unique random variable in $\mathbb{L}^1(\Omega,\mathcal{F},\mathbb{P})$ which is} 
+\begin{itemize}
+\item $\sigma(Y)$-measurable,
+\item and such that $\forall A \in \sigma(Y)$, $\displaystyle \int_{A} \mathbb{E} [X \vert Y](\omega) \ d \mathbb{P}(\omega)
+ = \int_{A} X(\omega) d \mathbb{P}(\omega)$.
+\end{itemize}
+As the classical expectation, the conditional expectation is linear: 
+if $X_1$ and $X_2$ are two random variables, $\forall c \in \mathbb{R}$,
+$\mathbb{E} \croch{ c\cdot X_1 + X_2 \sachant Y  } = c \cdot \mathbb{E} \croch{ X_1 \sachant Y  }  + \mathbb{E} \croch{ X_2 \sachant Y }$.
+\end{Def}
+First, note that if $X$ is $\sigma(Y)$-measurable, $X = \mathbb{E} \croch{ X \sachant Y }$ $\mathbb{P}$-almost surely.
+Indeed, the function $X$ meets both conditions 
+to be $ \mathbb{E} \croch{ X \sachant Y }$.
+Note also that the second point of Definition \ref{def_conditional_expectation}
+implies that \[ \mathbb{E} \Big[ \mathbb{E} \croch{ X \sachant Y } \Big] = \int_{\Omega} \mathbb{E} \croch{ X \sachant Y }(\omega) d \mathbb{P}(\omega) = \int_{\Omega} X(\omega) d \mathbb{P}(\omega) = \mathbb{E} \croch{X}. \] 
+This second point 
+can be replaced by an other characterization,
+given by  the following property:
+\begin{Property}
+\label{prop_def_condexpec}
+The random variable $\mathbb{E} \croch{ X \sachant Y }$ can be defined as
+the unique function $\sigma(Y)$-measurable such that
+$\forall Z: \mathcal{Y} \rightarrow \mathbb{R}$ $\sigma(Y)$-measurable, 
+\[ \mathbb{E} \bigg[ Z \cdot \mathbb{E} \croch{ X \sachant Y } \bigg] = \mathbb{E} \croch{Z \cdot X}. \]
+\end{Property}
+\begin{proof}
+Indeed if $Z = \mathds{1}_{A}$ with $A \in \sigma(Y)$, 
+we fall back into the second point of Definition \ref{def_conditional_expectation}. 
+Thanks to the linearity of the expectation, 
+it remains true if $Z$ 
+is a linear combination of characteristic functions of
+elements of the $\sigma$-algebra.
+Finally, consider a non decreasing sequence $(Z_n)_{n \in \mathbb{N}}$,
+with $\forall n \in \mathbb{N}$, $Z_n$ a combination of characteristic functions,
+and whose limit is a measurable function $Z$.
+Equality holds for each $Z_n$, and thanks to Beppo-Levi Theorem,
+the result is true for the measurable function $Z$. 
+\end{proof}
+
+This result makes the following property easier to show:
+\begin{Property} \label{res_espcond} Let $X$ be a real and integrable random variable, 
+and $Y_1,Y_2$ two random variables:
+\begin{equation*}
+\displaystyle \mathbb{E} \Big[  \mathbb{E} \croch{ X \sachant Y_1,Y_2  } \Big\vert Y_2  \Big] = \mathbb{E} \croch{ X \sachant Y_2  } \hspace{0.15cm} \mathbb{P}\mbox{-almost surely.} 
+\end{equation*}
+As well,
+\[ \displaystyle \mathbb{E} \Big[  \mathbb{E} \croch{ X \sachant Y_2  } \Big\vert Y_1, Y_2  \Big] = \mathbb{E} \croch{ X \sachant Y_2  } \hspace{0.15cm} \mathbb{P}\mbox{-almost surely.} \]
+\end{Property}
+\begin{proof}
+The second equality is obvious because
+if $X$ is $\sigma(Y)$-measurable, $\mathbb{E} \croch{ X \sachant Y } = X$ 
+$\mathbb{P}\mbox{-almost surely.}$ Indeed, $X$ meets the first condition 
+to be $\displaystyle \mathbb{E} \croch{ X \sachant Y }$ in Definition \ref{def_conditional_expectation}, and of course, the second condition is met.
+Here, the random variable $\mathbb{E} \croch{ X \sachant Y_2 }$ 
+is $\sigma(Y_2)$-measurable by definition,
+and thus it is $\sigma(Y_1,Y_2)$-measurable: 
+thus the second equality holds.
+
+For the first equality, 
+since both conditional expectations are $\sigma(Y_2)$-measurable by definition, 
+it is sufficient to show that $\forall Z$ $\sigma(Y_2)$-measurable, 
+$\mathbb{E} \bigg[ Z \cdot \mathbb{E} \Big[ \mathbb{E} \croch{ X  \sachant Y_1 , Y_2 }  \Big\vert Y_2  \Big]   \bigg] 
+= \mathbb{E} \croch{ Z \cdot X  }$,
+as $\mathbb{E} \croch{ X \sachant Y_2 }$ is the only random variable in $\mathbb{L}^1(\Omega,\mathcal{F},\mathbb{P})$ 
+such that for each $\sigma(Y_2)$-measurable random variable $Z$,
+$\mathbb{E} \croch{ Z \cdot \mathbb{E} \croch{ X \sachant Y_2 } } = \mathbb{E} \croch{ Z \cdot X}$.
+Let $Z$ be $\sigma(Y_2)$-mesurable:
+as $Z$ is $\sigma(Y_2)$-measurable, 
+it is \textit{a fortiori} $\sigma(Y_1,Y_2)$-measurable: 
+$\sigma(Y_2) \subseteq \sigma(Y_1,Y_2)$.
+Thus 
+\[ \mathbb{E} \bigg[ Z \cdot \mathbb{E} \Big[ \mathbb{E} \croch{ X \sachant Y_1 , Y_2 } \Big\vert Y_2  \Big] \bigg] 
+= \mathbb{E} \Big[ Z \cdot \mathbb{E} \croch{ X  \sachant Y_1 , Y_2 } \Big]
+= \mathbb{E} \croch{ Z \cdot X }. \] 
+\end{proof}
+
+
+
+The conditional expectation has been defined 
+as a random variable $\mathbb{E} \croch{ X \sachant Y }: \Omega \rightarrow \mathbb{R}$. 
+However, the following property implies that
+the $\sigma(Y)$-measurability condition of Definition \ref{def_conditional_expectation} 
+may be replaced by 
+``$\exists \varphi: (\mathcal{Y}, \mathcal{V}) \rightarrow \Big( \mathbb{R}, \mathcal{B}(\mathbb{R})\Big)$  measurable 
+such that $\mathbb{E} \croch{ X \sachant Y  } = \varphi (Y)$''.
+The function $\varphi$ is called \textit{Expectation of $X$ Conditional on the Values
+of $Y$} and may be denoted by $\varphi(y) = \mathbb{E} \croch{ X \sachant Y = y}$,
+$\forall y \in \mathcal{Y}$. 
+\begin{Property}
+\label{sigmaYmeas_phi}
+The function $Z:\Omega \rightarrow \mathbb{R}$ is $\sigma(Y)$-measurable, where $Y: (\Omega,\mathcal{F}) \rightarrow (\mathcal{Y},\mathcal{V})$ \\ 
+$\Leftrightarrow$ $\exists \varphi: (\mathcal{Y}, \mathcal{V}) \rightarrow \Big( \mathbb{R}, \mathcal{B}(\mathbb{R}) \Big)$  measurable such that $Z = \varphi(Y)$.
+\end{Property}
+\begin{proof}
+The set $\set{ \varphi(Y) \sachant \varphi: (\mathcal{Y}, \mathcal{V}) \rightarrow \paren{ \mathbb{R}, \mathcal{B}(\mathbb{R})} \mbox{ measurable }  }$ is denoted by $\Phi$.
+If $Z \in \Phi$, then $Z = \varphi(Y)$ with $\varphi$ measurable,
+and as $Y$ is $\sigma(Y)$-measurable, $Z$ is $\sigma(Y)$-measurable: 
+in short, if $Z \in \Phi$, then $Z$ is $\sigma(Y)$-measurable. 
+
+Now let us show that any $\sigma(Y)$-mesurable function 
+can be written $\varphi(Y)$ with $\varphi$ measurable. 
+By definition $\forall A \in \sigma(Y)$, $\exists B \in \mathcal{V}$ such that 
+$A = \set{ Y \in B } = Y^{-1}(B)$. Thus $\mathds{1}_{A} = \mathds{1}_{ \set{Y \in B}} = \mathds{1}_B(Y)$ is in $\Phi$
+as a function of $Y$.
+Now, as linear combinations of such characteristic functions are in $\Phi$,
+and as non-decreasing limits of sequences of functions in $\Phi$ are in $\Phi$,
+it can be concluded that $\Phi$ contains all $\sigma(Y)$-measurable functions.
+\end{proof}
+\begin{Def}[Expectation of $X$ Conditional on the Values of $Y$]
+Let $X \in \mathbb{R}$ and $Y \in \mathcal{Y}$ two random variables:
+as $\mathbb{E} \croch{ X \sachant Y }$ can be written $\varphi(Y)$
+with $\varphi:\mathcal{Y} \rightarrow \mathbb{R}$ measurable, 
+\[ \mathbb{E} \Big[ \ X \ \Big\vert \  Y = y \ \Big] = \varphi(y) \]
+is called the expectation of $X$ conditional on the event $\set{Y=y}$. 
+For each $y \in \mathcal{Y}$ such that $\mathbb{P} \paren{ Y = y}>0$, 
+it is the expectation of $X$ 
+if we know that $Y=y$.
+
+If $\mathcal{Y}$ is countable, and $\mathbb{P} \paren{ Y = y}>0$,
+\[ \mathbb{E} \croch{ X \sachant Y = y } 
+%= \int_{\set{Y=y}} \frac{\varphi(Y)}{\mathbb{P}(Y=y)} d \mathbb{P} 
+=  \int_{\set{Y=y}} \frac{\mathbb{E} \croch{ X \sachant Y }(\omega)}{\mathbb{P}(Y=y)} d \mathbb{P}(\omega) .\]
+\end{Def}
+Consider that the values of variables $X$ and $Y$ are in $\mathcal{S}$, 
+and let us introduce $f:\mathcal{S} \rightarrow \mathbb{R}$ measurable:
+$f(X)$ is a random variable whose values are in $\mathbb{R}$.
+The expectation of $f(X)$ conditional on the values of $Y \in \mathcal{S}$ 
+is denoted by $\mathbb{E} \croch{ f(X) \sachant Y = y }$,
+$\forall y \in \mathcal{S}$.
+If $\mathcal{S}$ is a countable set 
+equipped with the $\sigma$-algebra $\mathcal{P}(\mathcal{S})$ 
+(the set of sets included in $\mathcal{S}$),
+$\varphi(y) = \mathbb{E} \croch{ f(X) \sachant Y = y }$ 
+can be computed explicitly.
+\vbox{
+\begin{Property}
+Let $X$ and $Y$ two random variables whose values are in a countable set $\mathcal{S}$,
+and $f: \mathcal{S} \rightarrow \mathbb{R}$ a measurable function:
+the expectation of $f(X)$ conditional on the values of $Y$ is
+\begin{equation*}  
+\forall y \in \mathcal{S} \mbox{ such that } \mathbb{P} \paren{ Y = y }>0, \ \ \ \mathbb{E} \Big[ f(X) \Big\vert Y=y \Big]=  \sum_{x \in \mathcal{S}} f(x) \cdot \mathbb{P} \paren{ X=x \sachant Y=y }.
+\end{equation*}
+where $\mathbb{P} \paren{ X=x \sachant Y=y } %= \mathbb{E} \croch{ \mathds{1}_{\set{X=x}} \sachant Y = y } 
+= \frac{\mathbb{P} \paren{ X=x, Y=y }}{\mathbb{P} \paren{ Y=y }}$.
+\end{Property}
+}
+\begin{proof}
+For clarity, $\mathbb{E} \croch{ f(X) \sachant Y=y }$
+is denoted by $\varphi(y)$ in this proof.
+By only considering singletons $\set{ Y = y } \subseteq \Omega$ 
+in the second condition of Definition \ref{def_conditional_expectation},
+it leads to $ \forall y \in \mathcal{S}$,
+\[ \int_{ \set{ Y = y } } \varphi(Y) d \mathbb{P} = \int_{  \set{ Y = y }  } f(X) d \mathbb{P} \ \ \Leftrightarrow \ \ \varphi(y) \cdot \mathbb{P} \paren{Y=y} = \int_{ \set{Y=y}} f(X) d \mathbb{P}\]
+and if $\mathbb{P} \paren{ Y=y }>0$,	
+\[\varphi(y) = \int_{\Omega} f(X) \cdot  \dfrac{ \mathds{1}_{\set{Y=y}} d \mathbb{P}}{ \mathbb{P} \paren{ Y = y } } =  \int_{\Omega} \sum_{x \in \mathcal{S}} f(x) \cdot \mathds{1}_{\set{X=x}} \cdot \dfrac{ \mathds{1}_{\set{Y=y}} d \mathbb{P}}{ \mathbb{P} \paren{ Y=y  } } =  \sum_{x \in \mathcal{S}} f(x) \cdot \dfrac{ \mathbb{P} \paren{ X = x, Y = y } }{ \mathbb{P} \paren{ Y = y } } \]
+thanks to the Fubini theorem. 
+Note that if $f(X) = \mathds{1}_{\set{X=x}}$, 
+we get $\mathbb{E} \croch{ \mathds{1}_{ \set{X=x}} \sachant Y=y } = \dfrac{ \mathbb{P} \paren{ X = x, Y = y } }{ \mathbb{P} \paren{ Y = y }}$,
+which is the discrete conditional probability $\mathbb{P} \paren{ X = x \sachant Y = y }$.
+\end{proof}
+
+
+\subsection{Proof of Property \ref{res_markov}}
+\label{res_markov_RETURN}
+\begin{proof}
+Let $t \in \mathbb{N}$, $(s_0,s_1,\ldots,s_t) \in \mathcal{S}^t$ and $s' \in \mathcal{S}$: 
+on the one hand,
+\begin{equation*}
+\int_{ \set{ S_0=s_0,\ldots,S_t=s_t } } \mathds{1}_{ \set{S_{t+1} =s'}} d \mathbb{P} = \mathbb{P} \paren{ S_0=s_0,\ldots,S_t=s_t,S_{t+1}=s' },
+\end{equation*}
+and on the other hand, if $\mathbb{E} \croch{ \mathds{1}_{\set{S_{t+1} = s'}} \sachant S_t }$ 
+is denoted by $\mathbb{P} \paren{ S_{t+1} = s' \sachant S_t }$,
+\[ \displaystyle \int_{ \set{ S_0=s_0,\ldots,S_t=s_t } } \mathbb{P} \paren{ S_{t+1} = s' \sachant S_t } d \mathbb{P} 
+= \mathbb{P} \paren{ S_{t+1} = s' \sachant S_t=s_t } \cdot \mathbb{P} \paren{ S_0=s_0,S_1=s_1,\ldots,S_t=s_t }.\]
+Both integrals are equal as $(S_t)_{t \in \mathbb{N}}$ is a Markov Chain. 
+Since events of $\sigma(S_0,\ldots,S_t)$ are unions of events which can be written $ \set{S_0=s_0,S_1=s_1,\ldots,S_t=s_t}$, 
+for all $B \in \sigma \paren{ S_0,\ldots,S_t }$
+\[ \int_B \mathds{1}_{ \set{S_{t+1} =s'}} d \mathbb{P} = \int_B  \mathbb{P}  \paren{ S_{t+1} = s' \sachant S_t }  d \mathbb{P}  \]
+and then, using Definition \ref{def_conditional_expectation} and as 
+$ \mathbb{P}  \paren{ S_{t+1} = s' \sachant S_t }$ is $\sigma(S_0,\ldots,S_t)$-measurable
+\[ \mathbb{P}  \paren{ S_{t+1} = s' \sachant S_t } = \mathbb{E} \croch{ \mathds{1}_{S_{t+1} =s'} \sachant S_0,\ldots,S_t  } \ \mathbb{P}\mbox{-almost surely.} \]
+Now, 
+\begin{eqnarray*}
+\mathbb{E} \croch{ f(S_{t+1}) \sachant S_0,\ldots,S_t } 
+& = & \mathbb{E} \croch{ \sum_{s' \in \mathcal{S}} f(s') \cdot \mathds{1}_{ \set{S_{t+1}=s'} }  \sachant S_0,\ldots,S_t } \\
+& = & \sum_{s' \in \mathcal{S}} f(s') \cdot \mathbb{E} \croch{ \mathds{1}_{\set{S_{t+1}=s'}}  \sachant S_0,\ldots,S_t } \\
+& = & \sum_{s' \in \mathcal{S}} f(s') \cdot \mathbb{P} \paren{ S_{t+1}=s'  \sachant S_t } \ \ \mathbb{P}\mbox{-almost surely.} %\\
+\end{eqnarray*}
+The random variable $\sum_{s' \in \mathcal{S}} f(s') \cdot \mathbb{P} \paren{ S_{t+1}=s'  \sachant S_t }$ 
+is $\sigma(S_t)$-measurable, thus $\mathbb{E} \croch{ f(S_{t+1}) \sachant S_0,\ldots,S_t } $
+is $\sigma(S_t)$-measurable too, and then,
+\[ \mathbb{E} \croch{ f(S_{t+1}) \sachant S_0,\ldots,S_t }  = \mathbb{E} \croch{ \mathbb{E} \croch{ f(S_{t+1}) \sachant S_0,\ldots,S_t } \hspace{-0.23cm} {\color{white} \int} \sachant S_t } = \mathbb{E} \croch{ f(S_{t+1}) \sachant S_t },  \]
+because of Property \ref{res_espcond}.
+Finally, the equalities of Property \ref{res_markov} are achieved 
+by integrating both parts of the equations 
+over $\set{S_0 = s_0, \ldots, S_t = s_t}$
+and then by dividing them 
+by $\mathbb{P} \paren{ S_0 = s_0, \ldots, S_t = s_t }$.
+\end{proof}
+
+
+
+
+
+
+
+\subsection{Proof of Theorem \ref{thm_mdp_finiteH}}
+\label{thm_mdp_finiteH_RETURN}
+\begin{proof}
+First of all, consider that the process is at the stage $\tilde{t} \in \mathbb{N}$.
+All states from the beginning of the process are given as input to the agent:
+it has to choose the best action knowing these $\tilde{t}+1$ first system states 
+$\set{ s_0, s_1, \ldots, s_{\tilde{t}} } \in \mathcal{S}^{\tilde{t}+1}$.
+Regardless the previously gathered rewards, 
+its goal is to maximize the expectation of the sum of the next rewards. 
+We show by induction on $\tilde{t}$ from $H-1$ to $0$,
+that the highest expected total reward can be reached with a strategy $(d_t)_{t=0}^{H-1}$
+\textit{i.e.} a sequence of decision rules $d_t: \mathcal{S} \rightarrow \mathcal{A}$.
+A sequence of functions from all the states that the system has gone through,
+\textit{i.e.} a sequence $(d_t)_{t=0}^{H-1}$ of functions $d_t: \mathcal{S}^t \rightarrow \mathcal{A}$, 
+is not necessary.
+
+Let $\tilde{t} = H-1$: the agent has to find the action $a$ maximizing
+\[ \mathbb{E} \Big[ \ r_{H-1}(S_{H-1},a) + R(S_H) \ \Big\vert \ S_0=s_0, \ldots, S_{H-1} = s_{H-1} \ \Big] \]
+which is equal to 
+$\displaystyle \mathbb{E} \Big[ \ r_{H-1}(S_{H-1},a) 
++ \mathbb{E} \croch{ R(S_H) \sachant S_{H-1} } \ \Big\vert \ S_0=s_0, \ldots, S_{H-1} = s_{H-1} \ \Big]$
+\begin{align*}
+& = \mathbb{E} \croch{ f_a(S_{H-1}) \sachant S_0=s_0, \ldots, S_{H-1} = s_{H-1} } 
+\mbox{ with } f_a: \mathcal{S} \rightarrow \mathbb{R} \mbox{ measurable,}  \\ 
+& = \mathbb{E} \croch{ f_a(S_{H-1}) \sachant S_{H-1} = s_{H-1}}% = V_{1}^a(s_{H-1})
+\end{align*}
+because of Property (\ref{res_markov}).
+Then, the value to be maximized depends on the state $s_{H-1} \in \mathcal{S}$ only:
+a decision rule $d^*_{H-1}: \mathcal{S} \rightarrow \mathcal{A}$ 
+such that $\forall s \in \mathcal{S}$
+\[ d^*_{H-1}(s) \in \operatorname*{argmax}_{a \in \mathcal{A}} \mathbb{E} \croch{ f_a(S_{H-1}) \sachant S_{H-1} = s} \] is sufficient.
+Now, assume that this result is true for the time step $\tilde{t}+1 \leqslant H-1$,
+and consider that a strategy $(d_t)_{t=\tilde{t}+1}^{H-1}$ has been computed.
+The agent has to find the action $a$ maximizing
+\[ \mathbb{E} \croch{ r_{\tilde{t}}(S_{\tilde{t}},a) + \sum_{t = \tilde{t}+1}^{H-1} r_{t}\Big(S_{t},d_t(S_t)\Big) + R(S_H) \sachant S_0=s_0, \ldots, S_{\tilde{t}} = s_{\tilde{t}} } \]
+which is equal to
+$\mathbb{E} \Bigg[ \ r_{\tilde{t}}(S_{\tilde{t}},a) + \mathbb{E} \croch{ \sum_{t = \tilde{t}+1}^{H-1} r_t\Big(S_{t},d_t(S_t)\Big) + R(S_H) \sachant  S_{\tilde{t}} } 
+\ \bigg\vert \ S_0=s_0, \ldots, S_{\tilde{t}} = s_{\tilde{t}} \ \Bigg]$
+\begin{align*}
+\hspace{3cm} & = \mathbb{E} \croch{ f_a(S_{\tilde{t}}) \sachant S_0=s_0, \ldots, S_{\tilde{t}} = s_{\tilde{t}} } 
+\mbox{ with } f_a: \mathcal{S} \rightarrow \mathbb{R} \mbox{ measurable,}  \\ 
+& = \mathbb{E} \croch{ f_a(S_{\tilde{t}}) \sachant S_{\tilde{t}} = s_{\tilde{t}}} 
+\end{align*}
+and then, the same conclusion holds:
+it is sufficient to compute a decision rule 
+$d^*_{\tilde{t}}: \mathcal{S} \rightarrow \mathcal{A}$ 
+such that $\forall s \in \mathcal{S}$
+\[ d^*_{\tilde{t}}(s) \in \operatorname*{argmax}_{a \in \mathcal{A}} \mathbb{E} \croch{ f_a(S_{\tilde{t}}) \sachant S_{\tilde{t}} = s}. \]
+
+We just proved by induction that it suffices to look for
+strategies of $\mathcal{D}_H$ as defined above, 
+\textit{i.e.} to look for a sequence of decision rules $(d_t)_{t=0}^{H-1}$,
+maximizing the criterion \ref{criterion}.
+
+In the following, we set up the Dynamic Programming equations
+used to compute the optimal value function and the optimal strategy.
+The size of the horizon $i$ is the index used for the incremental computation 
+of the optimal value function $V^*$. 
+It is also the opposite modulo $H$ of the stage of the process $t$,
+index used for the strategy. 
+The initialization $V^*_0(s)=R(s)$ is obvious: 
+when the horizon is zero, no action has to be selected by the agent,
+and it receives only the terminal reward. 
+Next, let $s \in \mathcal{S}$, $i \in \set{1,\ldots H}$, 
+and set $t_0 = H-i$:
+\begin{eqnarray*}
+V^*_{i}(s) & = & \sup_{(d_{t})_{t=t_0}^{H-1} \in \mathcal{D}_{H-t_0}} 
+\mathbb{E} \croch{ \sum_{t=t_0}^{H-1} r_t\Big(S_t,d_t(S_t)\Big) + R(S_H) \sachant S_{t_0}=s }.
+\end{eqnarray*}
+Yet $ \displaystyle \mathbb{E} \croch{ \sum_{t=t_0}^{H-1} r_t\Big(S_i,d_i(S_i)\Big) + R(S_H) \sachant S_{t_0} } $
+\begin{eqnarray*}
+& = & \mathbb{E} \croch{ r_{t_0}\Big(S_{t_0},d_{t_0}(S_{t_0})\Big) 
++ \mathbb{E} \croch{  \sum_{t=t_0+1}^{H-1} r_t\Big(S_i,d_i(S_i)\Big) + R(S_H) \sachant S_{t_0},S_{t_0+1} } \sachant S_{t_0} } \\
+& = & \mathbb{E} \bigg[ r_{t_0}\Big(S_{t_0},d_{t_0}(S_{t_0})\Big) 
++ \mathbb{E} \croch{  V_{i-1}\Big(S_{t_0+1},(d_t)_{t=t_0+1}^{H-1}\Big) \sachant S_{t_0},S_{t_0+1} } \bigg\vert S_{t_0} \bigg] \\
+& = & \mathbb{E} \croch{ r_{t_0}\Big(S_{t_0},d_{t_0}(S_{t_0}) \Big) 
++ \sum_{s' \in \mathcal{S}_{s,a,t}} \textbf{p}_{t_0} \Big( s' \Big\vert S_{t_0} , d_{t_0}(S_{t_0}) \Big) \cdot V_{i-1}\Big(s',(d_t)_{t=t_0+1}^{H-1}\Big) \sachant S_{t_0} } \\
+\end{eqnarray*}
+using properties (\ref{res_espcond}) and (\ref{res_markov}).
+By integrating both part of this equality over $\set{ S_{t_0}=s }$ 
+and divising them by $\mathbb{P} \paren{ S_{t_0}=s } > 0$,
+it becomes
+\begin{eqnarray}
+\nonumber V^*_{i}(s) & = & \sup_{(d)_{t=t_0}^{H-1} \in \mathcal{D}_{H - t_0} } \set{  r_t \Big( s,d_{t_0}(s) \Big) 
++ \sum_{s' \in \mathcal{S}_{s,a,t}} \textbf{p}_{t_0} \Big( s' \Big\vert s , d_{t_0}(s) \Big) \cdot V_{i-1} \Big( s',(d_t)_{t=t_0+1}^{H-1} \Big) } \\
+\nonumber & = & \sup_{ \big(a,(d')_{t=t_0+1}^{H-1}\big) \in \mathcal{D}_{H-t_0} } \set{ r_t(s,a) 
++ \sum_{s' \in \mathcal{S}_{s,a,t}} \textbf{p}_{t_0} \paren{s' \sachant s , a } \cdot V_{i-1} \Big( s',(d_t') \Big) } \\
+\label{munos} & = & \max_{a \in \mathcal{A} } \set{ r_t(s,a) 
++ \sum_{s' \in \mathcal{S}_{s,a,t}} \textbf{p}_{t_0} \paren{s' \sachant s , a } \cdot \sup_{(d_{t}')_{t=t_0+1}^{H-1} \in \mathcal{D}_{H-t_0-1}}  V_{i-1} \Big( s',(d_t') \Big) } \\
+\nonumber & = & \max_{ a \in \mathcal{A} } \set{ r_t(s,a) 
++ \sum_{s' \in \mathcal{S}_{s,a,t}} \textbf{p}_{t_0} \paren{s' \sachant s , a } \cdot V_{i-1}^* \paren{ s' } }
+\end{eqnarray}
+where \ref{munos} is justified by:
+\begin{itemize}
+\item[$\bullet$] as $ \displaystyle \sum_{s' \in \mathcal{S}_{a,s,t}} \textbf{p}_{t_0} \paren{s' \sachant s , a } \cdot V_{i-1} \Big( s',(d_t) \Big) \leqslant  \sum_{s' \in \mathcal{S}_{a,s,t}} \textbf{p}_{t_0} \paren{s' \sachant s , a } \sup_{(d_{t}') \in \mathcal{D}_{H-t_0-1} } V_{i-1} \Big( s',(d_t') \Big)$
+for each strategy $(d_t)_{t=t_0 +1}^{H-1} \in \mathcal{D}_{H-t_0-1}$,
+\[ \sup_{(d_{t}') \in \mathcal{D}_{H-t_0-1} } \sum_{s' \in \mathcal{S}_{a,s,t}} \hspace{-0.2cm} \textbf{p}_{t_0} \paren{s' \sachant s , a } V_{i-1} \Big( s',(d_t') \Big) \leqslant 
+ \sum_{s' \in \mathcal{S}_{a,s,t}} \hspace{-0.2cm}
+\textbf{p}_{t_0} \paren{s' \sachant s , a } \sup_{(d_{t}') \in \mathcal{D}_{H-t_0-1} } \hspace{-0.1cm} V_{i-1}^* (s'). \]
+\item[$\bullet$] let $(\varepsilon_n)_{n \in \mathbb{N}}$ be a sequence of positive real numbers, 
+such that $\varepsilon_n \rightarrow 0$ when $n \rightarrow \infty$. 
+For each $n \in \mathbb{N}$, let $(d^{\varepsilon_n}_t)_{t=t_0+1}^{H-1} \in \mathcal{D}_{H-t_0-1}$ 
+be a strategy such that \[ V^*_{i-1}(s') - \varepsilon \leqslant V_{i-1}\Big(s', (d^{\varepsilon_n})\Big) \leqslant V_{i-1}^*(s'), \ \forall s' \in \mathcal{S}. \]
+Computing the mean with respect to $\textbf{p}_{t_0} \paren{ . \sachant s,a}$ whose support is finite,
+the inequality on the left becomes
+\[ \sum_{s' \in \mathcal{S}_{s,a,t}} \textbf{p}_{t_0} \paren{ s' \sachant s,a} \cdot V^*_{i-1}(s') -\varepsilon_n \leqslant \sum_{s' \in \mathcal{S}_{s,a,t}} \textbf{p}_{t_0} \paren{ s' \sachant s,a} \cdot V_{i-1}\Big(s', (d^{\varepsilon_n})\Big) \] 
+where the right part is obviously lower than $ \displaystyle \sup_{(d) \in \mathcal{D}_{H-t_0-1}} \sum_{s' \in \mathcal{S}_{s,a,t}} \hspace{-0.1cm} \textbf{p}_{t_0} \paren{ s' \sachant s,a} \cdot V_{i-1}\Big(s', (d)\Big) $.
+Now, as this couple of inequalities are true 
+for each $n \in \mathbb{N}$, 
+making $n \rightarrow \infty$, the result is
+\[ \sum_{s' \in \mathcal{S}_{s,a,t}} \textbf{p}_{t_0} \paren{ s' \sachant s,a} \cdot V^*_{i-1}(s')  \leqslant \sup_{(d) \in \mathcal{D}_{H-t_0-1}} \sum_{s' \in \mathcal{S}_{s,a,t}} \textbf{p}_{t_0} \paren{ s' \sachant s,a} \cdot V_{i-1}\Big(s', (d)\Big). \] 
+\end{itemize}
+Therefore, if at each iteration $i \in \set{ 1, \ldots, H }$,
+the decision rule $d^*_{H-i}$ is defined as $\forall s \in \mathcal{S}$,
+$d_{H-i}^*(s) \in \operatorname*{argmax}_{a \in \mathcal{A}} \set{ r_t(s,a) 
++ \sum_{s' \in \mathcal{S}_{s,a,t}} \textbf{p}_{t_0} \paren{s' \sachant s , a } \cdot V_{i-1}^* \paren{ s' } }$, $V^*_i \Big( s, (d^*_t)_{t = H-i}^{H-1} \Big) = V^*_i(s)$:
+with $i = H$, it shows that $(d^*_t)_{t=0}^{H-1} \in \mathcal{D}_H$ is optimal.
+\end{proof}
+
+
+
+
+
+
+
+
+\subsection{Proof of the Bellman Equation (\ref{equation_bellman})}
+\label{equation_bellman_RETURN}
+\begin{proof}
+The following calculus lines 
+lead to the Bellman Equation.
+Let $(d)_{t \in \mathbb{N}} \in \mathcal{D}_{\infty}$.
+\begin{eqnarray}
+\nonumber  V^{d}(s) &  := & \mathbb{E} \croch{ \sum_{t=0}^{+\infty} \gamma^{t} \cdot r\Big(S_{t},d_t(S_{t})\Big) \sachant S_0=s}  \\
+\nonumber & = & \mathbb{E} \croch{ r\Big(S_0,d_0(S_0)\Big) + \sum_{t=1}^{+\infty} \gamma^{t} \cdot r\Big(S_{t},d_t(S_{t})\Big) \sachant S_0=s} \\
+\nonumber & = & r\Big(s,d_0(s)\Big) + \mathbb{E} \croch{ \mathbb{E} \bigg[ \sum_{t=1}^{+\infty} \gamma^{t} \cdot r\Big(S_{t},d_t(S_{t})\Big) \bigg\vert S_1 \bigg] \sachant S_0=s  } \\
+\nonumber & = & r\Big(s,d_0(s)\Big) + \gamma \cdot \sum_{s' \in \mathcal{S}_{s,d_0(s)}} \textbf{p} \Big(s' \Big\vert s,d_0(s) \Big) \cdot  \mathbb{E} \croch{ \sum_{t=1}^{+\infty} \gamma^{t-1} \cdot r\Big(S_{t},d_t(S_{t})\Big) \sachant S_1=s' }  \\
+\nonumber & = & r\Big(s,d_0(s)\Big) + \gamma \cdot \sum_{s' \in \mathcal{S}_{s,d_0(s)}} \textbf{p} \Big( s' \Big\vert s,d_0(s) \Big) \cdot  \mathbb{E} \croch{ \sum_{t'=0}^{+\infty} \gamma^{t'} \cdot r\Big(S^+_{t'},d^+_{t'}(S^+_{t'})\Big) \sachant S^+_0=s' } \\
+\nonumber & = & r\Big(s,d_0(s)\Big) + \gamma \cdot \sum_{s' \in \mathcal{S}_{s,d_0(s)}} \textbf{p} \Big(s' \Big\vert s,d_0(s)\Big)  \cdot V^{d^+}(s').
+\end{eqnarray}
+The third and fourth lines come from the properties \ref{res_espcond} and \ref{res_markov}.
+In the fifth line, $(S^+_t)_{t \in \mathbb{N}}$ is defined as
+$S^+_t = S_{t+1}$. 
+As well, $\forall t \in \mathbb{N}$, 
+$\forall s \in \mathcal{S}$,
+$d^+_t(s) = d_{t+1}(s)$. 
+\end{proof}
+
+
+
+
+
+
+\subsection{Proof of Theorem \ref{FB_complete}}
+\label{FB_complete_RETURN}
+\begin{proof} 
+Let $(V_n)_{n \in \mathbb{N}}$ be a Cauchy sequence 
+in $\paren{ \mathcal{F}_{B}(\mathcal{S},\mathbb{R}), \normsup{.}}$. 
+For each state $s \in \mathcal{S}$, 
+$\Big(V_n(s)\Big)_{n \in \mathbb{N}}$
+is a Cauchy sequence of $(\mathbb{R},\abs{.})$
+because $\abs{V_n(s)} \leqslant \normsup{V_n}$. 
+Since $(\mathbb{R},\abs{.})$ is complete, 
+$\forall s \in \mathcal{S}$, $\Big(V_n(s)\Big)_{n \in \mathbb{N}}$ 
+has a limit in $\mathbb{R}$
+that we denote by $V(s)$. 
+A Cauchy sequence is bounded, 
+therefore $\exists M>0$ 
+such that $\forall n \in \mathbb{N}$, 
+$\normsup{V_n} \leqslant M $. 
+Thus, $\forall s \in \mathcal{S}$, 
+$\abs{ V_n(s) } \rightarrow \abs{ V(s) } \leqslant M$, 
+and then $V \in \mathcal{F}_{B}(\mathcal{S},\mathbb{R})$.
+Finally, as $(V_n)$ is a Cauchy sequence,
+\begin{eqnarray*}
+\forall \varepsilon >0, \exists N \geqslant 0, \mbox{ such that } &  \forall n \geqslant N,p \geqslant 0,  \forall s \in \mathcal{S}, & \abs{ V_n(s) - V_{n+p}(s) } < \varepsilon \\
+\Rightarrow & \forall n \geqslant N, \forall s \in \mathcal{S}, & \abs{ V_n(s) - V(s) } < \varepsilon \\
+\Rightarrow & \forall n \geqslant N, & \normsup{V_n - V} < \varepsilon 
+\end{eqnarray*}
+Thus $V_n \longrightarrow V$ in $\mathcal{F}_{B}(\mathcal{S},\mathbb{R})$ 
+when $n \rightarrow + \infty$, 
+and then $\paren{\mathcal{F}_{B}(\mathcal{S},\mathbb{R}),\normsup{.}}$ is a Banach space.
+\end{proof}
+
+
+
+\subsection{Proof of Property \ref{bellman_contracting}}
+\label{bellman_contracting_RETURN}
+\begin{proof}
+Let $(V,V') \in \mathcal{F}_{B} (\mathcal{S},\mathbb{R})^2$,
+\begin{eqnarray*}
+\normsup{\mathcal{B}^d V - \mathcal{B}^d V'} & \leqslant &  \gamma \cdot \sup_{s \in \mathcal{S}} \sum_{s' \in \mathcal{S}_{s,d_0(s)}} \textbf{p} \Big( s' \Big\vert s,d_0(s) \Big) \cdot \abs{ V(s')-V'(s')} \\
+& \leqslant &  \gamma \cdot \sup_{s \in \mathcal{S}} \sum_{s' \in \mathcal{S}_{s,d_0(s)}} \textbf{p} \Big(s' \Big\vert s,d_0(s) \Big) \cdot \normsup{ V-V'} \\ 
+& \leqslant &  \gamma \cdot \normsup{ V-V'} 
+\end{eqnarray*}
+since $\forall s \in \mathcal{S}$, $\textbf{p} \paren{. \sachant s,d_0(s)}$
+is a probability distribution.
+\end{proof}
+
+
+
+\subsection{Proof of Property \ref{property_DPcontract}}
+\label{property_DPcontract_RETURN}
+First, let us present the following result:
+\begin{Property}
+Let $f$ and $g$ be two functions defined on the finite set $\mathcal{A}$ 
+and with values in $\mathbb{R}$:
+\begin{equation}
+\label{res_max}
+ \abs{\max_{a \in \mathcal{A}}f(a) - \max_{a \in \mathcal{A}}g(a)} \leqslant \max_{a \in \mathcal{A}} \abs{f(a)-g(a)}
+\end{equation}
+\label{contraction_max}
+\end{Property}
+\begin{proof}
+\begin{eqnarray*}
+& \forall a \in \mathcal{A}, & f(a) - g(a) \leqslant \max_{a' \in \mathcal{A}} \abs{ f(a') - g(a') } \\
+ \Rightarrow & \forall a \in \mathcal{A}, & f(a) \leqslant \max_{a' \in \mathcal{A}} g(a') + \max_{a' \in \mathcal{A}} \abs{f(a')-g(a')}  \\ 
+ \Rightarrow &  & \max_{a' \in \mathcal{A}} f(a') - \max_{a' \in \mathcal{A}} g(a') \leqslant \max_{a' \in \mathcal{A}} \abs{f(a')-g(a')}.
+\end{eqnarray*}
+Finally, the same inequalities hold starting with $g(a) - f(a)$, 
+thus we get the result \ref{res_max}.
+\end{proof}
+Here is the proof of Property \ref{property_DPcontract}:
+\begin{proof}
+The contraction inequality of the operator $\mathcal{B}^d$ for $\paren{V,V'} \in \mathcal{F}_{B} (\mathcal{S},\mathbb{R})^2$
+is true for each strategy $(d) \in \mathcal{D}_{\infty}$, 
+as stated by Property \ref{bellman_contracting}:
+\begin{eqnarray*}
+& \forall (d) \in \mathcal{D}_{\infty}, & \normsup{\mathcal{B}^d V - \mathcal{B}^d V'}   \leqslant \gamma \cdot \normsup{V-V'} \\
+\Rightarrow & \forall (d) \in \mathcal{D}_{\infty}, \forall s \in \mathcal{S}, & \abs{(\mathcal{B}^{d} V)(s) - (\mathcal{B}^d V')(s)} \leqslant \gamma \cdot \normsup{V-V'} \\
+\Rightarrow & \forall a \in \mathcal{A}, \forall s \in \mathcal{S}, & \abs{(\mathcal{B}^aV)(s) - (\mathcal{B}^aV')(s)} \leqslant \gamma \cdot \normsup{V-V'} \\
+\Rightarrow &  \forall s \in \mathcal{S}, & \max_{a \in \mathcal{A}} \abs{(\mathcal{B}^aV)(s) - (\mathcal{B}^aV')(s)} \leqslant \gamma \cdot \normsup{V-V'}
+\end{eqnarray*}
+and Property \ref{contraction_max} leads then to $\forall s \in \mathcal{S}$ $ \displaystyle \abs{ \max_{a \in \mathcal{A}}(\mathcal{B}^aV)(s) - \max_{a \in \mathcal{A}} (\mathcal{B}^aV')(s)} \leqslant \gamma \cdot \normsup{V-V'} $ \\
+\[\Rightarrow \normsup{\mathcal{B}^*V-\mathcal{B}^*V'} \leqslant \gamma \cdot \normsup{V-V'}  \]
+\end{proof}
+
+
+
+
+
+\subsection{Proof of Theorem \ref{vstar_optimal}}
+\label{vstar_optimal_RETURN}
+\begin{proof}
+Here is how we show that the function $V^*$ is the optimal value function, 
+\textit{i.e.} 
+\[ V^*(s) = \sup_{d \in \mathcal{D}_{\infty}} V^d(s) =\sup_{d \in \mathcal{D}_{\infty}} \mathbb{E} \croch{\sum_{t=0}^{+ \infty} \gamma^t \cdot r\Big(S_t,d_t(S_t)\Big) \sachant S_0=s }. \]
+Let $s \in \mathcal{S}$ and $d=(a,d^+)$ 
+the strategy which consists in selecting action $a$ 
+at time step $t=0$, 
+and then actions $a_1=d^+_0(s_1):=d_1(s_1),a_2=d^+_1(s_2) := d_2(s_2)$, etc. 
+Note that $d^+ \in \mathcal{D}_{\infty}$ as well,
+and numbered from $0$. 
+\begin{eqnarray}
+\nonumber \sup_{(d) \in \mathcal{D}_{\infty}} V^d(s) & := & \sup_{(d) \in \mathcal{D}_{\infty}} \mathbb{E} \croch{\sum_{t=0}^{+ \infty} \gamma^t \cdot r\Big(S_t,d_t(S_t)\Big) \sachant S_0=s } \\
+\nonumber & = & \sup_{(a,d^+) \in \mathcal{D}_{\infty}} \set{ r(s,a) + \gamma \cdot \sum_{s' \in \mathcal{S}_{s,a}} \textbf{p} \paren{s' \sachant s,a} \cdot V^{d^+}(s')} \\
+\label{justif_bellopt} & = & \max_{a \in \mathcal{A}} \set{ r(s,a) + \gamma \cdot \sum_{s' \in \mathcal{S}_{s,a}} \textbf{p} \paren{s' \sachant s,a} \cdot \sup_{(d^+) \in \mathcal{D}_{\infty}} V^{d^+}(s')}  \\
+\nonumber & = & \max_{a \in \mathcal{A}} \set{ r(s,a) + \gamma \cdot \sum_{s' \in \mathcal{S}_{s,a}} \textbf{p} \paren{s' \sachant s,a} \sup_{(d^+) \in \mathcal{D}_{\infty}} V^{d^+}(s')} \\
+\nonumber & = & (\mathcal{B}^* \sup_{(d^+) \in \mathcal{D}_{\infty}} V^{d^+})(s) = (\mathcal{B}^* \sup_{(d) \in \mathcal{D}_{\infty}} V^{d})(s) .
+\end{eqnarray}
+The equality \ref{justif_bellopt} is justified
+just like at the line \ref{munos} of the proof of Theorem \ref{thm_mdp_finiteH}.
+
+Thus $V^*= \sup_{d \in \mathcal{D}_{\infty}} V^d$ 
+as stated by the Fixed-Point Theorem.
+Indeed, as $\mathbb{B}^*$ is a contracting operator (see Property \ref{property_DPcontract}), 
+the solution $V^*$ of the Dynamic Programming equation \ref{dynamic_programming_equation} is unique. 
+
+First, as $d^*:  s \mapsto a^* \in \operatorname*{argmax}_{a \in A}(\mathcal{B}^a V^*)(s)$,
+\[ \mathcal{B}^{d^*} V^{*} = \max_{a \in \mathcal{A}} (\mathcal{B}^a V^*)(s) = \mathcal{B}^* V^*\]
+The function $V^*$ is then a fixed-point of the contracting operator $\mathcal{B}^{d^*}$
+(see Property \ref{bellman_contracting}).
+As noted earlier, $V^{d^*}$ is a fixed-point of $\mathcal{B}^{d^*}$ too, 
+and thus $V^{d^*} = V^* = \max_{(d) \in \mathcal{D}_{\infty}} V^d$. 
+It means that $d^*$ is an optimal strategy.
+It is thus shown that
+it is sufficient to look for 
+stationary strategies
+because at least one of them,
+$d^*$, is optimal.
+\end{proof}
+
+
+
+
+
+
+
+\subsection{Proof of Theorem \ref{first_convMDP}}
+\label{first_convMDP_RETURN}
+\begin{proof}
+First,
+\[ \normsup{V^N -V^*} = \normsup{ \mathcal{B}^* V^{N-1} - \mathcal{B}^* V^*} \leqslant \gamma \cdot \normsup{ V^{N-1} - V^* } \leqslant \gamma \cdot \paren{ \normsup{V^{N-1} - V^N} + \normsup{V^N - V^*} } \] 
+and then $\normsup{V^N -V^*} \leqslant \frac{\gamma}{1-\gamma} \cdot \normsup{ V^{N-1} - V^{N} }$.
+Moreover, 
+\[ \normsup{ V^{N-1} - V^{N} } = \normsup{ (\mathcal{B}^*)^{N-1} V^{0} - (\mathcal{B}^*)^{N-1} V^{1} } \leqslant \gamma^{N-1} \cdot \normsup{ V^{0} - V^{1} }.\]
+Finally,
+\begin{equation*} 
+\normsup{V^N -V^*} \leqslant \frac{\gamma^N}{1-\gamma} \cdot \normsup{ V^{0} - V^{1} }. 
+\end{equation*}
+\end{proof}
+
+
+
+
+
+
+
+
+\subsection{Proof of Theorem \ref{conv_MDP2}}
+\label{conv_MDP2_RETURN}
+\begin{proof}
+The Bellman equation for the strategy $(d)$,
+is $V^d = \mathcal{B}^d V^d$, 
+and the last iteration of the algorithm is 
+$V^{N+1} = \mathcal{B}^* V^{N} = \mathcal{B}^d V^{N}$ 
+(as $(d^*)$ is greedy with respect to $V_N$,
+we consider $V_{N+1}$ even if it is not actually computed). 
+Thanks to these two equalities,
+it is possible to write
+\begin{eqnarray}
+\nonumber \normsup{V^d - V^{N+1}} = \normsup{\mathcal{B}^d V^d - \mathcal{B}^d V^{N}} & \leqslant & \gamma \cdot \normsup{V^d - V^{N}} \\
+\nonumber & \leqslant & \gamma \cdot (\normsup{V^d - V^{N+1}} + \normsup{V^{N+1} - V^{N}}) 
+\end{eqnarray}
+\begin{equation}
+\Rightarrow  \normsup{V^d - V^{N+1}} \leqslant \frac{\gamma}{1 - \gamma} \cdot \normsup{V^{N+1} -V^{N}} \leqslant \frac{\gamma^{N+1}}{1 - \gamma} \cdot \normsup{V^1 -V^{0}}.
+\label{conv_mdp_2} 
+\end{equation}
+
+Finally, thanks to results (\ref{conv_mdp_1}) and (\ref{conv_mdp_2}), 
+we get the control of the strategy error:
+\[ \normsup{ V^d - V^* } \leqslant \normsup{ V^d - V^N } + \normsup{ V^N - V^* } \leqslant \frac{2 \cdot \gamma^N}{1-\gamma} \normsup{ V^1 - V^0 }. \]
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\subsection{Proof of theorem \ref{belief_process_recursif}}
+\label{belief_process_recursif_RETURN}
+\begin{proof}
+If $i_{t+1}$ is the current information, $\forall s' \in \mathcal{S}$,
+\begin{align}
+\nonumber & b_{t+1}(s') \\
+\nonumber	 		&:= \mathbb{P} \paren{ S_{t+1} = s' \sachant I_{t+1} = i_{t+1}} \\
+\label{note_defcond}		&= \frac{ \mathbb{P} \paren{ S_{t+1} = s', O_{t+1}=o_{t+1} \sachant I_t=i_t,a_{t} }}{ 
+\mathbb{P} \paren{ O_{t+1} = o_{t+1} \sachant I_t=i_t,a_{t}  } } \\
+\nonumber		&= \frac{ \displaystyle \sum_{s \in \mathcal{S}} \mathbb{P} \paren{ S_{t+1} = s', O_{t+1}=o_{t+1} \sachant S_{t}=s,I_t=i_t,a_{t} } \cdot \mathbb{P} \paren{ S_t = s \sachant I_t=i_t,a_{t} }}{ 
+\displaystyle \sum_{\tilde{s} \in \mathcal{S}} \mathbb{P} \paren{ O_{t+1} = o_{t+1} \sachant S_t = \tilde{s}, I_t=i_t,a_{t}  } \cdot \mathbb{P} \paren{ S_t = \tilde{s} \sachant I_t=i_t,a_{t} } } \\
+\nonumber		&= \frac{ \displaystyle \sum_{s \in \mathcal{S}}  \mathbb{P} \paren{ O_{t+1} = o_{t+1} \sachant \hspace{-0.08cm} S_{t+1}=s', S_{t}=s,I_t=i_t,a_{t} } \cdot \mathbb{P} \paren{ S_{t+1} = s' \sachant \hspace{-0.08cm} S_{t}=s,I_t=i_t,a_{t} } \cdot b_t(s) }{ 
+\displaystyle \sum_{\tilde{s} \in \mathcal{S}} \sum_{\tilde{s}' \in \mathcal{S}}  \mathbb{P} \paren{ O_{t+1} = o_{t+1}, S_{t+1}=\tilde{s}' \sachant S_t=\tilde{s}, I_t=i_t,a_{t}  } \cdot b_t(\tilde{s})  } \\
+\nonumber	&= \frac{ \displaystyle \sum_{s \in \mathcal{S}}  \textbf{p} \paren{ o_{t+1} \sachant s', a_{t} } \cdot \textbf{p} \paren{ s' \sachant s,a_t } \cdot b_t(s) }{ 
+\displaystyle \sum_{\tilde{s} \in \mathcal{S}} \sum_{\tilde{s}' \in \mathcal{S}} \textbf{p} \paren{ o_{t+1} \sachant \tilde{s}', a_{t} } \cdot \textbf{p} \paren{ \tilde{s}' \sachant \tilde{s},a_t } \cdot b_t(\tilde{s})  } := u(b_t,a_{t},o_{t+1})(s').
+\end{align}
+where line \ref{note_defcond} is simply given by the fact that, for $A$, $B$, $C$ subsets of $\Omega$, 
+$\mathbb{P} \paren{ A \sachant B \cap C } = \frac{\mathbb{P} \paren{ A \cap B \sachant C }}{\mathbb{P} \paren{  B \sachant C }}$.
+\end{proof}
+
+
+
+
+
+
+
+
+\subsection{Proof of Theorem \ref{rewriting_probPOMDP}}
+\label{rewriting_probPOMDP_RETURN}
+\begin{proof}
+We use here the following notations: 
+$\widehat{A}_{t} = \set{ A_0, \ldots, A_{t} }$,
+$\widehat{a}_{t} = \set{ a_0, \ldots, a_{t} }$,
+$\widehat{O}_t = \set{ O_1, \ldots, O_t }$,
+and $\widehat{o}_t = \set{ o_1, \ldots, o_t }$.
+The belief at time step $t$ can be written
+as a function of $\widehat{o}_t$, $\widehat{a}_{t-1}$ and $b_0$:
+the belief $b_t$ is then denoted by $b^{i_t}_{b_0} = b^{\widehat{o}_t,\widehat{a}_{t-1}}_{b_0}$, and
+\begin{equation}
+b^{i_t}_{b_0}(s) = b^{\widehat{o}_t,\widehat{a}_{t-1}}_{b_0}(s) = \dfrac{ \mathbb{P} \paren{ S_t = s, \widehat{O}_t = \widehat{o}_t \sachant \widehat{A}_{t-1} = \widehat{a}_{t-1} }  }{ \mathbb{P} \paren{ \widehat{O}_t = \widehat{o}_t \sachant \widehat{A}_{t-1} = \widehat{a}_{t-1} }  } = u \bigg( u\Big( \ldots u \paren{ b_0,a_0,o_1}, \ldots \Big), a_{H-1}, o_H \bigg)(s).
+\label{big_bayes}
+\end{equation}
+The following notation will be useful for the follow-up:
+\[ \textbf{p} \paren{ \widehat{o}_t, s_t \sachant \widehat{a}_{t-1}, s_0 } = 
+\textbf{p} \paren{ o_t \sachant s_t, a_{t-1} } \cdot \displaystyle \sum_{ s_1, \ldots, s_{t-1} } \textbf{p} \paren{ s_t \sachant s_{t-1}, a_{t-1} } \cdot \displaystyle \prod_{i=1}^{t-1} \textbf{p} \paren{ o_i \sachant s_i, a_{i-1} } \cdot \textbf{p} \paren{ s_i \sachant s_{i-1}, a_{i-1} }.\]
+The numerator of the fraction (\ref{big_bayes})
+may be written 
+\[ \mathbb{P} \paren{ S_t = s, \widehat{O}_t = \widehat{o}_t \sachant \widehat{A}_{t-1} = \widehat{a}_{t-1} } = \displaystyle \sum_{s_0 \in \mathcal{S}} \textbf{p} \paren{ \widehat{o}_t, s_t \sachant \widehat{a}_{t-1}, s_0 } \cdot b_0(s_0). \]
+As well, the denominator of the fraction (\ref{big_bayes}) is
+\[\mathbb{P} \paren{ \widehat{O}_t = \widehat{o}_t \sachant \widehat{A}_{t-1} = \widehat{a}_{t-1} } = \displaystyle \sum_{s_t \in \mathcal{S}} \sum_{s_0 \in \mathcal{S}}  \textbf{p} \paren{ \widehat{o}_t, s_t \sachant \widehat{a}_{t-1}, s_0 } \cdot b_0(s_0). \]
+Finally, the probability of the system state at time step $t$ conditioned on the random sequence of actions is
+\begin{align*} 
+\mathbb{P} \paren{ S_t = s \sachant \widehat{A}_{t-1} = \widehat{a}_{t-1} } & = \sum_{\substack{ (s_0, \ldots, s_{t-1}) \\ \in \mathcal{S}^t }} \prod_{i=1}^{t} \textbf{p} \paren{ s_i \sachant s_{i-1}, a_{i-1} } \cdot b_0(s_0) \\  
+& = \displaystyle \sum_{ \widehat{o}_t} \sum_{ s_0 \in \mathcal{S}}  \textbf{p} \paren{ \widehat{o}_t, s_t \sachant \widehat{a}_{t-1}, s_0 } \cdot b_0(s_0).
+\end{align*}
+Then, the expectation of the reward conditioned on the random sequence of actions is
+\begin{align*}
+\mathbb{E} \croch{ r(S_t,A_t) \sachant \widehat{A}_{t} = \widehat{a}_{t} } 
+&= \sum_{s \in \mathcal{S}} r(s,a_t) \cdot \mathbb{P} \paren{ S_t = s \sachant \widehat{A}_{t-1} = \widehat{a}_{t-1} } \\
+&= \sum_{s \in \mathcal{S}} r(s,a_t) \cdot \sum_{s_0,s_1, \ldots, s_{t-1}} \prod_{i=1}^{t} \textbf{p} \paren{ s_i \sachant s_{i-1}, a_{i-1} } \cdot b_0(s_0) \\
+&= \sum_{s \in \mathcal{S}} r(s,a_t) \cdot \sum_{ \widehat{o}_t} \sum_{ s_0 \in \mathcal{S}}  \textbf{p} \paren{ \widehat{o}_t, s \sachant \widehat{a}_{t-1}, s_0 } \cdot b_0(s_0)\\
+&= \sum_{ \widehat{o}_t} \sum_{(s_0,s) \in \mathcal{S}^2} \textbf{p} \paren{ \widehat{o}_t, s \sachant \widehat{a}_{t-1}, s_0 } \cdot b_0(s_0) \cdot r(s,a_t).
+\end{align*}
+
+Next, multiplying each term of the sum over observations $\widehat{o}_t$ by
+\[ 1 =  \dfrac{ \sum_{(s^{(1)}, s'^{(1)}) \in \mathcal{S}^2} \textbf{p} \paren{ \widehat{o}_t, s'^{(1)} \sachant \widehat{a}_{t-1}, s^{(1)} } \cdot b_0(s^{(1)}) }{ \sum_{(s^{(2)}, s'^{(2)}) \in \mathcal{S}^2}\textbf{p} \paren{ \widehat{o}_t, s'^{(2)} \sachant \widehat{a}_{t-1}, s^{(2)} } \cdot b_0(s^{(2)}) },\]
+we get
+\begin{align}
+\nonumber \sum_{ \widehat{o}_t} &	\dfrac{ \sum_{(s^{(1)}, s'^{(1)}) \in \mathcal{S}^2} \textbf{p} \paren{ \widehat{o}_t, s'^{(1)} \sachant \widehat{a}_{t-1}, s^{(1)} } \cdot b_0(s^{(1)}) }{ \sum_{(s^{(2)}, s'^{(2)}) \in \mathcal{S}^2}\textbf{p} \paren{ \widehat{o}_t, s'^{(2)} \sachant \widehat{a}_{t-1}, s^{(2)} } \cdot b_0(s^{(2)}) } \cdot \sum_{(s_0,s) \in \mathcal{S}^2} \textbf{p} \paren{ \widehat{o}_t, s \sachant \widehat{a}_{t-1}, s_0 } \cdot b_0(s_0) \cdot r(s,a_t) \\
+\nonumber =& \sum_{ \widehat{o}_t} \sum_{(s^{(1)}, s'^{(1)})} \textbf{p} \paren{ \widehat{o}_t, s'^{(1)} \sachant \widehat{a}_{t-1}, s^{(1)} } \cdot b_0(s^{(1)}) \cdot \sum_{s \in \mathcal{S}} \dfrac{ \displaystyle \sum_{s_0 \in \mathcal{S}} \textbf{p} \paren{ \widehat{o}_t, s \sachant \widehat{a}_{t-1}, s_0 } \cdot b_0(s_0) }{ \displaystyle \sum_{(s^{(2)}, s'^{(2)})}\textbf{p} \paren{ \widehat{o}_t, s'^{(2)} \sachant \widehat{a}_{t-1}, s^{(2)} } \cdot b_0(s^{(2)}) } \cdot r(s,a_t) \\
+\nonumber =& \sum_{ \widehat{o}_t} \sum_{(s^{(1)}, s'^{(1)})} \textbf{p} \paren{ \widehat{o}_t, s'^{(1)} \sachant \widehat{a}_{t-1}, s^{(1)} } \cdot b_0(s^{(1)}) \cdot \sum_{s \in \mathcal{S}} \dfrac{ \displaystyle \sum_{s_0 \in \mathcal{S}} \textbf{p} \paren{ \widehat{o}_t, s \sachant \widehat{a}_{t-1}, s_0 } \cdot b_0(s_0) }{ \displaystyle \sum_{(s^{(2)}, s'^{(2)})}\textbf{p} \paren{ \widehat{o}_t, s'^{(2)} \sachant \widehat{a}_{t-1}, s^{(2)} } \cdot b_0(s^{(2)}) } \cdot r(s,a_t) \\
+\nonumber =& \sum_{ \widehat{o}_t} \sum_{(s^{(1)}, s'^{(1)})} \textbf{p} \paren{ \widehat{o}_t, s'^{(1)} \sachant \widehat{a}_{t-1}, s^{(1)} } \cdot b_0(s^{(1)}) \cdot \sum_{s \in \mathcal{S}} b^{\widehat{o}_t,\widehat{a}_{t-1}}_{b_0} (s) \cdot r(s,a_t)\\
+\nonumber =& \sum_{ \widehat{o}_t} \mathbb{P} \paren{ \widehat{O}_t = \widehat{o}_t \sachant \widehat{A}_{t-1} = \widehat{a}_{t-1} } \cdot \sum_{s \in \mathcal{S}} b^{\widehat{o}_t,\widehat{a}_{t-1}}_{b_0} (s) \cdot r(s,a_t)\\
+\nonumber =& \mathbb{E} \croch{ \sum_{s \in \mathcal{S}} B_t(s) \cdot r(s,A_t) \sachant \widehat{A}_{t} = \widehat{a}_{t} }\\
+\nonumber =& \mathbb{E} \croch{ r(B_t,A_t) \sachant \widehat{A}_{t} = \widehat{a}_{t} }
+\end{align}
+where $r(b,a) = \sum_{s \in \mathcal{S}} r(s,a) \cdot b(s)$.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\subsection{Proof of Theorem \ref{belief_markovien}}
+\label{belief_markovien_RETURN}
+\begin{proof}
+First, $\forall a_t \in \mathcal{A}, \forall o' \in \mathcal{O}$,
+\begin{align*}
+\mathbb{P} \paren{ O_{t+1}=o' \sachant I_t = i_t, a_t } &= \sum_{s' \in \mathcal{S}} \mathbb{P} \paren{ O_{t+1} = o', S_{t+1} = s' \sachant I_t = i_t, a_t } \\
+&= \sum_{(s,s') \in \mathcal{S}^2} \textbf{p} \paren{ o' \sachant s', a_t } \cdot \textbf{p} \paren{ s' \sachant s, a_t } \cdot \mathbb{P} \paren{ S_t=s \sachant I_t=i_t } \\
+&= \sum_{(s,s') \in \mathcal{S}^2} \textbf{p} \paren{ o' \sachant s', a_t } \cdot \textbf{p} \paren{ s' \sachant s, a_t } \cdot b_t(s).
+\end{align*}
+where $b_t = b_{b_0}^{i_t}$ \textit{i.e.} $b_t$ is the belief obtained starting from $b_0$ 
+and computed with information $i_t$.
+For the sake of readability, 
+the result $\sum_{(s,s') \in \mathcal{S}^2} \textbf{p} \paren{ o' \sachant s', a_t } \cdot \textbf{p} \paren{ s' \sachant s, a_t } \cdot b_t(s)$
+is denoted by $\textbf{p} \paren{ o' \sachant b_t, a_t }$.
+Then, 
+\begin{align}
+\nonumber \mathbb{P} \paren{ B_{t+1} = b' \sachant I_t=i_t, a_t } &= \mathbb{E} \croch{ \mathds{1}_{\set{ B_{t+1} = b' }} \sachant I_t = i_t, a_t }\\
+\nonumber &= \sum_{o' \in \mathcal{O}} \mathbb{P} \paren{ O_{t+1} = o' \sachant I_t = i_t, a_t } \cdot \mathds{1}_{ \set{ u \paren{ b_{b_0}^{i_t}, a_t, o'} = b'} }\\
+\nonumber &= \sum_{o' \in \mathcal{O}} \sum_{(s,s') \in \mathcal{S}^2} \textbf{p} \paren{ o' \sachant s', a_t } \cdot \textbf{p} \paren{ s' \sachant s, a_t } \cdot b_t(s) \cdot \mathds{1}_{ \set{ u \paren{ b_t, a_t, o'} = b'} } \\
+\label{result_belief_markov} &= \sum_{o' \in \mathcal{O}} \textbf{p} \paren{ o' \sachant b_t, a_t } \cdot \mathds{1}_{ \set{ u \paren{ b_t, a_t, o'} = b'} },
+\end{align}
+and thus $\mathbb{P} \paren{ B_{t+1} = b' \sachant I_t, a_t }$ is $b^{I_t}_{b_0}$-measurable, \textit{i.e.} $B_t$-measurable.
+Indeed, it is shown that $\mathbb{P} \paren{ B_{t+1} = b' \sachant I_t=i_t, a_t }$ is a measurable function of $b_t = b_{b_0}^{i_t}$
+when $a_t \in \mathcal{A}$ is fixed.
+
+In order to show the equality (\ref{belief_markov}) asserting that the belief process is a Markov process, 
+%\end{equation}
+it is sufficient to show the following equation (see Definition \ref{def_conditional_expectation}): 
+$\forall (b,b') \in \paren{\mathbb{P}^{\mathcal{S}}_{b_0}}^2$: 
+\begin{equation} 
+\label{belief_markov_second}
+\int_{ \set{B_t = b} } \mathbb{E} \croch{ \mathds{1}_{\set{ B_{t+1} = b' }} \sachant I_t, a_t }  d \mathbb{P} = \int_{ \set{B_t = b} } \mathds{1}_{\set{ B_{t+1} = b'}}  d \mathbb{P}. 
+\end{equation}
+Indeed, as $\mathbb{P} \paren{ B_{t+1} = b' \sachant I_t, a_t  } = \mathbb{E} \croch{ \mathds{1}_{\set{ B_{t+1} = b' }} \sachant I_t, a_t } $ is $B_t$-measurable,
+it remains to show the equality (\ref{belief_markov_second}) 
+to prove that $\mathbb{E} \croch{ \mathds{1}_{\set{ B_{t+1} = b' }} \sachant I_t, a_t } = \mathbb{E} \croch{ \mathds{1}_{\set{ B_{t+1} = b' }} \sachant B_t, a_t }$ $\mathbb{P}$-amolst surely, \textit{i.e.} to show equality (\ref{belief_markov}).
+
+On the one hand, the left part of the equation (\ref{belief_markov_second}) is
+\begin{align} 
+\nonumber\int_{ \set{B_t = b} }& \sum_{o' \in \mathcal{O}} \textbf{p} \paren{ o' \sachant b_t, a_t } \cdot \mathds{1}_{ \set{ u \paren{ b_t, a_t, o'} = b'} } d \mathbb{P} \\
+\label{belief_markov_l} &= \int_{ \Omega } \mathds{1}_{\set{B_t = b}} d \mathbb{P} \cdot \sum_{o' \in \mathcal{O}} \textbf{p} \paren{ o' \sachant b, a_t } \cdot \mathds{1}_{ \set{ u \paren{ b, a_t, o'} = b'} }.
+\end{align}
+thanks to the equality (\ref{result_belief_markov}).
+
+On the other hand, the right part of equation \ref{belief_markov_second} is
+\begin{align} 
+\nonumber \int_{ \set{B_t = b} } \mathds{1}_{\set{ B_{t+1} = b'}}  d \mathbb{P} &= \int_{ \Omega} \mathds{1}_{\set{B_t = b} } \cdot \mathds{1}_{\set{ u(b,a_t,O_{t+1}) = b'}}  d \mathbb{P}  \\
+\nonumber &= \mathbb{E} \croch{ \mathds{1}_{\set{B_t = b} } \cdot \mathds{1}_{\set{ u(b,a_t,O_{t+1}) = b'}} }\\
+\label{explain_fromdef} &= \mathbb{E} \Bigg[ \mathbb{E} \croch{ \mathds{1}_{\set{B_t = b} } \cdot \mathds{1}_{\set{ u(b,a_t,O_{t+1}) = b'}} \sachant I_t, a_t } \Bigg]\\
+\label{explain_btItmeas} &= \mathbb{E} \Bigg[ \mathds{1}_{\set{B_t = b} } \cdot \mathbb{E} \croch{  \mathds{1}_{\set{ u(b,a_t,O_{t+1}) = b'}} \sachant I_t, a_t } \Bigg]\\
+\label{explain_lastline} &= \mathbb{E} \Bigg[ \mathds{1}_{\set{B_t = b} } \cdot \sum_{o' \in \mathcal{O}} \textbf{p} \paren{ o' \sachant b, a_t } \cdot \mathds{1}_{ \set{ u \paren{ b, a_t, o'} = b'} } \Bigg],
+\end{align}
+which is also equal to result (\ref{belief_markov_l}).
+Line (\ref{explain_fromdef}) comes from Definition \ref{def_conditional_expectation}.
+Line (\ref{explain_btItmeas}) comes from Property \ref{prop_def_condexpec} 
+and the fact that $B_t$ (and thus $\mathds{1}_{\set{B_t = b}}$) is $\sigma(I_t)$-measurable.
+The last line (\ref{explain_lastline}) is given by the result (\ref{result_belief_markov}).
+
+The belief process $(B_t)_{t \geqslant 0}$ is thus a Markov process.
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Proof of Theorem \ref{PWLC_theorem}}
+\label{PWLC_theorem_RETURN}
+\begin{proof}
+Let $V: \mathbb{P}^{\mathcal{S}}_{b_0} \rightarrow \mathbb{R}$ be a PWLC function. 
+Then, $\exists \Gamma \subset \mathbb{R}^{\mathcal{S}}$, $\# \Gamma < + \infty$ such that 
+\[ V(b)=\max_{\alpha \in \Gamma} \set{ \sum_{s \in \mathcal{S}} b(s) \cdot \alpha(s) } = \max_{\alpha \in \Gamma} \langle \alpha, b \rangle_{\mathbb{R}^{\mathcal{S}}}  . \] 
+
+For $b \in \mathbb{P}^{\mathcal{S}}_{b_0}$, the Dynamic Programming Equation is
+\begin{eqnarray*}
+\paren{\mathcal{B}^* V}(b) & = & \max_{a \in \mathcal{A}} \set{ \sum_{s \in \mathcal{S}} r(s,a) \cdot b(s) + \gamma \cdot \sum_{o' \in \mathcal{O}} \textbf{p} \paren{o' \sachant b , a } \cdot V \big( u(b,a,o') \big) } \\
+& = & \max_{a \in \mathcal{A}} \set{ \sum_{s \in \mathcal{S}} r(s,a) \cdot b(s) + \gamma \cdot \sum_{o' \in \mathcal{O}} \textbf{p} \paren{o' \sachant b , a } \cdot \max_{\alpha \in \Gamma} \bigg\{ \sum_{s' \in \mathcal{S}} u(b,a,o')(s') \cdot \alpha(s') \bigg\} } \\
+& = & \max_{a \in \mathcal{A}} \set{ \sum_{s \in \mathcal{S}} r(s,a) \cdot b(s) +  \max_{(\alpha_{o})_{o \in \mathcal{O}} \in \Gamma^\mathcal{O}} \bigg\{ \gamma \cdot \sum_{o' \in \mathcal{O}} \textbf{p} \paren{o' \sachant b , a } \cdot \sum_{s' \in \mathcal{S}} u(b,a,o')(s') \cdot \alpha_{o'}(s') \bigg\} } \\
+& = & \max_{a \in \mathcal{A}} \max_{(\alpha_{o})_{o \in \mathcal{O}} \in \Gamma^\mathcal{O}} \set{ \sum_{s \in \mathcal{S}} r(s,a) \cdot b(s) + \bigg\{ \gamma \cdot \sum_{o' \in \mathcal{O}} \textbf{p} \paren{o' \sachant b , a } \cdot \sum_{s' \in \mathcal{S}} u(b,a,o')(s') \cdot \alpha_{o'}(s') \bigg\} }
+\end{eqnarray*}
+where $(\alpha_{o})_{o \in \mathcal{O}}$ is an element of $\Gamma^\mathcal{O}$
+\textit{i.e.} is a set of vectors from $\Gamma \subset \mathbb{R}^{\mathcal{S}}$:
+each vector $\alpha_{o} \in \Gamma$ is indexed by an observation $o \in \mathcal{O}$.
+
+Thereafter, given a belief $b \in \tilde{\mathcal{S}}$
+and an action $a \in \mathcal{A}$, 
+we use the notation $\textbf{p} \paren{ s' \sachant b,a } = \sum_{s \in \mathcal{S}} \textbf{p} \paren{ s' \sachant s, a } \cdot b(s).$
+Then, the belief update (\ref{belief_update}) becomes
+$\forall s' \in \mathcal{S}$,
+\[ u \paren{b,a,o'}(s') =  \dfrac{ \textbf{p} \paren{o' \sachant s',a} \cdot \textbf{p} \paren{ s' \sachant b ,a } }{ \textbf{p} \paren{ o' \sachant b,a}}.  \]
+The result applying $\mathcal{B}^*$ to $V$ is then
+\begin{eqnarray*}
+\paren{\mathcal{B}^* V}(b) & = & \max_{a \in \mathcal{A}} \max_{(\alpha_{o'}) \in \Gamma^{\mathcal{O}} } \sum_{s \in \mathcal{S}} r(s,a) \cdot b(s) + \gamma \cdot \sum_{o' \in \mathcal{O}} \textbf{p} \paren{o' \sachant b, a} \cdot \sum_{s' \in \mathcal{S}} \dfrac{ \textbf{p} \paren{o' \sachant s',a} \cdot \textbf{p} \paren{ s' \sachant b ,a } }{ \textbf{p} \paren{ o' \sachant b,a}} \cdot \alpha_{o'}(s') \\
+& = & \max_{a \in \mathcal{A},(\alpha_{o'}) \in \Gamma^{\mathcal{O}}}  \sum_{s \in \mathcal{S}} r(s,a) \cdot b(s) + \gamma \cdot \sum_{o' \in \mathcal{O}} \sum_{s' \in \mathcal{S}} \textbf{p} \paren{o' \sachant s',a} \cdot \sum_{s \in \mathcal{S}} \textbf{p} \paren{ s' \sachant s ,a  } \cdot b(s) \cdot \alpha_{o'}(s') \\
+& = & \max_{a \in \mathcal{A},(\alpha_{o'}) \in \Gamma^{\mathcal{O}}}  \sum_{s \in \mathcal{S}} \paren{ r(s,a) + \gamma \cdot \sum_{o' \in \mathcal{O}} \sum_{s' \in \mathcal{S}} \textbf{p} \paren{o' \sachant s',a} \cdot \textbf{p} \paren{ s' \sachant s ,a  } \cdot \alpha_{o'}(s') } \cdot b(s) \\
+& = & \max_{\alpha' \in \Gamma'}  \sum_{s \in \mathcal{S}} \alpha'(s) \cdot b(s) = \max_{\alpha' \in \Gamma'} \langle \alpha', b \rangle_{\mathbb{R}^{\mathcal{S}}}.
+\end{eqnarray*}
+where
+\[\Gamma' = \set{ \alpha'(s) = r(s,a) + \gamma \cdot \displaystyle \sum_{o' \in \mathcal{O}} \sum_{s' \in \mathcal{S}} \textbf{p} \paren{o' \sachant s',a} \cdot \textbf{p} \paren{ s' \sachant s ,a  } \cdot \alpha_{o'}(s') \sachant a \in \mathcal{A}, \mbox{ and } \forall o' \in \mathcal{O}, \alpha_{o'} \in \Gamma }\]
+which is finite, and which size is $\# \mathcal{A} \cdot (\# \Gamma)^{ \# \mathcal{O} }$.
+
+The function $b \mapsto \mathcal{B}^* V(b)$ is thus PWLC 
+and elements of $\Gamma'$ are called $\alpha$-vectors. 
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Proof of Theorem \ref{theorem_NIequivalence}}
+\label{theorem_NIequivalence_RETURN}
+\begin{proof}
+First, note that
+\begin{align*}
+\forall (x,y) \in \mathcal{X} \times \mathcal{Y}, \hspace{0.5cm} & \pi(x,y) < \min \set{ \pi(x), \pi(y) } \\
+ &\Updownarrow \\
+\forall (x,y) \in \mathcal{X} \times \mathcal{Y}, \hspace{0.5cm} & \pi(x,y) < \max_{x'} \pi(x',y) = \pi(y) \mbox{ and } \pi(x,y) < \max_{y'} \pi(x,y') = \pi(x)\\
+& \Updownarrow \\
+\forall (x,y) \in \mathcal{X} \times \mathcal{Y}, \hspace{0.5cm} & \pi\paren{x \sachant y} = \pi(x,y) < \pi(x) \mbox{ and } \pi\paren{y \sachant x} = \pi(x,y) < \pi(y)
+\end{align*}
+Thus, as $\pi(x,y) \leqslant \min \set{ \pi(x), \pi(y) }$ is always true,
+$\forall (x,y) \in \mathcal{X} \times \mathcal{Y}$, $\pi(x,y) = \min \set{ \pi(x), \pi(y) }$
+$\Leftrightarrow$ $\forall (x,y) \in \mathcal{X} \times \mathcal{Y}$, $\pi\paren{x \sachant y} \geqslant \pi(x) \mbox{ or } \pi\paren{y \sachant x} \geqslant \pi(y)$.
+\end{proof}
+
+
+
+
+
+
+
+\subsection{Proof of Theorem \ref{MS2_ignor}}
+\label{MS2_ignor_RETURN}
+\begin{proof}
+Let us suppose that $X$ and $Y$ are MS-independent: in terms of possibility distributions,
+it can be written $\forall x \in \mathcal{X}$, $\forall y \in \mathcal{Y}$, 
+$\pi(x)=\pi \paren{ x \sachant y}$ and $\pi(y) = \pi \paren{ y \sachant x }$.
+Suppose also that $\exists x_0 \in \mathcal{X}$ such that $\pi(x_0)<1$ 
+\textit{i.e.} variable $X$ is not fully unknown.
+Thus, using the qualitative possibilistic conditioning (Definition \ref{def_cond}),
+we know that, since $\pi \paren{ x_0 \sachant y} = \pi(x_0) <1$, 
+$\forall y \in \mathcal{Y}$, $\pi \paren{ x_0 \sachant y} = \pi \paren{x_0, y}$.
+Thus, $\pi \paren{x_0, y} < 1$.
+Using also the conditioning of Definition \ref{def_cond}, 
+we get that $\forall y \in \mathcal{Y}$, $\pi \paren{ y \sachant x_0 }=1$,
+since the equality $\pi(x_0) = \pi \paren{x_0, y}$ is the condition which leads to the possibility degree $1$.
+As $\forall x \in \mathcal{X}$, $\forall y \in \mathcal{Y}$, $\pi(y) = \pi \paren{ y \sachant x }$,  $\forall y \in \mathcal{Y}$, $\pi \paren{ y  }=1$.
+As a conclusion, if $X$ is not fully unknown, $Y$ is is fully unknown: 
+thus, if $Y$ is not fully unknown, $X$ is fully unknown.
+\end{proof}
+
+
+
+
+\subsection{Proof of Property \ref{property_minmax}}
+\label{property_minmax_RETURN}
+\begin{proof}
+First, if $f^* = \min_{\omega \in \Omega} f(\omega) $,
+then $\forall \omega \in \Omega$, $f^* \leqslant f(\omega)$.
+Thus $\forall \omega \in \Omega$, $1-f^* \geqslant 1-f(\omega)$, \textit{i.e.}
+$1-f^* = 1-\min_{\omega \in \Omega} f(\omega) = \max_{\omega \in \Omega} \set{ 1-f(\omega) }$:
+the equation (\ref{equationmaxmin1}) is proved.
+The equation (\ref{equationmaxmin2}) can be shown using the previous one: 
+setting $f = 1-g$, we get $\forall g: \Omega \rightarrow \mathcal{L}$ 
+$\max_{\omega \in \Omega} g(\omega) = 1 - \min_{\omega \in \Omega} \set{ 1 - g(\omega) }$
+\textit{i.e.} it equality is shown.
+
+Now, the equation (\ref{equationmaxmin3}) is shown 
+considering the case where $\lambda \geqslant \max_{\omega \in \Omega} f(\omega)$:
+on the one hand, in this case, both parts of the equality are equal to $\max_{\omega \in \Omega} f(\omega) $
+since $\forall \omega \in \Omega$, $\lambda \geqslant f(\omega)$.
+On the other hand, when $\lambda \leqslant \max_{\omega \in \Omega} f(\omega)$, 
+right part of equation (\ref{equationmaxmin3}) is equal to $\lambda$. 
+As $\forall \omega \in \Omega$, $\min \set{ \lambda, f(\omega) } \leqslant \lambda$,
+and for each $\omega$ such that $f(\omega) \geqslant \lambda$, $\min \set{ \lambda, f(\omega) } = \lambda$, 
+the maximum is equal to $\lambda$: the left part of the equation (\ref{equationmaxmin3}) is equal to $\lambda$ too. 
+The equation (\ref{equationmaxmin4}) can be be proved using the previous equation:
+setting $f$ to $1-g$, and $\lambda$ to $1 - \mu$, we get
+$\max_{\omega \in \Omega} \min \set{ 1 - g(\omega), 1 - \mu } = \min \set{ \max_{\omega \in \Omega} \set{1 - g(\omega)}, 1 - \mu }$.
+And then, using equations (\ref{equationmaxmin1}) and (\ref{equationmaxmin2}), 
+$\forall \mu \in \mathcal{L}$, $\forall g:\Omega \rightarrow \mathcal{L}$,
+$1 - \min_{\omega \in \Omega} \max \set{ g(\omega), \mu } = 1 - \max \set{ \min_{\omega \in \Omega} g(\omega), \mu }$,
+\textit{i.e.} the equation is shown.
+
+The equations (\ref{equationmaxmin5}) and (\ref{equationmaxmin6})
+are trivial: with the operator $\min$ (resp. $\max$), 
+no matter what is the order of elements and the repetitions,
+as they are associative\footnote{ An operator $*$ over $\mathcal{L}$ is associative if $\forall (\lambda_1,\lambda_2,\lambda_3) \in \mathcal{L}^3$, $(\lambda_1 * \lambda_2) * \lambda_3 = \lambda_1 * (\lambda_2 * \lambda_3)$.}.
+
+The inclusions (\ref{equationargmax1}) and (\ref{equationargmax2})
+are shown as follows: let $\omega^* \in \operatorname*{argmax}_{\omega \in \Omega} f(\omega)$.
+If $f(\omega^*) \leqslant \lambda$, $\forall \omega \in \Omega$, 
+$\min \set{ f(\omega), \lambda } = f(\omega)$ and thus
+$\operatorname*{argmax}_{\omega \in \Omega} \min \set{ f(\omega), \lambda } = \operatorname*{argmax}_{\omega \in \Omega} f(\omega)$.
+Now, if $f(\omega^*) > \lambda$, $\max_{\omega \in \Omega} \min \set{ f(\omega), \lambda } = \lambda$, 
+and then $\operatorname*{argmax}_{\omega \in \Omega} \min \set{ f(\omega), \lambda } = \set{ \omega \sachant f(\omega) \geqslant \lambda }$:
+thus $\operatorname*{argmax}_{\omega \in \Omega} f(\omega) \subseteq \operatorname*{argmax}_{\omega \in \Omega} \min \set{ f(\omega), \lambda }$,
+\textit{i.e.} the inclusion (\ref{equationargmax1}) is shown.
+For the inclusion (\ref{equationargmax2}), 
+if $f(\omega^*)> \lambda$, then the maximizing elements are in $\omega \set{ \omega \sachant f(\omega) > \lambda }$,
+where $f(\omega) = \max \set{ f(\omega), \lambda }$.
+Thus maximizing elements are the same $\operatorname*{argmax}_{\omega \in \Omega} f(\omega) = \operatorname*{argmax}_{\omega \in \Omega} \max \set{ f(\omega), \lambda }$.
+Otherwise, if $f(\omega^*) \leqslant \lambda$, $\forall \omega \in \Omega$,
+$\max \set{ f(\omega), \lambda } = \lambda$, then $\operatorname*{argmax}_{\omega \in \Omega} \max \set{ f(\omega), \lambda } = \Omega$,
+and thus obviously 
+$\operatorname*{argmax}_{\omega \in \Omega} f(\omega) \subseteq \operatorname*{argmax}_{\omega \in \Omega} \max \set{ f(\omega), \lambda }$.
+
+Finally, let us show the equality (\ref{equationmaxmin7}).
+Note first that functions $A: \omega \mapsto \max \set{ \min \set{ \lambda, f(\omega) }, g(\omega) }$ 
+and $B: \omega \mapsto \min \set{ \lambda, \max \set{ f(\omega), g(\omega) } }$ are equal to
+$\omega \mapsto \max \set{ f(\omega), g(\omega) }$ on the set $\Omega_1 = \set{ \omega \sachant \lambda \geqslant \max \set{ f(\omega), g(\omega) }}$.
+It is trivial for $B$, and as $\lambda \geqslant f(\omega)$ on this set, the result comes for $A$.
+On the set $\Omega_2 = \overline{\Omega_1} = \set{ \omega \sachant \lambda \leqslant \max \set{ f(\omega), g(\omega) } }$,
+$B$ is of course equal to $\lambda$, and if $f(\omega) \geqslant \lambda$, $A(\omega) = \max \set{ \lambda, g(\omega) } \geqslant \lambda$,
+otherwise if $f(\omega) \leqslant \lambda$, $A(\omega) = \max \set{ f(\omega), g(\omega) } \geqslant \lambda$ (on the set $\Omega_2$).
+$A$ and $B$ are thus smaller on $\Omega_1$.
+Indeed, they are both equal to $\omega \mapsto \max \set{ f(\omega), g(\omega) } \leqslant \lambda$ on $\Omega_1$,
+whereas on $\Omega_2$, $N=\lambda$ and $A \geqslant \lambda$.
+Thus, if $\Omega_1 \neq \emptyset$, then the result is shown: the minimum is on $\Omega_1$, where functions are equal.
+Otherwise, if $\Omega_1 = \emptyset$, $\forall \omega \in \Omega$, $\lambda \leqslant \max \set{ f(\omega), g(\omega) }$.
+As $g(\omega^*)=0$, then $f(\omega^*) \geqslant \lambda$, and $A(\omega^*) = \max \set{ \lambda, g(\omega^*) } = \lambda = B(\omega^*)$.
+For the other $\omega \in \Omega$, $A(\omega) = \max \set{ \lambda, g(\omega) } \geqslant \lambda$
+or $A(\omega) =\max \set{ f(\omega), g(\omega) } \geqslant \lambda$, thus the minimum of both functions, $\lambda$, is reached with $\omega^*$,
+where $A$ and $B$ are equal.
+The equality (\ref{equationmaxmin8}) can be proved using the equality (\ref{equationmaxmin7}):
+if we set $g=1-h$, $g$ fulfills the condition $\exists \omega^* \in \Omega$ such that $g(\omega^*)=0$.
+Setting $\lambda = 1 - \mu$ and $f' = 1 -f$, we get
+\[ \min_{\omega \in \Omega} \max \Big\{ \min \set{ 1 -\mu, 1 - f'(\omega) }, 1 - h(\omega)  \Big\} = \min_{\omega \in \Omega} \min \Big\{ 1 -\mu, \max \set{ 1 - f'(\omega) , 1 - h(\omega) }  \Big\}.\]
+Using equations (\ref{equationmaxmin1}) and (\ref{equationmaxmin2}) of Property \ref{property_minmax},
+we get
+\[ 1 - \max_{\omega \in \Omega} \min \Big\{ \max \set{ \mu, f'(\omega) }, h(\omega)  \Big\} = 1 - \max_{\omega \in \Omega} \max \Big\{ \mu, \min \set{ f'(\omega) , h(\omega) }  \Big\}, \]
+\textit{i.e.} one minus equation (\ref{equationmaxmin8}).
+\end{proof}
+
+
+
+
+
+
+
+
+
+\subsection{Proof of the equality of Definition \ref{sugeno_integral}}
+\label{sugeno_integral_RETURN}
+\begin{proof}
+Let us show that (\ref{equation_sugeno1}) is equal to (\ref{equation_sugeno2}).
+Note first that, by definition, $f(\omega_i)$ is non-decreasing with $i \in \set{1, \ldots, \# \Omega}$.
+Note as well that $\mu$ is monotone, and then $\mu(A_i) = \mu( \set{\omega_i, \ldots, \omega_{\# \Omega}} ) \geqslant \mu(A_{i+1})$
+since $A_{i+1} \subset A_i$.
+Let $i^*$ be the highest $i \in \set{ 1, \ldots, \# \Omega }$ such that $\mu(A_{i^*}) \geqslant f(\omega_{i^*})$.
+As $\mu(A_1) = \mu(\Omega) = 1 \geqslant f(\omega_1)$, $i^*$ exists. 
+For each $i \leqslant i^*$, $\min \set{ f(\omega_i), \mu(A_i) } = f(\omega_i)$,
+and for each $i > i^*$, $\min \set{ f(\omega_i), \mu(A_i) } = \mu(A_i)$,
+thanks to the definition of $i^*$.
+As $f(\omega_i)$ is non-decreasing and $\mu(A_i)$ is non-increasing with $i$,
+highest values of $\Big( \displaystyle \min \big\{ f(\omega_i), \mu(A_i) \big\} \Big)_{i=1}^{\# \Omega-1}$
+are $f(\omega_{i^*})$ and $\mu(A_{i^*+1})$.
+
+If $f(\omega_{i^*}) \leqslant \mu(A_{i^*+1})$, then
+ (\ref{equation_sugeno1}) is equal to $\mu(A_{i^*+1})$.
+As well, $\max \set{f(\omega_{i^*}), \mu(A_{i^*+1})} = \mu(A_{i^*+1})$.
+Using the definition of $i^*$, and as $\mu$ is monotone, 
+$f(\omega_{i^*+1}) > \mu \paren{ A_{i^*+1}} \geqslant \mu \paren{ A_{i^*+2} }$.
+This implies that $\max \set{f(\omega_{i^*+1}), \mu(A_{i^*+2})} = f(\omega_{i^*+1})$.
+As $\mu(A_{i+1})$ is non-increasing with $i$, and $f(\omega_i)$ non-decreasing,
+$\mu(A_{i^*+1})$ and $f(\omega_{i^*+1})$ are the lowest values of 
+$\Big( \displaystyle \max \big\{ f(\omega_i), \mu(A_{i+1}) \big\} \Big)_{i=1}^{\# \Omega-1}$.
+By definition of $i^*$, $f(\omega_{i^*+1})>\mu(A_{i^*+1})$, 
+and thus formula (\ref{equation_sugeno2})
+is also equal to $\mu(A_{i^*+1})$: (\ref{equation_sugeno1}) and (\ref{equation_sugeno2}) are equal.
+
+If $f(\omega_{i^*}) > \mu(A_{i^*+1})$,
+then formula (\ref{equation_sugeno1}) is equal to $f(\omega_{i^*})$,
+and $\max \set{ f(\omega_{i^*}), \mu(A_{i^*+1}) } = f(\omega_{i^*})$.
+As $f(\omega_i)$ is non-decreasing with $i$, and thanks to the definition of $i^*$,
+$f(\omega_{i^*-1}) \leqslant f(\omega_{i^*}) \leqslant \mu(A_{i^*})$
+and thus $\max \set{ f(\omega_{i^*-1}), \mu(A_{i^*}) } = \mu(A_{i^*})$.
+As previously ($\mu(A_{i+1})$ non-increasing and $f(\omega_i)$ non-decreasing),
+$\mu(A_{i^*})$ and $f(\omega_{i^*})$ are the lowest values of 
+$\Big( \displaystyle \max \big\{ f(\omega_i), \mu(A_{i+1}) \big\} \Big)_{i=1}^{\# \Omega-1}$.
+By definition of $i^*$, $f(\omega_{i^*})\leqslant\mu(A_{i^*})$, 
+and thus formula (\ref{equation_sugeno2})
+is also equal to $f(\omega_{i^*})$. 
+
+Finaly, formula (\ref{equation_sugeno1}) and (\ref{equation_sugeno2}) are equal.
+\end{proof}
+
+
+
+
+
+
+
+
+
+\subsection{Proof of Theorem \ref{sugenoPossNec}}
+\label{sugenoPossNec_RETURN}
+\begin{proof}
+First, let us rewrite the Sugeno integral of a function $f:\Omega \rightarrow \mathcal{L}$ 
+with respect to a possibility measure $\Pi$, using formula (\ref{equation_sugeno1}): 
+\begin{align}
+\nonumber \mathbb{S}_{\Pi}[f] &= \max_{i=1}^{\# \Omega} \min \set{ f(\omega_i), \Pi(A_i) } \\
+\nonumber &= \max_{i=1}^{\# \Omega} \min \set{  f(\omega_i), \max_{j=i}^{\# \Omega} \pi(\omega_j)  } \\
+\label{equation_sugenomax} &= \max_{\substack{ (i,j) \in \set{1,\ldots,\# \Omega}^2  \\ \mbox{ \tiny s.t. } i \leqslant j} } \min \set{  f(\omega_i),  \pi(\omega_j)  }. 
+\end{align}
+Now, note that $\forall (i,j) \in \set{1,\ldots,\# \Omega}^2$ such that $i<j$,
+$\min \set{ f(\omega_i), \pi(\omega_j) } \leqslant \min \set{ f(\omega_j), \pi(\omega_j) } $
+since $f(\omega_i)$ is non-decreasing with $i$.
+As just shown, such pairs 
+have a minimum lower than the minimum of an other pair: 
+such pairs can thus be removed 
+from the maximum operator 
+in the equation (\ref{equation_sugenomax}):
+we get then the formula (\ref{equation_sugenoposs}).
+
+As well, using formula (\ref{equation_sugeno2}),
+the Sugeno integral of $f$ with respect to a necessity measure $\mathcal{N}$ is
+\begin{align}
+\nonumber \mathbb{S}_{\mathcal{N}}[f] &= \min_{i=1}^{\# \Omega} \max \set{ f(\omega_i), \mathcal{N}(A_{i+1}) } \\
+\nonumber &= \min_{i=1}^{\# \Omega} \max \Big\{ f(\omega_i), 1 - \Pi \big( \set{\omega_1,\ldots,\omega_i} \big) \Big\} \\
+\nonumber &= \min_{i=1}^{\# \Omega} \max \set{  f(\omega_i), \min_{j=1}^{i} \set{1 - \pi(\omega_j)}  } \\
+\label{equation_sugenomin} &= \min_{\substack{ (i,j) \in \set{1,\ldots,\# \Omega}^2  \\ \mbox{ \tiny s.t. } i \geqslant j} } \min \set{  f(\omega_i), 1 - \pi(\omega_j)  }. 
+\end{align}
+Note that the terms of $\displaystyle \min_{\substack{ (i,j) \in \set{1,\ldots,\# \Omega}^2  \\ \mbox{ \tiny s.t. } i \geqslant j} }$,
+such that $i>j$, \textit{i.e.} $\max \set{ f(\omega_i), 1-\pi(\omega_j) }$,
+are greater or equal to $\max \set{ f(\omega_j), 1-\pi(\omega_j) }$
+(as $f(\omega_i)$ is non-dreasing with $i$)
+and can be removed from $\displaystyle \min_{(i,j)}$:
+the equation (\ref{equation_sugenonec}) is then deduced.
+\end{proof}
+
+
+
+
+
+\subsection{Proof of Theorem \ref{DPpiMDP}}
+\label{DPpiMDP_RETURN}
+\begin{proof}
+For the case $i=0$, 
+$\overline{U_0^*}(s) = \Psi(s)$, is obvious since no action has to be chosen.
+The case $i=1$ consists in applying the formula (\ref{equationmaxmin3}) of Property \ref{property_minmax}.
+Following sequence of equalities come from properties (\ref{property_minmax}). 
+Let $i$ be in $\set{2, \ldots, H-1}$ and $j=H-i$, 
+and $\mathcal{T}_i$ the set of $i$-length system state trajectories $\mathcal{T} = (s_{j+1},\ldots,s_H)$: 
+$\forall s_j \in \mathcal{S}$,\\
+\\
+$\overline{U^*_i}(s_j)$
+\vspace{-0.5cm}
+\begin{eqnarray}
+\nonumber  & = & \displaystyle \max_{(\delta) \in \Delta_i} \max_{\mathcal{T} \in \mathcal{T}_i} \min \set{ \min_{t=j}^{H} \rho_t\Big(s_t,\delta_t(s_t)\Big), \min_{t=j}^{H-1} \pi_t \Big(s_{t+1} \Big\vert s_t , \delta_t(s_t) \Big) } \\
+\nonumber & = &  \displaystyle \max_{(\delta) \in \Delta_i} \max_{s_{j+1} \in \mathcal{S}} \max_{\mathcal{T} \in \mathcal{T}_{i-1}} \min \Bigg\{ \min \set{ \rho_{j} \Big( s_{j},\delta_{j}(s_{j}) \Big), \min_{t=j+1}^{H} \rho_{t} \Big(s_t,\delta_t(s_t)\Big)}, \min_{t=j}^{H-1} \pi_t \Big( s_{t+1} \Big\vert s_t , \delta_t(s_t) \Big) \Bigg\} \\
+\nonumber & = &  \displaystyle \max_{(\delta) \in \Delta_i} \max_{s_{j+1} \in \mathcal{S}} \min \Bigg\{ \rho_j \Big( s_j,\delta_j(s_j) \Big), \max_{\mathcal{T} \in \mathcal{T}_{i-1}} \min \set{  \min_{t=j+1}^{H} \rho_t \Big(s_t,\delta_t(s_t) \Big), \min_{t=j}^{H-1} \pi_t \Big(s_{t+1} \Big\vert s_t , \delta_t(s_t) \Big) } \Bigg\} \\
+\nonumber & = &  \displaystyle \max_{(\delta) \in \Delta_i} \max_{s_{j+1} \in \mathcal{S}} \min \Bigg\{ \rho_j \Big( s_j,\delta_j(s_j) \Big), \min \bigg\{ \pi_j \Big( s_{j+1} \Big\vert s_j, \delta_j(s_j) \Big), \\ 
+\nonumber & & \hspace{5cm} \max_{\mathcal{T} \in \mathcal{T}_{i-1}} \min \Big\{  \min_{t=j+1}^{H} \rho_t \Big( s_t,\delta_t(s_t) \Big), \min_{t=j+1}^{H-1} \pi_t \Big( s_{t+1} \Big\vert s_t , \delta_t(s_t) \Big) \Big\} \bigg\} \Bigg\} \\
+\nonumber & = &  \displaystyle \max_{\delta_j(s_j) \in \mathcal{A}} \max_{s_{j+1} \in \mathcal{S}} \min \Bigg\{ \rho_j \Big( s_j,\delta_j(s_j) \Big), \min \bigg\{ \pi_j \Big( s_{j+1} \Big\vert s_j, \delta_j(s_j) \Big), \\ 
+\nonumber & & \hspace{3.5cm} \max_{(\delta) \in \Delta_{i-1}} \max_{\mathcal{T} \in \mathcal{T}_{i-1}} \min \Big\{  \min_{t=j+1}^{H} \rho_t \Big( s_t,\delta_t(s_t) \Big), \min_{t=j+1}^{H-1} \pi_t \Big( s_{t+1} \Big\vert s_t , \delta_t(s_t) \Big) \Big\} \bigg\} \Bigg\} \\
+\nonumber & = &  \displaystyle \max_{a \in \mathcal{A}} \max_{s_{j+1} \in \mathcal{S}} \min \Bigg\{ \rho_j \Big( s_j,a \Big), \min \bigg\{ \pi_j \Big( s_{j+1} \Big\vert s_j, a \Big),\overline{U^*_{i-1}}(s_1) \bigg\} \Bigg\} \\
+\nonumber & = &  \displaystyle \max_{a \in \mathcal{A}}  \min \Bigg\{ \rho_j \Big( s_j,a \Big), \max_{s_{j+1} \in \mathcal{S}} \min \bigg\{ \pi_j \Big( s_{j+1} \Big\vert s_j, a \Big),\overline{U^*_{i-1}}(s_1) \bigg\} \Bigg\} .
+\end{eqnarray}
+where the final preference function $\Psi(s)$ is denoted by $\rho_H(s,a)$ to simplify equations.
+This shows that the optimistic value function can be computed using the recursive formula (\ref{equation_recursiveopt}).
+The strategy computed with formula (\ref{equation_recursiveoptstrat}) 
+is indeed optimal, thanks to the inclusion (\ref{equationmaxmin3}) of Property \ref{property_minmax}.
+
+As well, for the pessimistic criterion,
+the case $i=0$ is obvious too, and the case $i=1$ consists in applying the formulae 
+(\ref{equationmaxmin1}) and (\ref{equationmaxmin4}) of Property \ref{property_minmax}.
+For $i \in \set{2, \ldots, H-1}$, and $j=H-i$, using Property \ref{property_minmax},\\ 
+\\
+$\underline{U^*_H}(s_j)$ \vspace{-0.5cm}
+\begin{eqnarray}
+\nonumber  & = & \displaystyle \max_{(\delta) \in \Delta_i} \min_{\mathcal{T} \in \mathcal{T}_i} \max \set{ \min_{t=j}^{H} \rho_t \Big( s_t,\delta_t(s_t) \Big), 1- \min_{t=j}^{H-1} \pi_t \Big( s_{t+1} \Big\vert s_t , \delta_t(s_t) \Big) } \\
+\nonumber & = &  \displaystyle \max_{(\delta) \in \Delta_i} \min_{s_{j+1} \in \mathcal{S}} \min_{\mathcal{T} \in \mathcal{T}_{i-1}} \max \Bigg\{ \min \set{ \rho_j \Big( s_j,\delta_j(s_j) \Big), \min_{t=j+1}^{H} \rho_t(s_t,\delta_t(s_t))}, 1- \min_{t=j}^{H-1} \pi_t \Big( s_{t+1} \Big\vert s_t , \delta_t(s_t) \Big) \Bigg\} \\
+\label{maxminlambdafg} & = &  \displaystyle \max_{(\delta) \in \Delta_i} \min_{s_{j+1} \in \mathcal{S}} \hspace{-0.1cm} \min \Bigg\{ \rho_j \Big( s_j,\delta_j(s_j) \Big), \min_{\mathcal{T} \in \mathcal{T}_{i-1}} \hspace{-0.2cm} \max \set{  \min_{t=j+1}^{H} \rho_t \Big( s_t,\delta_t(s_t) \Big), 1- \min_{t=j}^{H-1} \pi_t \Big( s_{t+1} \Big\vert s_t , \delta_t(s_t) \Big) \hspace{-0.14cm} } \hspace{-0.1cm} \Bigg\} \\
+\nonumber & = &  \displaystyle \max_{(\delta) \in \Delta_i} \min_{s_{j+1} \in \mathcal{S}} \min \Bigg\{ \rho_j \Big( s_j,\delta_j(s_j) \Big), \min_{\mathcal{T} \in \mathcal{T}_{i-1}} \hspace{-0.2cm} \max \set{  \min_{t=j+1}^{H} \rho_t \Big( s_t,\delta_t(s_t) \Big), \max_{t=j}^{H-1} \set{ 1 -  \pi_t \Big( s_{t+1} \Big\vert s_t , \delta_t(s_t) \Big) } } \Bigg\} \\
+\nonumber & = &  \displaystyle \max_{(\delta) \in \Delta_i} \min_{s_{j+1} \in \mathcal{S}} \min \Bigg\{ \rho_j \Big(s_j,\delta_j(s_j)\Big), \max \bigg\{ 1- \pi_j \Big( s_{j+1} \Big\vert s_j, \delta_j(s_j) \Big), \\ 
+\nonumber & & \hspace{4.5cm} \min_{\mathcal{T} \in \mathcal{T}_{i-1}} \max \Big\{  \min_{t=j+1}^{H} \rho_t \Big( s_t,\delta_t(s_t) \Big), 1- \min_{t=j+1}^{H-1} \pi_t \Big( s_{t+1} \Big\vert s_t , \delta_t(s_t) \Big) \Big\} \bigg\} \Bigg\} \\
+\label{maxminminmax} & = &  \displaystyle \max_{\delta_j(s_j) \in \mathcal{A}} \min_{s_{j+1} \in \mathcal{S}} \min \Bigg\{ \rho_j \Big( s_j,\delta_j(s_j) \Big), \max \bigg\{ 1 - \pi_j \Big( s_{j+1} \Big\vert s_j, \delta_j(s_j) \Big), \\ 
+\nonumber & & \hspace{3.5cm} \max_{(\delta) \in \Delta_{i-1}} \min_{\mathcal{T} \in \mathcal{T}_{i-1}} \max \Big\{  \min_{t=j+1}^{H} \rho_t \Big( s_t,\delta_t(s_t) \Big), 1- \min_{t=j+1}^{H-1} \pi_t \Big( s_{t+1} \Big\vert s_t , \delta_t(s_t) \Big) \Big\} \bigg\} \Bigg\} \\
+\nonumber & = &  \displaystyle \max_{a \in \mathcal{A}} \min_{s_{j+1} \in \mathcal{S}} \min \Bigg\{ \rho_j \Big(s_j,a \Big), \max \bigg\{ 1 - \pi_j \Big( s_{j+1} \Big\vert s_j, a \Big),\underline{U^*_{H-1}}(s_{j+1}) \bigg\} \Bigg\} \\
+\nonumber & = &  \displaystyle \max_{a \in \mathcal{A}} \min \Bigg\{ \rho_j \Big(s_j,a\Big), \min_{s_{j+1} \in \mathcal{S}} \max \bigg\{ 1 - \pi_j \Big( s_{j+1} \Big\vert s_j, a \Big),\underline{U^*_{H-1}}(s_{j+1}) \bigg\} \Bigg\} .
+\end{eqnarray}
+where the equation (\ref{equationmaxmin7}) of Property \ref{property_minmax} is used for the row (\ref{maxminlambdafg}).
+The row (\ref{maxminminmax}) is explained by the following result:
+consider the function $F: \mathcal{S} \times \mathcal{A} \rightarrow \mathcal{L}$.
+Then,
+\[ \max_{\delta: \mathcal{S} \rightarrow \mathcal{L}} \min_{s\in \mathcal{S}} F(s,\delta(s)) = \min_{s \in \mathcal{S}} \max_{\delta: \mathcal{S} \rightarrow \mathcal{A}} F(s, \delta(s)). \]
+Indeed, $\forall \delta: \mathcal{S} \rightarrow \mathcal{A}$, $\forall s \in \mathcal{S}$,
+$\displaystyle \min_{s' \in \mathcal{S}} F(s',\delta(s')) \leqslant \max_{\delta': \mathcal{S} \rightarrow \mathcal{A}} F(s,\delta'(s))$,
+and thus, $\displaystyle \max_{\delta: \mathcal{S} \rightarrow \mathcal{A}} \min_{s' \in \mathcal{S}} F(s',\delta(s')) \leqslant \min_{s \in \mathcal{S}} \max_{\delta': \mathcal{S} \rightarrow \mathcal{A}} F(s,\delta'(s))$.
+Now, consider $\delta^*: \mathcal{S} \rightarrow \mathcal{A}$
+such that $\forall s \in \mathcal{S}$, $\delta^*(s) \in \operatorname*{argmax}_{a \in \mathcal{A}} F(s,a)$.
+Then, $\forall \delta: \mathcal{S} \rightarrow \mathcal{A}$,
+$\displaystyle \min_{s \in \mathcal{S}} F(s,\delta^*(s)) \geqslant \min_{s \in \mathcal{S}} F(s, \delta(s))$,
+which implies that $\displaystyle \min_{s \in \mathcal{S}} F(s,\delta^*(s)) \geqslant \max_{\delta: \mathcal{S} \rightarrow \mathcal{A}} \min_{s \in \mathcal{S}} F(s, \delta(s))$,
+\textit{i.e.} $\displaystyle \min_{s \in \mathcal{S}} \max_{\delta: \mathcal{S} \rightarrow \mathcal{A}} F(s,\delta(s)) \geqslant \max_{\delta: \mathcal{S} \rightarrow \mathcal{A}} \min_{s \in \mathcal{S}} F(s, \delta(s))$
+: the equality is shown.
+
+Finally, the strategy computation (\ref{equation_recursivepessstrat})
+is explained by inclusions (\ref{equationargmax1}) and (\ref{equationargmax2})
+of properties (\ref{property_minmax}).
+\end{proof}
+
+
+
+
+
+
+
+\subsection{Proof of Theorem \ref{belief_process_recursif_poss}}
+\label{belief_process_recursif_poss_RETURN}
+\begin{proof}
+Suppose that the belief state at time step $t \in \mathbb{N}$
+is $\beta_t$.
+The joint distribution of the system state variable $S_{t+1}$
+and the observation variable $O_{t+1}$ is
+\\
+$\Pi \paren{ S_{t+1} = s', O_{t+1} = o' \sachant I_{t} = i_{t}, a }$
+\begin{align}
+\label{proof_belupdate_1} &= \max_{s \in \mathcal{S}} \Pi \paren{ S_{t+1} = s', O_{t+1}= o', S_{t} = s \sachant I_{t} = i_{t}, a_t }\\
+\label{proof_belupdate_2} &= \max_{s \in \mathcal{S}} \min \Big\{ \Pi \paren{ S_{t+1} = s', O_{t+1}= o' \sachant S_{t} = s, I_{t} = i_{t}, a_t }, \Pi \paren{ S_{t} = s \sachant I_{t} = i_{t}, a_t } \Big\}\\
+\label{proof_belupdate_3} & = \max_{s \in \mathcal{S}} \min \Big\{ \Pi \paren{O_{t+1}= o' \sachant S_{t+1} = s', a_t}, \Pi \paren{ S_{t+1} = s' \sachant S_{t} = s, a_t }, \beta_t(s) \Big\}\\
+\label{proof_belupdate_4} & = \min \set{ \Pi \paren{O_{t+1}= o' \sachant S_{t+1} = s', a_t},  \max_{s \in \mathcal{S}} \min \Big\{ \Pi \paren{ S_{t+1} = s' \sachant S_{t} = s, a_t }, \beta_t(s) \Big\} }\\
+\nonumber & = \min \set{ \pi_{t} \paren{o' \sachant s', a_t},  \max_{s \in \mathcal{S}} \min \Big\{ \pi_t \paren{ s' \sachant s, a_t }, \beta_t(s) \Big\} },
+\end{align}
+denoted by $\pi_t \paren{ s', o' \sachant \beta_t, a_t}$ to simplify notations:
+$\max_{s' \in \mathcal{S}} \pi_t \paren{ s', o' \sachant \beta_t, a_t}$ is also denoted by $\pi \paren{ o' \sachant \beta_t, a_t}$.
+Line (\ref{proof_belupdate_1}) is the possibilistic marginalization over variable $S_t$. 
+Line (\ref{proof_belupdate_2}) is due to the definition of the conditioning, Definition \ref{def_cond}. 
+Line (\ref{proof_belupdate_3}) uses the Definition of the belief state, Definition \ref{def_QualPossBel},
+and that $S_t$ does not depend on the action $a_t$.
+Finally, line (\ref{proof_belupdate_4}) is comes from equation (\ref{equationmaxmin3}) of Property \ref{property_minmax}.
+
+Suppose now that the observation received at time step $t+1$ is $o_{t+1}$:  
+as, by definition, $\beta_{t+1}(s') = \Pi \paren{ S_{t+1} = s' \sachant I_{t} = i_{t}, O_{t+1} = o_{t+1}, a_t }$,
+using the qualitative possibilistic conditioning (Definition \ref{def_cond}),
+we conclude that, $\forall s \in \mathcal{S}$,
+\begin{align*}
+\beta_{t+1}(s') &= \left \{ \begin{array}{ccc}
+1 & \mbox{ if } \pi_t \paren{ s', o_{t+1} \sachant \beta_t, a_t}= \pi_t \paren{ o_{t+1} \sachant \beta_t,a_t }, \\
+\pi_t \paren{ s', o_{t+1} \sachant \beta_t, a_t} & \mbox{ otherwise. } 
+\end{array} \right. 
+\end{align*}
+\end{proof}
+
+
+
+
+
+
+
+
+
+
+\subsection{Proof of Theorem \ref{piPOMDPrewriting}}
+\label{piPOMDPrewriting_RETURN}
+\begin{proof}
+Let us denote by $\pi \Big( s_H, \widehat{o}_H  \Big\vert \beta_0, (\delta) \Big)$
+the joint possibility degree of the last system state $s_H \in \mathcal{S}$
+and the observation sequence $\widehat{o}_H$ when the strategy is $(\delta) = (\delta)_{t=0}^{H-1}$:\\
+$\Pi \paren{ S_H = s_H, \widehat{O}_H = \widehat{o}_H  \sachant (\delta) }$
+\[  =\max_{(s_0,\ldots,s_{H-1}) \in \mathcal{S}^H} \min_{t=0}^{H-1} \min \set{ \pi_t \Big( o_{t+1} \Big\vert s_{t+1}, \delta_t(i_t) \Big), \pi_t \Big( s_{t+1} \Big\vert s_t,\delta_t(i_t) \Big), \beta_0(s_0)}. \]
+The possibility distribution over the observation sequence is also denoted by
+\[ \pi \Big( \widehat{o}_H  \Big\vert \beta_0, (\delta) \Big) = \max_{s_H \in \mathcal{S}} \pi \Big( s_H, \widehat{o}_H  \Big\vert \beta_0, (\delta) \Big), \] 
+and the one over the last state $s_H \in \mathcal{S}$ is denoted by
+\[ \pi \Big( s_H \Big\vert \beta_0, (\delta) \Big) 
+= \max_{\widehat{o}_H} \pi \Big( s_H, \widehat{o}_H  \Big\vert \beta_0, (\delta) \Big). \]
+By definition, the qualitative belief state at the end of the execution, \textit{i.e.} at time step $t=H$,
+is equal to $\beta^{\delta,\widehat{o}_H}_{\beta_0}(s) = \Pi \paren{ S_H = s \sachant \widehat{O}_H = \widehat{o}_H , \Big(\delta_t(i_t)\Big)_{t=0}^{H-1} }$,
+see Definition \ref{def_QualPossBel}. 
+It can be written as a function of $\widehat{o}_H$, $(\delta)$ and $\beta_0$,
+and this belief state is then denoted by $\beta^{\delta,\widehat{o}_H}_{\beta_0}$:
+\begin{align*}
+\beta^{\delta,\widehat{o}_H}_{\beta_0}(s) &= \left\{ \begin{array}{ccc} 1 & \mbox{ if } \pi \Big( s, \widehat{o}_H \Big\vert \beta_0, (\delta) \Big) =   
+\pi \Big( \widehat{o}_H \Big\vert \beta_0, (\delta) \Big), \\
+\pi \Big( s, \widehat{o}_H \Big\vert \beta_0, (\delta) \Big) & \mbox{ otherwise, }
+\end{array} \right.
+\end{align*}
+using the possibilistic conditioning, Definition \ref{def_cond}.
+
+Following lines show the desired equality for the optimistic criterion: 
+its rewriting, denoted by
+$\displaystyle \mathbb{S}_{\Pi} \Big[ \max_{s \in \mathcal{S}} \min \set{\Psi(s), B^{\pi}_H(s)} \Big\vert \beta_0, (\delta) \Big]$,
+is equal to
+\begin{align}
+\nonumber \max_{\widehat{o}_H} & \min \Bigg\{ \max_{s \in \mathcal{S}} \min \set{\Psi(s), \beta^{\delta,\widehat{o}_H}_{b_0}(s)}, \pi \Big( \widehat{o}_H \Big\vert \beta_0, (\delta) \Big) \Bigg\}\\
+\label{proof_rewritingPOMDP1} &= \max_{\widehat{o}_H,s\in\mathcal{S}} \min \Big\{ \Psi(s), \beta^{\delta,\widehat{o}_H}_{b_0}(s), \pi \Big( \widehat{o}_H \Big\vert \beta_0, (\delta)\Big) \Big\}\\
+\label{proof_rewritingPOMDP2} &= \max_{s\in\mathcal{S}} \min \Bigg\{ \Psi(s), \max_{\widehat{o}_H} \min \set{ \Pi \paren{ S_H = s \sachant \widehat{O}_H = \widehat{o}_H , \Big(\delta_t(i_t)\Big)_{t=0}^{H-1} }, \pi \Big( \widehat{o}_H \Big\vert \beta_0, (\delta) \Big) } \Bigg\}\\
+\label{proof_rewritingPOMDP3} &= \max_{s\in\mathcal{S}} \min \bigg\{ \Psi(s), \pi \Big( s \Big\vert \beta_0, (\delta) \Big)  \bigg\}\\
+\label{proof_rewritingPOMDP4} &= \mathbb{S}_{\Pi} \croch{ \Psi(S_H) \sachant \beta_0,(\delta) }.
+\end{align}
+Line (\ref{proof_rewritingPOMDP1}) comes using equality (\ref{equationmaxmin3}) 
+of Property \ref{property_minmax}. 
+Line (\ref{proof_rewritingPOMDP2}) uses the definition of the possibilistic belief state.
+Line (\ref{proof_rewritingPOMDP3}) uses the definition of $\pi \Big( \widehat{o}_H \Big\vert \beta_0, (\delta) \Big)$,
+and the possibilistic conditioning.
+Finally, line (\ref{proof_rewritingPOMDP4}) is a notation: 
+it is used
+as the Sugeno integral 
+is based on the distribution $\pi \Big( s_H \Big\vert \beta_0, (\delta) \Big)$.
+
+As regards the pessimistic criterion (\ref{piPOMDPpessrewriting}),
+the rewriting is shown in the same way:\\
+$\mathbb{S}_{\mathcal{N}} \Big[ \min_{s \in \mathcal{S}} \max \set{\Psi(s), 1-B^{\pi}_H(s)} \Big\vert \beta_0, (\delta) \Big]$
+\begin{align} 
+\nonumber &= \min_{\widehat{o}_H} \max \Bigg\{ \min_{s \in \mathcal{S}} \max \set{\Psi(s), 1- \beta^{\delta,\widehat{o}_H}_{b_0}(s)}, 1- \pi \Big( \widehat{o}_H \Big\vert \beta_0, (\delta) \Big) \Bigg\}\\
+\label{proof_rewritingPOMDPpess1} &= \min_{\widehat{o}_H,s\in\mathcal{S}} \max \bigg\{ \Psi(s), 1 - \beta^{\delta,\widehat{o}_H}_{b_0}(s), 1 - \pi \Big( \widehat{o}_H \Big\vert \beta_0, (\delta) \Big) \bigg\}\\
+\label{proof_rewritingPOMDPpess2} &= \min_{s\in\mathcal{S}} \max \bigg\{ \Psi(s), \min_{\widehat{o}_H} \max \set{ 1 - \Pi \paren{ S_H =  s \sachant \widehat{O}_{H} = \widehat{o}_{H}, \Big(\delta_t(i_t)\Big)_{t=0}^{H-1} }, 1 - \pi \Big( \widehat{o}_H \Big\vert \beta_0, (\delta) \Big) } \bigg\}\\
+\label{proof_rewritingPOMDPpess3} &= \min_{s\in\mathcal{S}} \max \bigg\{ \Psi(s), 1 - \max_{\widehat{o}_H} \min \set{ \Pi \paren{ S_H =  s \sachant \widehat{O}_{H} = \widehat{o}_{H}, \Big(\delta_t(i_t)\Big)_{t=0}^{H-1} }, \pi \Big( \widehat{o}_H \Big\vert \beta_0, (\delta) \Big) } \bigg\}\\
+\label{proof_rewritingPOMDPpess4} &= \min_{s\in\mathcal{S}} \max \bigg\{ P(s), 1 - \pi \Big( s \Big\vert \beta_0, (\delta) \Big)  \bigg\}\\
+\label{proof_rewritingPOMDPpess5} &= \mathbb{S}_{\mathcal{N}} \croch{ P(S_H) \sachant \beta_0, (\delta) }.
+\end{align}
+Line (\ref{proof_rewritingPOMDPpess1}) comes using the equality (\ref{equationmaxmin4}) 
+of Property \ref{property_minmax} and
+line (\ref{proof_rewritingPOMDPpess2}) uses the definition of the possibilistic belief state.
+Line (\ref{proof_rewritingPOMDPpess3}) uses the equatity (\ref{equationmaxmin1}) and the equality (\ref{equationmaxmin2}) of Property \ref{property_minmax}.
+Line (\ref{proof_rewritingPOMDPpess4}) uses the definition of $\pi \Big( \widehat{o}_H \Big\vert \beta_0, (\delta) \Big)$,
+and the possibilistic conditioning. 
+Finally, as the Sugeno integral 
+is based on the distribution $\pi \Big( s_H \Big\vert \beta_0, (\delta) \Big)$,
+the result can be denoted as 
+line (\ref{proof_rewritingPOMDPpess5}).
+\end{proof}
+
+\subsection{Proof of Theorem \ref{theorem_qualpossMarkov}}
+\label{theorem_qualpossMarkov_RETURN}
+\begin{proof}
+First, $\forall a_t \in \mathcal{A}, \forall o' \in \mathcal{O}$,
+\begin{align*}
+\Pi \paren{ O_{t+1}=o' \sachant I_t = i_t, a_t } &= \max_{s' \in \mathcal{S}} \Pi \paren{ O_{t+1} = o', S_{t+1} = s' \sachant I_t = i_t, a_t } \\
+&= \max_{(s,s') \in \mathcal{S}^2} \min \Big\{ \pi_t \paren{ o' \sachant s', a_t }, \pi_t \paren{ s' \sachant s, a_t }, \Pi \paren{ S_t=s \sachant I_t=i_t } \Big\} \\
+&= \max_{(s,s') \in \mathcal{S}^2} \min \Big\{ \pi_t \paren{ o' \sachant s', a_t }, \pi_t \paren{ s' \sachant s, a_t }, \beta_{\beta_0}^{i_t}(s) \Big\}.
+\end{align*}
+where $\beta_{\beta_0}^{i_t}$ 
+is obtained starting from $\beta_0$ 
+and with information $i_t$.
+To make the next equations clear,
+the next formula
+$\max_{(s,s') \in \mathcal{S}^2} \min \set{ \pi_t \paren{ o' \sachant s', a_t }, \pi_t \paren{ s' \sachant s, a_t }, \beta_{\beta_0}^{i_t}(s) }$
+is denoted by $\pi_t \paren{ o' \sachant \beta_{\beta_0}^{i_t}, a_t }$.
+Then, as the belief state is a deterministic function of the current observation, the previous action, 
+and the previous belief state,
+\begin{align}
+\nonumber \Pi \paren{ B^{\pi}_{t+1} = \beta' \sachant I_t=i_t, a_t } &= \Pi \paren{ \cup_{\substack{ o' \in \mathcal{O} \mbox{ \tiny s.t. } \\ \nu(\beta,a_t,o') = \beta'}} \set{ O_{t+1} = o'} \sachant I_t=i_t, a_t } \\
+\nonumber&= \max_{ \substack{ o' \in \mathcal{O} \mbox{ \tiny s.t. } \\ \nu(\beta,a_t,o') = \beta'} } \Pi \paren{ O_{t+1}=o' \sachant I_t = i_t, a_t }  \\
+\label{possibilistic_belief_trans} &= \max_{ \substack{ o' \in \mathcal{O} \mbox{ \tiny s.t. } \\ \nu(\beta,a_t,o') = \beta'} } \pi_t \paren{ o' \sachant \beta, a_t }.
+\end{align}
+where $\beta_{\beta_0}^{i_t}(s)$ is denoted by $\beta$.
+The set of all the possible information sequences at a time step $t \geqslant 1$ 
+is denoted by $\mathcal{I}_{t} = \mathcal{A}^{t} \times \mathcal{O}^{t}$.
+Thanks to the equation (\ref{possibilistic_belief_trans}) 
+for each belief $\beta \in \Pi^{\mathcal{S}}_{\mathcal{L}}$,
+$\Pi \paren{ B^{\pi}_{t+1} = \beta' \sachant I_t=i_t, a_t }$ 
+does not depend on the information $i_t \in \mathcal{I}_t$, 
+provided $i_t$ is in $\set{ i \in \mathcal{I}_t \sachant \beta^{i}_{\beta_0} = \beta }$.
+Thus, as $\Pi \paren{ I_t = i \sachant B^{\pi}_t=\beta, a_t } = 0$ if $\beta_{\beta_0}^{i} \neq \beta$,
+we can write \\
+\\
+$ \displaystyle \Pi \paren{ B^{\pi}_{t+1} = \beta' \sachant B^{\pi}_{t}=\beta, a_t }$
+\begin{align*}
+ &= \max_{i \in \mathcal{I}_{t}} \min \Big\{ \Pi \paren{ B^{\pi}_{t+1} = \beta' \sachant I_t=i, a_t }, \Pi \paren{ I_t = i \sachant B^{\pi}_t=\beta, a_t } \Big\}\\
+ &= \max_{i \in \mathcal{I}_{t}} \min \Big\{ \Pi \paren{ B^{\pi}_{t+1} = \beta' \sachant I_t=i^*, a_t }, \Pi \paren{ I_t = i \sachant B^{\pi}_t=\beta, a_t } \Big\}\\
+&= \min \set{ \Pi \paren{ B^{\pi}_{t+1} = \beta' \sachant I_t=i^*, a_t }, \max_{i \in \mathcal{I}_{t}} \Pi \paren{ I_t = i \sachant B^{\pi}_t=\beta, a_t } }\\
+&=  \Pi \paren{ B^{\pi}_{t+1} = \beta' \sachant I_t=i^*, a_t }
+\end{align*}
+where $i^*$ is such that $\beta_{\beta_0}^{i^*} = \beta$, 
+using the equation (\ref{equationmaxmin3}) of Property \ref{property_minmax},
+and the fact that $\max_{i \in \mathcal{I}_{t}} \Pi \paren{ I_t = i \sachant B^{\pi}_t=\beta, a_t } = 1$.
+\end{proof}
+
+

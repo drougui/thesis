@@ -1,0 +1,170 @@
+\subsection{Proof of Property \ref{propositionRegression}}
+\label{propositionRegression_RETURN}
+\begin{proof}
+\begin{align*}
+q^a &= \max_{(s_v',\beta') \in \mathcal{S}_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}}} \min \Big\{ \pi(s_v',\beta' \vert s_v,\beta,a) , \overline{U^*}(s_v',\beta') \Big\} \\
+&= \max_{X' \in \mathcal{S}_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}}}  \min \Big\{ \min_{i=1}^{n} \pi \paren{X_i' \sachant parents(X_i'),a} , \overline{U^*}(X') \Big\} \\
+%&= \max_{(\mathbb{X}'_1,\cdots,\mathbb{X}'_n)} \min \Big\{ \min_{i=1}^{n} \pi \paren{\mathbb{X}_i' \sachant parents(\mathbb{X}_i'),a} , \\
+%& \hspace{5.5cm} V^{\ast}(\mathbb{X}'_1,\cdots,\mathbb{X}'_n) \Big\} \\
+&= \max_{X'_n \in \set{ \top,\bot }} \min \Big\{ \pi \paren{X_n' \sachant parents(X_n'),a} , \cdots \\
+& \hspace{1cm} \max_{X'_2 \in \set{\top,\bot}} \min \big\{ \pi \paren{X_2' \sachant parents(X_2'),a} , \\
+& \hspace{1cm} \max_{X'_1 \in \set{\top,\bot}} \min \{ \pi \paren{ X_1'  \sachant parents(X_1'),a}, \overline{U^*}(X') \} \big\} \cdots  \Big\}
+\end{align*}
+where the last equation is due to the fact that, 
+for any variables $x,y \in \mathcal{X}, \mathcal{Y}$ finite spaces, 
+and any functions $\varphi: \mathcal{X} \rightarrow \mathcal{L}$ and $\psi: \mathcal{Y} \rightarrow \mathcal{L}$, we have:
+\[
+\max_{y \in \mathcal{Y}} \min \{ \varphi(x) , \psi(y) \} = \min \{ \varphi(x) , \max_{y \in \mathcal{Y}} \psi(y) \},
+\]
+see the equation \ref{equationmaxmin3} of Property \ref{property_minmax}.
+\end{proof}
+
+\subsection{Proof of Theorem \ref{thmSHind}}
+\label{thmSHind_RETURN}
+\begin{proof}
+First $S^1_{h,0}, \ldots,S^l_{h,0}$ are initially NI-independent, see Definition \ref{def_NIindep}, \textit{i.e.}
+$\forall (s^1,\ldots,s^l) \in \mathcal{S}^1_h \times \ldots \times \mathcal{S}^l_h$,
+\[ \Pi \paren{ S^1_{h,0} = s^1, \ldots, S^l_{h,0} = s^l } = \min \set{ \Pi \paren{ S^1_{h,0} = s^1 }, \ldots, \Pi \paren{ S^l_{h,0} = s^l }}. \]
+Then $\exists \paren{\beta^j_0}_{j=1}^{l} \in \displaystyle \bigtimes_{j=1}^{l} \Pi^{\mathcal{S}^j_h}_{\mathcal{L}}$
+such that $\forall s_h = (s^1,\ldots,s^l) \in \mathcal{S}^1_h \times \ldots \times \mathcal{S}^l_h$,
+$\beta_0(s_h) = \displaystyle \min_{j=1}^l \beta^j_0(s^j)$. 
+%Now recall that
+%$h_{t+1}=\set{o_{t+1},s_{v,t+1},a_{t},h_t}$. 
+
+
+% for the proof: M-indep implies NI-indep, 
+%%  dire qu'on suppose la M-independance (ou indépendance causale)  \ref{def_mbindep}
+% qui vient de MARKOV, et du fait que l'observation ne dépend que de l'état courant,, 
+%% et on rappelle que ca implique la NI-independance \ref{def_NIindep}. 
+%% Ainsi, comme les fleches en moins sont des hypothèses d'indépendances,
+%% si j'ai un graphe représentant des indépendances causales
+%% une fleche en moins represente une indépendance causale pi(x|y,z) = pi(x|y)
+%% et elle implique l'indépendance de non interaction pi(x,z|y) = min(pi(x|y),pi(z|y)) 
+
+As discussed in Section \ref{section_factoAssumptions},
+the d-Separation criterion can be used to prove 
+NI-independences on the DBN of Figure \ref{fig_piMOMDPFact}:
+we show now that hidden variables of time step $t+1$ are NI-independent 
+conditional on the information $i_{t+1}$.
+%can be shown using the
+%\textit{d-separation} relation
+%on the DBN representing the  
+In fact, as shown in Figure \ref{fig_piMOMDPFact}, given $1 \leqslant i < j \leqslant l$,
+$S^i_{h,t+1}$ and $S^j_{h,t+1}$ are d-separated by the evidence $I_{t+1} = i_{t+1}$. 
+%recursively represented by the light-gray nodes.
+Thus, $\forall s = (s^1,\ldots,s^l) \in \mathcal{S}_h$, 
+$\displaystyle \Pi \paren{ S_{h,t+1} = s \sachant I_{t+1} = i_{t+1} } 
+= \min_{j=1}^l \Pi \paren{S^j_{h,t+1} = s^j \sachant I_{t+1} = i_{t+1} }$ 
+\textit{i.e.} variables $(S^j_{h,t+1})_{j=1}^l$ are NI-independent
+conditional on information $I_{t+1}$.
+It shows that $ \displaystyle \beta_{h,t+1}(s) =
+\min_{j=1}^l \beta^j_{t+1}(s^j)$. 
+
+Let us denote by $X \rightarrow Y$
+the fact that there is an arrow from $X$ to $Y$
+in the DBN.
+Note that the proved independence would not hold if
+the same observation variable $O_{t+1}^k$,
+$k \in \set{1,\ldots,l}$ concerned two different hidden
+state variables $S^i_{h,t+1}$ and $S^j_{h,t+1}$,
+\textit{i.e.} if $S^i_{h,t+1} \rightarrow O_{t+1}^k$:
+and $S^j_{h,t+1} \rightarrow O_{t+1}^k$: 
+indeed $O^k_{t+1}$ is part of information $I_{t+1}$, 
+thus there would be a convergent (towards $O^k_{t+1}$) 
+relationship between $S^i_{h,t+1}$ and $S^j_{h,t+1}$
+\textit{i.e.} the hidden state variables would have been dependent 
+(because d-connected)
+conditioned on information $I_{t+1}$. 
+Moreover if the next hidden state variable $S^i_{h,t+1}$ depended 
+on the current hidden state variable $S^j_{h,t}$,
+($S^j_{h,t} \rightarrow S^i_{h,t+1}$) 
+then $S^i_{h,t+1}$ and $S^j_{h,t+1}$ would have 
+been dependent conditioned on information 
+$I_{t+1}$ because d-connected through $S^j_{h,t}$
+($S^j_{h,t} \rightarrow S^j_{h,t+1}$ is also true). 
+\end{proof}
+\subsection{Proof of Lemma \ref{lemBEL}}
+\label{lemBEL_RETURN}
+\begin{proof}
+Let $j$ be an integer in $\set{1,\ldots,l}$. 
+Using Theorem \ref{thmSHind}, and M-independence assumptions of the DBN of Figure \ref{fig_piMOMDPFact}
+leading to the distributions (\ref{EQ_possV}), (\ref{EQ_possH}) and (\ref{EQ_possO}),\\
+\\
+$\Pi \paren{O_{t+1}^j = o_j' , S_{h,t+1}^j = s_j' \sachant I_t = i_t, a_t  }$
+\begin{align*}
+\hspace{1cm} &= \max_{s^j_h \in \mathcal{S}^j_h} \min \set{ \Pi \paren{ O_{t+1}^j = o_j', S_{h,t+1}^j = s_j' \sachant S^j_{h,t} =  s^j_h, I_t=i_t, a_t  }, \Pi \paren{ S^j_{h,t}=s^j_h \sachant I_t=i_t, a_t } } \\
+&= \max_{s^j_h \in \mathcal{S}^j_h} \min \set{  \Pi \paren{ O_{t+1}^j = o_j', S_{h,t+1}^j = s_j' \sachant S^j_{h,t} =  s^j_{h,t}, I_t=i_t, a_t  }, \beta^j_t(s^j_h) } \\ 
+&= \max_{s^j_h \in \mathcal{S}^j_h} \min \set{  \Pi \paren{ O_{t+1}^j = o_j' \sachant  S^j_{h,t+1} =  s_j', I_t, a_t  },
+\Pi \paren{ S^j_{h,t+1} =  s_j' \sachant I_t=i_t, a_t  } , \beta^j_t(s^j_h) } \\ 
+&= \max_{s^j_h \in \mathcal{S}^j_h} \min \set{  \pi \paren{ o_j' \sachant  s_{v,t}, s_j', a_t  },
+\Pi \paren{ s_j' \sachant s_{v,t+1}, s^j_h, a_t  } , \beta^j_t(s^j_h) } 
+\end{align*}
+denoted then by $\pi \paren{o_j',s_j' \sachant s_{v,t}, \beta^j_t, a_t  }$.
+The belief update can be then computed from this joint possibility distribution
+using the qualitative possibilistic conditioning (Definition \ref{def_cond}).
+%First note that $s_{h,j}$ and $\set{ o_{m,s} }_{s \leqslant t, m \neq j} \cup \set{ s_{v,t} }$ 
+% are d-separated by $h_{j,t}$ then $s_{h,j}$ is independent on $\set{ o_{m,s} }_{s \leqslant t, m \neq j} \cup \set{ s_{v,t} }$ 
+%conditioned on $h_{j,t}$: $\pi \paren{ s_{h,j} \sachant h_t } = \pi \paren{ s_{h,j} \sachant h_{j,t} }$. Then, possibilistic Bayes' rule as in Equation \ref{beliefUpdate} yields the intended result.
+%	 using functions of the problem: $\beta_{t,j}$, $\pi \paren{ s_{h,j}' \sachant s_v,s_{h,j},a}$ and $\pi \paren{ o_j' \sachant s_{h,j}',s_v,a}$.
+\end{proof}
+
+\subsection{Proof of Theorem \ref{thmVARind}}
+\label{thmVARind_RETURN}
+\begin{proof}
+First, as visible state variables $(S^i_{v,t+1})_{i=1}^m$
+are d-separated by the evidence $I_t = i_t$,
+they are NI-independent: $\forall s_{v,t+1} = (s^1_{v,t+1},\ldots,s^m_{v,t+1})$,
+$\Pi \paren{ S_{v,t+1} = s_{v,t+1} \sachant I_t = i_t, a_t } = \min_{i=1}^m \pi \paren{ s^i_{v,t+1} \sachant s_{v,t}, a_t }$.
+The proof of Lemma \ref{lemBEL} shows that $\Pi \paren{ O^j_{t+1} = o^j_{t+1} \sachant I_t = i_t, a_t } = \Pi \paren{ O^j_{t+1} = o^j_{t+1} \sachant S_{v,t}=s_{v,t}, B^j_t = \beta^j_t, a_t } $,
+where $\beta^j_t$ is the marginal belief state constructed from $i_t$.
+This distribution is then denoted by $\pi \paren{ o^j_{t+1} \sachant s_{v,t}, \beta^j_t, a_t }$.
+Moreover, observation variables $(O^j_{t+1})_{j=1}^l$
+are d-separated by the evidence $I_t = i_t$,
+and are then NI-independent: $\forall o_{t+1} = (o^1_{t+1},\ldots,o^l_{t+1})$,
+$\Pi \paren{ O_{t+1} = o_{t+1} \sachant I_t = i_t, a_t } = \min_{j=1}^l \pi \paren{ o^j_{t+1} \sachant s_{v,t}, \beta^j_t, a_t }$.
+Finally, $\forall i \in \set{1,\ldots,m}$ and $\forall j \in \set{1,\ldots,l}$,
+$S^i_{v,t+1}$ and $O^j_{t+1}$ are d-separated by the evidence $I_t = i_t$,
+and then NI-independent.
+Thus, $\forall s_{v,t+1}=(s^1_{v,t+1},\ldots,s^m_{v,t+1}) \in \mathcal{S}_v$,
+$\forall o_{t+1} = (o^1_{t+1}, \ldots, o^l_{t+1}) \in \mathcal{O}$, \\
+\\
+$\Pi \paren{ S_{v,t+1} = s_{v,t+1}, O_{t+1} =  o_{t+1} \sachant  I_t = i_t, a_t}$ \\
+\[= \min \set{ \min_{i=1}^{m} \pi \paren{ s^i_{v,t+1} \sachant s_{v,t}, a_t } ,  \min_{j=1}^{l} \pi \paren{ o^j_{t+1} \sachant s_{v,t}, \beta^j_t, a_t  } }.\]
+As it only depends on the current visible state and belief state, we can denote it by $\Pi \paren{ S_{v,t+1} = s_{v,t+1}, O_{t+1} =  o_{t+1} \sachant  B^{\pi}_t = \beta_t, a_t} = \pi \paren{ s_{v,t+1}, o_{t+1} \sachant \beta_t, a_t}$.
+Then, as $B^{\pi}_{t+1}$ is equal to $\beta_{t+1}=(\beta^1_{t+1},\ldots,\beta^l_{t+1})$ 
+with the possibility degree of the observations leading to it,\\
+\\
+$\displaystyle \pi \paren{ s_{v,t+1}, \beta_{t+1} \sachant \beta_t, a_t}$
+\begin{align*}
+&= \max_{\substack{ (o^1,\ldots,o^l) \in \mathcal{O}^j \mbox{ \tiny s.t. } \forall j, \\ \nu^j(s_{v,t},\beta^j_t,a_t,o^j) = \beta^j_{t+1}}} \pi \paren{ s_{v,t+1}, o_{t+1} \sachant \beta_t, a_t}\\
+&= \max_{\substack{ (o^1,\ldots,o^l) \in \mathcal{O} \mbox{ \tiny s.t. } \forall j, \\ \nu^j(s_{v,t},\beta^j_t,a_t,o^j) = \beta^j_{t+1}}}  \min \set{ \min_{i=1}^{m} \pi \paren{ s^i_{v,t+1} \sachant s_{v,t}, a_t } ,  \min_{j=1}^{l} \pi \paren{ o^j_{t+1} \sachant s_{v,t}, \beta^j_t, a_t  } }\\
+&=\min \set{ \min_{i=1}^{m} \pi \paren{ s^i_{v,t+1} \sachant s_{v,t}, a_t } ,  \max_{\substack{ (o^1,\ldots,o^l) \in \mathcal{O} \mbox{ \tiny s.t. } \forall j, \\ \nu^j(s_{v,t},\beta^j_t,a_t,o^j) = \beta^j_{t+1}}}    \min_{j=1}^{l} \pi \paren{ o^j_{t+1} \sachant s_{v,t}, \beta^j_t, a_t  } }\\
+&=\min \set{ \min_{i=1}^{m} \pi \paren{ s^i_{v,t+1} \sachant s_{v,t}, a_t } ,   \min_{j=1}^{l} \pi \paren{ \beta^j_{t+1} \sachant s_{v,t}, \beta^j_t, a_t  } },
+\end{align*}
+using the equation (\ref{equationmaxmin3}) of Property \ref{property_minmax}.
+%For clarity reason, the case of two hidden state variables is demonstrated here.
+%Let $s_h = (s_{h,1},s_{h,2})$: using that  $\pi \paren{s_h' \sachant s_v, s_h, a }$ \[ =  \min \set{ \pi \paren{ s_{h,1}' \sachant s_v, s_{h,1},a } , \pi \paren{s_{h,2}' \sachant s_v, s_{h,2},a } } \] and $\beta(s_h) = \min \set{ \beta_1(s_{h,1}), \beta_2(s_{h,2}) }$, we get easily \\ 
+
+%$\pi \paren{s_{h}' \sachant s_v, \beta,a }$  \[ = \min \set{ \pi \paren{s_{h,1}' \sachant s_v, \beta_1,a }, \pi \paren{s_{h,2}' \sachant s_v, \beta_2,a }  }. \]
+%This result and the fact that $\pi \paren{ o' \sachant s_v,s_h',a }$ \[ = \min \set{ \pi \paren{ o_1' \sachant s_v,s_{h,1}',a } , \pi \paren{ o_2' \sachant s_v,s_{h,2}',a }   } \]
+%leads to the equality $\pi \paren{ o' \sachant \beta,a}$ 
+%\begin{equation} \label{lastEquality} 
+%= \min \set{ \pi \paren{ o_1' \sachant s_v, \beta_1,a }, \pi \paren{ o_2' \sachant s_v, \beta_2,a}  }.
+%\end{equation}
+%Observation variables are independent given the past (d-separation again).
+%Moreover, we proved in Lemma \ref{lemBEL} that updates of each marginal belief states
+%can be performed independently on other marginal belief states, but depends on the
+%corresponding observation only. Thus, we conclude that the marginal belief state
+%variables are independent given the past.
+%Note that belief update defined in does not depend on $s_v'$ as observation depends only on previous visible state:  $\beta_{t+1} = U(\beta_t,a,s_v,o')$ and $\forall j=1,2$, $\beta_{t+1,j} = U_j(\beta_{t,j},a,s_v,o_j')$.  
+%As $\pi \paren{ \beta' \sachant s_v, \beta,a  } = \displaystyle \max_{o' \in K(\beta,a,s_v,\beta')} \pi \paren{ o' \sachant \beta,a}$ and $\forall j=1,2$,  $\pi \paren{ \beta_j' \sachant s_v, \beta_j,a  } = \displaystyle \max_{o_j' \in K_j(\beta_j,a,s_v,\beta_j')} \pi \paren{ o_j' \sachant \beta_j,a}$
+%with $K(\beta,a,s_v,\beta') = \set{ o' \in \mathcal{O} \mbox{ such that } U(\beta,a,s_v,o') = \beta' } $ (and $K_j$ defined in the same way for $\beta_j$), previous equality \ref{lastEquality} leads to $\pi \paren{ \beta' \sachant s_v, \beta,a }$ 
+%\[  = \min \set{ \pi \paren{ \beta_1' \sachant s_v,\beta_1,a } , \pi \paren{ \beta_2' \sachant s_v,\beta_2,a } }. \] As $s_{v}'$ depends only on $s_v$ and $a$, and effect only next observations, $s_v'$ and $\beta'$ are independant conditioned on the past, which conclude the proof.
+%Finally as $s_v'$ and $o'$ are independent given the past, \\ 
+%$ \displaystyle \pi \paren{  s_v', \beta' \sachant s_v, \beta, a } \hspace{-0.05cm} = \hspace{-0.15cm} \max_{o' | \beta' = U(\beta,a,s_v,o')} \hspace{-0.15cm} \pi \paren{ s_v' , o' \sachant s_v,\beta,a  } $ \\
+%\[  = \max_{o' \in K(\beta,a,s_v,\beta') } \min \set{ \pi \paren{ s_v' \sachant s_v,\beta,a  } , \pi \paren{ o' \sachant s_v, \beta, a } } \] 
+%$= \displaystyle  \min \set{ \pi \paren{ s_v' \sachant s_v,\beta,a  } ,  \hspace{-0.1cm} \max_{o' | \beta' = U(\beta,a,s_v,o') } \hspace{-0.7cm} \pi \paren{ o' \sachant s_v, \beta, a } } $ \\
+%$ =  \min \set{ \pi \paren{ s_v' \sachant s_v,\beta,a  } , \pi \paren{ \beta' \sachant s_v, \beta, a } } $    
+%which concludes the proof.
+\end{proof}
+
