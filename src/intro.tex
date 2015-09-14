@@ -485,7 +485,7 @@ and a label corresponding to the class of the object represented by the picture
 This dataset can be used for supervised learning to compute a classifier (see Figure \ref{CV_algoConvNet}).
 In order to be able to discern locations of targets, 
 a picture is labeled with the name of centered object 
-(nothing if there is nothing in the picture center).}
+(``nothing'' if there is nothing in the picture center).}
 \label{NORB}
 \end{figure}
 %%%%%
@@ -505,15 +505,15 @@ in this case, the probabilistic behavior of the classifier
 will be dependent on these particular pictures, 
 and the robotic system will have poor observation
 capabilities when the considered mission involves 
-pictures too different from the pictures from the dataset. 
+pictures too different from the ones from the dataset. 
 
 Some large picture datasets with a high variability exists 
 (e.g. NORB, Figure \ref{NORB}, although variability could be ideally higher):
 note however that with such datasets, the vision performances are reduced,
-or, at least, good performances are harder to reach.
+or good performances are, at least, harder to reach.
 
 A confusion matrix can be computed (see Figure \ref{confusion_matrix})
-is also computed using such a labeled picture dataset,
+using such a labeled picture dataset,
 not used for the training, and called testing dataset: 
 observation frequencies can be deduced from this matrix,
 normalizing rows into probabilities.
@@ -532,17 +532,13 @@ the belief update needs a perfect knowledge of the
 observation 
 probability distributions.
 
-\textbf{JE T'AIME MA LAURANNE D'AMOUR}
-% agent's 
-%initial belief and of the transition and 
-
 More generally, observations of the robot agent 
 are outputs of image processing algorithms 
 whose semantics (image correlation, object matching, class inference, 
-preprocessing followed by classifiers such as the one computed in Figure \ref{CV_algoConvNet} etc.) 
-is so complex that probabilities of occurrence are hard to rigorously extract.
+preprocessing followed by classifiers such as the one computed 
+in Figure \ref{CV_algoConvNet} etc.) 
+are so complex that probabilities of occurrence are hard to rigorously extract.
 
-%%% APRES?
 Finally, if the considered datasets are labeled more precisely 
 (as NORB, which includes information such as the lighting condition or the object scale),
 we can imagine that the computed observation probabilities (from the confusion matrix) 
@@ -552,12 +548,10 @@ and the POMDP is harder to solve.
 Moreover, as the number of pictures per class is reduced 
 (since there are more complex and numerous classes), 
 a poorer confusion matrix is obtained when testing (in terms of confidence).
-%%
 
-% CONCL
-As a conclusion, the POMDP model supposes the knowledge of all
-the involved probabilities:
-unlikely these frequencies are imprecisely known in practice.
+As a conclusion, the POMDP model supposes 
+the knowledge of all the involved probabilities:
+unfortunately these frequencies are imprecisely known in practice.
 The imprecision about these probabilities, 
 for instance those related to the actual vision algorithm behavior
 with real world pictures,
@@ -569,10 +563,7 @@ needing enough tests for each possible system state and action,
 which seems hard to perform in practice.
 
 
-\textbf{JE T'AIME MA LAURANNE D'AMOUR}
 %TODO TODO TODO
-
-
 %%
 %% ConvNets
 %%
