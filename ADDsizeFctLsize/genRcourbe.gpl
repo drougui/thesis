@@ -1,0 +1,12 @@
+set terminal postscript eps enhanced mono font 'Helvetica,30'
+set output 'ADD.eps'
+set key on inside top right
+set pointsize 2
+unset logscale y
+set xlabel "Number of leaves"
+set ylabel "Max number of nodes" offset 1
+set yrange [0:350]
+set datafile missing "-"
+set style data linespoints
+plot "ADDsizeIsFctOfLsize.txt" using 1:2 title 'max ADD size' with lines,\
+"ADDsizeIsFctOfLsize.txt" using 1:3 title 'size of the complete tree' with lines
