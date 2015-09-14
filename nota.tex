@@ -1,0 +1,34 @@
+\chapter*{Notations}
+\addcontentsline{toc}{chapter}{Notations}
+
+\pagestyle{plain}
+
+\begin{supertabular}{ll}
+  $f: \mathcal{X} \rightarrow \mathcal{Y}$ & $f$ is a function from $\mathcal{X}$ to $\mathcal{Y}$\\
+  $f: x \mapsto y$ & the function $f$ maps the element $x\in\mathcal{X}$ to the element $y \in \mathcal{Y}$\\
+  $f(.,x)$ & function $f^x: y \mapsto f(x,y)$ if $f$ is defined on $\mathcal{X} \times \mathcal{Y}$ and $x \in \mathcal{X}$\\
+  $\mathds{1}_{A}$ & indicator function of the set $A$ \\
+  $\mathds{1}_{F(s)}$ & function equal to one if the formula $F(s)$ is true, and zero otherwise\\
+		&  (Kronecker delta)\\
+  $\# A $ & size of set $A$ \\
+  $\overline{A}$ & complementary set of $A$: if the working set is $\Omega$, $A \cup \overline{A} = \Omega$ and $A \cap \overline{A} = \emptyset$\\ 
+  $\mathbb{N},\mathbb{N}^*$ & set of non negative integers, of positive integers\\
+  $\mathbb{R},\mathbb{R}_+$ & set of real numbers, non negative real numbers \\ 
+  $\mathbb{R}^d$   & real vector space with $d$ dimensions \\
+  $\mathcal{P}(\Omega)$ & the set of all subsets of the set $\Omega$\\
+  $parents(S)$ & parents and descendants of a variable (node) $S$ in a Bayesian Network\\
+  $descend(S)$ & \\	
+  $\mathbb{P},\mathbb{E}$ & probability and expectation \\
+  $\mathcal{F}_{B}(\mathcal{S},\mathbb{R})$ & the set of the bounded functions from the set $\mathcal{S}$ to the set $\mathbb{R}$\\
+  $X \perp\!\!\!\perp Y \vert Z$ & $X$ is independent from $Y$ conditional on $Z$\\
+  $S \sim b$ & $b$ is the probability distribution of $S$: \textit{e.g.} $\mathbb{P}(S = s) = b(s)$\\
+  $\overline{b} \propto b $ & $\overline{b}$ is the probabilistic normalization of $b$: $\overline{b}(s) = b(s)/\sum_{\tilde{s}} b(\tilde{s})$\\
+  $b^{\pi} \propto^{\pi} b$ & $b^{\pi}$ is the possibilistic nomalization of $b$:\\
+	&  $b^{\pi}(s) = 1$ if $b(s) = \max_{s'}b(s')$, $b(s)$ otherwise\\
+  $\langle x, y \rangle_{\mathbb{R}^{\mathcal{S}}}$ & the scalar product of two vectors $x$ and $y$ from $\mathbb{R}^{\mathcal{S}}$\\
+  $\Circle$ & function composition operator\\
+  $\mathbb{P}^{\mathcal{S}}$ & set of the probability distributions over $\mathcal{S}$\\
+  $\Pi^{\mathcal{S}}_{\mathcal{L}}$ & set of the possibilistic distributions over $\mathcal{S}$ when the possibilistic scale is $\mathcal{L}$\\
+\end{supertabular}
+
+\chapterend
