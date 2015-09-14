@@ -1,0 +1,134 @@
+\documentclass[a4paper,12pt]{article}
+\pagestyle{empty}
+\usepackage{geometry}
+\geometry{hmargin=1cm,vmargin=1cm}
+\begin{document}
+\noindent
+\textbf{Title:} Exploiting Imprecise Information Sources for Sequential Decision Making under Uncertainty\\
+\vspace{-0.35cm}
+\\
+\textbf{Abstract:}
+Partially Observable Markov Decision Processes (POMDPs) 
+define a useful formalism to express probabilistic 
+sequential decision problems under uncertainty.
+When this model is used for a robotic mission, 
+the \textit{system} is defined as the features
+of the robot and its environment,
+needed to express the mission.
+The system state is not directly
+seen by the agent (the robot).
+Solving a POMDP consists thus in computing a strategy 
+which, on average, achieves the mission best \textit{i.e.} 
+a function mapping the information 
+known by the agent to an action.
+Some practical issues of the POMDP model are first highlighted 
+in the robotic context: 
+it concerns the modeling of the agent ignorance, 
+the imprecision of the observation model
+and the complexity of solving real world problems.
+A counterpart of the POMDP model, called $\pi$-POMDP, 
+simplifies uncertainty representation 
+with a qualitative evaluation of event plausibilities.
+It comes from Qualitative Possibility Theory 
+which provides the means to model imprecision and ignorance.
+After a formal presentation 
+of the POMDP and $\pi$-POMDP models,
+an update of the possibilistic model is proposed.
+Next, the study of factored $\pi$-POMDPs allows to 
+set up an algorithm named PPUDD which uses 
+Algebraic Decision Diagrams
+to solve large structured planning problems.
+Strategies computed by PPUDD,
+which have been tested in the context of the competition IPPC 2014,
+can be more efficient than those produced by probabilistic solvers
+when the model is imprecise or for high dimensional problems.
+We show next that the $\pi$-Hidden Markov Processes ($\pi$-HMP),
+\textit{i.e.} $\pi$-POMDPs without action,
+produces useful diagnosis
+in the context of Human-Machine interactions.
+Finally, a hybrid POMDP 
+benefiting from the possibilistic and the probabilistic 
+approach is built:
+the qualitative framework is only used 
+to maintain the agent's knowledge.
+This leads to a strategy 
+which is pessimistic facing
+the lack of knowledge, 
+and computable with a solver of
+fully observable Markov Decision Processes (MDPs).
+This thesis proposes some ways of using
+Qualitative Possibility Theory
+to improve computation time and
+uncertainty modeling in practice.\\
+\vspace{-0.35cm}
+\\
+\textbf{Keywords:} POMDP, Planning under Uncertainty, Possibility Theory, Autonomous Robotics, Imprecise Knowledge\\
+\vspace{-0.9cm}
+\\
+\\
+\\
+\textbf{Titre:} Tirer Profit de Sources d'Information Impr\'ecises pour la D\'ecision S\'equentielle dans l'Incertain\\
+\vspace{-0.35cm}
+\\
+\textbf{R\'esum\'e:} Les Processus D\'ecisionnels de Markov Partiellement Observables (PDMPOs) 
+permettent de mod\'eliser facilement les probl\`emes probabilistes
+de d\'ecision s\'equentielle dans l'incertain.
+Lorsqu'il s'agit d'une mission robotique, 
+les caract\'eristiques du robot et de son environnement
+n\'ecessaires \`a la d\'efinition de la mission
+constituent le \textit{syst\`eme}.
+Son \'etat n'est pas directement visible par l'\textit{agent} (le robot).
+R\'esoudre un PDMPO revient donc \`a calculer une strat\'egie
+qui remplit la mission au mieux en moyenne,
+\textit{i.e.} une fonction prescrivant les actions \`a ex\'ecuter
+selon l'information re\c{c}ue par l'agent.
+Ce travail d\'ebute par la mise en \'evidence, 
+dans le contexte robotique,
+de limites pratiques 
+du mod\`ele PDMPO: 
+elles concernent l'ignorance de l'agent, 
+l'impr\'ecision du mod\`ele d'observation 
+ainsi que la complexit\'e de r\'esolution.
+Un homologue du mod\`ele PDMPO
+appel\'e  $\pi$-PDMPO, 
+simplifie la repr\'esentation de l'incertitude:
+il vient de la Th\'eorie des Possibilit\'es Qualitatives
+qui d\'efinit la plausibilit\'e des \'ev\'enements de mani\`ere qualitative,
+permettant la mod\'elisation de l'impr\'ecision et de l'ignorance.
+Une fois les mod\`eles PDMPO et $\pi$-PDMPO pr\'esent\'es,
+une mise \`a jour du mod\`ele possibiliste est propos\'ee.
+Ensuite, l'\'etude des $\pi$-PDMPOs factoris\'es 
+permet de mettre en place un algorithme
+appel\'e PPUDD utilisant des
+Arbres de D\'ecision Alg\'ebriques
+afin de r\'esoudre plus facilement les probl\`emes structur\'es.
+Les strat\'egies calcul\'ees par PPUDD, 
+test\'ees par ailleurs lors de la comp\'etition IPPC 2014,
+peuvent \^etre plus efficaces que celles des algorithmes probabilistes 
+dans un contexte d'impr\'ecision ou pour certains probl\`emes \`a grande dimension.
+Nous montrons ensuite que les Processus de Markov Cach\'es possibilistes ($\pi$-PMCs),
+\textit{i.e.} les $\pi$-PDMPOs sans les actions,
+produisent de bons diagnostics 
+dans le contexte de l'int\'eraction Homme-Machine.
+Enfin, un PDMPO hybride 
+tirant profit 
+des avantages
+des mod\`eles probabilistes et possibilistes
+est pr\'esent\'e:
+seule la connaissance de l'agent
+est maintenue 
+sous forme qualitative.
+Ce mod\`ele m\`ene \`a une strat\'egie
+qui r\'eagit de mani\`ere pessimiste
+au d\'efaut de connaissance, 
+et calculable avec des algorithmes de r\'esolution
+des Processus D\'ecisionnels de Markov 
+enti\`erement observables (PDM).
+Cette th\`ese propose d'utiliser
+les possibilit\'es qualitatives
+dans le but d'obtenir des am\'eliorations en termes de temps de calcul
+et de mod\'elisation de l'incertitude en pratique.\\
+\vspace{-0.35cm}
+\\
+\textbf{Mots-cl\'es:}  PDMPO, Planification dans l'Incertain, Th\'eorie des Possibilit\'es, Robotique Autonome, Connaissance Imprecise
+\end{document}

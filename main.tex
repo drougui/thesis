@@ -1,0 +1,277 @@
+\documentclass[sommairechap,stylejchiquet]{these_gi}
+ 
+% ============================================================
+% Front page
+
+\usepackage[ED=EDSYS-SystEmb, Ets=ISAE]{tlsflyleaf}
+\title{%Observing for Planning Purposes and Planning for Perception Purposes:\\
+%Refined and Dual
+Exploiting Imprecise Information Sources\\ in Sequential Decision Making Problems\\
+under Uncertainty}
+%Integration of Imprecise Information Sources\\
+%and Sequential Decision Making under Uncertainty}
+\author{Nicolas Drougard}
+\lab{Onera -- The French Aerospace Lab, DCSD division, CD unit}
+\nboss{3}
+\makesomeone{boss}{3}{Jean-Loup Farges}{ONERA - DCSD}{}
+\makesomeone{boss}{2}{Florent Teichteil-K\"onigsburg}{ONERA - DCSD}{}
+\makesomeone{boss}{1}{Didier Dubois}{IRIT}{}
+\nreferee{2}
+%\makesomeone{referee}{1}{H\'ector Geffner}
+%\makesomeone{referee}{2}{Patrice Perny}
+\njudge{6}
+\makesomeone{judge}{1}{Didier Dubois}{CNRS Research Director}{Member}
+\makesomeone{judge}{2}{Jean-Loup Farges}{Research Engineer}{Member}
+\makesomeone{judge}{3}{H\'ector Geffner}{Professor}{Reviewer}
+\makesomeone{judge}{4}{Patrice Perny}{Professor}{Reviewer}
+\makesomeone{judge}{5}{Florent Teichteil-K\"onigsbuch}{Research Engineer}{Member}
+\makesomeone{judge}{6}{Bruno Zanuttini}{Assistant professor with habilitation}{Member}
+
+\usepackage[ruled,vlined,nokwfunc,linesnumbered]{algorithm2e} % john
+%\usepackage[english,ruled,vlined,linesnumbered]{algorithm2e} % flo
+
+% A part mathabx et shapes.multipart tous les packages commentés peuvent etre remis 
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{dsfont}
+\usepackage{wasysym}
+%\usepackage{boxedminipage}
+\usepackage{caption}
+%\usepackage{enumitem}
+%\usepackage{fancyvrb}
+%\usepackage{filecontents}
+\usepackage{float}
+\usepackage{graphicx}
+%\usepackage{lettrine}
+%\usepackage{mathrsfs}
+%\usepackage{mdwlist}
+\usepackage{multirow}
+\usepackage{pgfplots}
+\usepackage{setspace}
+%\usepackage{soul}
+\usepackage{subcaption}
+%\usepackage{tabularx}
+\usepackage{thmbox}
+\usepackage{tikz}
+\usepackage{mathtools} % big mapsto
+
+\usepackage{pdfpages} % for abstract
+
+
+%%% needed for tables HMI
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{rotating}
+%% HMI too
+%\usepackage{subfig}
+%\usepackage{subfig}
+
+%% for diamond nodes in Influence diagrams
+\tikzset{
+    decision/.style={ % requires library shapes.geometric
+        draw,
+        diamond,
+        aspect=#1
+    },
+}
+
+% L'environnement changemargin décrit ci-dessous permet de modifier localement les marges d'un document. Il prend deux arguments, la marge gauche et la marge droite (ces arguments peuvent prendre des valeurs négatives).
+
+%%%% debut macro %%%%
+\newenvironment{changemargin}[3]{\begin{list}{}{%
+\setlength{\topsep}{0pt}%
+\setlength{\leftmargin}{0pt}%
+\setlength{\rightmargin}{0pt}%
+\setlength{\textheight}{40cm}%
+\setlength{\paperheight}{40cm}%
+\setlength{\footskip}{0pt}%
+\setlength{\voffset}{0pt}%
+\setlength{\listparindent}{\parindent}%
+\setlength{\itemindent}{\parindent}%
+\setlength{\parsep}{0pt plus 1pt}%
+\addtolength{\leftmargin}{#1}%
+\addtolength{\rightmargin}{#2}%
+\addtolength{\topmargin}{#3}%
+}\item }{\end{list}}
+%%%% fin macro %%%%
+
+\usepackage{yfonts}
+%\usepackage[explicit]{titlesec}
+\usetikzlibrary{arrows,automata,calc}
+\usetikzlibrary{positioning,patterns}
+%\usetikzlibrary{shapes.multipart}
+\usetikzlibrary{shapes,snakes}
+
+\usepackage{fancybox} % ovalbox
+\newcommand{\paren}[1]{\left( \left. #1 \right. \right)} 
+\newcommand{\croch}[1]{\left[ \left. #1 \right. \right]} 
+\newcommand{\set}[1]{\left\{ \left. #1 \right. \right\}}
+\newcommand{\sachant}{\, \right| \left. \,}
+\newcommand{\normsup}[1]{\left\lVert #1 \right\rVert_{\infty}} 
+\newcommand{\abs}[1]{\left\lvert #1 \right\rvert} 
+\newcommand{\vide}[1]{} 
+
+% ============================================================
+% Theorems
+
+\usepackage{thmbox} % theorem style
+\newtheorem{Def}{Definition}[section]
+\newtheorem{Property}{Property}[section]
+\newtheorem{Lemma}{Lemma}[section]
+\newtheorem{theorem}{Theorem}
+
+\renewcommand\thechapter {\Roman{chapter}}
+
+
+% ============================================================
+% Table of content
+\usepackage{minitoc}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=black,
+    urlcolor=black
+}
+
+
+
+\begin{document}
+
+%\dominitoc
+  
+\makeflyleaf
+ 
+% ==================================================================
+% OPTIONS D'AFFICHAGE
+% non-définitif (soumis aux rapporteurs) ou  définitif
+\definitiftrue
+%\definitiffalse
+ 
+% ==================================================================
+% RENSEIGNEMENTS SUR LA THÈSE
+ 
+\titleFR{}%\begin{changemargin}{-1.5cm}{-1.5cm}{-1.5cm}
+%Tirer profit de sources d'information impr\'ecises pour la d\'ecision s\'equentielle dans l'incertain
+%\end{changemargin}}
+\titleEN{}%\begin{changemargin}{-1.5cm}{-1.5cm}{-1.5cm}
+%Benefit from Imprecise Information Sources for Sequential Decision Making under Uncertainty
+%\end{changemargin}}
+
+
+ 
+% ==================================================================
+% DÉDICACE
+
+% ==================================================================
+% DEBUT DE LA PRÉFACE
+%\beforepreface
+\newpage
+~
+\newpage
+%\textit{To the Pentahedron, and especially to Madam Sarbel\dots}
+\afterpreface
+
+% remerciements
+%\include{src/thanks}
+ 
+% table des matières générale
+\tableofcontents
+ 
+% affiche la liste des figures
+\listoffigures
+ 
+% ==================================================================
+
+ 
+% ==================================================================
+% AVANT-PROPOS
+\include{src/intro}
+\adjustmtc
+ 
+% ==================================================================
+% CONTENU GÉNÉRAL
+\chapter{State of the Art}
+\label{chap_SOTA}
+%\input{src/stateoftheart}
+%\input{src/stateoftheart2}
+
+\chapter{Updates and Practical Study of the Qualitative Possibilistic Partially Observable Markov Decision Processes}
+\label{chap_Updates}
+%\input{src/chap1}
+
+% ============================================================
+% 
+\chapter{Development of Symbolic Algorithms to Solve $\pi$-POMDPs}
+\label{chap_symb}
+%\input{src/chap2}
+
+% ============================================================
+% 
+\chapter{Application of Qualitative Possibilistic Hidden Markov Processes for Diagnosis in Human-Machine Interaction}
+\label{chap_IHM}
+%\input{src/chap3}
+
+% ============================================================
+% 
+\chapter{A Hybrid Model: Planning in Partially Observable Domains
+with Fuzzy Epistemic States and Probabilistic Dynamics}
+\label{chap_hybrid}
+%\input{src/chap4}
+
+% ==================================================================
+% CONCLUSION
+\include{concl}
+ 
+% ==================================================================
+% ANNEXES
+%\appendix
+%\include{src/annex}
+
+
+\appendix
+\chapter*{Appendixes}\addcontentsline{toc}{chapter}{Appendixes}
+\renewcommand{\thesection}{\Alph{section}}
+\section{Proofs of Chapter \ref{chap_SOTA}}
+%\input{src/annexe}
+\section{Proofs of Chapter \ref{chap_Updates}}
+%\input{src/annexe_chap1}
+\section{Proofs of Chapter \ref{chap_symb}}
+%\input{src/annexe_chap2}
+
+
+% ==================================================================
+% BIBLIOGRAPHIE
+% ============================================================
+% References
+\bibliographystyle{plain}
+\bibliography{biblio}
+ 
+% ==================================================================
+% NOTATIONS
+\include{nota}
+
+% ==================================================================
+% RELATED RESEARCH MATERIAL
+\include{src/producedwork}
+
+% ==================================================================
+% COLOPHON
+%\colophon{Ce document a été préparé à l'aide de l'éditeur de texte GNU
+%  Emacs et du logiciel de composition typographique \LaTeXe.}
+ 
+% ==================================================================
+% COUVERTURE : RESUME ET MOTS-CLÉS
+%\abstractpage
+\pagestyle{empty}
+  ~\newpage
+  \par
+  \vfill
+\includepdf[pages=-]{TITLE_ABSTRACT_KEYWORDS/TAK.pdf}\AtBeginShipout\AtBeginShipoutDiscard
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
