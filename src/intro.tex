@@ -39,7 +39,7 @@ during the picture taking process.
 Thus, in order to make a robot autonomously fulfill a chosen \textit{mission}, 
 we are  looking for a function returning actions 
 conditional on the sequence of system observations,
-and taking into account the uncertainty 
+and taking into account uncertainty 
 about the system evolution and the observation of it.
 Such functions may be called \textit{strategies}.
 The research domain associated to this kind of problem,
@@ -414,17 +414,18 @@ In this situation, the robot uses a \textit{classifier}
 to recognize objects in pictures: 
 the classifier is supposed to return the name of 
 the object actually in the picture, 
-and to make some mistakes 
+and makes some mistakes 
 with a low probability 
 (see confusion matrix of Figure \ref{confusion_matrix}).
 
-The classifier is computed using a \textit{training dataset of pictures}
+The classifier is computed using a \textit{training dataset} of pictures
 (as NORB, see Figure \ref{NORB}, authors made it available at \url{http://www.cs.nyu.edu/~ylclab/data/norb-v1.0/}).
 A powerful gradient-based learning algorithm meant to compute classifiers using picture datasets
-and called Convolutional Nextwork is described in Figure \ref{CV_algoConvNet}.
+is described in Figure \ref{CV_algoConvNet}: the associated framework is called Convolutional Nextwork \cite{Lecun98gradient-basedlearning}.
 The figures (\ref{NORB}), (\ref{CV_algoConvNet}) and (\ref{confusion_matrix})
-illustrate the example of a classifier computed for a drone mission where features of interests,
-or system states of the problem, are related with the presence (or absence) of animals, cars,  humans, planes or trucks:
+illustrate the example of a classifier computed for a drone mission where features of interests
+(system states of the problem) 
+are related with the presence (or absence) of animals, cars, humans, planes or trucks:
 the statistical problem of computing a classifier recognizing such objects in pictures 
 is called \textit{multiclass classification}.
 
@@ -497,7 +498,8 @@ a picture is labeled with the name of centered object
 %
 As the classifier is learned based on a picture dataset 
 (see weights learned in Figure \ref{CV_algoConvNet}),
-its behavior, and thus its performances (\textit{i.e.} how well it predicts objects in images) 
+its behavior, and thus its performances 
+(\textit{i.e.} how well it predicts objects in images) 
 are inevitably dependent on the dataset.
 It is a problem if the picture variability in the dataset
 is too low:
@@ -507,21 +509,22 @@ and the robotic system will have poor observation
 capabilities when the considered mission involves 
 pictures too different from the ones from the dataset. 
 
-Some large picture datasets with a high variability exists 
+Some large picture datasets with a high image variability exists 
 (e.g. NORB, Figure \ref{NORB}, although variability could be ideally higher):
 note however that with such datasets, the vision performances are reduced,
 or good performances are, at least, harder to reach.
 
 A confusion matrix can be computed (see Figure \ref{confusion_matrix})
 using such a labeled picture dataset,
-not used for the training, and called testing dataset: 
+not used for the training, and called \textit{testing dataset}: 
 observation frequencies can be deduced from this matrix,
 normalizing rows into probabilities.
 A row corresponds to an object in the scene,
 and probabilities on this row are observation probabilities,
 \textit{i.e.} each probability is the frequency with which 
 the classifier returns the name of the object of the corresponding column.
-These probabilities can be used to define the observation function $\textbf{p} \paren{o' \sachant s',a}$
+These probabilities can be used to define the observation function 
+$\textbf{p} \paren{o' \sachant s',a}$
 introduced above. 
 This approach raises the issue of knowing if the testing dataset 
 is quite representative of the mission reality.
@@ -529,41 +532,46 @@ If not, the observation probabilities may be not reliable,
 and the POMDP badly defined: 
 however, as shown by the equation (\ref{probBayesRule})
 the belief update needs a perfect knowledge of the
-observation 
-probability distributions.
+observation probability distributions.
 
-More generally, observations of the robot agent 
-are outputs of image processing algorithms 
+More generally, observations of the agent 
+may be outputs of image processing algorithms 
 whose semantics (image correlation, object matching, class inference, 
 preprocessing followed by classifiers such as the one computed 
 in Figure \ref{CV_algoConvNet} etc.) 
-are so complex that probabilities of occurrence are hard to rigorously extract.
+are so complex that probabilities of 
+occurrence are hard to rigorously extract.
 
 Finally, if the considered datasets are labeled more precisely 
-(as NORB, which includes information such as the lighting condition or the object scale),
+(as NORB, which includes information such as the lighting condition, or the object scale),
 we can imagine that the computed observation probabilities (from the confusion matrix) 
-were more reliable, or the vision performances upgraded (since separation when learning is easier).
-However, more observation or states are involved,
-and the POMDP is harder to solve.
+were more reliable, or the vision performances upgraded 
+(since separation when learning the classifier is easier).
+However, as more observation or states are involved in this case,
+the POMDP is harder to solve.
 Moreover, as the number of pictures per class is reduced 
 (since there are more complex and numerous classes), 
 a poorer confusion matrix is obtained when testing (in terms of confidence).
 
 As a conclusion, the POMDP model supposes 
-the knowledge of all the involved probabilities:
-unfortunately these frequencies are imprecisely known in practice.
+the knowledge of all the involved 
+probability distributions:
+unfortunately the actual frequencies 
+used to compute them
+are not precisely known in practice.
 The imprecision about these probabilities, 
-for instance those related to the actual vision algorithm behavior
+for instance the imprecision related to 
+the vision algorithm behavior
 with real world pictures,
 has to be taken into account 
 to make the robot autonomous 
 under any circumstances.
-In general, all the probabilities of this model have to be computed
-needing enough tests for each possible system state and action,
-which seems hard to perform in practice.
+In general, the computation 
+of the probability distributions
+of a POMDP needs enough tests 
+for each possible system state and action,
+which is hard to perform in practice.
 
-
-%TODO TODO TODO
 %%
 %% ConvNets
 %%
@@ -1045,41 +1053,7 @@ has been used to compute the displayed weights.
 %% CONVNETS END
 %%
 
-
-%
-% IMPRECISION POMDP WORKS
-%
-Imprecision Models taking into acount imprecision
-Les probl\`emes de prise en compte de la
-m\'econnaissance sur les param\`etres peuvent \^etre contourn\'es en utilisant
-les \'evolutions de ce mod\`ele: BPOMDP et POMDPIP. Toutefois, il est
-tr\`es difficile, en termes de calculs, d'extraire une strat\'egie de ces mod\`eles. 
-
-Les POMDPs \`a param\`etres born\'es (BPOMDP) \cite{NiYaLiaZhi} et les POMDPs avec probabilit\'e impr\'ecises (POMDPIP) \cite{Itoh2007453} 
-ont \'et\'e mis en place afin de mod\'eliser la m\'econnaissance sur les distributions de probabilit\'e: l'incertitude issue de l'algorithme
-de traitement d'image peut donc \^etre encod\'ee dans le cadre de ces mod\`eles. Cependant, ils 
-sont plus complexes que les POMDPs, eux-m\^eme \'etant d\'ej\`a au moins PSPACE-hard
-
-
-BPPOMDP \cite{NiYaLiaZhi} Bounded Parameters POMDPs + NOTES\\ 
-POMDPIP POMDP with Imprecise Probabilities \cite{Itoh2007453} + NOTES
-
-
-POMDPIP: 
-manage imprecision of the model, POMDPIP - BPPOMDP .. NOTES, autant travailler sur un already discretized model \\  
-robust \cite{DBLP:conf/icml/Osogami15} it answers to the robust question (approx), but at least the POMDP complexity,
-optim require linear program, and lack of knowlegde is represented by (convex) credal sets, PO version of the robust model for 
-non stationnary uncertain MDP models, or of the robust approximation for uncertain MDPs \cite{NE:05} 
-(lowerbound of the maximin criterion)\\ 
-
-While there are fascinating questions of algorithms
-no learning because we are interested in robotic applications which have to quite well behave in first tests,
-(but can learn in each use e.g. long term learning)
-for instance in order to begin Reinforcement Learning (RL, \cite{NIPS2009_3780,Ross:2011:BAL:1953048.2021055}) 
-problem of solving the problem offline:
-
-
-\begin{figure} \centering
+\begin{figure}[b!] \centering
 \begin{tabular}{c|c|c|c|c|c!{\vrule width 2pt}c!{\vrule width 2pt}c}%!{\vrule width 2pt}}
 animal & human & plane & truck & car & nothing \\ \specialrule{.2em}{.0em}{.0em}  
 $3688$ & $575$ & $256$ & $48$ & $144$ & $149$ &   animal & $75.885\%$ \\ \specialrule{.05em}{.0em}{.0em}  
@@ -1102,6 +1076,91 @@ to compute this matrix from the classifier and the testing dataset.}
 \label{confusion_matrix}
 \end{figure}
 
+
+%
+% IMPRECISION POMDP WORKS TODO TODO TODO
+%
+\subsubsection{Works handling parameter imprecision}
+Some variations of the POMDP framework 
+have been built in order to take into account 
+the imprecision about the probability distributions of the model, 
+also called \textit{parameter imprecision}.
+POMDPs with Imprecise Probabilities (POMDPIP) \cite{Itoh2007453} second order belief (imprecision and frequency are confused, no position taken): 
+no criterion asserting how imprecision is taken into account, belief discretization using all the possible models,analysis??\\
+
+ Bounded Parameters POMDPs (BPPOMDP) \cite{NiYaLiaZhi}  \\
+
+robust + NOTES\\
+robust \cite{DBLP:conf/icml/Osogami15} it answers to the robust question (approx), but at least the POMDP complexity,
+optim require linear program, and lack of knowlegde is represented by (convex) credal sets, PO version of the robust model for 
+non stationnary uncertain MDP models, or of the robust approximation for uncertain MDPs \cite{NE:05} 
+(lowerbound of the maximin criterion)\\ 
+
+
+Toutefois, il est
+tr\`es difficile, en termes de calculs, d'extraire une strat\'egie de ces mod\`eles. 
+Cependant, ils 
+sont plus complexes que les POMDPs, eux-m\^eme \'etant d\'ej\`a au moins PSPACE-hard
+
+
+
+autant travailler sur un already discretized model \\  
+
+While there are fascinating questions of algorithms
+no learning because we are interested in robotic applications which have to quite well behave in first tests,
+(but can learn in each use e.g. long term learning)
+for instance in order to begin Reinforcement Learning (RL, \cite{NIPS2009_3780,Ross:2011:BAL:1953048.2021055}) 
+problem of solving the problem offline:
+
+
+
+\begin{figure} \centering
+\begin{tikzpicture}
+\node (IP) at (2,10) {Imprecise Probability Theory \cite{Walley2000125}};
+\node (BF) at (2,7) {Belief Functions Theory \cite{dempster1967,shafer1976mathematical}};
+\node (PROB) at (-1,4) {Probability Theory};
+\node (POSS) at (5,4) {Possibility Theory \cite{Du2006.7,Dubois1997359}};
+\draw[->,>=latex,thick, color=blue!60, line width=2mm, dashed] (IP) to (BF);
+\draw[->,>=latex,thick, color=blue!60, line width=2mm, dashed] (BF) to (PROB);
+\draw[->,>=latex,thick, color=blue!60, line width=2mm, dashed] (BF) to (POSS);
+
+\node (topr) at (8.5,10) {};
+\node (botr) at (8.5,4) {};
+\node (middr) at (8,7) [rotate=90] {expressiveness};
+\draw[->,>=latex,thick, color=red!60, line width=2mm] (botr) to (topr);
+\draw (-6,7) rectangle (-2,10);
+\node (toplegend) at (-3.75,10) {};
+\node (botlegend) at (-3.75,7) {};
+\draw[->,>=latex,thick, color=blue!60, line width=2mm, dashed] (toplegend) to (botlegend);
+\node (bluelegend) at (-4,8.5) {particular  \hspace{0.5cm}   case of};
+\end{tikzpicture}
+\caption[Most known uncertainty theories and their relations]{Most known uncertainty theories and their relations. 
+Imprecise Probability Theory (IPT) 
+considers sets of probability measures 
+to represent uncertainty of events and knowledge of it: 
+this theory is the most general one. 
+The Belief Functions Theory 
+(BFT or Dempster-Shafer Theory, or yet Theory of Evidence),
+which is a particular case of IPT, 
+considers a mass function $m$ 
+defined on all the subsets of the universe,
+and which sums to $1$. 
+For instance, 
+if the function $m$ returns $1$ for the universe,
+and $0$ for all other subsets, 
+it expresses the total ignorance 
+about the actual probability distribution:
+it corresponds to the set of all the possible 
+probability distributions in IPT.
+If the mass function is equal to zero 
+for each non singleton subsets,
+it is simply a probability distribution.
+If the mass function is positive only on a
+sequence of nested subsets, 
+it is a possibility distribution.
+Probability and Possibility Theory are thus
+particular cases of BFT and a fortiori of IPT.}
+\end{figure}
 
 %%
 %%  FULL IGNORANCE/ KNOWLEDGE OF THE AGENT
