@@ -570,7 +570,9 @@ In general, the computation
 of the probability distributions
 of a POMDP needs enough tests 
 for each possible system state and action,
-which is hard to perform in practice.
+which is hard to perform:
+there are limited data for learning the model
+in practice.
 
 %%
 %% ConvNets
@@ -1039,7 +1041,8 @@ the labeled picture dataset NORB, see Figure \ref{NORB},
 is used to train and test a classifier.
 The learning algorithm is based on Convolutional Network \cite{Lecun98gradient-basedlearning,DBLP:journals/jfr/SermanetHSGBECML09}
 using gradient methods \cite{bottou-91c,lecun-98x,bottou-tricks-2012}.
-The weights $W=(w_0,\ldots,w_m)$ are the parameters of a particular transformation (see the ``bi-pyramid'' of successive transformation stages) 
+The weights $W=(w_0,\ldots,w_m)$ are the parameters of a particular transformation 
+(see the ``bi-pyramid'' of successive transformation stages) 
 from the picture to a vector representing a label among $\set{animal,car,human,nothing,plane,truck}$. 
 These weights are learned in order to minimize a given loss function
 \textit{i.e.} a proper criterion representing the error of the classifier over the dataset.
@@ -1080,20 +1083,89 @@ to compute this matrix from the classifier and the testing dataset.}
 %
 % IMPRECISION POMDP WORKS TODO TODO TODO
 %
-\subsubsection{Works handling parameter imprecision}
 Some variations of the POMDP framework 
 have been built in order to take into account 
 the imprecision about the probability distributions of the model, 
 also called \textit{parameter imprecision}.
-POMDPs with Imprecise Probabilities (POMDPIP) \cite{Itoh2007453} second order belief (imprecision and frequency are confused, no position taken): 
-no criterion asserting how imprecision is taken into account, belief discretization using all the possible models,analysis??\\
+\subsubsection{Works handling parameter imprecision}
+Here, transition and observation functions,
+namely $\textbf{p} \paren{ s' \sachant s,a }$ 
+and $\textbf{p} \paren{ o' \sachant s',a }$,
+$\forall (s,s',o',a) \in \mathcal{S}^2 \times \mathcal{O} \times \mathcal{A}$,
+are called \textit{POMDP parameters}, or yet \textit{model parameters}. 
+To the best of our knowledge,
+the first model meant to handle parameter imprecision
+has been called POMDPIP, 
+for \textit{POMDP with Imprecise Parameters} (POMDPIP) \cite{Itoh2007453}. 
+This work considers sets of possible parameters
+instead of only one. Figure \ref{uncertainty_theories}
+introduces the Imprecise Probability Theory 
+which has inspired this idea:
+in this theory, uncertainty and knowledge about it 
+are represented by set of probability distributions
+to express the fact that the model is not fully known.
+Imprecision of the POMDP model is well expressed in this way:
+for instance, if confidence bounds on the computed probabilities
+are available, 
+they can be taken into account when modeling,
+considering the set of all the likely 
+probability distributions. 
 
- Bounded Parameters POMDPs (BPPOMDP) \cite{NiYaLiaZhi}  \\
+Starting from this modeling, 
+a \textit{second order belief}
+is introduced in this work:
+it is defined as a probability distribution 
+over the possible model parameters.
+This approach confuses thus 
+parameter imprecision and event frequency.
+Indeed, strategies which are looked for
+are the optimal strategies
+of a particular ``averaged POMDP'': 
+this POMDP results from the computation of
+the average of the possible parameters 
+with respect to the given second order belief.
+However, the parameters of this new POMDP 
+are potentially not even part of the set 
+of the possible parameters.
+Although POMDPIPs are well designed, 
+imprecision is not really handled when 
+the problem is solved
+because of the use of a second order belief.
+Moreover, it is claimed that the actual second order belief 
+is not known, and then is allowed to vary in order to make 
+the computation of an approximated strategy easier:
+analysis of performances only details 
+the extent to which the approximated strategy 
+is far from the ``averaged POMDP''.	
 
-robust + NOTES\\
-robust \cite{DBLP:conf/icml/Osogami15} it answers to the robust question (approx), but at least the POMDP complexity,
+An other work, called \textit{Bounded Parameters POMDPs} (BPPOMDP) \cite{NiYaLiaZhi} 
+does not introduce any second order belief. 
+However, solving BPPOMDPs is similar as \cite{Itoh2007453} in spirit
+since the set of possible one are choosing to make the computations as easy as possible.
+In this framework, the criterion defining optimal strategies 
+is not even made explicit.
+
+The major issue with these frameworks 
+(namely POMDPIP and BPPOMDP)
+is that no appropriate choice is made,
+at the earliest stages prior to computations,
+concerning how to manage the parameter imprecision:
+for instance, suitable approaches may to be
+cautious regarding the imprecision \textit{i.e.} 
+taking into account the worst case,
+or yet optimistic, considering the best one.
+
+A more recent approach deals 
+with the cautious point of view,
+and is thus called \textit{robust POMDP} \cite{DBLP:conf/icml/Osogami15}.
+Inspired by the corresponding work in the fully observable case 
+(called \textit{uncertain MDP} \cite{NE:05}),
+this work uses the well-known \ 
+Classically, the approach considers, maximin), 
+(non stationnary, possibly one model for each time step),
+robust  it answers to the robust question (approx), but at least the POMDP complexity,
 optim require linear program, and lack of knowlegde is represented by (convex) credal sets, PO version of the robust model for 
-non stationnary uncertain MDP models, or of the robust approximation for uncertain MDPs \cite{NE:05} 
+non stationnary uncertain MDP models, or of the robust approximation for stationnary uncertain MDPs 
 (lowerbound of the maximin criterion)\\ 
 
 
@@ -1102,9 +1174,8 @@ tr\`es difficile, en termes de calculs, d'extraire une strat\'egie de ces mod\`e
 Cependant, ils 
 sont plus complexes que les POMDPs, eux-m\^eme \'etant d\'ej\`a au moins PSPACE-hard
 
-
-
-autant travailler sur un already discretized model \\  
+autant travailler sur un already discretized model
+given the imprecision, instead of using a \\  
 
 While there are fascinating questions of algorithms
 no learning because we are interested in robotic applications which have to quite well behave in first tests,
@@ -1116,35 +1187,52 @@ problem of solving the problem offline:
 
 \begin{figure} \centering
 \begin{tikzpicture}
-\node (IP) at (2,10) {Imprecise Probability Theory \cite{Walley2000125}};
-\node (BF) at (2,7) {Belief Functions Theory \cite{dempster1967,shafer1976mathematical}};
-\node (PROB) at (-1,4) {Probability Theory};
-\node (POSS) at (5,4) {Possibility Theory \cite{Du2006.7,Dubois1997359}};
+\node (IP) at (2,10) {\textbf{Imprecise Probability Theory} \cite{Walley2000125}};
+\node (BF) at (2,8) {\textbf{Belief Functions Theory} \cite{dempster1967,shafer1976mathematical}};
+\node (PROB) at (-1,6) {\textbf{Probability Theory}};
+\node (POSS) at (5,6) {\textbf{Possibility Theory} \cite{Du2006.7,Dubois1997359}};
 \draw[->,>=latex,thick, color=blue!60, line width=2mm, dashed] (IP) to (BF);
 \draw[->,>=latex,thick, color=blue!60, line width=2mm, dashed] (BF) to (PROB);
 \draw[->,>=latex,thick, color=blue!60, line width=2mm, dashed] (BF) to (POSS);
 
 \node (topr) at (8.5,10) {};
-\node (botr) at (8.5,4) {};
-\node (middr) at (8,7) [rotate=90] {expressiveness};
+\node (botr) at (8.5,6) {};
+\node (middr) at (8,7.6) [rotate=90] {expressiveness};
 \draw[->,>=latex,thick, color=red!60, line width=2mm] (botr) to (topr);
-\draw (-6,7) rectangle (-2,10);
+\draw (-6,7) rectangle (-3,10);
 \node (toplegend) at (-3.75,10) {};
 \node (botlegend) at (-3.75,7) {};
 \draw[->,>=latex,thick, color=blue!60, line width=2mm, dashed] (toplegend) to (botlegend);
-\node (bluelegend) at (-4,8.5) {particular  \hspace{0.5cm}   case of};
+\node (bluelegend) at (-5,9) {particular};
+\node (bluelegend) at (-5,8.5) {case of};
 \end{tikzpicture}
 \caption[Most known uncertainty theories and their relations]{Most known uncertainty theories and their relations. 
 Imprecise Probability Theory (IPT) 
-considers sets of probability measures 
-to represent uncertainty of events and knowledge of it: 
+considers sets of probability measures
+defined on the universe $\Omega$ 
+in order to represent uncertainty of events 
+and knowledge about it: 
 this theory is the most general one. 
 The Belief Functions Theory 
-(BFT or Dempster-Shafer Theory, or yet Theory of Evidence),
+(BFT, or Dempster-Shafer Theory, or yet Theory of Evidence),
 which is a particular case of IPT, 
 considers a mass function $m$ 
 defined on all the subsets of the universe,
 and which sums to $1$. 
+From this mass function,
+upper and lower bounds
+on possible probability measures
+can be defined. 
+The upper bound is called
+plausibility measure: $\forall A \subset \Omega$, 
+$Pl(A) = \sum_{B \cap A \neq \emptyset} m(B)$.
+The lower bound is called the belief function:
+$\forall A \subset \Omega$, 
+$bel(A) = \sum_{B \subset A} m(B)$.
+The set of probability distributions
+represented by $m$ are all measures $\mathbb{P}$
+such that $\forall A \subset \Omega$,
+$bel(A) \leqslant \mathbb{P}(A) \leqslant Pl(A)$.
 For instance, 
 if the function $m$ returns $1$ for the universe,
 and $0$ for all other subsets, 
@@ -1153,13 +1241,17 @@ about the actual probability distribution:
 it corresponds to the set of all the possible 
 probability distributions in IPT.
 If the mass function is equal to zero 
-for each non singleton subsets,
-it is simply a probability distribution.
+for each non-singleton subsets,
+it is simply a probability distribution
+as $bel=Pl$.
 If the mass function is positive only on a
 sequence of nested subsets, 
-it is a possibility distribution.
+it corresponds to a possibility distribution:
+$bel$ is then called the \textbf{necessity measure},
+and $Pl$ the \textbf{possibility measure} (see Section \ref{posspres} of Chapter \ref{chap_SOTA}).
 Probability and Possibility Theory are thus
 particular cases of BFT and a fortiori of IPT.}
+\label{uncertainty_theories}
 \end{figure}
 
 %%
