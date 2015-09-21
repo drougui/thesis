@@ -1103,6 +1103,7 @@ introduces the Imprecise Probability Theory
 which has inspired this idea:
 in this theory, uncertainty and knowledge about it 
 are represented by set of probability distributions
+(called \textit{credal sets})
 to express the fact that the model is not fully known.
 Imprecision of the POMDP model is well expressed in this way:
 for instance, if confidence bounds on the computed probabilities
@@ -1147,42 +1148,80 @@ is not even made explicit.
 
 The major issue with these frameworks 
 (namely POMDPIP and BPPOMDP)
-is that no appropriate choice is made,
-at the earliest stages prior to computations,
-concerning how to manage the parameter imprecision:
-for instance, suitable approaches may to be
-cautious regarding the imprecision \textit{i.e.} 
-taking into account the worst case,
-or yet optimistic, considering the best one.
+is that no appropriate criterion choice is made
+to manage parameter imprecision:
+for instance, a suitable approach is 
+to compute a cautious strategy 
+regarding the imprecision \textit{i.e.} 
+taking into account the worst case.
+Yet, the opposite approach is to look 
+for an optimistic strategy, 
+considering the best case.
 
 A more recent approach deals 
 with the cautious point of view,
-and is thus called \textit{robust POMDP} \cite{DBLP:conf/icml/Osogami15}.
-Inspired by the corresponding work in the fully observable case 
+and is thus called 
+\textit{robust POMDP} \cite{DBLP:conf/icml/Osogami15}.
+Inspired by the corresponding work 
+in the fully observable case 
 (called \textit{uncertain MDP} \cite{NE:05}),
-this work uses the well-known \ 
-Classically, the approach considers, maximin), 
-(non stationnary, possibly one model for each time step),
-robust  it answers to the robust question (approx), but at least the POMDP complexity,
-optim require linear program, and lack of knowlegde is represented by (convex) credal sets, PO version of the robust model for 
-non stationnary uncertain MDP models, or of the robust approximation for stationnary uncertain MDPs 
-(lowerbound of the maximin criterion)\\ 
+this work uses the well-known \textit{maximin},
+or \textit{worst case} criterion,
+which comes from \textit{Game Theory}: 
+the strategy which is looked for
+maximizes the lowest criterion
+(among the considered possible parameters).
+If the parameter imprecision is not stationary,
+\textit{i.e.} can change at each time step, 
+the corresponding optimal strategy (in the maximin sense)
+can be easily computed using classical computations
+(called \textit{Dynamic Programming}, see Section \ref{chap_SOTA} of Chapter \ref{subsectionDP}).
+However, when the parameter imprecision is stationary,
+which is more consistent with the presented POMDP definition
+(transition and observation functions don't depend
+on the time step) 
+the proposed computations lead to a approximately optimal strategy,
+as the handled criterion is a lower bound
+of the desired maximin criterion. 
 
+Although the use of sets of probability distributions 
+(credal sets) makes the model more consistent 
+with the reality of the problem (parameters are imprecise in practice),
+taking them (really) into account (e.g. with a maximin criterion) 
+increases eventually the complexity 
+of the optimal strategy computation:
+this intuition is quite well as illustrated in Figure \ref{uncertainty_theories}
+as the expressiveness of the Imprecise Probability Theory
+is on top compared with other theories.
+As POMDP solving is already a really hard problem
+in terms of complexity as explained above,
+using a framework leading to more complex computations
+does not seem to be a good approach. 
+Moreover, with this framework, 
+some restrictive assumptions are commonly needed
+such like an imposed form of the credal sets (convex), 
+and optimization may require linear programs.
+As discussed during this thesis 
+(see Section \ref{section_expe_PPUDD} of Chapter \ref{chap_symb}),
+it seems quite weird to model a problem in an expressive manner,
+and then to allow important approximations without control of them,
+as done with the POMDPIP and BPPOMDP frameworks.
+It should be a better approach to start with a simpler model
+which can be solved in practice. 
 
-Toutefois, il est
-tr\`es difficile, en termes de calculs, d'extraire une strat\'egie de ces mod\`eles. 
-Cependant, ils 
-sont plus complexes que les POMDPs, eux-m\^eme \'etant d\'ej\`a au moins PSPACE-hard
-
-autant travailler sur un already discretized model
-given the imprecision, instead of using a \\  
-
-While there are fascinating questions of algorithms
-no learning because we are interested in robotic applications which have to quite well behave in first tests,
-(but can learn in each use e.g. long term learning)
-for instance in order to begin Reinforcement Learning (RL, \cite{NIPS2009_3780,Ross:2011:BAL:1953048.2021055}) 
-problem of solving the problem offline:
-
+Finally, while there are fascinating questions of algorithms in this area,
+this thesis does not deal with Reinforcement Learning (RL, \cite{NIPS2009_3780,Ross:2011:BAL:1953048.2021055}), 
+as we are interested in robotic applications 
+which have to well behave during very first executions.
+The reason is that robotic systems may be expensive,
+and executions are not allowed to break the robot.
+By opposition with on-line (\textit{i.e.} during execution) 
+learning problems, the problem of interest here 
+is called \textit{offline POMDP solving}.
+However, they are complementary studies 
+since statistical learning could be performed
+during each of the executions performed 
+with the offline solution (long-term learning).
 
 
 \begin{figure} \centering
@@ -1254,98 +1293,118 @@ particular cases of BFT and a fortiori of IPT.}
 \label{uncertainty_theories}
 \end{figure}
 
+Another practical issue of the POMDP model
+may be also pointed out: 
+it is about the definition of
+the belief state concerning the very first
+state of the system,
+and more generally about
+the way to represent agent knowledge.
 %%
 %%  FULL IGNORANCE/ KNOWLEDGE OF THE AGENT
 %%
 \subsection*{Agent ignorance modeling}
-The initial belief, or \textit{a priori}
-probability distribution over the system states, takes part in
-the definition of the POMDP problem. However in practice, the initial system
-state can be unknown with absolutely no probabilistic information: 
-for instance, in a robotic exploration context, 
-the initial location of the agent, or the presence of an entity in the scene. 
-Defining the process with a uniform probability distribution as initial belief
-(\textit{e.g.} over all locations or over entity presence) is a subjectivist
-answer \cite{de1974theory}, \textit{i.e.} all probabilities are the same
-because no event is more plausible than another:
-it corresponds to equal betting rates. However following belief
-updates will eventually mix frequentist probability distributions 
-defining the POMDP problem with this initial belief which is a subjective probability, 
-and it does not always make sense. 
+The initial belief state $b_0$, 
+or \textit{prior} probability distribution 
+over the system states, 
+takes part in the definition of the POMDP problem.
+Given a system state $s \in \mathcal{S}$, 
+$b_0(s)$ is the frequency 
+of the event ``the initial state is $s$''. 
+This quantity may be hard to properly compute,
+especially when the amount of available past experiments 
+is limited: this reason has been already invoked above,
+leading to the imprecision of the transition and observation 
+functions.
 
-La connaissance de $b_0$ pose aussi un problème: 
-il existe des missions où le robot ne connait initialement rien de l'état du système, 
-ce que ne modélise pas tout à fait une probabilité uniforme. 
-Lorsqu'aucune expérience passée n'est disponible, 
-il n'est pas évident d'attribuer une fréquence à un évènement initial...
+As an example, consider a robot that is for the first time in a room
+with an unknown exit location (initial belief state) 
+and has to find the exit and 
+reach it. 
+In practice, no experience can be repeated 
+in order to extract a frequency of 
+the exit's location. 
+In this kind of situation,
+uncertainty is not due to a random fact, 
+but to a lack of knowledge: 
+no frequentist initial belief state can be used to define the model.
 
-and knowledge of the agent CARO \\
-Moreover, consider missions 
-where a part of the system state,
+In other cases, 
+the agent may strongly believe 
+that the exit is located 
+in a wall as in the vast majority of rooms, 
+but it still grants a very small probability $p_{\epsilon}$ 
+to the fact that the exit may be a staircase 
+in the middle of the room. 
+Even if this is very unlikely to be the case,
+this second option must be taken into account in the belief state, 
+otherwise Bayes rule (see Equation \ref{probBayesRule}) 
+cannot correctly update it 
+if the exit is actually in the middle of the room. 
+Eliciting $p_{\epsilon}$ without past experience 
+is not obvious at all 
+and does not rely on any rational reasons, 
+yet it dramatically impacts the agent's strategy. 
+
+The initial system state 
+may be deliberately stated as unknown by the agent 
+with absolutely no probabilistic information:
+consider robotic missions 
+for which a part of the system state,
 describing something that the robot
 is supposed to infer by itself, 
-is initially fully unknown:
-for instance the location 
-or the nature of a target. 
-Classical approaches initialize 
-the belief state as 
-a subjective uniform probability distribution. 
-In this case the belief update 
-mixes subjective probabilities and frequencies,
-which is questionable.
-\begin{itemize}
-\item \textbf{Initial belief} $b_0$ (\textit{prior} information on the system state). 
-\end{itemize}
-uniform $=$ subjectif, mix up with frequencies!\\
-
-The use of the POMDPs 
-raises however some practical issues,
-such as the difficulty to encode 
-robot ignorance, 
-Caroline \cite{conf/stairs/ChanelFTI10,oatao11449} \\
-
-De plus, d\`es le d\'ebut du processus, l'agent n'observe que 
-partiellement l'\'etat du syst\`eme: une croyance initiale est n\'ecessaire 
-pour d\'efinir enti\`erement le POMDP. Dans le cas d'une mission de rep\'erage de cible, 
-il faut en effet attribuer une distribution de 
-probabilit\'e \`a la position initiale de cette derni\`ere. Si cette position est totalement m\'econnue, 
-une distribution de 
-probabilit\'e uniforme sur toutes
-les positions possibles peut-\^etre une solution, ce qui en fait une distribution de probabilit\'e
-subjective (elle est choisie uniforme par prudence compte tenu de la m\'econnaissance). 
-Cependant, les autres probabilit\'es d\'efinissant le mod\`ele \'etant des fr\'equences, cette
-approche m\`ene \`a un m\'elange incongru de probabilit\'es subjectives et de fr\'equences. 
-Les $\pi$-POMDPs permettent une mod\'elisation formelle de 
-la m\'econnaissance de l'agent, bien que ce mod\`ele n'ait pas \'et\'e \'etudi\'e de 
-mani\`ere approfondie. \\
-
-
-Consider situations where the agent totally ignores the system's initial 
-state, for instance a robot that is for the first time in a room
-with an unknown exit location (initial belief) and has to find the exit and 
-reach it. In practice, no experience can be repeated in order to extract a frequency of 
-the exit's location. In this kind of situation,
-uncertainty is not due to a random fact, but to a lack of knowledge: no frequentist 
-initial belief can be used to define the model. A uniform probability
- distribution is often chosen in order to assign
-the same mass to each state. This choice can be justified based on
- the subjective probability theory \cite{Dubois96representingpartial} 
-(the probability distribution represents then an exchangeable bet) but subjective probabilities and observation frequencies are combined 
-during the belief update.
-
-In other cases, the agent may strongly believe that
-the exit is located in a wall as in the vast majority of rooms, but it still
-grants a very small probability $p_{\epsilon}$ to the fact that the exit may be a
-staircase in the middle of the room. Even if this is very unlikely to be the case,
-this second option must be taken into account in the belief, otherwise Bayes'
-rule cannot correctly update it if the exit is actually in the middle of
-the room. Eliciting $p_{\epsilon}$ without past experience is not obvious at
-all and does not rely on any rational reasons, yet it dramatically impacts the
-agent's policy. On the contrary, possibilistic uncertainty models allow the agent to
-elicit beliefs with imprecise unbiased knowledge.
-
-
-
+is initially fully unknown.
+In a robotic exploration context, 
+the location or the nature of a target, 
+or yet the initial location of the robot
+may be defined as absent from the knowledge of the agent.
+Classical approaches initialize the belief state as 
+a uniform probability distribution
+(\textit{e.g.} over all robot/target possible locations, 
+or over possible target natures), 
+but it is a subjectivist answer \cite{de1974theory,Dubois96representingpartial}.
+Indeed, all probabilities are the same
+because no event is more plausible than another:
+it corresponds to equal betting rates.
+However following belief updates (see Equation \ref{probBayesRule}) 
+will eventually mix up frequentist probability distributions 
+(transition and observation functions) 
+with this initial belief which is a subjective probability distribution:
+it does not always make sense, 
+and it is questionable in any cases. 
+Thus, the use of POMDPs in these contexts, 
+faces the difficulty to encode agent ignorance.
+ 
+Since the knowledge of the agent 
+about given features of the system 
+may be initially partial (or even absent),
+it makes sense to pay attention to the evolution of 
+this knowledge during the execution of the considered process.
+Some works inspired by the field of \textit{Active Perception}, 
+have been concerned about the information gathered 
+by the agent in the POMDP framework
+\cite{conf/stairs/ChanelFTI10,oatao11449}:
+the \textit{entropy} of the belief state
+is taken into account in the criterion, 
+making the computed strategy to 
+ensure that reached belief states have a low entropy
+\textit{i.e.} are as close to deterministic belief states as possible,
+while satisfying the requirement of an high expected total reward.
+However, a belief state with an high entropy  
+may be not related to the agent's lack of knowledge,
+but rather to the (fully known) 
+variance of the system state:
+hence the agent does not know which is the actual system state 
+since the belief state is far from being deterministic,
+but it may perfectly know how the state behaves,
+and then nothing can be improved concerning its knowledge.
+% TODO
+The use of the entropy supposes then that there is no difference
+between the 
+be considered as a full knowledge of the
+actual frequency of the considered state:
+introduce models more general \cite{conf/nips/Araya-LopezBTC10,oatao11437}
+%and knowledge of the agent CARO \\
 
 %
 % WHAT WE WOULD LIKE TO DO
@@ -1372,7 +1431,8 @@ DEMPSTER: no,belief plausibility evidence: a probability value for each $2^{\#\O
  poss quant no, poss qual!!
 
 plausibilité $Pl(A)=\sum_{\set{B \sachant B \cap A \neq \emptyset  } }m(B)$ et la croyance $Bel(A)=\sum_{\set{B \subset A}} m(B)$.
-Dempster-Shafer Theory \cite{shafer1976mathematical} less complex than IP but more than proba alone\\ 
+Dempster-Shafer Theory \cite{shafer1976mathematical} less complex than IP but more than proba alone,
+fully observable case \cite{trevizan2007planning} \\ 
 
 %
 % POSS QUAL
@@ -1449,12 +1509,14 @@ a set of entirely possible states, $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)
 and successive sets of less plausible ones $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=l_i}$
 down to the set of impossible states $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=0  }$.
 
-
+Les $\pi$-POMDPs permettent une mod\'elisation formelle de 
+la m\'econnaissance de l'agent, bien que ce mod\`ele n'ait pas \'et\'e \'etudi\'e de 
+mani\`ere approfondie. \\
 %
 % piPOMDP
 %
 
-
+PSR \ref{Littman01predictiverepresentations}
 
 Enfin, un homologue des POMDPs appel\'e $\pi$-POMDP a \'et\'e d\'evelopp\'e dans 
 le cadre de la Th\'eorie des Possibilit\'es \cite{Sabbadin:1999:pipomdp}, 
@@ -1530,7 +1592,7 @@ Ces problèmes pratiques peuvent trouver des solutions grâce à d'autres modélisat
 
 
 %%% CHAP2
-\subsection*{Natural update of the possibilistic model}
+\subsection*{Natural updates of the possibilistic model}
 The \emph{second chapter} proposes \\* 
 
 It begins with an update 

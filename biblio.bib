@@ -25,6 +25,25 @@ PAGES = "192--201"
   bibsource = {dblp computer science bibliography, http://dblp.org}
 }
 
+@inproceedings{DBLP:conf/sum/DrougardDFT15,
+  author    = {Nicolas Drougard and
+               Didier Dubois and
+               Jean{-}Loup Farges and
+               Florent Teichteil{-}K{\"{o}}nigsbuch},
+  title     = {Planning in Partially Observable Domains with Fuzzy Epistemic States
+               and Probabilistic Dynamics},
+  booktitle = {Scalable Uncertainty Management - 9th International Conference, {SUM}
+               2015, Qu{\'{e}}bec City, QC, Canada, September 16-18, 2015. Proceedings},
+  pages     = {220--233},
+  year      = {2015},
+  crossref  = {DBLP:conf/sum/2015},
+  url       = {http://dx.doi.org/10.1007/978-3-319-23540-0_15},
+  doi       = {10.1007/978-3-319-23540-0_15},
+  timestamp = {Wed, 16 Sep 2015 13:24:33 +0200},
+  biburl    = {http://dblp.uni-trier.de/rec/bib/conf/sum/DrougardDFT15},
+  bibsource = {dblp computer science bibliography, http://dblp.org}
+}
+
 @article{Sabbadin2001287,
 title = "Possibilistic {M}arkov decision processes ",
 journal = "Engineering Applications of Artificial Intelligence ",
@@ -692,6 +711,16 @@ booktitle = {Proceedings of the Twenty-Second IEEE International Conference on T
 location = {Arras, France},
 } 
 
+@inproceedings{conf/nips/Araya-LopezBTC10,
+  author = {Araya-L\`{o}pez, Mauricio and Buffet, Olivier and Thomas, Vincent and Charpillet, François},
+  booktitle = {NIPS},
+  editor = {Lafferty, John D. and Williams, Christopher K. I. and Shawe-Taylor, John and Zemel, Richard S. and Culotta, Aron},
+  pages = {64-72},
+  publisher = {Curran Associates, Inc.},
+  title = {A POMDP Extension with Belief-dependent Rewards.},
+  year = 2010
+}
+
 @inproceedings{DBLP:conf/rss/Marthi12,
   author    = {Bhaskara Marthi},
   title     = {Robust Navigation Execution by Planning in Belief Space},
@@ -1162,12 +1191,19 @@ url = {http://papers.nips.cc/paper/4031-monte-carlo-planning-in-large-pomdps.pdf
           author = {Caroline Ponzoni Carvalho Chanel and Florent Teichteil-K{\"o}nigsbuch and Guillaume Infantes},
          address = {Caen, FR},
             year = {2010},
-        keywords = {POMDP - Crit{\`e}res d'optimisation - Evaluation de la politique},
-             url = {http://oatao.univ-toulouse.fr/11449/},
-        abstract = {Traditionnellement, les travaux de recherche en d{\'e}cision s{\'e}quentielle dans l'incertain avec observabilit{\'e} partielle reposent sur les Processus D{\'e}cisionnels de Markov Partiellement Observables (POMDP), optimis{\'e}s avec un crit{\`e}re de maximisation de revenus cumul{\'e}s pond{\'e}r{\'e}s sur un horizon d'action donn{\'e}. Or, ce crit{\`e}re est pessimiste dans la mesure o{\`u} la d{\'e}cision est optimis{\'e}e sur une distribution de probabilit{\'e} sur l'{\'e}tat de croyance de l'agent autonome, sans que l'algorithme ne r{\'e}duise explicitement cette incertitude. Autrement dit, les crit{\`e}res classiques d'optimisation des POMDP raisonnent sur toutes les hypoth{\`e}ses possibles, sans favoriser explicitement les actions qui pourraient acqu{\'e}rir de l'information et r{\'e}duire le champ d?hypoth{\`e}ses. Au contraire, les travaux en traitement d'image et particuli{\`e}rement en perception active s'int{\'e}ressent plut{\^o}t {\`a} trouver les actions qui minimisent l'entropie de croyance, c'est-{\`a}-dire l'incertitude sur l'{\'e}tat cach{\'e}, mais sans optimiser une r{\'e}compense globale li{\'e}e {\`a} la mission du robot. Ainsi, afin de r{\'e}soudre au mieux des probl{\`e}mes robotiques alliant {\`a} la fois des objectifs de perception et de mission, nous proposons deux nouveaux crit{\`e}res mixtes, l'un additif et l?autre multiplicatif, qui agr{\`e}gent les r{\'e}compenses cumul{\'e}es (mission) et les entropies de croyance cumul{\'e}es (perception), toutes deux pond{\'e}r{\'e}es sur un horizon d'action commun. {\`A} l'aide d?{\'e}valuations statistiques sur plusieurs ex{\'e}cutions de la politique optimis{\'e}e, nous montrons que nos crit{\`e}res mixtes sont optimaux par rapport {\`a} un crit{\`e}re purement entropique, et que le crit{\`e}re additif am{\'e}liore m{\^e}me un crit{\`e}re bas{\'e} purement sur les r{\'e}compenses de la mission. Ce dernier point d{\'e}montre que le crit{\`e}re classique, qui repose uniquement sur les r{\'e}compenses cumul{\'e}es, n'est pas optimal lors de l?ex{\'e}cution, car il ne prend pas en compte explicitement le gain d'information et la r{\'e}duction de l?incertitude sur l'{\'e}tat cach{\'e} du syst{\`e}me.}
 }
 
-
+@inproceedings{oatao11437,
+       booktitle = {8{\`e}mes Journ{\'e}es Francophones Planification, D{\'e}cision, et Apprentissage pour la conduite de syst{\`e}mes (JFPDA)},
+           title = {D{\'e}cision s{\'e}quentielle pour la perception active : p-POMDP versus POMDP},
+          author = {Caroline Ponzoni Carvalho Chanel and Florent Teichteil-K{\"o}nigsbuch and Patrick Fabiani},
+         address = {Lille, FR},
+            year = {2013},
+        keywords = {Planification pour la perception - POMDP - robotique mobile},
+             url = {http://oatao.univ-toulouse.fr/11437/},
+        abstract = {Cet article propose une {\'e}tude du compromis entre la prise d?information et la d{\'e}cision dans un cadre applicatif qui se rapporte {\`a} une mission d?exploration, o{\`u} l?agent interagit avec son environnement pour identifier l?{\'e}tat cach{\'e} du syst{\`e}me. Dans ce probl{\`e}me de d{\'e}cision s{\'e}quentielle pour la perception, il est possible de faire reposer la fonction de r{\'e}compense sur une mesure de l?incertitude sur l?{\'e}tat de croyance de l?agent (Araya-L{\'o}pez et al., 2010; Candido \& Hutchinson, 2011; Eidenberger \& Scharinger, 2010). Sa forme est donc diff{\'e}rente de celle utilis{\'e}e dans le cadre classique des POMDP qui est, pour sa part, bas{\'e}e sur la paire {\'e}tat-action. Nous comparons donc deux approches d?optimisation des politiques pour ce type de probl{\`e}me. D?une part nous proposons un crit{\`e}re mixte qui couple une mesure de l?incertitude sur l?{\'e}tat de croyance avec les r{\'e}compenses d{\'e}finies par les paires {\'e}tat-action et nous d{\'e}veloppons un sch{\'e}ma algorithmique de r{\'e}solution pour ce crit{\`e}re. D?autre part, nous proposons d?ajouter au mod{\`e}le des {\'e}tats but fictifs au moyen des actions de classification afin de revenir {\`a} une mod{\'e}lisation sous-forme de POMDP classique (crit{\`e}re non mixte). Une {\'e}tude comparative de ces approches est ici pr{\'e}sent{\'e}e afin de v{\'e}rifier leur {\'e}quivalence en termes de prise d?informations. Les r{\'e}sultats nous m{\`e}nent {\`a} conclure que ces approches sont non seulement comparables et {\'e}quivalentes en termes de r{\'e}duction d?incertitude, mais aussi, qu?elles peuvent {\^e}tre utilis{\'e}es en parfaite compl{\'e}mentarit{\'e} de fa{\cc}on {\`a} permettre : de caract{\'e}riser une politique correspondant aux taux acceptables des bonnes
+et mauvaises classifications et de d{\'e}terminer les bonnes valeurs des co{\^u}ts et des r{\'e}compenses du mod{\`e}le POMDP classique.}
+}
 
 @inproceedings{conf/isrr/PineauG05,
   added-at = {2008-09-25T00:00:00.000+0200},
@@ -1557,6 +1593,14 @@ url = "http://www.sciencedirect.com/science/article/pii/S0022247X97951933",
 author = "Didier Dubois and Serafin Moral and Henri Prade"
 }
 
+@ARTICLE{Dubois96representingpartial,
+    author = {Didier Dubois and Henri Prade and Philippe Smets},
+    title = {Representing Partial Ignorance},
+    journal = {IEEE Trans. on Systems, Man and Cybernetics},
+    year = {1996},
+    volume = {26},
+    pages = {361--377}
+}
 
 @article{didiersgroundhogday,
 	author ={Ines Couso and S\'ebastien Destercke},
@@ -1570,6 +1614,14 @@ author = "Didier Dubois and Serafin Moral and Henri Prade"
 	pages = {10--15} 
 }
 
+@article{trevizan2007planning,
+  title={Planning under Risk and Knightian Uncertainty.},
+  author={Trevizan, Felipe W and Cozman, Fabio Gagliardi and de Barros, Leliane Nunes},
+  journal={IJCAI},
+  volume={2007},
+  pages={2023--2028},
+  year={2007}
+}
 
 @article{DBLP:journals/soco/Zadeh98,
   author    = {Lotfi A. Zadeh},
@@ -1722,7 +1774,6 @@ author = "Didier Dubois and Serafin Moral and Henri Prade"
   url = {http://leon.bottou.org/papers/bottou-91c},
 }
 
-
 @INPROCEEDINGS{Collobert_NIPSWORKSHOP_2011,
          author = {Collobert, Ronan and Kavukcuoglu, Koray and Farabet, Cl{\'{e}}ment},
        projects = {Idiap},
@@ -1730,4 +1781,13 @@ author = "Didier Dubois and Serafin Moral and Henri Prade"
       booktitle = {BigLearn, NIPS Workshop},
            year = {2011},
             pdf = {http://publications.idiap.ch/downloads/papers/2011/Collobert_NIPSWORKSHOP_2011.pdf}
+}
+
+@INPROCEEDINGS{Littman01predictiverepresentations,
+    author = {Michael L. Littman and Richard S. Sutton and Satinder Singh},
+    title = {Predictive Representations of State},
+    booktitle = {In Advances In Neural Information Processing Systems 14},
+    year = {2001},
+    pages = {1555--1561},
+    publisher = {MIT Press}
 }
