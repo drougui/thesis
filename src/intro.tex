@@ -116,7 +116,7 @@ may be a function $d$ defined on $\mathcal{S}$,
 as the current state is available to the agent, 
 and with values in $\mathcal{A}$.
 A criterion measuring the accuracy of the strategy $d$ 
-may then be the expected discounted total reward: 
+may then be the (infinite horizon) expected discounted total reward: 
 \begin{equation}
 \label{criterion}
 \mathbb{E} \croch{ \sum_{t=0}^{+ \infty} \gamma^t r(s_t,d_t) },
@@ -1168,61 +1168,62 @@ in the fully observable case
 this work uses the well-known \textit{maximin},
 or \textit{worst case} criterion,
 which comes from \textit{Game Theory}: 
-the strategy which is looked for
+in this framework, an optimal strategy 
 maximizes the lowest criterion
-(among the considered possible parameters).
+among all the parameters considered as possible.
 If the parameter imprecision is not stationary,
-\textit{i.e.} can change at each time step, 
+\textit{i.e.} can change at each time step,
 the corresponding optimal strategy (in the maximin sense)
 can be easily computed using classical computations
-(called \textit{Dynamic Programming}, see Section \ref{chap_SOTA} of Chapter \ref{subsectionDP}).
+(called \textit{Dynamic Programming}, see Section \ref{subsectionDP} of Chapter \ref{chap_SOTA}).
 However, when the parameter imprecision is stationary,
-which is more consistent with the presented POMDP definition
-(transition and observation functions don't depend
-on the time step) 
-the proposed computations lead to a approximately optimal strategy,
+things become harder:
+the proposed computations lead to an approximately optimal strategy,
 as the handled criterion is a lower bound
 of the desired maximin criterion. 
+Yet, the stationary assumption for the parameter imprecision seems more suitable 
+according to the proposed POMDP definition:
+indeed, transition and observation functions are here defined independent from the time step,
+mostly to make the use of infinite horizon criteria such as (\ref{criterion}) easier.
 
 Although the use of sets of probability distributions 
 (credal sets) makes the model more consistent 
 with the reality of the problem (parameters are imprecise in practice),
 taking them (really) into account (e.g. with a maximin criterion) 
 increases eventually the complexity 
-of the optimal strategy computation:
-this intuition is quite well as illustrated in Figure \ref{uncertainty_theories}
-as the expressiveness of the Imprecise Probability Theory
-is on top compared with other theories.
-As POMDP solving is already a really hard problem
-in terms of complexity as explained above,
-using a framework leading to more complex computations
+of the optimal strategy computation.
+This intuition is quite well illustrated by Figure \ref{uncertainty_theories}:
+Imprecise Probability Theory has the greatest expressiveness 
+compared to the other theories,
+that is why computations with this modeling 
+can be expected to be harder to perform.
+As explained above, POMDP solving is already a really hard task,
+thus using a framework leading to more complex computations
 does not seem to be a good approach. 
 Moreover, with this framework, 
 some restrictive assumptions are commonly needed
-such like an imposed form of the credal sets (convex), 
-and optimization may require linear programs.
-As discussed during this thesis 
-(see Section \ref{section_expe_PPUDD} of Chapter \ref{chap_symb}),
-it seems quite weird to model a problem in an expressive manner,
-and then to allow important approximations without control of them,
+such like the convexity of credal sets,
+and optimization may require linear programs \cite{NE:05,DBLP:conf/icml/Osogami15}.
+%As discussed during this thesis 
+%(for instance see Section \ref{section_expe_PPUDD} of Chapter \ref{chap_symb}),
+Modeling a problem in an expressive manner may lead
+to the use of important approximations without control of the latter,
 as done with the POMDPIP and BPPOMDP frameworks.
-It should be a better approach to start with a simpler model
-which can be solved in practice. 
+It may be a better approach to start with a simpler model
+which can be solved easily in practice. 
 
 Finally, while there are fascinating questions of algorithms in this area,
 this thesis does not deal with Reinforcement Learning (RL, \cite{NIPS2009_3780,Ross:2011:BAL:1953048.2021055}), 
 as we are interested in robotic applications 
 which have to well behave during very first executions.
-The reason is that robotic systems may be expensive,
+The basic reason is that robotic systems may be expensive,
 and executions are not allowed to break the robot.
-By opposition with on-line (\textit{i.e.} during execution) 
-learning problems, the problem of interest here 
+The problem of interest here 
 is called \textit{offline POMDP solving}.
 However, they are complementary studies 
 since statistical learning could be performed
 during each of the executions performed 
 with the offline solution (long-term learning).
-
 
 \begin{figure} \centering
 \begin{tikzpicture}
@@ -1281,8 +1282,8 @@ it corresponds to the set of all the possible
 probability distributions in IPT.
 If the mass function is equal to zero 
 for each non-singleton subsets,
-it is simply a probability distribution
-as $bel=Pl$.
+it corresponds simply to a probability distribution
+since $bel=Pl$.
 If the mass function is positive only on a
 sequence of nested subsets, 
 it corresponds to a possibility distribution:
@@ -1322,8 +1323,8 @@ with an unknown exit location (initial belief state)
 and has to find the exit and 
 reach it. 
 In practice, no experience can be repeated 
-in order to extract a frequency of 
-the exit's location. 
+in order to extract a frequency of the location of
+the exit. 
 In this kind of situation,
 uncertainty is not due to a random fact, 
 but to a lack of knowledge: 
@@ -1383,27 +1384,68 @@ this knowledge during the execution of the considered process.
 Some works inspired by the field of \textit{Active Perception}, 
 have been concerned about the information gathered 
 by the agent in the POMDP framework
-\cite{conf/stairs/ChanelFTI10,oatao11449}:
+\cite{conf/stairs/ChanelFTI10,oatao11449}.
+In these works, 
 the \textit{entropy} of the belief state
 is taken into account in the criterion, 
-making the computed strategy to 
-ensure that reached belief states have a low entropy
-\textit{i.e.} are as close to deterministic belief states as possible,
-while satisfying the requirement of an high expected total reward.
-However, a belief state with an high entropy  
-may be not related to the agent's lack of knowledge,
-but rather to the (fully known) 
-variance of the system state:
-hence the agent does not know which is the actual system state 
-since the belief state is far from being deterministic,
-but it may perfectly know how the state behaves,
-and then nothing can be improved concerning its knowledge.
-% TODO
-The use of the entropy supposes then that there is no difference
-between the 
-be considered as a full knowledge of the
-actual frequency of the considered state:
-introduce models more general \cite{conf/nips/Araya-LopezBTC10,oatao11437}
+making the computed strategy 
+ensure that reached belief states have a lower entropy
+(\textit{i.e.} are more close to a deterministic probability distribution)
+while always satisfying the requirement of an high expected total reward.
+This approach leads to really interesting results
+in practice.
+
+Nevertheless, a tradeoff parameter is introduced
+making the entropy part 
+of the criterion more or less important: 
+tuning the latter may
+add additional computations.
+Moreover this approach
+does not distinguish
+between the actual frequentist behavior of the system state, 
+and the lack of knowledge about the actual belief state
+(as a probability distribution)
+due to the imprecision about the initial belief state,
+or yet about the transition and observation function:
+it just tends to make the belief as deterministic as
+possible, even if it is not possible due to the actual
+probability distributions of the model 
+(e.g. if the transition probability distribution 
+$\textbf{p} \paren{s_{t+1} \sachant s_t,a_t}$ has an high entropy for each actions $a_t \in \mathcal{A}$),
+and even if it is not needed 
+(e.g. if each system states $s \in \mathcal{S}$ such that the belief state $b_t$
+is not zero, $b_t(s)>0$, lead to an high reward).
+%In other words, the POMDP framework 
+%defines the successive belief states
+%as probability distributions
+%instead of sets of possible ones:
+%measure of knowledge about the actual system state 
+%(in a frequentist point of view)
+%is mixed up with the measure of knowledge about the model.
+
+However, the proposed criterion (including the entropy of the  belief state) 
+has been shown to make the agent estimate faster its real state,
+which is really useful in some practical problems.
+Other models have been introduced, making the reward function dependent
+on the belief state 
+\cite{conf/nips/Araya-LopezBTC10,oatao11437}:
+this allows to make the agent behavior vary with respect to
+the probabilistic representation of its knowledge.
+
+%it may make the  actually the real  the POMDP is in practice, a belief state may have an high entropy
+%not because of the imprecision of the parameters, 
+%may be not related to the agent's lack of knowledge in the probabilistic about the ,
+%but rather to the 
+%(fully known) 
+%variance of the system state:
+%hence the agent does not know 
+%which is the actual system state 
+%since its  is far from being deterministic,
+%but it may perfectly know how the state behaves,
+%and then nothing can be improved concerning its knowledge.
+
+\textbf{CEST LA FIN MON AMOUR!!}
+
 %and knowledge of the agent CARO \\
 
 %
