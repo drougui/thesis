@@ -1444,7 +1444,7 @@ the probabilistic representation of its knowledge.
 %but it may perfectly know how the state behaves,
 %and then nothing can be improved concerning its knowledge.
 
-\textbf{CEST LA FIN MON AMOUR!!}
+\textbf{CEST LA FIN MON AMOUR!! (1)}
 
 %and knowledge of the agent CARO \\
 
@@ -1452,15 +1452,41 @@ the probabilistic representation of its knowledge.
 % WHAT WE WOULD LIKE TO DO
 %
 \section*{General problem}
-problem of solving the problem offline:
-fulfill the mission at the first execution,
+Previous sections presented some issues encountered in practice 
+when using the POMDP framework to compute strategies, 
+especially for robotic missions. 
+The really high complexity of the problem of computing an optimal strategy 
+is a first point: robotic missions result often in high dimensional problems
+preventing algorithms from the computation of sufficiently good strategies.
+Second we presented the difficulty of defining the parameters 
+of the POMDP encoding a given problem (\textit{i.e.} a robotic mission).
+Finally the problem of managing the knowledge of the agent has been discussed:
+defining the initial agent's lack of knowledge about the actual world,
+as well as handling and taking into account the current knowledge,
+is a difficult task: the difficulty comes from the restriction 
+of the classical POMDP framework which only allows the use of 
+frequentist probability distributions.
+
+These problems are the starting point of our work.
+Indeed, the latter consists in contributing to the problem
+of computing strategies for partially observable domains, 
+leading to good behaviors for the very first execution:
+the general challenge of this work is to proceed to these
+computations only using the knowledge really available before any 
+execution,
+and paying particular attention to the issues pointed out above. 
+For instance, reinforcement learning algorithms 
+may lead to improvements of the initial strategy
+but are not considered in this work.
+
+Because of the impre
+The sentence: why have we to consider the alternative 
+Figure \ref{uncertainty_theories} attention  particular  goal make us to
+taking into account or benefiting from the lack of knowledge
+
 with a model built from imprecise data and
 using reasonable computation time.
 + MODELIZATION and interested by the actual knowledge of the agent (CARO)
-C'est ce qui justifie cette \'etude. Elle consiste \`a d\'evelopper un algorithme
-de calcul de strat\'egie pour une mission robotique autonome, adapt\'e \`a l'incertitude
-li\'ee \`a la vision artificielle, et permettant la mod\'elisation formelle de 
-la m\'econnaissance initiale de l'agent. \\
 
 
 %
