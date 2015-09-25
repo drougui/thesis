@@ -376,8 +376,8 @@ grid-based ones \cite{Geffner98solvinglarge,Brafman97aheuristic,Bonet_newgrid-ba
 or Monte Carlo approach \cite{NIPS2010_4031},
 use approximate computations.
 The next POMDP's practical issues that will be highlighted, 
-concern modeling flaws of this model, 
-illustrated by robotic situations.
+concern modeling flaws appearing when using this framework:
+they are easily illustrated via robotic situations.
 
 %
 % VISION IN ROBOTICS
@@ -1478,6 +1478,41 @@ and paying particular attention to the issues pointed out above.
 For instance, reinforcement learning algorithms 
 may lead to improvements of the initial strategy
 but are not considered in this work.
+
+Although the use of a more expressive framework 
+may makes strategy computations harder, 
+the issues about the parameter imprecision 
+and about agent knowledge managing 
+lead us to consider alternative uncertainty theories 
+as those described in Figure \ref{uncertainty_theories}. 
+As presented above, the Imprecise Probability Theory (IPT) 
+has been already explored to improve the POMDP framework
+\cite{Itoh2007453,NiYaLiaZhi,DBLP:conf/icml/Osogami15}.  
+However, a tradeoff
+between the proper use of the credal sets 
+and the computation time
+has to be reached. 
+A less expressive uncertainty theory 
+is called the Belief Functions Theory 
+(BFT, see Figure \ref{uncertainty_theories}): 
+this theory encodes the uncertainty of a given situation
+with a mass $m$ defined on each disjunctive subsets of the finite universe $\Omega$:
+$m : 2^{\Omega} \rightarrow [0,1]$, with $\sum_{A \subseteq \Omega} m(A) = 1$.
+Recall that the frequentist probability of an elementary event $\omega \in \Omega$ 
+to occur can be computed in practice using the law of large numbers
+\textit{i.e.} this probability is the number of times this event occurred, 
+over the size of the used dataset of events 
+(called sample space, and which as to be sufficiently big). %%% TODO
+Suppose that we wanted to compute the frequentist probability distribution 
+describing a given situation, but some  
+but events were imprecisely observed during this computation,
+
+however allows
+The quantity $m(A)$ is defined as the frequency of observing 
+one of the elements of this set, 
+without a better precision. The total ignorance about the actual probability distribution defining the model is encoded with a mass returning 1 for $\Omega$, and 0 for each other subset: in IPT, it corresponds to the credal set containing all the existing probability distributions. This ability to encode imprecision and lack of knowledge is a good point. Not also that this framework allows to encode the full knowledge about the probability distribution describing the model. Already studied to improve the fully observable MDP framework) (ref),
+
+
 
 Because of the impre
 The sentence: why have we to consider the alternative 
