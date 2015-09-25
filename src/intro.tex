@@ -1454,30 +1454,43 @@ the probabilistic representation of its knowledge.
 \section*{General problem}
 Previous sections presented some issues encountered in practice 
 when using the POMDP framework to compute strategies, 
-especially for robotic missions. 
+especially in the robotic context. 
 The really high complexity of the problem of computing an optimal strategy 
-is a first point: robotic missions result often in high dimensional problems
+is a first point: robotic missions often result in high dimensional problems
 preventing algorithms from the computation of sufficiently good strategies.
-Second we presented the difficulty of defining the parameters 
-of the POMDP encoding a given problem (\textit{i.e.} a robotic mission).
+Second we presented the difficulty of defining the probability distributions
+of a POMDP encoding a given problem 
+(e.g. defining the observation function when using computer vision algorithms).
 Finally the problem of managing the knowledge of the agent has been discussed:
 defining the initial agent's lack of knowledge about the actual world,
 as well as handling and taking into account the current knowledge,
-is a difficult task: the difficulty comes from the restriction 
-of the classical POMDP framework which only allows the use of 
-frequentist probability distributions.
+is an hard task: 
+the difficulty comes from the POMDP definition
+which only allows the use of 
+frequentist probability distributions,
+while more expressive mathematical tools are needed.
 
-These problems are the starting point of our work.
+These problems are the starting points of our work.
 Indeed, the latter consists in contributing to the problem
-of computing strategies for partially observable domains, 
-leading to good behaviors for the very first execution:
-the general challenge of this work is to proceed to these
-computations only using the knowledge really available before any 
-execution,
-and paying particular attention to the issues pointed out above. 
-For instance, reinforcement learning algorithms 
-may lead to improvements of the initial strategy
+of computing strategies for partially observable domains.
+The computed strategies have to make the robot fulfill the mission
+as well as possible, from the very first execution,
+\textit{i.e.} computations are performed before any execution of the mission:
+for instance, RL algorithms 
+may lead to improvements of the computed strategy
+at each execution of the robotic mission,
 but are not considered in this work.
+%to this purpose, a criterion
+%(e.g the discounted expected total reward of Equation \ref{criterion})
+%is maximized.
+The general challenge of this work 
+is to proceed to these computations 
+using only data and knowledge about the problem 
+which are really available in practice,
+and paying particular attention to the issues pointed out above:
+namely, the complexity of the strategy computation,
+the imprecision of the model, 
+and the management of the agent's knowledge.
 
 Although the use of a more expressive framework 
 may makes strategy computations harder, 
