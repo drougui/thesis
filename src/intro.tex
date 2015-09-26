@@ -1455,31 +1455,46 @@ the probabilistic representation of its knowledge.
 Previous sections presented some issues encountered in practice 
 when using the POMDP framework to compute strategies, 
 especially in the robotic context. 
-The really high complexity of the problem of computing an optimal strategy 
-is a first point: robotic missions often result in high dimensional problems
-preventing algorithms from the computation of sufficiently good strategies.
-Second we presented the difficulty of defining the probability distributions
-of a POMDP encoding a given problem 
-(e.g. defining the observation function when using computer vision algorithms).
-Finally the problem of managing the knowledge of the agent has been discussed:
-defining the initial agent's lack of knowledge about the actual world,
-as well as handling and taking into account the current knowledge,
+The really high complexity of the problem 
+of computing an optimal strategy 
+is a first point: 
+robotic missions often result in high dimensional problems
+preventing algorithms from the computation of sufficiently good strategies,
+because of prohibitive computation time and/or RAM needed.
+Second we presented 
+the difficulty of defining 
+the probability distributions of a POMDP 
+encoding a given problem 
+(e.g. defining the observation function 
+when using computer vision algorithms).
+Finally the problem of managing 
+the knowledge of the agent 
+has been discussed:
+defining the initial agent's lack of knowledge 
+about the actual world,
+as well as handling 
+and taking into account 
+the current knowledge,
 is an hard task: 
-the difficulty comes from the POMDP definition
-which only allows the use of 
-frequentist probability distributions,
+the difficulty comes 
+from the POMDP definition
+which only allows 
+the use of frequentist probability distributions,
 while more expressive mathematical tools are needed.
 
 These problems are the starting points of our work.
 Indeed, the latter consists in contributing to the problem
 of computing strategies for partially observable domains.
-The computed strategies have to make the robot fulfill the mission
-as well as possible, from the very first execution,
-\textit{i.e.} computations are performed before any execution of the mission:
+The computed strategies have to make 
+the robot fulfill the mission
+as well as possible, and from the very first execution,
+\textit{i.e.} computations are performed 
+before any real execution of the mission:
 for instance, RL algorithms 
 may lead to improvements of the computed strategy
-at each execution of the robotic mission,
-but are not considered in this work.
+at each execution of the robotic mission.
+However, this interesting question 
+is not considered in this work.
 %to this purpose, a criterion
 %(e.g the discounted expected total reward of Equation \ref{criterion})
 %is maximized.
@@ -1494,33 +1509,43 @@ and the management of the agent's knowledge.
 
 Although the use of a more expressive framework 
 may makes strategy computations harder, 
-the issues about the parameter imprecision 
-and about agent knowledge managing 
+the parameter imprecision issue,
+as well as the agent knowledge issue, 
 lead us to consider alternative uncertainty theories 
 as those described in Figure \ref{uncertainty_theories}. 
 As presented above, the Imprecise Probability Theory (IPT) 
 has been already explored to improve the POMDP framework
 \cite{Itoh2007453,NiYaLiaZhi,DBLP:conf/icml/Osogami15}.  
-However, a tradeoff
-between the proper use of the credal sets 
-and the computation time
-has to be reached. 
+However, the proper use of the credal sets defining the problem
+makes the computations harder.
 A less expressive uncertainty theory 
 is called the Belief Functions Theory 
 (BFT, see Figure \ref{uncertainty_theories}): 
 this theory encodes the uncertainty of a given situation
-with a mass $m$ defined on each disjunctive subsets of the finite universe $\Omega$:
-$m : 2^{\Omega} \rightarrow [0,1]$, with $\sum_{A \subseteq \Omega} m(A) = 1$.
-Recall that the frequentist probability of an elementary event $\omega \in \Omega$ 
-to occur can be computed in practice using the law of large numbers
-\textit{i.e.} this probability is the number of times this event occurred, 
-over the size of the used dataset of events 
-(called sample space, and which as to be sufficiently big). %%% TODO
-Suppose that we wanted to compute the frequentist probability distribution 
-describing a given situation, but some  
-but events were imprecisely observed during this computation,
+with a mass $m$ defined on each disjunctive subsets 
+of the finite universe $\Omega$:
+$m : 2^{\Omega} \rightarrow [0,1]$, 
+with $\sum_{A \subseteq \Omega} m(A) = 1$.
+Recall that the frequentist probability 
+of an elementary event $\omega \in \Omega$ 
+can be computed in practice using the law of large numbers
+\textit{i.e.} this probability is the number 
+of times this event occurred 
+in a sufficiently big dataset of events, 
+over the size of the used dataset. %%% TODO
 
-however allows
+Suppose now that we wanted to compute 
+such a frequentist probability distribution 
+describing a given frequentist situation.
+Consider that some of 
+the elementary events 
+$\omega \in \Omega$
+stored in this dataset
+have been imprecisely observed: 
+instead of the actual elementary event,
+a disjunctive set of events is returned
+describing the actual imprecision of the observation,
+as the actual elementary event is not clear in practice.
 The quantity $m(A)$ is defined as the frequency of observing 
 one of the elements of this set, 
 without a better precision. The total ignorance about the actual probability distribution defining the model is encoded with a mass returning 1 for $\Omega$, and 0 for each other subset: in IPT, it corresponds to the credal set containing all the existing probability distributions. This ability to encode imprecision and lack of knowledge is a good point. Not also that this framework allows to encode the full knowledge about the probability distribution describing the model. Already studied to improve the fully observable MDP framework) (ref),
