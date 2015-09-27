@@ -1485,28 +1485,53 @@ the use of frequentist probability distributions,
 while more expressive mathematical tools seem necessary.
 
 These problems are the starting points of our work.
-Indeed, the latter consists in contributing to the problem
-of computing appropriate strategies for partially observable domains.
-The computed strategies have to make 
-the robot fulfill the mission
-as well as possible, and from the very first execution,
+Indeed, the latter consists in contributing 
+to the problem
+of computing appropriate strategies 
+for partially observable domains.
+The computed strategies 
+have to make the robot 
+fulfill the mission
+as well as possible,
+and from the very first execution,
 \textit{i.e.} strategy computations are performed 
 before any real execution of the mission.
-For instance, RL algorithms may improve, 
-at each execution of a given robotic mission,
-the prior strategies that we propose to compute in this work:
-this interesting question is not considered here.
+As an idea to make the robot more powerful
+in the long term, RL algorithms may improve
+the prior strategies 
+that we propose 
+to compute in this work,
+taking into account each past executions 
+of the robotic mission.
+However this idea 
+is not considered 
+here since we focus 
+on the aim of making the robotic mission 
+as fulfilled as possible 
+also during 
+the first executions of the process,
+and thus without the knowledge 
+of a sufficient amount of
+records of past executions
+to efficiently use RL.
 %to this purpose, a criterion
 %(e.g the discounted expected total reward of Equation \ref{criterion})
 %is maximized.
-The general challenge of our work 
-is to proceed to these computations 
+The general challenge guiding this work 
+is to proceed to strategy computations 
 using only data and knowledge about the problem 
 which are really available in practice,
-and paying particular attention to the issues pointed out above:
-namely, the complexity of the strategy computation,
+making if possible the strategy computation easier,
+instead of using the highly complex 
+and hard to define POMDP framework.
+In other words, it consists in paying 
+particular attention 
+to the issues pointed out above:
+namely, the complexity 
+of the strategy computation,
 the imprecision of the model, 
-and the management of the knowledge of the agent.
+and the management 
+of the knowledge of the agent.
 
 Although the use of a more expressive framework 
 may make strategy computations harder, 
@@ -1522,20 +1547,57 @@ makes the computations harder.
 
 A less expressive uncertainty theory 
 is called the Belief Functions Theory 
-(BFT, see Figure \ref{uncertainty_theories}): 
-this theory encodes uncertainty of a given situation
-with a mass $m$ defined on each disjunctive subsets 
-of the finite universe $\Omega$:
-$m : 2^{\Omega} \rightarrow [0,1]$, 
-with $\sum_{A \subseteq \Omega} m(A) = 1$.
+(BFT, see Figure \ref{uncertainty_theories}).
+Consider the universe $\Omega$,
+a finite set whose elements represent 
+the possible elementary events 
+of a given situation.
+The BFT encodes 
+uncertainty about 
+possible events 
+of a given situation
+with a mass $m$.
+The latter is defined 
+on each disjunctive subsets 
+of the universe 
+\textit{i.e.} $m : 2^{\Omega} \rightarrow [0,1]$, 
+and sum to $1$ over these subsets: $\sum_{A \subseteq \Omega} m(A) = 1$.
+
 Recall that the frequentist probability 
 of an elementary event $\omega \in \Omega$ 
 can be computed in practice using the law of large numbers
 \textit{i.e.} 
 this probability can be defined as the number 
-of times the considered event occurred 
-in a sufficiently big dataset of events, 	
-over the size of the used dataset. %%% TODO ensuite c'est pas beau!!!
+of times the considered event $\omega$ occurred 
+according to a sufficiently large dataset 
+of recorded samples,
+over the size of the used dataset 
+(total number of samples):
+in other words, 
+the frequentist probability 
+is the frequency of occurrence 
+of the considered elementary event
+in the used dataset.
+For instance, 
+when computing 
+one of the probability distributions
+leading to the transition function 
+in the POMDP framework, 
+namely $s' \in \mathcal{S} \mapsto \textbf{p} \paren{ s' \sachant s,a }$
+(given a system state $s \in \mathcal{S}$
+and an action $a \in \mathcal{A}$),
+the universe $\Omega$ can be defined as $\mathcal{S}$,
+and then an elementary event 
+is a system state $s' \in \mathcal{S}$.
+An other example is the computation 
+of one of the probability distributions
+leading to the observation function:
+$o' \in \mathcal{O} \mapsto \textbf{p} \paren{ o' \sachant s',a}$,
+for a given couple $(s',a) \in \mathcal{S} \times \mathcal{A}$.
+In this case, the universe can be defined as $\mathcal{O}$,
+and an observation $o' \in \mathcal{O}$ is an elementary event.
+
+%%% TODO ensuite c'est pas beau!!!
 Suppose now that 
 we need to compute,
 for a modeling purpose
