@@ -1215,15 +1215,17 @@ which can be solved easily in practice.
 Finally, while there are fascinating questions of algorithms in this area,
 this thesis does not deal with Reinforcement Learning (RL, \cite{NIPS2009_3780,Ross:2011:BAL:1953048.2021055}), 
 as we are interested in robotic applications 
-which have to well behave during very first executions.
+whose very first executions have to proceed efficiently.
 The basic reason is that robotic systems may be expensive,
 and executions are not allowed to break the robot.
-The problem of interest here 
-is called \textit{offline POMDP solving}.
-However, they are complementary studies 
-since statistical learning could be performed
-during each of the executions performed 
-with the offline solution (long-term learning).
+%The problem of interest here 
+%is called \textit{offline POMDP solving}.
+However, they are complementary studies:
+instead of making the strategy 
+as optimal as possible, 
+RL improves sequentially the latter
+using all the previous executions.
+%for statistical learning.
 
 \begin{figure} \centering
 \begin{tikzpicture}
@@ -1461,23 +1463,31 @@ is a first point:
 robotic missions often result in high dimensional problems,
 preventing any algorithm from the computation of a
 sufficiently near optimal strategy,
-because of the prohibitive computation time and/or memory needed for this task.
-Second we presented 
+because of the prohibitive computation time 
+and/or memory needed for this task.
+Second we highlighted 
 the difficulty of defining 
-the probability distributions of a POMDP 
-encoding a given problem 
-(e.g. defining the observation function 
-when using computer vision algorithms).
+the probability distributions
+describing the problem:
+for instance the observation function 
+can be hard to define
+when the observations comes from 
+complex computer vision algorithms.
 Finally the problem of managing 
-the knowledge of the agent 
+the knowledge (and the ignorance) 
+of the agent 
 has been discussed:
-representing the initial agent's 
+there is no clear answer
+concerning the way to
+represent the initial 
 lack of knowledge 
-about the actual world,
-as well as handling 
+about the actual world
+for the agent.
+Also, no clear answer 
+has been given concerning
+the manner of handling 
 and taking into account 
-the current knowledge,
-is a hard task: 
+the current knowledge: 
 the difficulty comes 
 from the classical POMDP definition
 which only allows 
@@ -1507,16 +1517,19 @@ However this idea
 is not considered 
 here since we focus 
 on the aim of making the robotic mission 
-as fulfilled as possible 
-also during 
-the first executions of the process,
-and thus without the knowledge 
-of a sufficient amount of
-records of past executions
-to efficiently use RL.
+as well-fulfilled as possible 
+especially for 
+the first executions of the process:
+RL algorithms are not useful in this context
+the dataset of recorded mission executions 
+is not sufficiently large.
+%and thus without the knowledge 
+%to efficiently use RL.
 %to this purpose, a criterion
 %(e.g the discounted expected total reward of Equation \ref{criterion})
 %is maximized.
+
+% TODO + SEE TODO PORTABLE
 The general challenge guiding this work 
 is to proceed to strategy computations 
 using only data and knowledge about the problem 
