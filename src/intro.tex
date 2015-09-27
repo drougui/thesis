@@ -1536,18 +1536,37 @@ this probability can be defined as the number
 of times the considered event occurred 
 in a sufficiently big dataset of events, 	
 over the size of the used dataset. %%% TODO ensuite c'est pas beau!!!
-Suppose now that we wanted to compute 
-such a frequentist probability distribution 
-describing a given frequentist situation.
-Consider that some of 
+Suppose now that 
+we need to compute,
+for a modeling purpose
+(e.g. to define the transition or the observation functions of a POMDP),
+a frequentist probability distribution
+describing a given situation
+(e.g. dynamics of the variables encoding a robotic mission):
+the frequentist probability of each
+elementary event has to be computed
+in the classical way 
+(described just above).
+Consider now that some of 
 the elementary events 
 $\omega \in \Omega$
-stored in this dataset
-have been imprecisely observed: 
-instead of the actual elementary event,
+considered in the problem,
+have been imprecisely observed in practice. %% TODO 
+Usually, instances of the elementary event 
+are included several times in the dataset,
+the number of instances of this elementary event 
+leading to the frequentist probability distribution
+after the normalization.
+In the case of imprecise observation %%%TODO PAS OBSERVATION 
+during the dataset generation,
 a disjunctive set of events is returned
-describing the actual imprecision of the observation,
-as the actual elementary event is not clear in practice.
+instead of the actual elementary event:
+indeed, this set describes the actual imprecision 
+of the observation,
+since the actual elementary event has not been
+correctly  
+and could be, rationally speaking, 
+any of the elementary events included in the returned set.
 The quantity $m(A)$ is defined as the frequency of observing 
 one of the elements of this set, 
 without a better precision. The total ignorance about the actual probability distribution defining the model is encoded with a mass returning 1 for $\Omega$, and 0 for each other subset: in IPT, it corresponds to the credal set containing all the existing probability distributions. This ability to encode imprecision and lack of knowledge is a good point. Not also that this framework allows to encode the full knowledge about the probability distribution describing the model. Already studied to improve the fully observable MDP framework) (ref),
