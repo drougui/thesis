@@ -527,7 +527,7 @@ These probabilities can be used to define the observation function
 $\textbf{p} \paren{o' \sachant s',a}$
 introduced above. 
 This approach raises the issue of knowing if the testing dataset 
-is quite representative of the mission reality.
+is representative enough of the mission reality.
 If not, the observation probabilities may be not reliable,
 and the POMDP badly defined: 
 however, as shown by the equation (\ref{probBayesRule})
@@ -554,8 +554,8 @@ Moreover, as the number of pictures per class is reduced
 a poorer confusion matrix is obtained when testing (in terms of confidence).
 
 As a conclusion, the POMDP model supposes 
-the knowledge of all the involved 
-probability distributions:
+the knowledge of all
+probability distributions involved:
 unfortunately the actual frequencies 
 used to compute them
 are not precisely known in practice.
@@ -571,7 +571,7 @@ of the probability distributions
 of a POMDP needs enough tests 
 for each possible system state and action,
 which is hard to perform:
-there are limited data for learning the model
+there are limited data to learn the model
 in practice.
 
 %%
@@ -1097,27 +1097,29 @@ To the best of our knowledge,
 the first model meant to handle parameter imprecision
 has been called POMDPIP, 
 for \textit{POMDP with Imprecise Parameters} (POMDPIP) \cite{Itoh2007453}. 
-This work considers sets of possible parameters
-instead of only one. Figure \ref{uncertainty_theories}
+In this work, each POMDP parameter is replaced by 
+a set of possible parameters.
+Figure \ref{uncertainty_theories}
 introduces the Imprecise Probability Theory 
 which has inspired this idea:
 in this theory, uncertainty and knowledge about it 
-are represented by set of probability distributions
+are represented by sets of probability distributions
 (called \textit{credal sets})
 to express the fact that the model is not fully known.
 Imprecision of the POMDP model is well expressed in this way:
 for instance, if confidence bounds on the computed probabilities
 are available, 
-they can be taken into account when modeling,
-considering the set of all the likely 
-probability distributions. 
+these bounds can be taken 
+into account when modeling,
+considering the sets of all likely 
+probability distributions.
 
 Starting from this modeling, 
 a \textit{second order belief}
 is introduced in this work:
 it is defined as a probability distribution 
 over the possible model parameters.
-This approach confuses thus 
+This approach thus confuses
 parameter imprecision and event frequency.
 Indeed, strategies which are looked for
 are the optimal strategies
@@ -1135,14 +1137,17 @@ because of the use of a second order belief.
 Moreover, it is claimed that the actual second order belief 
 is not known, and then is allowed to vary in order to make 
 the computation of an approximated strategy easier:
-analysis of performances only details 
-the extent to which the approximated strategy 
-is far from the ``averaged POMDP''.	
+the analysis of performances only details 
+how far is the approximated strategy 
+from the ``averaged POMDP''.	
 
-An other work, called \textit{Bounded Parameters POMDPs} (BPPOMDP) \cite{NiYaLiaZhi} 
+Another work, called \textit{Bounded Parameters POMDPs} 
+(BPPOMDP) \cite{NiYaLiaZhi} 
 does not introduce any second order belief. 
-However, solving BPPOMDPs is similar as \cite{Itoh2007453} in spirit
-since the set of possible one are choosing to make the computations as easy as possible.
+However, solving BPPOMDPs is similar 
+to \cite{Itoh2007453} in spirit
+since the flexibility provided by the parameter imprecision
+is used to make the computations as easy as possible.
 In this framework, the criterion defining optimal strategies 
 is not even made explicit.
 
@@ -1183,8 +1188,11 @@ as the handled criterion is a lower bound
 of the desired maximin criterion. 
 Yet, the stationary assumption for the parameter imprecision seems more suitable 
 according to the proposed POMDP definition:
-indeed, transition and observation functions are here defined independent from the time step,
-mostly to make the use of infinite horizon criteria such as (\ref{criterion}) easier.
+indeed, transition and observation functions are here defined 
+as independent from the time step,
+mostly to make the use of 
+infinite horizon criteria 
+such as (\ref{criterion}) easier.
 
 Although the use of sets of probability distributions 
 (credal sets) makes the model more consistent 
@@ -1202,7 +1210,7 @@ thus using a framework leading to more complex computations
 does not seem to be a good approach. 
 Moreover, with this framework, 
 some restrictive assumptions are commonly needed
-such like the convexity of credal sets,
+such as the convexity of credal sets,
 and optimization may require linear programs \cite{NE:05,DBLP:conf/icml/Osogami15}.
 %As discussed during this thesis 
 %(for instance see Section \ref{section_expe_PPUDD} of Chapter \ref{chap_symb}),
@@ -1384,7 +1392,7 @@ may be initially partial (or even absent),
 it makes sense to pay attention to the evolution of 
 this knowledge during the execution of the considered process.
 Some works inspired by the field of \textit{Active Perception}, 
-have been concerned about the information gathered 
+have been focusing on the information gathered
 by the agent in the POMDP framework
 \cite{conf/stairs/ChanelFTI10,oatao11449}.
 In these works, 
@@ -1407,13 +1415,14 @@ does not distinguish
 between the actual frequentist behavior of the system state, 
 and the lack of knowledge about the actual belief state
 (as a probability distribution)
-due to the imprecision about the initial belief state,
-or yet about the transition and observation function:
+due to the imprecision of the initial belief state,
+or yet of the transition and observation function:
 it just tends to make the belief as deterministic as
 possible, even if it is not possible due to the actual
 probability distributions of the model 
 (e.g. if the transition probability distribution 
-$\textbf{p} \paren{s_{t+1} \sachant s_t,a_t}$ has an high entropy for each actions $a_t \in \mathcal{A}$),
+$\textbf{p} \paren{s_{t+1} \sachant s_t,a_t}$ 
+has an high entropy for each actions $a_t \in \mathcal{A}$),
 and even if it is not needed 
 (e.g. if each system states $s \in \mathcal{S}$ such that the belief state $b_t$
 is not zero, $b_t(s)>0$, lead to an high reward).
@@ -1445,8 +1454,6 @@ the probabilistic representation of its knowledge.
 %since its  is far from being deterministic,
 %but it may perfectly know how the state behaves,
 %and then nothing can be improved concerning its knowledge.
-
-\textbf{CEST LA FIN MON AMOUR!! (1)}
 
 %and knowledge of the agent CARO \\
 
@@ -1484,10 +1491,10 @@ lack of knowledge
 about the actual world
 for the agent.
 Also, no clear answer 
-has been given concerning
-the manner of handling 
-and taking into account 
-the current knowledge: 
+has been given 
+about how to handle 
+and take into account 
+the current agent knowledge: 
 the difficulty comes 
 from the classical POMDP definition
 which only allows 
@@ -1506,35 +1513,38 @@ as well as possible,
 and from the very first execution,
 \textit{i.e.} strategy computations are performed 
 before any real execution of the mission.
-As an idea to make the robot more powerful
-in the long term, RL algorithms may improve
+In order to make the robot more powerful
+in the long term, 
+RL algorithms may improve
 the prior strategies 
 that we propose 
 to compute in this work,
-taking into account each past executions 
+taking into account each past execution 
 of the robotic mission.
 However this idea 
 is not considered 
 here since we focus 
-on the aim of making the robotic mission 
-as well-fulfilled as possible 
+on fulfilling the robotic mission 
+as well as possible, 
 especially for 
-the first executions of the process:
-RL algorithms are not useful in this context
-the dataset of recorded mission executions 
-is not sufficiently large.
+the first executions 
+of the process:
+RL algorithms are useless
+in this context
+since the dataset of recorded missions 
+is not sufficiently large
+during the first mission executions.
 %and thus without the knowledge 
 %to efficiently use RL.
 %to this purpose, a criterion
 %(e.g the discounted expected total reward of Equation \ref{criterion})
 %is maximized.
 
-% TODO + SEE TODO PORTABLE
 The general challenge guiding this work 
 is to proceed to strategy computations 
-using only data and knowledge about the problem 
-which are really available in practice,
-making if possible the strategy computation easier,
+only using data and knowledge %about the problem 
+really available in practice,
+possibly making the strategy computation easier,
 instead of using the highly complex 
 and hard to define POMDP framework.
 In other words, it consists in paying 
@@ -1548,10 +1558,13 @@ of the knowledge of the agent.
 
 Although the use of a more expressive framework 
 may make strategy computations harder, 
-previous discussions about the parameter imprecision issue
-and about the agent knowledge issue 
-suggest us to consider alternative uncertainty theories,
-as those described in Figure \ref{uncertainty_theories}. 
+previous discussions on the issues 
+of parameter imprecision
+and agent knowledge 
+suggest us to consider alternative uncertainty theories:
+those described in Figure \ref{uncertainty_theories}
+may bring useful properties
+to deal with our problems.
 As presented above, the Imprecise Probability Theory (IPT) 
 has been already explored to improve the POMDP framework
 \cite{Itoh2007453,NiYaLiaZhi,DBLP:conf/icml/Osogami15}.  
@@ -1562,7 +1575,8 @@ A less expressive uncertainty theory
 is called the Belief Functions Theory 
 (BFT, see Figure \ref{uncertainty_theories}).
 Consider the universe $\Omega$,
-a finite set whose elements represent 
+which is a finite set 
+whose elements represent 
 the possible elementary events 
 of a given situation.
 The BFT encodes 
@@ -1571,10 +1585,10 @@ possible events
 of a given situation
 with a mass $m$.
 The latter is defined 
-on each disjunctive subsets 
+on each disjunctive subset
 of the universe 
 \textit{i.e.} $m : 2^{\Omega} \rightarrow [0,1]$, 
-and sum to $1$ over these subsets: $\sum_{A \subseteq \Omega} m(A) = 1$.
+and sums to $1$ over these subsets: $\sum_{A \subseteq \Omega} m(A) = 1$.
 
 Recall that the frequentist probability 
 of an elementary event $\omega \in \Omega$ 
@@ -1584,7 +1598,7 @@ this probability can be defined as the number
 of times the considered event $\omega$ occurred 
 according to a sufficiently large dataset 
 of recorded samples,
-over the size of the used dataset 
+over the size of this dataset 
 (total number of samples):
 in other words, 
 the frequentist probability 
@@ -1599,18 +1613,18 @@ in the POMDP framework,
 namely $s' \in \mathcal{S} \mapsto \textbf{p} \paren{ s' \sachant s,a }$
 (given a system state $s \in \mathcal{S}$
 and an action $a \in \mathcal{A}$),
-the universe $\Omega$ can be defined as $\mathcal{S}$,
+the universe $\Omega$ can be defined as
+the set of system states $\mathcal{S}$,
 and then an elementary event 
 is a system state $s' \in \mathcal{S}$.
-An other example is the computation 
+Another example is the computation 
 of one of the probability distributions
 leading to the observation function:
 $o' \in \mathcal{O} \mapsto \textbf{p} \paren{ o' \sachant s',a}$,
 for a given couple $(s',a) \in \mathcal{S} \times \mathcal{A}$.
-In this case, the universe can be defined as $\mathcal{O}$,
+In this case, the universe $\Omega$ can be defined as the set of observations $\mathcal{O}$,
 and an observation $o' \in \mathcal{O}$ is an elementary event.
 
-%%% TODO ensuite c'est pas beau!!!
 Suppose now that 
 we need to compute,
 for a modeling purpose
@@ -1627,53 +1641,50 @@ the elementary events
 $\omega \in \Omega$
 considered in the problem,
 have been imprecisely observed in practice. %% TODO 
-Usually, instances of the elementary event 
-are included several times in the dataset,
-the number of instances of this elementary event 
-leading to the frequentist probability distribution
-after the normalization.
+Usually, instances of an elementary event 
+are present several times in the dataset:
+the number of instances
+of this elementary event,
+\textit{i.e.} the number of times 
+the event occurred,
+leads to the frequentist probability 
+distribution after a normalization 
+(dividing this number 
+by the size of the dataset, 
+as explained just above).
 In the case of imprecise observation %%%TODO PAS OBSERVATION 
 during the dataset generation,
 a disjunctive set of events is returned
 instead of the actual elementary event:
 indeed, this set describes the actual imprecision 
 of the observation,
-since the actual elementary event has not been
-correctly  
+since the actual elementary event 
+has not been correctly observed!!!
 and could be, rationally speaking, 
 any of the elementary events included in the returned set.
 The quantity $m(A)$ is defined as the frequency of observing 
-one of the elements of this set, 
-without a better precision. The total ignorance about the actual probability distribution defining the model is encoded with a mass returning 1 for $\Omega$, and 0 for each other subset: in IPT, it corresponds to the credal set containing all the existing probability distributions. This ability to encode imprecision and lack of knowledge is a good point. Not also that this framework allows to encode the full knowledge about the probability distribution describing the model. Already studied to improve the fully observable MDP framework) (ref),
+one of the element of this set, 
+without a better precision. The total ignorance about the actual probability distribution defining the model is encoded with a mass returning 1 for $\Omega$, and 0 for each other subset: in IPT, it corresponds to the credal set containing all the existing probability distributions. This ability to encode imprecision and lack of knowledge is a good point. Note also that this framework allows to encode the full knowledge about the probability distribution describing the model. 
 
+\textbf{MON AMOUR!! fin du propre}
 
+EXEMPLE AVEC LA MECONNAISSANCE
 
-Because of the impre
-The sentence: why have we to consider the alternative 
-Figure \ref{uncertainty_theories} attention  particular  goal make us to
-taking into account or benefiting from the lack of knowledge
+Already studied to improve the fully observable MDP framework) (ref fully observable case \cite{trevizan2007planning} \\ ),
 
-with a model built from imprecise data and
-using reasonable computation time.
-+ MODELIZATION and interested by the actual knowledge of the agent (CARO)
+PBM COMPLEXITY
 
-
-%
-% UNCERTAINTY THEORIES
-%
-The study of other uncertainty theories may bring useful properties
-to deal with this problem.
-DEMPSTER: no,belief plausibility evidence: a probability value for each $2^{\#\Omega}$
+a probability value for each $2^{\#\Omega}$
 (to complex too)
  poss quant no, poss qual!!
 
-plausibilité $Pl(A)=\sum_{\set{B \sachant B \cap A \neq \emptyset  } }m(B)$ et la croyance $Bel(A)=\sum_{\set{B \subset A}} m(B)$.
-Dempster-Shafer Theory \cite{shafer1976mathematical} less complex than IP but more than proba alone,
-fully observable case \cite{trevizan2007planning} \\ 
 
 %
 % POSS QUAL
 %
+
+with a model built from imprecise data and
+benefiting from the lack of knowledge
 \subsection*{A qualitative possibilistic model}
 \textbf{Qualitative Possibility Theory:}
 $\rightarrow$ simplification, ignorance and imprecision modeling.
