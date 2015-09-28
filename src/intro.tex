@@ -1081,7 +1081,7 @@ to compute this matrix from the classifier and the testing dataset.}
 
 
 %
-% IMPRECISION POMDP WORKS TODO TODO TODO
+% IMPRECISION POMDP WORKS
 %
 Some variations of the POMDP framework 
 have been built in order to take into account 
@@ -1278,9 +1278,10 @@ plausibility measure: $\forall A \subset \Omega$,
 $Pl(A) = \sum_{B \cap A \neq \emptyset} m(B)$.
 The lower bound is called the belief function:
 $\forall A \subset \Omega$, 
-$bel(A) = \sum_{B \subset A} m(B)$.
+$bel(A) = \sum_{B \subseteq A} m(B)$.
 The set of probability distributions
-represented by $m$ are all measures $\mathbb{P}$
+represented by $m$ 
+are all probability measures $\mathbb{P}$
 such that $\forall A \subset \Omega$,
 $bel(A) \leqslant \mathbb{P}(A) \leqslant Pl(A)$.
 For instance, 
@@ -1556,8 +1557,9 @@ the imprecision of the model,
 and the management 
 of the knowledge of the agent.
 
+\subsection*{Alternative uncertainty theories}
 Although the use of a more expressive framework 
-may make strategy computations harder, 
+may increase the complexity of strategy computations, 
 previous discussions on the issues 
 of parameter imprecision
 and agent knowledge 
@@ -1581,14 +1583,22 @@ the possible elementary events
 of a given situation.
 The BFT encodes 
 uncertainty about 
-possible events 
-of a given situation
-with a mass $m$.
+the possible events 
+with a mass function $m$.
 The latter is defined 
 on each disjunctive subset
 of the universe 
 \textit{i.e.} $m : 2^{\Omega} \rightarrow [0,1]$, 
 and sums to $1$ over these subsets: $\sum_{A \subseteq \Omega} m(A) = 1$.
+Two non-additive measures can be defined from this mass:
+as detailed in Figure \ref{uncertainty_theories}
+the belief measure $bel$ and the plausibility measure $Pl$
+can be deduced from the mass function,
+and define the credal set $\mathcal{C}_{m}$ represented 
+by this mass function:
+$\mathcal{C}_m = \set{ \mathbb{P} \mbox{ probability measure } 
+\sachant \forall A \subseteq \Omega, bel(A) \leqslant \mathbb{P}(A) \leqslant Pl(A)  }$.
+This shows that BFT is thus a particular case of IPT.
 
 Recall that the frequentist probability 
 of an elementary event $\omega \in \Omega$ 
@@ -1599,7 +1609,7 @@ of times the considered event $\omega$ occurred
 according to a sufficiently large dataset 
 of recorded samples,
 over the size of this dataset 
-(total number of samples):
+(the number of samples):
 in other words, 
 the frequentist probability 
 is the frequency of occurrence 
@@ -1636,12 +1646,12 @@ the frequentist probability of each
 elementary event has to be computed
 in the classical way 
 (described just above).
-Consider now that some of 
-the elementary events 
-$\omega \in \Omega$
-considered in the problem,
-have been imprecisely observed in practice. %% TODO 
-Usually, instances of an elementary event 
+Consider now that some 
+samples of the dataset 
+have been imprecisely 
+observed in practice.
+Usually, samples, \textit{i.e.} 
+instances of an elementary event,
 are present several times in the dataset:
 the number of instances
 of this elementary event,
@@ -1652,142 +1662,333 @@ distribution after a normalization
 (dividing this number 
 by the size of the dataset, 
 as explained just above).
-In the case of imprecise observation %%%TODO PAS OBSERVATION 
-during the dataset generation,
-a disjunctive set of events is returned
-instead of the actual elementary event:
-indeed, this set describes the actual imprecision 
-of the observation,
-since the actual elementary event 
-has not been correctly observed!!!
+In the case of imprecise samples in the dataset, 
+a sample consists of a disjunctive set of elementary events
+instead of the actual elementary event.
+Indeed, this set describes 
+the imprecision of the sample:
+the actual elementary event is not clear 
 and could be, rationally speaking, 
 any of the elementary events included in the returned set.
-The quantity $m(A)$ is defined as the frequency of observing 
-one of the element of this set, 
-without a better precision. The total ignorance about the actual probability distribution defining the model is encoded with a mass returning 1 for $\Omega$, and 0 for each other subset: in IPT, it corresponds to the credal set containing all the existing probability distributions. This ability to encode imprecision and lack of knowledge is a good point. Note also that this framework allows to encode the full knowledge about the probability distribution describing the model. 
+The quantity $m(A)$ 
+can then be defined 
+as the frequency of occurrence 
+of the set $A \subseteq \Omega$, 
+as no better precision is available.
+As just formally presented, 
+the use of a mass function can be needed
+to handle the imprecision of a given dataset. 
+This tool can be also the direct translation 
+of the lack of knowledge about a given situation.
 
-\textbf{MON AMOUR!! fin du propre}
+Indeed, the total ignorance 
+about the actual probability distribution 
+defining the model 
+is encoded with a mass function
+returning 1 for $\Omega$, 
+and 0 for each other subset: 
+in IPT, it corresponds to the credal set 
+containing all the existing probability distributions. 
+Note that a more restricted ignorance 
+can be stated with a mass function
+returning 1 for $A \subset \Omega$, 
+and 0 for each other subset:
+it means that
+the support of the (unknown) 
+probability distribution 
+describing the situation 
+of interest is $A$.
+Note also that the BFT framework allows 
+to encode the complete knowledge 
+about the probability distribution 
+describing the situation:
+it is the case when the mass 
+is positive on singletons only,
+\textit{i.e.} $m(A)=0$, $\forall A \subseteq \Omega$ such that $\# A \neq 1$.
+Thus, it generalizes Probability Theory as
+illustrated by Figure \ref{uncertainty_theories}.
+The fully observable MDP framework
+has been already updated 
+with this formalism \cite{trevizan2007planning}:
+to the best of our knowledge, 
+no update of the POMDP framework using BFT 
+has been proposed.
 
-EXEMPLE AVEC LA MECONNAISSANCE
+However, the use of BFT in the POMDP framework
+leads to an exponential growth of the
+size of the sets on which strategy computations are based:
+the set $2^{\mathcal{S}}$ (resp. $2^{\mathcal{O}}$)
+is considered with BFT, instead of $\mathcal{S}$
+(resp. $\mathcal{O}$) with the Probability Theory,
+since BFT assigns a mass to each subset of the universe.
+This remark is not in favor of using BFT in our study,
+as the POMDP complexity is already a big issue.
+Moreover, the mass function $m$ is not always 
+easily specified in the modeling phase.
+Consider for example a probability distribution 
+encoded in the observation function of a POMDP.
+The BFT counterpart of this object should be 
+a mass function describing 
+the uncertainty about the observations.
+The way of defining this mass function from a given classifier 
+(for instance as the one described in Figure \ref{CV_algoConvNet})
+and a given testing dataset of pictures (as NORB, see Figure \ref{NORB})
+is not obvious.
+Indeed the imprecision of the probabilistic behavior
+of the resulting computer vision algorithm
+is not easily quantifiable: 
+it should be translated into 
+a mass function positive 
+on sets containing at least two observations.
+However the sets to consider, 
+as well as the mass value to fix on them,
+are not clearly established.
+Although BFT provides a simple way to
+encode both frequentist information
+and ignorance,
+the expressiveness of this theory
+seems hard to use when managing
+parameter imprecision in practice.
 
-Already studied to improve the fully observable MDP framework) (ref fully observable case \cite{trevizan2007planning} \\ ),
+Thus, let us focus on a less expressive
+theory called \textit{Possibility Theory}
+(see Section \ref{posspres} of Chapter \ref{chap_SOTA}):
+as shown by Figure \ref{uncertainty_theories},
+this theory is a particular case of BFT,
+much like Probability Theory.
+All subsets of the universe $\Omega$ 
+which have a positive mass are called \textit{focal sets}.
+Each \textit{possibility measure} 
+is equivalent to a mass function 
+for which all focal sets are nested:
+the more focal sets contain a given elementary event,
+the more the latter is plausible.
+The possibility measure is defined as the 
+plausibility measure $Pl$ (defined in Figure \ref{uncertainty_theories}),
+and the belief measure $bel$ is called in this case 
+\textit{necessity measure}. 
+A complete review of the different uncertainty theories and 
+their respective meanings is
+formulated in \cite{formalrepres}.
 
-PBM COMPLEXITY
+\begin{figure} \centering
+\begin{tikzpicture}
+\draw[line width=1mm] (0,2) circle (2.1cm);
+\node at (-0.5  , 3.4) {$\omega_1$};
+\node at (1.2, 1.3) {$\omega_6$};
+\node at (1.1, 3) {$\omega_2$};
+\node at (0  , 0.7) {$\omega_7$};
+\node at (0.5  , 2) {$\omega_4$};
+\node at (-0.9  , 1.5) {$\omega_5$};
+\node at (-0.3  , 2.5) {$\omega_3$};
+\draw[ultra thick] (-0.5  , 3.4) circle (0.4cm);
+\draw[ultra thick] (1.2, 1.3) circle (0.4cm);
+\draw[ultra thick] (1.1, 3) circle (0.4cm);
+\draw[ultra thick] (0  , 0.7) circle (0.4cm);
+\draw[ultra thick] (0.5  , 2) circle (0.4cm);
+\draw[ultra thick] (-0.9  , 1.5) circle (0.4cm);
+\draw[ultra thick] (-0.3  , 2.5) circle (0.4cm);
+\node (omegasetPROB) at (-1.4 , 0.7) {};
+\node (omegaPROB) at (-2.5 , -0.4) {$\Omega$};
+\draw[very thick] (omegasetPROB) -- (omegaPROB);
+\node (FSsetPROB) at (-0.9 , 1.75) {};
+\node (FSPROB) at (-2.5 , 5.5) {\textbf{probabilistic case}};
+\node (FSPROB) at (-2.5 , 4.5) {example of focal set}; 
+\node (FSPROB) at (-3 , 4) {\textit{i.e.} singleton};
+\draw[very thick] (FSsetPROB) -- (FSPROB);
 
-a probability value for each $2^{\#\Omega}$
-(to complex too)
- poss quant no, poss qual!!
+\draw[line width=1mm] (7,2) circle (2.1cm);
+\draw[ultra thick] (7.3,1.7) circle (1.4cm);
+\draw[ultra thick] (7.6,1.4) circle (0.7cm);
+\node at (6.5  , 3.4) {$\omega_1$};
+\node at (7.9, 1.2) {$\omega_6$}; %2
+\node at (8.1, 3.2) {$\omega_2$}; %3
+\node at (7  , 0.6) {$\omega_7$};%4
+\node at (7.5  , 1.7) {$\omega_4$};%5
+\node at (6.3  , 1.5) {$\omega_5$};%6
+\node at (6.7  , 2.5) {$\omega_3$};%7
+\node (omegasetPI) at (5.6 , 0.7) {};
+\node (omegaPI) at (4.5 , -0.4) {$\Omega$};
+\draw[very thick] (omegasetPI) -- (omegaPI);
+\node (FSPI) at (5 , 5.5) {\textbf{possibilistic case}};
+\node at (9.5, 4) {focal sets:};
+\node (FSPI1) at (10, 3) {$F_1$};
+\node (FSPI2) at (10, 2) {$F_2$};
+\node (FSPI3) at (10, 0.9) {$F_3$};
+\node (FSsetPI1) at (8.6 , 3.1) {};
+\node (FSsetPI2) at (8.5 , 2.1) {};
+\node (FSsetPI3) at (8.1 , 1.1) {};
+\draw[very thick] (FSsetPI1) -- (FSPI1);
+\draw[very thick] (FSsetPI2) -- (FSPI2);
+\draw[very thick] (FSsetPI3) -- (FSPI3);
 
 
-%
+\node at (0,-1) {};
+\end{tikzpicture}
+\caption[Focal sets of a probability measure and a possibility measure]
+{The focal sets of a mass function $m:2^{\Omega} \rightarrow [0,1]$ 
+are the subsets $A \subseteq \Omega$ of the universe 
+$\Omega = \set{ \omega_1,\ldots,\omega_7}$
+such that the mass function is positive: $m(A)>0$.
+As Probability Theory and Possibility Theory
+are particular cases of BFT (see Figure \ref{uncertainty_theories}),
+there exists a mass function encoding 
+each of the probability (resp. possibility) distributions.
+Thus, the left part of the illustration 
+shows the focals sets 
+of a probability measure:
+they are the singletons of $\Omega$. 
+The right part shows the focal sets 
+of a possibility measure: they are nested subsets of $\Omega$,
+denoted by $F_3 \subset F_2 \subset F_1 = \Omega$.}
+\label{figure_focalsets}
+\end{figure}
+%%%%%%%%%%%%
 % POSS QUAL
-%
+\subsection*{A possibilistic model}
+A possibility measure has been defined 
+as the plausibility measure 
+of a mass function $m$
+whose focal sets are nested 
+(see Figure \ref{figure_focalsets}).
+Let us denote these nested subsets by $F_i$, $\forall i \in \set{1,\ldots,d}$,
+with $d$ a positive integer:
+$F_d \subset F_{d-1} \subset \ldots \subset F_1 = \Omega$.
+Note that if $A \subseteq \Omega$ and for a given $i \in \set{1,\ldots,d}$, 
+$A \cap F_i \neq \emptyset$,
+then $A \cap F_j \neq \emptyset$ for each $j \in \set{1,\ldots,i}$
+since focal sets are nested.	
+As defined in Figure \ref{uncertainty_theories},
+the plausibility measure is 
+$Pl(A) = \sum_{B \cap A = \emptyset} m(B)$,
+$\forall A \subseteq \Omega$.
+Thus, it is easy to show that for each $A \subseteq \Omega$,
+$Pl(A) = \sum_{i=1}^{d_A} m(F_i)$,
+where $d_A = \max_{i \in \set{1,\ldots,d}} F_i \cap A \neq \emptyset$.
+As $d_{A \cup B} = \max_{i \in \set{1,\ldots,d}} F_i \cap (A \cup B) \neq \emptyset$,
+this integer can be written $d_{A \cup B} = \max \set{d_A,d_B}$, and then
+\[ Pl(A \cup B) = \sum_{i=1}^{d_{A\cup B}} m(F_i) = \max \set{ \sum_{i=1}^{d_{A}} m(F_i), \sum_{i=1}^{d_{B}} m(F_i)  } = \max \Big\{ Pl(A), Pl(B) \Big\}. \]
+Note also that $Pl(\Omega) = 1$ as the mass function sums to $1$ over $2^{\Omega}$,
+and that $Pl(\emptyset) = 0$ as the mass function 
+assigns zero to the empty set by definition.
 
-with a model built from imprecise data and
-benefiting from the lack of knowledge
-\subsection*{A qualitative possibilistic model}
-\textbf{Qualitative Possibility Theory:}
-$\rightarrow$ simplification, ignorance and imprecision modeling.
-The $\pi$-POMDP model is a possibilistic and qualitative counterpart of the
-probabilistic POMDP model \cite{Sa1999.5}: it allows a formal modeling of
-total ignorance using a possibility distribution equal to $1$ on all
-the states. This distribution means that all states are equally possible
-independently of how likely they are to happen (no necessary state). 
+The classical definition 
+of a possibility measure, 
+denoted by $\Pi: 2^{\Omega} \rightarrow [0,1]$,
+is in fact the results presented just above:
+\begin{itemize} 
+\item $\Pi(\Omega) = 1$;
+\item $\Pi(\emptyset) = 0$; 
+\item $\forall A,B \subseteq \Omega$, $\Pi(A \cup B) = \max \Big\{ \Pi(A), \Pi(B) \Big\}$.
+\end{itemize}
+It follows that this measure is entirely 
+defined by the associated possibility distribution,
+\textit{i.e.} the measure of the singletons: 
+$\forall \omega \in \Omega$, $\pi(\omega) = \Pi(\set{\omega})$. 
+Properties of this measure lead to
+the possibilistic normalization: 
+\begin{equation*} 
+\max_{\omega \in \Omega} \pi(\omega) = \Pi(\Omega) = 1.
+\end{equation*}
+If $(\overline{\omega},\underline{\omega}) \in \Omega^2$ 
+are such that $\pi(\overline{\omega})<\pi(\underline{\omega})$, 
+the meaning is that $\overline{\omega}$ 
+is less plausible than $\underline{\omega}$. 
+Elementary events with possibility degree $0$, 
+\textit{i.e.} $\omega \in \Omega$ 
+such that $\pi(\omega)=0$, are impossible
+(same meaning as $\textbf{p}(\omega)=0$, with $\textbf{p}:\Omega \rightarrow [0,1]$ a probability distribution), 
+Moreover, elementary events 
+such that $\pi(\omega)=1$ 
+are entirely possible
+(but not necessary the most probable one).
+If the current possibilistic belief 
+coincide with the distribution
+$\pi(\omega)=1$ $\forall \omega \in \Omega$, 
+all elementary events are totally possible,
+and it models therefore a total ignorance 
+of the actual elementary event:
+Possibility Theory can thus encode agent ignorance.
 
-Finding qualitative estimates of their recognition performance is easier: the
-$\pi$-POMDP model only require qualitative data, thus it allows to
-construct the model without using more information than really available. 
-Constat que les possibilitees qualitatives sont qualitatives, et peux modeliser la connaissance
+
+
+The full knowledge of the current state, 
+say $\tilde{s} \in \mathcal{S}$, 
+is encoded by a possibility distribution equal to the classical indicator
+function of elementary event $\pi(s) = \mathds{1}_{\set{ s=\tilde{s} }}(s)$.
+
+Between these two extrema, current knowledge of the system is described by
+a set of entirely possible states, $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=1  }$,
+and successive sets of less plausible ones $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=l_i}$
+down to the set of impossible states $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=0  }$.
+
+\textbf{(pour mon coeur d'amour:) FIN }
+
 The Qualitative Possibility Theory allows to handle imprecise data
-and model the lack of knowledge (pas forcement le modele)
-tropical algebra. (SIMPLIFY or ENCODE AVAILABLE DATA)
+and model the lack of knowledge.
 
-The use of the Qualitative Possibility Theory \cite{DBLP:journals/eor/DuboisPS01}
+poss quant no, 
+poss qual!!
+
+
+benefiting from the lack of knowledge
+
+In our context, distributions defined in the Possibility Theory framework  
+are valued in a totally ordered scale $\mathcal{L}=\set{ 1=l_1,l_2,\ldots,0 }$ with
+$l_1>l_2>\ldots>0$. 
+
+
+
+tropical algebra. (SIMPLIFY or ENCODE AVAILABLE DATA)
+note the similarities between Possibility and Probability Theory, 
+replacing $\max$ by $+$ and $\min$ by $\times$. Moreover, Possibility Theory has its
+own counterpart of the Bayes rule \cite{Dubois199023}: 
+
+The use of the Qualitative Possibility Theory 
+\cite{DBLP:journals/eor/DuboisPS01}
 is studied here,
 as it appears capable
 to both simplify the POMDPs, 
 and model imprecision and ignorance 
 related to robotic missions.
 
-In our context, distributions defined in the Possibility Theory framework  
-are valued in a totally ordered scale $\mathcal{L}=\set{ 1=l_1,l_2,\ldots,0 }$ with
-$l_1>l_2>\ldots>0$. A possibility measure $\Pi$ defined on $\mathcal{S}$ is a 
-fuzzy measure valued in $\mathcal{L}$, such that $\forall A,B \subset \mathcal{S}$, 
-$\Pi(A \cup B) = \max \set{ \Pi(A), \Pi(B) }$, $\Pi(\emptyset)=0$ and $\Pi(\mathcal{S})=1$.
-It follows that this measure is entirely defined by the associated possibility distribution,
-\textit{i.e.} the measure of the singletons: 
-$\forall s \in \mathcal{S}$, $\pi(s) = \Pi(\set{s})$. Properties of this measure lead to
-the possibilistic normalization: 
-\begin{equation} 
-\label{possNormDef}
-\max_{s \in \mathcal{S}} \pi(s) = \Pi(\mathcal{S}) = 1.
-\end{equation}
-If $\overline{s},\underline{s} \in \mathcal{S}$ 
-are such that $\pi(\overline{s})<\pi(\underline{s})$, it means
-that $\overline{s}$ is less plausible than $\underline{s}$. States with possibility
-degree $0$, \textit{i.e.} states $s \in \mathcal{S}$ such that $\pi(s)=0$, are impossible
-(same meaning as $\textbf{p}(s)=0$), and those such that $\pi(s)=1$ are entirely possible
-(but not necessary the most probable one).
-
-note the similarities between Possibility and Probability Theory, 
-replacing $\max$ by $+$ and $\min$ by $\times$. Moreover, Possibility Theory has its
-own counterpart of the Bayes rule \cite{Dubois199023}: 
-
-
-
-the indicator (chararacteristic) function of this set.
-Unlike classical sets, values of a fuzzy set indicator function $\pi$
-are not only in $\set{0,1}$. Recall that the indicator function of
-a classical set $A \subseteq \mathcal{S}$ is $\mathds{1}_{A}(s) = 1$ 
-if $s \in A$ and $0$ otherwise.
-Values of a fuzzy set indicator function are chosen in a totally ordered scale 
-$\mathcal{L} = \set{ 1=l_1, l_2, \ldots, 0}$ with $l_1>l_2>\ldots>0$: 
-$\pi: \mathcal{S} \rightarrow \mathcal{L}$. If $s \in \mathcal{S}$ is such that
-$\pi(s)=l_i$, $s$ is in the fuzzy set described by $\pi$, with degree $l_i$.  
-Possibilistic beliefs used in this work will represent fuzzy sets of possible 
-states. If the current possibilistic belief coincide with the distribution
-$\pi(s)=1$ $\forall s \in \mathcal{S}$, all system states are totally possible,
-and it models therefore a total ignorance about the current system state:
+%%% PIPOMDP
 qualitative possibilistic beliefs can model agent initial ignorance.
-The full knowledge of the current state, say $\tilde{s} \in \mathcal{S}$, 
-is encoded by a possibility distribution equal to the classical indicator
-function of the singleton $\pi(s) = \mathds{1}_{\set{ s=\tilde{s} }}(s)$.
-Between these two extrema, current knowledge of the system is described by
-a set of entirely possible states, $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=1  }$,
-and successive sets of less plausible ones $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=l_i}$
-down to the set of impossible states $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=0  }$.
-
-Les $\pi$-POMDPs permettent une mod\'elisation formelle de 
-la m\'econnaissance de l'agent, bien que ce mod\`ele n'ait pas \'et\'e \'etudi\'e de 
-mani\`ere approfondie. \\
-%
-% piPOMDP
-%
-
-PSR \ref{Littman01predictiverepresentations}
-
-Enfin, un homologue des POMDPs appel\'e $\pi$-POMDP a \'et\'e d\'evelopp\'e dans 
-le cadre de la Th\'eorie des Possibilit\'es \cite{Sabbadin:1999:pipomdp}, 
-r\'eduisant la complexit\'e du probl\`eme. De plus, ce cadre possibiliste 
-d\'ecrit de mani\`ere qualitative l'incertitude de
-l'agent, ce qui permet de rester prudent dans la d\'efinition des param\`etres du probl\`eme. 
-Cependant, ce mod\`ele n'a \'et\'e
-que tr\`es peu \'etudi\'e, et les recherches le concernant peu abouties.\\
-
-
+The $\pi$-POMDP model is a possibilistic and qualitative counterpart of the
+probabilistic POMDP model \cite{Sa1999.5}: it allows a formal modeling of
+total ignorance using a possibility distribution equal to $1$ on all
+the states. This distribution means that all states are equally possible
+independently of how likely they are to happen (no necessary state). 
+$\rightarrow$ simplification, ignorance and imprecision modeling.
 Qualitative possibilistic POMDPs, 
 $\pi$-POMDPs \cite{Sabbadin:1999:pipomdp}, 
 are alternative processes 
 defined using a qualitative evaluation 
 of events plausibility
-instead of probabilities: 
-it allows to formally represent 
-agent ignorance, 
-and imprecision on observations hazard. 
+
+Finding qualitative estimates of their recognition performance is easier: 
+the $\pi$-POMDP model only require qualitative data, thus it allows to
+construct the model without using more information than really available. 
+Constat que les possibilitees qualitatives sont qualitatives, et peux modeliser la connaissance
+with a model built from imprecise data
+
+
+Les $\pi$-POMDPs permettent une mod\'elisation formelle de 
+la m\'econnaissance de l'agent, bien que ce mod\`ele n'ait pas \'et\'e \'etudi\'e de 
+mani\`ere approfondie. \\
+
+PSR \ref{Littman01predictiverepresentations} as representation approximated in a more compact way
+
+ De plus, ce cadre possibiliste 
+d\'ecrit de mani\`ere qualitative l'incertitude de
+l'agent, ce qui permet de rester prudent dans la d\'efinition des param\`etres du probl\`eme. 
+
+r\'eduisant la complexit\'e du probl\`eme. managed values are qualitative
 As number of belief finite, and MDP P complexity \cite{DBLP:journals/corr/abs-1202-3718},
-at most exponential the process description.
+at most exponential the process description. (instead of undecidable!)
 
-
+Cependant, ce mod\`ele n'a \'et\'e
+que tr\`es peu \'etudi\'e, et les recherches le concernant peu abouties.\\
 
 \section*{Description of our Study}
 % Le sujet de la thèse
