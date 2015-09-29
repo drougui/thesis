@@ -1623,7 +1623,7 @@ in the POMDP framework,
 namely $s' \in \mathcal{S} \mapsto \textbf{p} \paren{ s' \sachant s,a }$
 (given a system state $s \in \mathcal{S}$
 and an action $a \in \mathcal{A}$),
-the universe $\Omega$ can be defined as
+the finite universe $\Omega$ can be defined as
 the set of system states $\mathcal{S}$,
 and then an elementary event 
 is a system state $s' \in \mathcal{S}$.
@@ -1632,7 +1632,7 @@ of one of the probability distributions
 leading to the observation function:
 $o' \in \mathcal{O} \mapsto \textbf{p} \paren{ o' \sachant s',a}$,
 for a given couple $(s',a) \in \mathcal{S} \times \mathcal{A}$.
-In this case, the universe $\Omega$ can be defined as the set of observations $\mathcal{O}$,
+In this case, the finite universe $\Omega$ can be defined as the set of observations $\mathcal{O}$,
 and an observation $o' \in \mathcal{O}$ is an elementary event.
 
 Suppose now that 
@@ -1756,7 +1756,7 @@ theory called \textit{Possibility Theory}
 as shown by Figure \ref{uncertainty_theories},
 this theory is a particular case of BFT,
 much like Probability Theory.
-All subsets of the universe $\Omega$ 
+All subsets of the finite universe $\Omega$ 
 which have a positive mass are called \textit{focal sets}.
 Each \textit{possibility measure} 
 is equivalent to a mass function 
@@ -1843,6 +1843,9 @@ of a possibility measure: they are nested subsets of $\Omega$,
 denoted by $F_3 \subset F_2 \subset F_1 = \Omega$.}
 \label{figure_focalsets}
 \end{figure}
+
+
+
 %%%%%%%%%%%%
 % POSS QUAL
 \subsection*{A possibilistic model}
@@ -1883,9 +1886,27 @@ is in fact the results presented just above:
 \end{itemize}
 It follows that this measure is entirely 
 defined by the associated possibility distribution,
-\textit{i.e.} the measure of the singletons: 
+\textit{i.e.} the possibility measure of the singletons: 
 $\forall \omega \in \Omega$, $\pi(\omega) = \Pi(\set{\omega})$. 
-Properties of this measure lead to
+Indeed, the possibility value 
+of a given event
+can be defined as
+the maximal possibility value 
+of the elementary events 
+constituting the event of interest:
+$\Pi(A) = \max_{\omega \in A} \pi(\omega)$.
+This is quite similar 
+to the fact that 
+a probability measure 
+over the finite universe $\Omega$,
+$\mathbb{P}: 2^{\Omega} \rightarrow [0,1]$,
+is equivalent to the associated
+probability distribution 
+$\textbf{p}: \omega \mapsto \mathbb{P}(\set{\omega})$,
+using the additivity property 
+of the probability measure.
+
+The definition of this measure lead to
 the possibilistic normalization: 
 \begin{equation*} 
 \max_{\omega \in \Omega} \pi(\omega) = \Pi(\Omega) = 1.
@@ -1897,53 +1918,109 @@ is less plausible than $\underline{\omega}$.
 Elementary events with possibility degree $0$, 
 \textit{i.e.} $\omega \in \Omega$ 
 such that $\pi(\omega)=0$, are impossible
-(same meaning as $\textbf{p}(\omega)=0$, with $\textbf{p}:\Omega \rightarrow [0,1]$ a probability distribution), 
+(same meaning as $\textbf{p}(\omega)=0$, 
+with $\textbf{p}:\Omega \rightarrow [0,1]$ 
+a probability distribution).
 Moreover, elementary events 
 such that $\pi(\omega)=1$ 
-are entirely possible
-(but not necessary the most probable one).
-If the current possibilistic belief 
+are entirely possible.
+
+As $\Omega$ is a finite set,
+the number of possible values
+of a possibility distribution
+is finite 
+(much like a probability distribution
+over a finite universe $\Omega$):
+let us denote by 
+$\set{ l_1,l_2,\ldots,0 }$ with
+$1=l_1>l_2>\ldots>0$, 
+the different values 
+of the possibility distribution,
+\textit{i.e.} $\set{ \pi(\omega) \sachant \omega \in \Omega }$.
+
+On the one hand, if the current 
+possibilistic belief 
 coincide with the distribution
-$\pi(\omega)=1$ $\forall \omega \in \Omega$, 
+$\pi(\omega)=1$, 
+$\forall \omega \in \Omega$, 
 all elementary events are totally possible,
-and it models therefore a total ignorance 
+and it models therefore 
+the total ignorance 
 of the actual elementary event:
-Possibility Theory can thus encode agent ignorance.
+Note that this means 
+Possibility Theory can 
+encode agent ignorance,
+as one of the issues 
+guiding our work.
+On the other hand, 
+the full knowledge 
+of the actual elementary event, 
+say $\tilde{\omega} \in \Omega$,
+is encoded by a possibility distribution 
+equal to the classical indicator function 
+of the singleton 
+$\set{ \tilde{\omega} }$, \textit{i.e.} 
+$\pi(\omega) 
+= \mathds{1}_{\set{ \tilde{\omega} }}(\omega)$.
+
+Finally, between these two extrema, 
+a possibilitic situation 
+is described by
+a set of entirely 
+possible elementary events, 
+$\set{ \omega \in \Omega 
+\mbox{ s.t. } \pi(\omega)=1 }$,
+and successive sets of less plausible 
+ones $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(\omega)=l_i}$
+down to the set of impossible states 
+$\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=0  }$.
+
+Note that we can differentiate 
+Quantitative Possibility Theory,
+which uses the product when 
+combining possibility distributions
+(much like Probability Theory),
+and Qualitative Possibility Theory
+using the minimum operator for this purpose
+(see Section \ref{posspres} of Chapter \ref{chap_SOTA}).
+Thus, the latter theory uses only $\max$ and $\min$
+operators: 
+redefining $\set{l_1,l_2,\ldots,0}$
+as the values of all the possibility distributions
+describing a given situation,
+possibility values handled 
+in this framework after 
+the use of the operators $\max$ and $\min$
+remains in the set $\set{l_1,l_2,\ldots,0}$.
+This is not true for Quantitative Possibility Theory
+since the use of the product operator 
+leads to the creation of new real values in $[0,1]$. 
+In the qualitative framework, 
+the (real) possibility values 
+assigned to the elementary events 
+are not really taken into account
+since only qualitative comparisons 
+are performed through $\max$ and $\min$ operators.
+Thus, a qualitative scale $\mathcal{L}$ is classically introduced:
+it may be defined as $\set{l_1,l_2,\ldots,0 }$,
+or as any other totally ordered scale indifferently.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textbf{(pour mon coeur d'amour:) FIN } %%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-
-The full knowledge of the current state, 
-say $\tilde{s} \in \mathcal{S}$, 
-is encoded by a possibility distribution equal to the classical indicator
-function of elementary event $\pi(s) = \mathds{1}_{\set{ s=\tilde{s} }}(s)$.
-
-Between these two extrema, current knowledge of the system is described by
-a set of entirely possible states, $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=1  }$,
-and successive sets of less plausible ones $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=l_i}$
-down to the set of impossible states $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=0  }$.
-
-\textbf{(pour mon coeur d'amour:) FIN }
-
-The Qualitative Possibility Theory allows to handle imprecise data
-and model the lack of knowledge.
-
-poss quant no, 
-poss qual!!
-
-
-benefiting from the lack of knowledge
-
-In our context, distributions defined in the Possibility Theory framework  
-are valued in a totally ordered scale $\mathcal{L}=\set{ 1=l_1,l_2,\ldots,0 }$ with
-$l_1>l_2>\ldots>0$. 
-
-
-
-tropical algebra. (SIMPLIFY or ENCODE AVAILABLE DATA)
+Algebraic structures different from the linear algebra:
+semirings $(\mathcal{L},\max,\min)$, $([0,1]\max,\times)$.
+close to the well known 
+tropical semirings \cite{pin:hal-00113779},
+as the \textit{max-plus} semiring $(\mathbb{R} \cup \set{-\infty} \max,+)$ 
+and the \textit{min-plus} one $(\mathbb{R} \cup \set{+\infty}, \min,+)$.
+(SIMPLIFY or ENCODE AVAILABLE DATA)
 note the similarities between Possibility and Probability Theory, 
 replacing $\max$ by $+$ and $\min$ by $\times$. Moreover, Possibility Theory has its
 own counterpart of the Bayes rule \cite{Dubois199023}: 
 
+%%%QUAL
 The use of the Qualitative Possibility Theory 
 \cite{DBLP:journals/eor/DuboisPS01}
 is studied here,
@@ -1951,6 +2028,9 @@ as it appears capable
 to both simplify the POMDPs, 
 and model imprecision and ignorance 
 related to robotic missions.
+The Qualitative Possibility Theory allows to handle imprecise data
+and model the lack of knowledge.
+benefiting from the lack of knowledge
 
 %%% PIPOMDP
 qualitative possibilistic beliefs can model agent initial ignorance.
