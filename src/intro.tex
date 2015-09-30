@@ -1867,10 +1867,16 @@ $Pl(A) = \sum_{B \cap A = \emptyset} m(B)$,
 $\forall A \subseteq \Omega$.
 Thus, it is easy to show that for each $A \subseteq \Omega$,
 $Pl(A) = \sum_{i=1}^{d_A} m(F_i)$,
-where $d_A = \max_{i \in \set{1,\ldots,d}} F_i \cap A \neq \emptyset$.
-As $d_{A \cup B} = \max_{i \in \set{1,\ldots,d}} F_i \cap (A \cup B) \neq \emptyset$,
-this integer can be written $d_{A \cup B} = \max \set{d_A,d_B}$, and then
-\[ Pl(A \cup B) = \sum_{i=1}^{d_{A\cup B}} m(F_i) = \max \set{ \sum_{i=1}^{d_{A}} m(F_i), \sum_{i=1}^{d_{B}} m(F_i)  } = \max \Big\{ Pl(A), Pl(B) \Big\}. \]
+where $d_A = \max \Big\{ i \in \set{1,\ldots,d} \Big\vert F_i \cap A \neq \emptyset \Big\}$.
+As $d_{A \cup B} 
+= \max \Big\{i \in \set{1,\ldots,d} \Big\vert F_i \cap A \neq \emptyset 
+\mbox{ or } F_i \cap B \neq \emptyset \Big\}$,
+this integer can be written 
+$d_{A \cup B} = \max \set{d_A,d_B}$, 
+and then 
+\[ Pl(A \cup B) = \sum_{i=1}^{d_{A\cup B}} m(F_i) 
+= \max \set{ \sum_{i=1}^{d_{A}} m(F_i), \sum_{i=1}^{d_{B}} m(F_i)  } 
+= \max \Big\{ Pl(A), Pl(B) \Big\}. \]
 Note also that $Pl(\Omega) = 1$ as the mass function sums to $1$ over $2^{\Omega}$,
 and that $Pl(\emptyset) = 0$ as the mass function 
 assigns zero to the empty set by definition.
@@ -2003,11 +2009,14 @@ because focal sets are nested.
 Thus it is easy to show that
 for each $A \subseteq \Omega$, 
 $bel(A) = \sum_{i=d^A}^{d} m(F_i)$,
-where $d^A = \min \Big\{ i \in \set{1,\ldots,d} \Big\vert F_i \subseteq A \Big\}$.
-Now an obvious remark: if $A$ and $B$ are two subsets of $\Omega$,
-$``B \subseteq A'' \Leftrightarrow ``B \cap \overline{A} = \emptyset''$. 
+where $d^A = \min \Big\{ i \in \set{1,\ldots,d} \Big\vert F_i \subseteq A \Big\}$,
+if $F_1$.
+Now an obvious remark about sets is recalled: 
+if $A$ and $B$ are two subsets of $\Omega$,
+``$B \subseteq A$'' $\Leftrightarrow$ ``$B \cap \overline{A} = \emptyset$''. 
 Thus, $d^A = \min \Big\{ i \in \set{1,\ldots,d} \Big\vert F_i \cap \overline{A} = \emptyset \Big\}
-= $
+= 1+d_{\overline{A}}$,
+where $d_{\overline{A}}$
 Then, we can conclude that 
 $\mathcal{N}(A) = 1 - \Pi(\overline{A})$!
 
