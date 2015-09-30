@@ -1909,8 +1909,7 @@ $\mathbb{P}: 2^{\Omega} \rightarrow [0,1]$,
 is equivalent to the associated
 probability distribution 
 $\textbf{p}: \omega \mapsto \mathbb{P}(\set{\omega})$,
-using the additivity property 
-of the probability measure.
+using the additivity of the probability measure.
 
 The definition of this measure lead to
 the possibilistic normalization: 
@@ -1953,7 +1952,7 @@ all elementary events are totally possible,
 and it models therefore 
 the total ignorance 
 of the actual elementary event:
-Note that this means 
+this means that 
 Possibility Theory can 
 encode agent ignorance,
 as one of the issues 
@@ -1977,9 +1976,9 @@ possible elementary events,
 $\set{ \omega \in \Omega 
 \mbox{ s.t. } \pi(\omega)=1 }$,
 and successive sets of less plausible 
-ones $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(\omega)=l_i}$
+ones $\set{ \omega \in \mathcal{S} \mbox{ s.t. } \pi(\omega)=l_i}$
 down to the set of impossible states 
-$\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=0  }$.
+$\set{ \omega \in \Omega \mbox{ s.t. } \pi(\omega)=0  }$.
 
 As already explained 
 (see above and Figure \ref{uncertainty_theories}),
@@ -2006,19 +2005,47 @@ for a given $i \in \set{1, \ldots,d}$,
 $F_j \subseteq A$, 
 $\forall j \geqslant i$,
 because focal sets are nested.
-Thus it is easy to show that
-for each $A \subseteq \Omega$, 
-$bel(A) = \sum_{i=d^A}^{d} m(F_i)$,
-where $d^A = \min \Big\{ i \in \set{1,\ldots,d} \Big\vert F_i \subseteq A \Big\}$,
-if $F_1$.
+Thus, given $A \subseteq \Omega$, 
+a distinction is made
+between two cases.
+
+The first case is when $F_d \not\subseteq A$:
+in this case $bel(A) = 0$
+since no focal set is in $A$.
+Let us denote by $\overline{A}$ the complementary set of $A$:
+$A \cup \overline{A} = \Omega$ and $A \cap \overline{A} = \emptyset$.
 Now an obvious remark about sets is recalled: 
 if $A$ and $B$ are two subsets of $\Omega$,
-``$B \subseteq A$'' $\Leftrightarrow$ ``$B \cap \overline{A} = \emptyset$''. 
-Thus, $d^A = \min \Big\{ i \in \set{1,\ldots,d} \Big\vert F_i \cap \overline{A} = \emptyset \Big\}
-= 1+d_{\overline{A}}$,
-where $d_{\overline{A}}$
-Then, we can conclude that 
-$\mathcal{N}(A) = 1 - \Pi(\overline{A})$!
+``$B \subseteq A$'' $\Leftrightarrow$ ``$B \cap \overline{A} = \emptyset$''.
+Hence, in the first case, $\overline{A} \cap F_i \neq \emptyset$
+for each $i \in \set{1,\ldots,d}$, 
+and then the plausibility of $\overline{A}$ 
+is $Pl(\overline{A}) = 1$
+(as the sum of all focal sets).
+So, in this case, $Pl(\overline{A}) + bel(A) = 1$.
+ 
+In the second case, \textit{i.e.} $F_d \subseteq A$ (and thus $A \neq \emptyset$),
+it is easy to show that
+$bel(A) = \sum_{i=d^A}^{d} m(F_i)$,
+where $d^A = \min \Big\{ i \in \set{1,\ldots,d} \Big\vert F_i \subseteq A \Big\}$.
+Thus, if $A \neq \Omega$, we can see that
+$ \min \Big\{ i \in \set{1,\ldots,d} \Big\vert F_i \cap \overline{A} = \emptyset \Big\}
+= 1 + \max \Big\{ i \in \set{1,\ldots,d} \Big\vert F_i \cap \overline{A} \neq \emptyset \Big\}$
+\textit{i.e.} $d^A = 1+d_{\overline{A}}$ (thanks to the obvious remark about sets),
+where $d_A$ is defined above as 
+$\max \Big\{ \set{ 1,\ldots,d } \Big\vert F_i \cap A \neq \emptyset \Big\}$.
+As shown above, 
+$Pl(\overline{A}) = \sum_{i=1}^{d_{\overline{A}}} m(F_i)$,
+thus if $A \neq \Omega$, $Pl(\overline{A}) + bel(A) = 1$.
+Finally, if $A = \Omega$, all the focal sets are included in $A$,
+so $bel(A)=1$, and $\overline{A} = \emptyset$,
+so $Pl(\overline{A})=0$:  $Pl(\overline{A}) + bel(A) = 1$ too.
+
+That is why the necessity measure, 
+which corresponds to the belief measure $bel$ in BFT, 
+can be defined from the possibility measure as follows: 
+$\forall A \subseteq \Omega$,
+\[ \mathcal{N}(A) = 1 - \Pi(\overline{A}). \]
 
 Note that we can differentiate 
 Quantitative Possibility Theory \cite{Du2006.7}
@@ -2042,8 +2069,8 @@ as the computations allowed
 on the distributions
 uses only the operators 
 $\max$ and $\min$,
-no computation can generate
-a value which is not already included 
+computations do not generate
+any value which is not already included 
 in the finite set $\set{ l_1,l_2,\ldots,0 }$.
 This is not true for 
 Quantitative Possibility Theory
