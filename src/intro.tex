@@ -1975,6 +1975,42 @@ ones $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(\omega)=l_i}$
 down to the set of impossible states 
 $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=0  }$.
 
+As already explained 
+(see above and Figure \ref{uncertainty_theories}),
+a remnant from BFT is the existence of
+two measures in Possibility Theory:
+the first one is the possibility measure, 
+denoted by $\Pi$,
+and called plausibility measure in BFT ($Pl$).
+The second one is the necessity measure, 
+denoted by $\mathcal{N}$,
+and called belief measure in BFT ($bel$).
+Recall that, given a mass function $m$,
+the belief measure of the set $A \subseteq \Omega$
+is $bel(A) = \sum_{B \subseteq A} m(B)$.
+Now, if the mass represents a situation
+which can be expressed with Possibility Theory, 
+the focal sets $(F_i)_{i=1}^d$ 
+of the mass function are nested:
+$F_d \subset F_{d-1} \subset \ldots \subset F_1 = \Omega$
+with $d \in \mathbb{N}^*$ 
+the number of focal sets.
+Note that if $F_i \subseteq A$ 
+for a given $i \in \set{1, \ldots,d}$,
+$F_j \subseteq A$, 
+$\forall j \geqslant i$,
+because focal sets are nested.
+Thus it is easy to show that
+for each $A \subseteq \Omega$, 
+$bel(A) = \sum_{i=d^A}^{d} m(F_i)$,
+where $d^A = \min \Big\{ i \in \set{1,\ldots,d} \Big\vert F_i \subseteq A \Big\}$.
+Now an obvious remark: if $A$ and $B$ are two subsets of $\Omega$,
+$``B \subseteq A'' \Leftrightarrow ``B \cap \overline{A} = \emptyset''$. 
+Thus, $d^A = \min \Big\{ i \in \set{1,\ldots,d} \Big\vert F_i \cap \overline{A} = \emptyset \Big\}
+= $
+Then, we can conclude that 
+$\mathcal{N}(A) = 1 - \Pi(\overline{A})$!
+
 Note that we can differentiate 
 Quantitative Possibility Theory \cite{Du2006.7}
 from Qualitative Possibility Theory \cite{DBLP:journals/eor/DuboisPS01}.
@@ -2029,11 +2065,10 @@ is beneficial in terms of complexity
 and modeling.
 %%%% TODO COMPLEXITY???? poss qual < poss quant / proba TODO
 
-Note the similarities between Possibility and Probability Theory, 
+Note the similarities between 
+Possibility and Probability Theory, 
 replacing $\max$ by $+$, and $\min$ by $\times$
 (in the qualitative case). 
-%Moreover, Possibility Theory has its
-%own counterpart of the Bayes rule \cite{Dubois199023}: 
 Note also that Qualitative 
 Possibility Theory defines
 the semiring $(\mathcal{L},\max,\min)$,
@@ -2042,9 +2077,10 @@ leads to the semiring $([0,1]\max,\times)$.
 These algebraic structures are
 close to the well known 
 tropical semirings \cite{pin:hal-00113779},
-as the \textit{max-plus} semiring $(\mathbb{R} \cup \set{-\infty} \max,+)$ 
-and the \textit{min-plus} one $(\mathbb{R} \cup \set{+\infty}, \min,+)$.
-
+as the \textit{max-plus} semiring 
+$(\mathbb{R} \cup \set{-\infty} \max,+)$ 
+and the \textit{min-plus} one 
+$(\mathbb{R} \cup \set{+\infty}, \min,+)$.
 
 %%% PIPOMDP
 \subsection*{Qualitative Possibilistic POMDP}
@@ -2059,25 +2095,38 @@ instead of probability distributions.
 As the $\pi$-POMDP framework is qualitative,
 the counterpart of the reward function,
 called \textit{preference function},
-is a qualitative function,
-\textit{i.e.} the preference function returns values 
-from the qualitative scale $\mathcal{L}$,
+is a qualitative function: 
+indeed the preference function returns values 
+from the finite qualitative scale $\mathcal{L}$,
 and thus is non-additive.
+
+As a particular case of BFT
+and \textit{a fortiori} of IPT,
+Possibility Theory expresses a partial knowledge
+of the actual probability distribution,
+as presented above.
+A qualitative possibility distribution
+is even more imprecise
+since only qualitative information
+is given by such a distribution. %%IKI TODO
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\textbf{(pour mon coeur d'amour:) FIN } %%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+the  measures This fact results in two measures  POSS/NECC %TODO TODO lien avec criteres
+   
 As detailed in Section \ref{subsection_qualcrit},
-two qualitative criteria have been proposed: 
+two qualitative criteria have been proposed,
+counterpart of EQUATION AU DESSUS
+\cite{DBLP:journals/ijar/SabbadinFL98}: 
 a pessimistic one,
 qualitative counterpart of the maximin, 
-or worst-case criterion in IPT.
+or worst-case, criterion in IPT.
 An other proposed criterion is the
-optimistic, counterpart of the best case criterion
-of one \cite{DBLP:journals/ijar/SabbadinFL98}.
-
-\vide{
+optimistic, 
+counterpart of 
+the best case criterion in IPT.
 
 The use of the Qualitative Possibility Theory 
 \cite{DBLP:journals/eor/DuboisPS01}
@@ -2121,13 +2170,15 @@ however frequentist information cannot be encoded
 (SIMPLIFY or ENCODE AVAILABLE DATA)
 Imprecision: worst case $\sim$ pessimistic
 
-PSR \ref{Littman01predictiverepresentations} as representation approximated in a more compact way
+
 
 Cependant, ce mod\`ele n'a \'et\'e
 que tr\`es peu \'etudi\'e, et les recherches le concernant peu abouties.\\
 bien que ce mod\`ele n'ait pas \'et\'e \'etudi\'e de 
 mani\`ere approfondie. \\
 
+PSR \ref{Littman01predictiverepresentations} 
+as representation approximated in a more compact way
 
 \section*{Description of our Study}
 % Le sujet de la thèse
@@ -2329,6 +2380,3 @@ Finally, the \emph{fith chapter} is \\*
 argues for a hydrid POMDP 
 model with both probabilistic 
 and possibilistic settings. 
-
-}
-
