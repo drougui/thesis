@@ -2065,10 +2065,8 @@ Consider some
 possibility distributions
 whose values are in the finite set 
 $\set{ l_1,l_2,\ldots,0 }$:
-as the computations allowed 
-on the distributions
-uses only the operators 
-$\max$ and $\min$,
+as only $\max$ and $\min$ operators 
+are allowed, 
 computations do not generate
 any value which is not already included 
 in the finite set $\set{ l_1,l_2,\ldots,0 }$.
@@ -2099,7 +2097,6 @@ Next section clarifies why
 the use of a qualitative framework
 is beneficial in terms of complexity
 and modeling.
-%%%% TODO COMPLEXITY???? poss qual < poss quant / proba TODO
 
 Note the similarities between 
 Possibility and Probability Theory, 
@@ -2136,34 +2133,122 @@ indeed the preference function returns values
 from the finite qualitative scale $\mathcal{L}$,
 and thus is non-additive.
 
+%%IMPRECISION CRITERES
 As a particular case of BFT
 and \textit{a fortiori} of IPT,
-Possibility Theory expresses a partial knowledge
+Possibility Theory expresses 
+a partial knowledge
 of the actual probability distribution,
 as presented above.
 A qualitative possibility distribution
 is even more imprecise
 since only qualitative information
-is given by such a distribution. %%IKI TODO
+is given by such a distribution.
+This imprecision results in measures
+presented above: possibility and necessity measure. 
+As detailed in Section \ref{subsection_qualcrit},
+two qualitative criteria have been proposed 
+in \cite{DBLP:journals/ijar/SabbadinFL98},
+counterparts of the probabilistic criterion (\ref{criterion}): 
+a pessimistic one, which is a
+qualitative counterpart of the maximin 
+(worst-case) criterion in IPT.
+The other criterion qualifies as optimistic, 
+as a qualitative counterpart of 
+the best case criterion in IPT.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\textbf{(pour mon coeur d'amour:) FIN } %%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% COMPLEXITY 
+One of the most interesting property
+of the $\pi$-POMDPs is about 
+the simplification of the strategy computation.
+Indeed, algorithms proposed 
+for solving classical (probabilistic) POMDPs
+are often based on the set of the belief states
+called \textit{belief space}.
+The belief space is infinite in the general case: 
+each time step leads eventually 
+to a finite number of new belief states,
+which makes this set countable. 
+In order to get useful properties
+for the computations,
+the set of all probability distributions
+over $\mathcal{S}$ is considered, 
+\textit{i.e.} the continuous simplex
+$\mathbb{P}^{\mathcal{S}} 
+= \set{ \textbf{p}:\mathcal{S} \rightarrow [0,1] \sachant \sum_{s \in \mathcal{S}} \textbf{p}(s) 
+= 1, \mbox{ and } \textbf{p}(s)\geqslant 0, \forall s \in \mathcal{S} }$.
+The infinite size of the belief space 
+partly explains why probabilistic POMDPs
+are very hard to resolve.
+On the contrary, %%TODO
+finite belief space, managed values are qualitative, complexity
+r\'eduisant la complexit\'e du probl\`eme. 
+As number of belief finite, and MDP P complexity \cite{DBLP:journals/corr/abs-1202-3718},
+at most exponential the process description. (instead of undecidable!)
+poss qual < poss quant / proba TODO
+PSR \cite{Littman01predictiverepresentations} 
+as representation approximated in a more compact way
 
-the  measures This fact results in two measures  POSS/NECC %TODO TODO lien avec criteres
-   
-As detailed in Section \ref{subsection_qualcrit},
-two qualitative criteria have been proposed,
-counterpart of EQUATION AU DESSUS
-\cite{DBLP:journals/ijar/SabbadinFL98}: 
-a pessimistic one,
-qualitative counterpart of the maximin, 
-or worst-case, criterion in IPT.
-An other proposed criterion is the
-optimistic, 
-counterpart of 
-the best case criterion in IPT.
+%%% IMPRECISION MODELISATION
+Moreover, Qualitative Possibility Theory
+is an interesting framework 
+for modeling.
+Indeed, considering again 
+a robot using computer vision algorithms
+to get observations
+(see Figure \ref{observation_robot}),
+we previously highlighted the difficulty
+of defining properly 
+the probabilistic observation function:
+probability values of the answers
+of the vision algorithms
+in the context of the robotic mission
+are imprecisely known 
+and hard to define in practice.
+Finding qualitative estimates 
+of their recognition performance is easier: 
+the $\pi$-POMDP model 
+only require qualitative data, 
+thus it allows to build the model 
+without the use of more information 
+than really available. 
+For instance, 
+the confusion matrix 
+in Figure \ref{confusion_matrix}
+may lead to a qualitative possibilistic 
+observation function 
+which takes only into account
+how answer frequencies are sorted:
+in the presence of a human (see second line),
+the most frequent answer is ``human'',
+the second one is ``nothing'',
+the third one is ``car'', etc.
+Thus, the corresponding possibility distribution
+will be such that, 
+conditional on the presence of a human,
+the possibility degree 
+of the answer ``human''
+is higher than the possibility degree 
+of the answer ``nothing'',
+which is higher than the possibility degree 
+of the answer ``car'', etc.
+%TODO with a model built from imprecise data
+Instead of assigning frequencies 
+which are not really reliable in practice, 
+the qualitative possibilistic model
+expresses naturally imprecision 
+about the problem.
 
+%%%IGNORANCE
+it allows a formal modeling of
+total ignorance using a possibility distribution equal to $1$ on all
+the states.
+qualitative possibilistic beliefs can model agent initial ignorance.
+
+%%CORRESPONDS TO OUR ISSUES
 The use of the Qualitative Possibility Theory 
 \cite{DBLP:journals/eor/DuboisPS01}
 is studied here,
@@ -2172,66 +2257,34 @@ to both simplify the POMDPs,
 and model parameter imprecision 
 and ignorance 
 related to robotic missions.
-
+(SIMPLIFY or ENCODE AVAILABLE DATA)
+however frequentist information cannot be encoded
 The Qualitative Possibility Theory allows to handle imprecise data
 and model the lack of knowledge.
 benefiting from the lack of knowledge
 
-it allows a formal modeling of
-total ignorance using a possibility distribution equal to $1$ on all
-the states.
-
-%%% IMPRECISION
-Finding qualitative estimates of their recognition performance is easier: 
-the $\pi$-POMDP model only require qualitative data, thus it allows to
-construct the model without using more information than really available. 
-Constat que les possibilitees qualitatives sont qualitatives, et peux modeliser la connaissance
-with a model built from imprecise data
-De plus, ce cadre possibiliste 
-d\'ecrit de mani\`ere qualitative l'incertitude de
-l'agent, ce qui permet de rester prudent dans la d\'efinition des param\`etres du probl\`eme. 
-
-r\'eduisant la complexit\'e du probl\`eme. 
-As number of belief finite, and MDP P complexity \cite{DBLP:journals/corr/abs-1202-3718},
-at most exponential the process description. (instead of undecidable!)
-
-
-finite belief space, managed values are qualitative, complexity
-
-imprecision naturally expressed, 
-
-qualitative possibilistic beliefs can model agent initial ignorance.
-
-however frequentist information cannot be encoded
-(SIMPLIFY or ENCODE AVAILABLE DATA)
-Imprecision: worst case $\sim$ pessimistic
-
-
-
+%%%NOT WIDELY STUDIED
 Cependant, ce mod\`ele n'a \'et\'e
 que tr\`es peu \'etudi\'e, et les recherches le concernant peu abouties.\\
 bien que ce mod\`ele n'ait pas \'et\'e \'etudi\'e de 
 mani\`ere approfondie. \\
 
-PSR \ref{Littman01predictiverepresentations} 
-as representation approximated in a more compact way
 
 \section*{Description of our Study}
 % Le sujet de la thèse
 The goal of this thesis is to determine
-what the Qualitative Possibility Theory can bring 
-in Planning under Uncertainty 
-and more generaly Sequential uncertainty management in practice, 
+what the Qualitative Possibility Theory 
+can bring in Planning under Uncertainty
+in partially observable domains, 
+and more generaly in 
+Sequential uncertainty management, 
 in particular through Graphical models,
 in terms of simplification and modeling. 
 \dots\\*
-This paper presents recent contributions 
+It presents recent contributions 
 in the use of the Qualitative Possibility Theory
 for planning under uncertainty, 
-studied to answer to these concerns.
-
-
-
+studied in order to answer to the presented concerns.
 
 % ANNONCE DU PLAN DE LA THÈSE
 Our contributions consists in : \dots \\*
