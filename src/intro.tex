@@ -3,8 +3,8 @@
 
 \section*{Context}
 %%% CONTEXT
-\malettrine{P}{roviding} the autonomy to a robot 
-consists in computing a function which returns 
+\malettrine{P}{roviding} autonomy to a robot 
+consists in computing a function which returns
 the name of the actions to be triggered
 at a given moment, with respect to the data from its sensors.
 The features of interest of the robot 
@@ -13,14 +13,14 @@ In general, for a given sequence of actions performed by the robot,
 the evolution of this system 
 is not fixed for sure, 
 but its behavior may be known 
-performing tests on the robot
+by performing tests on the robot
 or using information from expert knowledge.
 As well, the raw or processed data from the robot sensors
 are not generally a deterministic outcome
-of the state of the system nor the taken actions:
+of the state of the system or of the taken actions:
 nevertheless, these data, 
 called also \textit{observations} of the system, 
-depend on robot's actions and system states. 
+depend on the robot actions and system states. 
 Relations between observations, system states and actions 
 may be known through tests of the sensors
 in various situations, 
@@ -33,14 +33,16 @@ since it is the result of processed sensor data:
 here data are pictures from camera.
 For a given camera, and a given vision algorithm,
 the behavior of the observation
-is related to the action and the system state
+is related to the action and to the system state
 during the picture taking process. 
 
-Thus, in order to make a robot autonomously fulfill a chosen \textit{mission}, 
+Thus, in order to make a robot 
+autonomously fulfill a chosen \textit{mission}, 
 we are  looking for a function returning actions 
 conditional on the sequence of system observations,
 and taking into account uncertainty 
-about the system evolution and the observation of it.
+about the system evolution 
+and its observation.
 Such functions may be called \textit{strategies}.
 The research domain associated to this kind of problem,
 \textit{i.e.} strategy computation,
@@ -99,7 +101,7 @@ a reward function $r(s,a) \in \mathbb{R}$
 is defined for each action $a \in \mathcal{A}$
 and system state $s \in \mathcal{S}$,
 and models the goal of the agent. 
-The more rewards are gathered during an execution of the process, the better:
+The more rewards are gathered during one execution of the process, the better:
 a realization of a sequence of system states
 and actions is considered as well fulfilling the desired mission 
 if encountered rewards $r(s_t,a_t)$ are high.
@@ -108,7 +110,7 @@ consists in computing an optimal strategy,
 \textit{i.e.} a function prescribing actions $a \in \mathcal{A}$
 to be taken over time,
 and maximizing the mean
-of the sum of rewards gathered during an execution:
+of the sum of rewards gathered during one execution:
 this mean is computed with respect to the probabilistic behavior of the system state
 encoded by transition functions $\textbf{p} \paren{s_{t+1} \sachant s_t,a_t}$.
 For instance, a preferred strategy 
@@ -207,7 +209,7 @@ of the system state by the agent.
 
 %%% POMDP
 Indeed a Partially Observable MDP (POMDP) \cite{Smallwood_Sondik} 
-makes a step further in the modeling flexibility, 
+makes a step further into the modeling flexibility, 
 handling situations in which the agent 
 does not know directly
 the current state of the system: 
@@ -528,7 +530,7 @@ $\textbf{p} \paren{o' \sachant s',a}$
 introduced above. 
 This approach raises the issue of knowing if the testing dataset 
 is representative enough of the mission reality.
-If not, the observation probabilities may be not reliable,
+If not, the observation probabilities may not be reliable,
 and the POMDP badly defined: 
 however, as shown by the equation (\ref{probBayesRule})
 the belief update needs a perfect knowledge of the
@@ -1101,7 +1103,7 @@ In this work, each POMDP parameter is replaced by
 a set of possible parameters.
 Figure \ref{uncertainty_theories}
 introduces the Imprecise Probability Theory 
-which has inspired this idea:
+that inspired this idea:
 in this theory, uncertainty and knowledge about it 
 are represented by sets of probability distributions
 (called \textit{credal sets})
@@ -1175,12 +1177,13 @@ or \textit{worst case} criterion,
 which comes from \textit{Game Theory}: 
 in this framework, an optimal strategy 
 maximizes the lowest criterion
-among all the parameters considered as possible.
+among all the parameters considered possible.
 If the parameter imprecision is not stationary,
 \textit{i.e.} can change at each time step,
 the corresponding optimal strategy (in the maximin sense)
 can be easily computed using classical computations
-(called \textit{Dynamic Programming}, see Section \ref{subsectionDP} of Chapter \ref{chap_SOTA}).
+(called \textit{Dynamic Programming}, 
+see Section \ref{subsectionDP} of Chapter \ref{chap_SOTA}).
 However, when the parameter imprecision is stationary,
 things become harder:
 the proposed computations lead to an approximately optimal strategy,
@@ -1200,7 +1203,7 @@ with the reality of the problem (parameters are imprecise in practice),
 taking them (really) into account (e.g. with a maximin criterion) 
 increases eventually the complexity 
 of the optimal strategy computation.
-This intuition is quite well illustrated by Figure \ref{uncertainty_theories}:
+This intuition is illustrated by Figure \ref{uncertainty_theories}:
 Imprecise Probability Theory has the greatest expressiveness 
 compared to the other theories,
 that is why computations with this modeling 
@@ -1218,7 +1221,7 @@ Modeling a problem in an expressive manner may lead
 to the use of important approximations without control of the latter,
 as done with the POMDPIP and BPPOMDP frameworks.
 It may be a better approach to start with a simpler model
-which can be solved easily in practice. 
+which can be solved more easily in practice. 
 
 Finally, while there are fascinating questions of algorithms in this area,
 this thesis does not deal with Reinforcement Learning (RL, \cite{NIPS2009_3780,Ross:2011:BAL:1953048.2021055}), 
@@ -1311,7 +1314,7 @@ it is about the definition of
 the belief state concerning the very first
 state of the system,
 and more generally about
-the way to represent agent knowledge.
+how agent knowledge is represented.
 %%
 %%  FULL IGNORANCE/ KNOWLEDGE OF THE AGENT
 %%
@@ -1368,7 +1371,7 @@ is supposed to infer by itself,
 is initially fully unknown.
 In a robotic exploration context, 
 the location or the nature of a target, 
-or yet the initial location of the robot
+or even the initial location of the robot
 may be defined as absent from the knowledge of the agent.
 Classical approaches initialize the belief state as 
 a uniform probability distribution
@@ -1382,7 +1385,7 @@ However following belief updates (see Equation \ref{probBayesRule})
 will eventually mix up frequentist probability distributions 
 (transition and observation functions) 
 with this initial belief which is a subjective probability distribution:
-it does not always make sense, 
+it does not always make sense
 and it is questionable in any cases. 
 Thus, the use of POMDPs in these contexts, 
 faces the difficulty to encode agent ignorance.
@@ -1417,7 +1420,7 @@ between the actual frequentist behavior of the system state,
 and the lack of knowledge about the actual belief state
 (as a probability distribution)
 due to the imprecision of the initial belief state,
-or yet of the transition and observation function:
+or even of the transition and observation function:
 it just tends to make the belief as deterministic as
 possible, even if it is not possible due to the actual
 probability distributions of the model 
@@ -1435,8 +1438,10 @@ is not zero, $b_t(s)>0$, lead to an high reward).
 %(in a frequentist point of view)
 %is mixed up with the measure of knowledge about the model.
 
-However, the proposed criterion (including the entropy of the  belief state) 
-has been shown to make the agent estimate faster its real state,
+However, it has been shown that 
+the proposed criterion 
+(including the entropy of the belief state) 
+makes the agent estimate faster its real state,
 which is really useful in some practical problems.
 Other models have been introduced, making the reward function dependent
 on the belief state 
@@ -1482,7 +1487,8 @@ can be hard to define
 when the observations comes from 
 complex computer vision algorithms.
 Finally the problem of managing 
-the knowledge (and the ignorance) 
+the knowledge 
+(and the ignorance) 
 of the agent 
 has been discussed:
 there is no clear answer
@@ -1491,11 +1497,10 @@ represent the initial
 lack of knowledge 
 about the actual world
 for the agent.
-Also, no clear answer 
-has been given 
-about how to handle 
+Also, how to handle 
 and take into account 
-the current agent knowledge: 
+the current agent knowledge
+is still open to question: 
 the difficulty comes 
 from the classical POMDP definition
 which only allows 
@@ -1511,7 +1516,7 @@ The computed strategies
 have to make the robot 
 fulfill the mission
 as well as possible,
-and from the very first execution,
+from the very first execution,
 \textit{i.e.} strategy computations are performed 
 before any real execution of the mission.
 In order to make the robot more powerful
@@ -1563,7 +1568,7 @@ may increase the complexity of strategy computations,
 previous discussions on the issues 
 of parameter imprecision
 and agent knowledge 
-suggest us to consider alternative uncertainty theories:
+suggest that we consider alternative uncertainty theories:
 those described in Figure \ref{uncertainty_theories}
 may bring useful properties
 to deal with our problems.
@@ -1955,7 +1960,7 @@ of the actual elementary event:
 this means that 
 Possibility Theory can 
 encode agent ignorance,
-as one of the issues 
+one of the issues 
 guiding our work.
 On the other hand, 
 the full knowledge 
@@ -2068,7 +2073,7 @@ $\set{ l_1,l_2,\ldots,0 }$:
 as only $\max$ and $\min$ operators 
 are allowed, 
 computations do not generate
-any value which is not already included 
+any value not already included 
 in the finite set $\set{ l_1,l_2,\ldots,0 }$.
 This is not true for 
 Quantitative Possibility Theory
@@ -2145,7 +2150,7 @@ is even more imprecise
 since only qualitative information
 is given by such a distribution.
 This imprecision results in measures
-presented above: possibility and necessity measure. 
+presented above: possibility and necessity measures. 
 As detailed in Section \ref{subsection_qualcrit},
 two qualitative criteria have been proposed 
 in \cite{DBLP:journals/ijar/SabbadinFL98},
@@ -2173,9 +2178,9 @@ each time step leads eventually
 to a finite number of new belief states,
 which makes this set countable. 
 In order to get useful properties
-for the computations,
+for the strategy computation,
 the set of all probability distributions
-over $\mathcal{S}$ is considered, 
+over the system space $\mathcal{S}$ is considered, 
 \textit{i.e.} the continuous simplex
 $\mathbb{P}^{\mathcal{S}} 
 = \set{ \textbf{p}:\mathcal{S} \rightarrow [0,1] \sachant \sum_{s \in \mathcal{S}} \textbf{p}(s) 
@@ -2183,19 +2188,30 @@ $\mathbb{P}^{\mathcal{S}}
 The infinite size of the belief space 
 partly explains why probabilistic POMDPs
 are very hard to resolve.
-On the contrary, %%TODO
-finite belief space, managed values are qualitative, complexity
-r\'eduisant la complexit\'e du probl\`eme. 
-As number of belief finite, and MDP P complexity \cite{DBLP:journals/corr/abs-1202-3718},
-at most exponential the process description. (instead of undecidable!)
-poss qual < poss quant / proba TODO
-PSR \cite{Littman01predictiverepresentations} 
-as representation approximated in a more compact way
+On the contrary, $\pi$-POMDPs have a finite belief space.
+Indeed, the number of qualitative possibility distributions
+over the system space $\mathcal{S}$
+is lower than $\mathcal{L}^{\# \mathcal{L}}$,
+as the qualitative scale $\mathcal{L}$ is finite.
+The fully observable version 
+of the $\pi$-POMDP model is called $\pi$-MDP:
+as explained in Section \ref{section_piPOMDP} of Chapter \ref{SOTA}, 
+any $\pi$-POMDP reduces to a $\pi$-MDP whose the system space is
+the qualitative possibilistic belief space,
+whose size is exponential in the number of states.
+In works \cite{DBLP:journals/corr/abs-1202-3718,Garcia20081018,Sabbadin:1999:pipomdp}, 
+$\pi$-MDP complexity appears to be lower than MDP complexity, which is polynomial \cite{Papadimitriou:1987}:
+$\pi$-POMDP complexity is then
+at worst exponential the process description,
+whereas POMDP solving may be undecidable \ref{Madani:1999:UPP:315149.315395}.
+The approach of using of a $\pi$-POMDP instead of a probabilistic POMDP
+in order to simplify the resolution, can be compared to 
+the \textit{Predictive State Representation} approach \cite{Littman01predictiverepresentations}:
+indeed, the latter also represents the agent knowledge in a more compact way.
 
 %%% IMPRECISION MODELISATION
-Moreover, Qualitative Possibility Theory
-is an interesting framework 
-for modeling.
+In addition to the simplification of the computations,
+the $\pi$-POMDP framework may be very interesting for modeling.
 Indeed, considering again 
 a robot using computer vision algorithms
 to get observations
@@ -2235,7 +2251,6 @@ is higher than the possibility degree
 of the answer ``nothing'',
 which is higher than the possibility degree 
 of the answer ``car'', etc.
-%TODO with a model built from imprecise data
 Instead of assigning frequencies 
 which are not really reliable in practice, 
 the qualitative possibilistic model
@@ -2243,32 +2258,45 @@ expresses naturally imprecision
 about the problem.
 
 %%%IGNORANCE
-it allows a formal modeling of
-total ignorance using a possibility distribution equal to $1$ on all
-the states.
-qualitative possibilistic beliefs can model agent initial ignorance.
+Finally, let us recall that 
+the constant possibility distribution
+whose possibility degrees are all equal to $1$ 
+(maximal element of $\mathcal{L}$),
+represents total ignorance: 
+this distribution can be used 
+to define the initial belief state
+when it has to represent 
+an agent which initially ignores
+a given situation.
+Thus, the $\pi$-POMDP framework 
+allows a formal modeling 
+of the agent's lack of knowledge.
 
-%%CORRESPONDS TO OUR ISSUES
+%%CORRESPONDS TO OUR ISSUES 
 The use of the Qualitative Possibility Theory 
 \cite{DBLP:journals/eor/DuboisPS01}
-is studied here,
-as it appears capable
-to both simplify the POMDPs, 
+is thus studied in this work,
+as it appears able
+to both simplify a POMDP, 
 and model parameter imprecision 
-and ignorance 
+and ignorance
 related to robotic missions.
-(SIMPLIFY or ENCODE AVAILABLE DATA)
-however frequentist information cannot be encoded
-The Qualitative Possibility Theory allows to handle imprecise data
-and model the lack of knowledge.
-benefiting from the lack of knowledge
+This framework indeed simplifies computations,
+is able to encode the problem with only available data,
+and models formally the lack of knowledge:
+thus this theory offers solutions to
+the three previously highlighted issues.
+However we note that, as a qualitative framework, 
+it does not allow frequentist information encoding.
 
-%%%NOT WIDELY STUDIED
-Cependant, ce mod\`ele n'a \'et\'e
-que tr\`es peu \'etudi\'e, et les recherches le concernant peu abouties.\\
-bien que ce mod\`ele n'ait pas \'et\'e \'etudi\'e de 
-mani\`ere approfondie. \\
-
+%%%NOT WIDELY STUDIED TODO TODO TODO
+To the best of our knowledge,
+a very limited study of the $\pi$-POMDP model
+is present in the literature up to now: 
+in fact, the work \cite{Sabbadin:1999:pipomdp}
+seems to be the only one proposing 
+both a definition of the $\pi$-POMDP framework,
+and a toy example to illustrate this model.
 
 \section*{Description of our Study}
 % Le sujet de la thèse
@@ -2276,15 +2304,19 @@ The goal of this thesis is to determine
 what the Qualitative Possibility Theory 
 can bring in Planning under Uncertainty
 in partially observable domains, 
-and more generaly in 
+and more generally in 
 Sequential uncertainty management, 
-in particular through Graphical models,
 in terms of simplification and modeling. 
-\dots\\*
+\\
+\\
+\textbf{ FIN !! (je t'aime lauranne!)}
+\\
+\\
 It presents recent contributions 
 in the use of the Qualitative Possibility Theory
 for planning under uncertainty, 
 studied in order to answer to the presented concerns.
+in particular through Graphical models,
 
 % ANNONCE DU PLAN DE LA THÈSE
 Our contributions consists in : \dots \\*
