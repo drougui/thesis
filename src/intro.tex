@@ -1837,14 +1837,15 @@ $\Omega = \set{ \omega_1,\ldots,\omega_7}$
 such that the mass function is positive: $m(A)>0$.
 As Probability Theory and Possibility Theory
 are particular cases of BFT (see Figure \ref{uncertainty_theories}),
-there exists a mass function encoding 
-each of the probability (resp. possibility) distributions.
+each of the probability (resp. possibility) distributions
+is equivalent to certain mass function.
 Thus, the left part of the illustration 
-shows the focals sets 
-of a probability measure:
-they are the singletons of $\Omega$. 
+shows the focal sets 
+from a probability measure $\mathbb{P}$:
+they are the singletons of $\Omega$
+and $m(\set{\omega}) = \mathbb{P}( \set{\omega} )$. 
 The right part shows the focal sets 
-of a possibility measure: they are nested subsets of $\Omega$,
+from a possibility measure: they are nested subsets of $\Omega$,
 denoted by $F_3 \subset F_2 \subset F_1 = \Omega$.}
 \label{figure_focalsets}
 \end{figure}
@@ -2162,9 +2163,6 @@ The other criterion qualifies as optimistic,
 as a qualitative counterpart of 
 the best case criterion in IPT.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\textbf{(pour mon coeur d'amour:) FIN } %%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% COMPLEXITY 
 One of the most interesting property
 of the $\pi$-POMDPs is about 
@@ -2203,7 +2201,7 @@ In works \cite{DBLP:journals/corr/abs-1202-3718,Garcia20081018,Sabbadin:1999:pip
 $\pi$-MDP complexity appears to be lower than MDP complexity, which is polynomial \cite{Papadimitriou:1987}:
 $\pi$-POMDP complexity is then
 at worst exponential the process description,
-whereas POMDP solving may be undecidable \ref{Madani:1999:UPP:315149.315395}.
+whereas POMDP solving may be undecidable \cite{Madani:1999:UPP:315149.315395}.
 The approach of using of a $\pi$-POMDP instead of a probabilistic POMDP
 in order to simplify the resolution, can be compared to 
 the \textit{Predictive State Representation} approach \cite{Littman01predictiverepresentations}:
@@ -2292,185 +2290,217 @@ it does not allow frequentist information encoding.
 %%%NOT WIDELY STUDIED TODO TODO TODO
 To the best of our knowledge,
 a very limited study of the $\pi$-POMDP model
-is present in the literature up to now: 
+is present in the literature up to now:
 in fact, the work \cite{Sabbadin:1999:pipomdp}
 seems to be the only one proposing 
-both a definition of the $\pi$-POMDP framework,
+both a definition of the $\pi$-POMDP
 and a toy example to illustrate this model.
+The fully observable version ($\pi$-MDP)
+has generated some more interest
+\cite{Sabbadin2001287,conf/ecai/Sabbadi00,LIP61498}.
 
 \section*{Description of our Study}
 % Le sujet de la thèse
-The goal of this thesis is to determine
-what the Qualitative Possibility Theory 
-can bring in Planning under Uncertainty
-in partially observable domains, 
+This thesis contributes to determine
+what Qualitative Possibility Theory 
+can provide in \textit{planning under uncertainty
+in partially observable domains}, 
 and more generally in 
-Sequential uncertainty management, 
-in terms of simplification and modeling. 
-\\
-\\
-\textbf{ FIN !! (je t'aime lauranne!)}
-\\
-\\
+\textit{sequential uncertainty management}, 
+in terms of computation simplification 
+and modeling. 
 It presents recent contributions 
-in the use of the Qualitative Possibility Theory
-for planning under uncertainty, 
-studied in order to answer to the presented concerns.
-in particular through Graphical models,
+in the use of this theory
+for planning under uncertainty 
+and knowledge representation,
+with an almost systematic use of 
+graphical models 
+\cite{Koller:2009:PGM:1795555,Be2002.7,Borgelt02graphicalmodels}.
 
-% ANNONCE DU PLAN DE LA THÈSE
-Our contributions consists in : \dots \\*
+The end of this introduction describes how this thesis is structured.
+Indeed, each of the following sections 
+corresponds to a chapter of our work
+and details its contents.
 
-	
-JUSTIFIER LES IDEES FORTES, ET VERIFIER QUIL Y A DEUX IDEEES FORTES par sous section de chaque chapitre
-\\
-
-
-%%%% CHAP1
+%%%% SOTA
 \subsection*{State of the art}
-The \emph{first chapter} presents in parallel \\*
+As the probabilistic POMDP and the qualitative possibilistic one 
+are the central objects of this thesis,
+the \emph{first chapter} presents these models
+starting from low level definitions.
+Most of the classical results presented 
+are accompanied by proofs
+making this thesis self-contained:
+this work is thus accessible 
+to all researchers 
+and students
+with basic mathematical competences, 
+even if they are not familiar 
+with alternative uncertainty theories,
+nor member of the \textit{planning under uncertainty} community.
 
-piPOMDP detailed, as never detailed much
-to the best of our knowledge
+The first part of this chapter focuses on
+the classical (probabilistic) POMDP:
+it begins with the presentation of the less complex 
+fully observable case, called MDP.
+The well-know POMDP is then set up, 
+giving some formal results and proofs 
+hard to find in the literature. 
+This part ends with a review 
+of a large part 
+of the successful POMDP algorithms
+including algorithms used in the next chapters. 
 
-The work developed in this paper remains in the classical MDP and POMDP frameworks, 
-which are recalled in this chap: 
-possibilistic material necessary to build the promised translation are then presented. 
+The second part is naturally devoted to
+the qualitative possibilistic counterpart of the POMDP.
+It begins with a presentation of the Possibility Theory,
+with a specific focus on the qualitative version.
+It includes the qualitative counterparts of conditioning,
+and of averaging.
+Finally, as all the needed theoretical tools have been presented,
+the fully observable model ($\pi$-MDP) can be defined,
+followed by the partially observable one ($\pi$-POMDP).
+As noted above, to the best of our knowledge,
+only one ten-pages paper has already dealt with
+the $\pi$-POMDPs: 
+the second part of this chapter is thus the first work 
+detailing formally the construction of this model.
 
-Ces modèles probabilistes sont conçus pour représenter de manière simple une situation où une entité (appelée \textit{agent}) 
-et le monde qui l'entoure peuvent être dans différents états $s \in \mathcal{S}$ au cours du temps 
-(ce dernier, modélisé par l'ensemble des entiers naturels $\mathbb{N}$). 
-L'agent choisit une action parmi celles dont il dispose à chaque étape de temps $t \in \mathbb{N}$, 
-et le système comprenant l'agent et son environnement évolue de manière Markovienne dans $\mathcal{S}$ (\cite{bellman},\cite{ber01}).
+Note that the notations and the terminology 
+set up in this initial chapter,
+and thus used throughout this thesis,
+are those classically used in the POMDP framework:
+it should make our work more readable to the POMDP community 
+or more generally to the probabilistic community.
+Moreover, the choice of dedicating this first chapter 
+to a formal presentation of 
+the probabilistic and the qualitative possibilistic models
+is meant to highlight their common structure.
 
-Le modèle POMDP, autour duquel ce travail est développé, est utilisé lorsque le système peut se modéliser à l'aide de probabilités. 
-Il permet aussi bien de modéliser les incertitudes sur l'observation du système, que sur sa dynamique. 
-Nous commencerons donc par présenter un modèle plus simple (MDP, ou l'observation est parfaite) afin de construire plus facilement le modèle POMDP.\\
-
-Dans le modèle POMDP, les distributions de probabilité sont supposées parfaitement connues a priori. En pratique, ce n'est pas toujours le cas, notamment lorsque les observations de l'environnement sont filtrées par des algorithmes de traitement du signal. De plus, l'agent est supposé avoir une croyance initiale de l'état du système: sa croyance initiale n'est pas précise en pratique (extraire des fréquences d'évènements initiaux n'est pas forcément possible), et une probabilité uniforme ne représente pas réellement cette méconnaissance. Il existe aussi des situations dans lequelles, donner de l'importance à l'information de la croyance (au sens entropique) améliore la politique en pratique \cite{conf/stairs/ChanelFTI10}. \\
-
-Ces problèmes pratiques peuvent trouver des solutions grâce à d'autres modélisations de l'incertitude que la théorie des probabilités. C'est pourquoi ce rapport s'intéresse ensuite à des modèles utilisant la théorie des possibilités ($\pi$-MDP et $\pi$-POMDP). Ces deux modèles introduits par R.Sabbadin sont présentés, puis une preuve est donnée à l'homologue de l'algorithme d'itération sur les valeurs. Enfin, l'astuce de O.Buffet \textit{et al.} est adaptée pour le modèle $\pi$-POMDP. 
-
-
-
-%%% CHAP2
+%%% CHAP1
 \subsection*{Natural updates of the possibilistic model}
-The \emph{second chapter} proposes \\* 
+The \emph{second chapter} proposes several extensions 
+of the work \cite{Sabbadin:1999:pipomdp}.
+It begins with the presentation of some variants 
+of the qualitative criteria presented in the first chapter:
+the latter are related to the aggregations of the preferences over time,
+and to the chosen approach \textit{i.e.} pessimistic or optimistic.
 
-It begins with an update 
-of the work of Sabbadin 
-about a possibilistic counterpart 
-of POMDPs called $\pi$-POMDP. 
-a possibilistic version of 
-Mixed-Observable MDPs \cite{OngShaoHsuWee-IJRR10}, 
-called $\pi$-MOMDP \cite{Drougard13}, 
-is first presented to reduce dramatically 
+A qualitative possibilistic version of the
+Mixed-Observable MDPs 
+\cite{OngShaoHsuWee-IJRR10,AraThoBufCha-ICTAI10}, 
+named $\pi$-MOMDP and generalizing both $\pi$-MDP and $\pi$-POMDP,
+is then built: 
+it reduces dramatically 
 the complexity of solving $\pi$-POMDPs, 
 some state variables of which are fully observable. 
-An algorithm
+For instance, the battery level of a robot
+may be considered as directly 
+exploitable for the decision,
+making computations easier.
+More generally, existence of visible variables 
+is common in robotics \cite{OngShaoHsuWee-IJRR10}.
+
+Next, a qualitative criterion
 for missions with unbounded durations
-is next proposed:
-returned strategies can outperform 
-probabilistic POMDP ones 
-for a target recognition problem 
-where the agent's observations dynamics 
+is proposed, as well as
+an algorithm for computing the associated
+optimal strategy.
+This algorithm is used to
+compute a strategy for a target recognition mission:
+experimental results compare 
+executions using this strategy to
+those using the strategy from a probabilistic algorithm, 
+in situations where the probabilistic dynamic of the observations 
 is not properly defined.
-\cite{Drougard13}
 
-La d\'emarche a consist\'e dans un premier temps \`a adapter les processus d\'ecisionnels 
-possibilistes qualitatifs aux missions robotiques car ils modelisent formellement la meconnaissance initiale. 
-Pour cela, le probl\`eme $\pi$-POMDP
-est d\'efini pour un horizon infini, afin que les missions puissent 
-\^etre d\'efinies sans d\'ecider a priori de la dur\'ee de la mission. Sachant l'\'etat 
-du syst\`eme n'est pas enti\`erement cach\'e en pratique lors des missions \cite{OngShaoHsuWee-IJRR10}, 
-les $\pi$-MOMDPs, pour (Mixed-Observable MDPs) 
-sont introduits afin de profiter de cette observation dans la r\'eduction du temps de calcul de la
-strat\'egie.
-Par exemple, le niveau de batterie d'un drone est accessible directement par le syst\`eme robotique. 
+Note that this experiment is the first practical use
+of the $\pi$-POMDP framework.
+It also highlights interesting behaviors
+of the qualitative possibilistic belief state:
+they are then clarified theoretically 
+in the end of the chapter.
 
- L'algorithme associ\'e \`a ces contributions ainsi que sa 
-preuve de convergence est alors n\'ecessaire dans le but de calculer une strat\'egie \cite{Drougard13}. 
-Enfin, les performances de ce nouveau 
-mod\`ele sont illustr\'ees \`a l'aide de simulations de probl\`emes particuliers pour diff\'erents crit\`eres.
-De plus, ces simulations illustrent aussi la dynamique de la croyance de l'agent: sa mise \`a jour
-poss\`ede la caract\'eristique int\'eressante d'accro\^itre la connaissance associ\'ee.
-Cependant, la r\'esolution propos\'ee reste limit\'ee \`a des probl\`emes de faible taille.\\
+The main contributions of this chapter 
+have been published in \cite{Drougard13}.
+The experiment illustrates that 
+these contributions are necessary in practice.
+However they are not sufficient
+to reach a competitive computation time
+or to deal with realistic robotic problems:
+the orientation of the next chapter
+is motivated by this observation.
 
-
-
-
-%%% CHAP3
+%%% CHAP2
 \subsection*{Factorization work on the models}
-The \emph{third chapter} is \\* 
 
-\cite{DBLP:conf/aaai/DrougardTFD14}
-Then strategies computation time is decreased 
-with the use of Agebraic Decision Diagrams (ADDs)
-and benefiting from the problem structure.
+%% INTRO
+The size of the robotic problem dealt in the previous chapter
+is small enough to allow the proposed algorithm 
+to compute a strategy within a reasonable amount of time.
+The contributions of the \emph{third chapter}
+are meant to make possible computations for
+larger structured planning problems. 
+
+%% PPUDD and factored models
+The first part of this chapter 
+proposes a definition 
+for the \textit{factored $\pi$-MOMDPs}:
+these processes benefit from additional
+independence assumptions --
+in a qualitative possibilistic sense,
+as defined in the first chapter.
+Large planning problems satisfying these assumptions 
+can be more easily solved:
+building upon the probabilistic 
+SPUDD algorithm \cite{Hoey99spudd:stochastic},
+we conceived an algorithm named PPUDD 
+for solving factorized $\pi$-MOMDPs
+using \textit{Algebraic Decision Diagrams} (ADD).
+The possibilistic qualitative framework is shown
+to be more 
+This Profitant \`a la fois du caract\`ere qualitatif de ces processus,
+ainsi que de la structure des probl\`emes en pratique, 
+Computation time is decreased .
+
+%% belief factorization
+et d\'ecrivons sur les hypoth\`eses d'ind\'ependance
+possibles pour de tels processus. independent BELIEFs, pearl!!
+
+%% first tests, larger robotic missions
 We compare performances 
 of our solvers with those of 
 its probabilistic counterparts, 
 in terms of computation time, 
 and with criteria measuring 
 the mission achievement. 
+for that, executions of various problems have been simulated
+
+%% IPPC14
+We participated in the competition in order to test the performance of our algorithm
+in the case of well known probabilistic models. EN TERMES DE REWARD EXPECTED
+ et a \'et\'e test\'e lors de la comp\'etition internationale 
+de planification probabiliste (IPPC14). 
+
+%% CITE PUBLI
+Contributions \cite{DBLP:conf/aaai/DrougardTFD14} (without IPPC14)
+
+%% ISSUES, link with the next (model -> HMI / model+ADD -> hybrid)
+The various problems 
+It highlights also some issues 
+of these qualitative models.
+m\'ethodes \`a ADDs, dites \textit{symboliques},  
+Nous avons pu aussi prendre note des inconv\'enients du formalisme possibiliste qualitatif pour la mod\'elisation:
 While this possibilistic framework 
 provides good results,
 some highlighted issues
 are finally discussed: 
-Then factorized $\pi$-MOMDPs
-are defined making possible the processing
-of large structured planning problems. 
-Building upon the probabilistic 
-SPUDD algorithm \cite{Hoey99spudd:stochastic},
-we conceived an algorithm named PPUDD \cite{DBLP:conf/aaai/DrougardTFD14} 
-for solving factorized $\pi$-MOMDPs
-using \textit{Algebraic Decision Diagrams} (ADD).
-Our experiments and the  results 
-of the International Probabilistic Planning Competition (IPPC 2014)
-show that this possibilistic approach
-can involve lower computation time
-and produce better policies
-than its probabilistic counterparts:
-it highlights also some issues 
-of these qualitative models.
-Finally, points raised are added to 
+Finally, points raised are added to
 the symbolic computations limits,
 and lead to the description
 of a future work.
-We participated in the competition in order to test the performance of our algorithm
-in the case of well known probabilistic models.
 
-
-LETAPE SUIVANTE A ETE DADAPTER LALGO AFIN QUE...
-Une fois ce mod\`ele adapt\'e aux besoins robotiques pratiques, nous avons souhait\'e pouvoir
-r\'esoudre des probl\`emes de d\'ecision s\'equentielle dans l'incertain de tailles
-plus g\'en\'erales. Profitant \`a la fois du caract\`ere qualitatif de ces processus,
-ainsi que de la structure des probl\`emes en pratique, un algorithme
-symbolique de r\'esolution \cite{DBLP:conf/aaai/DrougardTFD14} est propos\'e. Pour cela, nous 
-introduisons les $\pi$-MOMDPs factoris\'es, et d\'ecrivons sur les hypoth\`eses d'ind\'ependance
-possibles pour de tels processus.
-AFIN DE..
-\\
-ON a voulu que cet algorithme utilise les ADD pour pouvoir synthetiser les calculs.
-
-L'algorithme r\'esultant, utilisant des arbres de d\'ecision
-alg\'ebriques (ADDs) afin de synth\'etiser les calculs, est nomm\'e PPUDD pour \textit{Possibilistic
-Planning using Decision Diagrams}
-\\
-POUR CELA, on a simulté des problemes de plannif variés.
- et a \'et\'e test\'e lors de la comp\'etition internationale 
-de planification probabiliste (IPPC14). 
-\\
-EN TERMES DE REWARD EXPECTED
-
-Ces tests sur des probl\`emes de planification vari\'es m\`enent \`a l'observation que 
-ces m\'ethodes \`a ADDs, dites \textit{symboliques}, ne font pas le poids face aux
-approches proc\'edant \`a une recherche heuristique dans l'espace d'\'etat \cite{DBLP:conf/aips/KellerE12} (en termes de rewards... expliquer!). 
-Nous avons pu aussi prendre note des inconv\'enients du formalisme possibiliste qualitatif pour la mod\'elisation:
-le crit\`ere utilis\'e \'etant global, son choix restreint la g\'en\'eralit\'e du mod\`ele.\\
-
-
-%%% CHAP4
+%%% CHAP3
 \subsection*{Qualitative possibilistic framework process for human-machine interaction modeling}
 The \emph{fourth chapter} is \\* 
 
@@ -2491,13 +2521,16 @@ Processus $\pi$-HMP hidden markov processes, outils de diagnostic pour l'Intérac
 \item causes plausibles de ces erreurs (\textbf{diagnostique}).
 \end{itemize}
 
-
-
-
-%%% CHAP5
+%%% CHAP4
 \subsection*{Probabilistic-possibilistic approach: an hybrid perspective}
 Finally, the \emph{fith chapter} is \\* 
 
 argues for a hydrid POMDP 
 model with both probabilistic 
 and possibilistic settings. 
+A new translation from Partially Observable MDP into Fully
+Observable MDP is described here. Unlike the classical translation, the
+resulting problem state space is finite, making MDP solvers able to solve
+this simplified version of the initial partially observable problem: this
+approach encodes agent beliefs with possibility distributions over states,
+leading to an MDP whose state space is a finite set of epistemic states.
