@@ -2287,7 +2287,7 @@ the three previously highlighted issues.
 However we note that, as a qualitative framework, 
 it does not allow frequentist information encoding.
 
-%%%NOT WIDELY STUDIED TODO TODO TODO
+%%%NOT WIDELY STUDIED
 To the best of our knowledge,
 a very limited study of the $\pi$-POMDP model
 is present in the literature up to now:
@@ -2432,7 +2432,7 @@ the orientation of the next chapter
 is motivated by this observation.
 
 %%% CHAP2
-\subsection*{Factorization work on the models}
+\subsection*{Factorized models and symbolic algorithms}
 
 %% INTRO
 The size of the robotic problem dealt in the previous chapter
@@ -2446,8 +2446,9 @@ larger structured planning problems.
 The first part of this chapter 
 proposes a definition 
 for the \textit{factored $\pi$-MOMDPs}:
-these processes benefit from additional
-independence assumptions --
+additional
+independence assumptions 
+are provided to these processes --
 in a qualitative possibilistic sense,
 as defined in the first chapter.
 Large planning problems satisfying these assumptions 
@@ -2457,15 +2458,20 @@ SPUDD algorithm \cite{Hoey99spudd:stochastic},
 we conceived an algorithm named PPUDD 
 for solving factorized $\pi$-MOMDPs
 using \textit{Algebraic Decision Diagrams} (ADD).
-The possibilistic qualitative framework is shown
-to be more 
-This Profitant \`a la fois du caract\`ere qualitatif de ces processus,
-ainsi que de la structure des probl\`emes en pratique, 
-Computation time is decreased .
+The guess motivating this contribution 
+is that computations between ADDs 
+is less time and memory consuming
+when performed in the possibilistic framework 
+than in the probabilistic one:
+qualitative operations
+should lead to smaller ADDs
+than sum and product
+which produce ADDs with potentially
+more leaves.
 
 %% belief factorization
 et d\'ecrivons sur les hypoth\`eses d'ind\'ependance
-possibles pour de tels processus. independent BELIEFs, pearl!!
+possibles pour de tels processus. independent BELIEFs, pearl!! proba!
 
 %% first tests, larger robotic missions
 We compare performances 
