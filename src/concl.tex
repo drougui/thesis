@@ -325,6 +325,38 @@ at each system state modeling how well this state fulfill the mission.
 
 (+ CONCLUSION DE CHAQUE PAPIER)
 
+We have proposed a Value Iteration algorithm for pos-
+sibilistic  MDPs,  which  can  produce  optimal  station-
+ary  policies  in  infinite  horizon  contrary  to  previous
+methods.  We have provided a complete proof of con-
+vergence  that  relies  on  the  existence  of  intermediate
+stay actions that vanish for non goal states in the final optimal policy. 
+Finally, we have extended this al-
+gorithm to a new Mixed-Observable possibilistic MDP
+model, whose complexity is exponentially smaller than
+possibilistic  POMDPs,  so  that  we  could  compare
+$\pi$-MOMDPs with their probabilistic counterparts on re-
+alistic  robotic  problems.    Our  experimental  results
+show  that  possibilistic  policies  can  outperform  prob-
+abilistic ones when the observation function yields im-
+precise results.
+Qualitative possibilistic frameworks can however be in-
+appropriate when some probabilistic information is ac-
+tually available:  POMDPs with Imprecise Parameters
+(POMDPIP)  [7]  and  Bounded-parameter  POMDPs
+(BPOMDP) [8] integrate the lack of knowledge by con-
+sidering  spaces  of  possible  probability  distributions.
+When such spaces can not be extracted or when a qual-
+itative  modeling  suffices, $\pi$-POMDPs  can  be  a  good
+alternative, especially as POMDPIPs and BPOMDPs
+are  extremely  difficult to solve in practice.
+The pessismistic version of $\pi$-MDPs can be easily con-
+structed, but the optimality of the policy returned by
+the associated value iteration algorithm seems hard to
+prove, essentially because it is not enough to construct
+a maximizing trajectory, as the proof of section A does.
+The works [16, 10] could help us to get results about
+
 We
 presented PPUDD, the first algorithm to the best of our knowledge that 
 solves factored possibilistic (MO)MDPs with symbolic calculations. In our opinion,
@@ -372,35 +404,5 @@ in the form of the factored POMDPs
 introduced in Section \ref{factorizationSection}.
 
 
-We have proposed a Value Iteration algorithm for pos-
-sibilistic  MDPs,  which  can  produce  optimal  station-
-ary  policies  in  infinite  horizon  contrary  to  previous
-methods.  We have provided a complete proof of con-
-vergence  that  relies  on  the  existence  of  intermediate
-stay actions that vanish for non goal states in the final optimal policy. 
-Finally, we have extended this al-
-gorithm to a new Mixed-Observable possibilistic MDP
-model, whose complexity is exponentially smaller than
-possibilistic  POMDPs,  so  that  we  could  compare
-$\pi$-MOMDPs with their probabilistic counterparts on re-
-alistic  robotic  problems.    Our  experimental  results
-show  that  possibilistic  policies  can  outperform  prob-
-abilistic ones when the observation function yields im-
-precise results.
-Qualitative possibilistic frameworks can however be in-
-appropriate when some probabilistic information is ac-
-tually available:  POMDPs with Imprecise Parameters
-(POMDPIP)  [7]  and  Bounded-parameter  POMDPs
-(BPOMDP) [8] integrate the lack of knowledge by con-
-sidering  spaces  of  possible  probability  distributions.
-When such spaces can not be extracted or when a qual-
-itative  modeling  suffices, $\pi$-POMDPs  can  be  a  good
-alternative, especially as POMDPIPs and BPOMDPs
-are  extremely  difficult to solve in practice.
-The pessismistic version of $\pi$-MDPs can be easily con-
-structed, but the optimality of the policy returned by
-the associated value iteration algorithm seems hard to
-prove, essentially because it is not enough to construct
-a maximizing trajectory, as the proof of section A does.
-The works [16, 10] could help us to get results about
+
 pessimistic $\pi$-MDP in order to solve unsafe problems.
