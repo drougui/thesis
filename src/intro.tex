@@ -2488,44 +2488,63 @@ called \textit{$d$-Separation} \cite{pearl88},
 these conditions lead also to the
 belief variable independence 
 in the probabilistic MOMDP framework.
-
-\textbf{FIN -- JE T'AIME MA BELLE LAURANNE :)}
  
 %% first tests, larger robotic missions TODO TODO 
 Performances of our solver PPUDD 
-are next compared with 
+are next compared to
 those of its probabilistic counterparts, 
 in terms of computation time, 
 and with criteria measuring 
 the mission achievement. 
 Finally, the last part of this chapter
 describes the results of PPUDD 
-at the International Probabilistic Planning Competition\footnote{\url{https://cs.uwaterloo.ca/~mgrzes/IPPC_2014/}}.
-We participated in the competition 
-in order to test the performances of our algorithm
-against probabilistic one, in terms of expected reward,
-with various probabilistic planning problems. 
+at the International Probabilistic 
+Planning Competition\footnote{\url{https://cs.uwaterloo.ca/~mgrzes/IPPC_2014/}}.
+We participated in the competition
+in order to test the performances
+of our algorithm
+against probabilistic one,
+in terms of expected reward,
+with various
+probabilistic planning problems. 
 
 %% CITE PUBLI
-Contributions \cite{DBLP:conf/aaai/DrougardTFD14} (without IPPC14)
-
+Some contributions of this chapter 
+have been published in 
+\cite{DBLP:conf/aaai/DrougardTFD14}.
 %% ISSUES, link with the next (model -> HMI / model+ADD -> hybrid)
-The various problems 
-It highlights also some issues 
-of these qualitative models.
-m\'ethodes \`a ADDs, dites \textit{symboliques},  
-Nous avons pu aussi prendre note des inconv\'enients du formalisme possibiliste qualitatif pour la mod\'elisation:
-While this possibilistic framework 
-provides good results,
-some highlighted issues
-are finally discussed: 
-Finally, points raised are added to
-the symbolic computations limits,
-and lead to the description
-of a future work.
+The various planning problems
+of the competition highlight 
+also some issues of our algorithm
+when used to find an approximate strategy
+for a probabilistic problem
+in order to
+benefit from qualitative computations
+which are simpler.
+Although modeling points are part of these issues,
+next chapter shows that 
+a possibilistic approach
+is very useful 
+where only qualitative
+data are available.
+The approach proposed in the final chapter 
+takes into account 
+the highlighted modeling issues.
+Moreover, time can be lost 
+before computations of PPUDD,
+when loading ADDs encoding some 
+high dimensional planning problems:
+memory issues are also observed in practice.
+Hence the last chapter focuses on 
+the belief state management
+as MDP algorithms using state space search
+\cite{DBLP:conf/aips/KellerE12,DBLP:conf/aaai/KolobovMW12} 
+does not face these issues
+and can solve the problem resulting 
+from this last work.
 
 %%% CHAP3
-\subsection*{Qualitative possibilistic framework process for human-machine interaction modeling}
+\subsection*{A qualitative possibilistic process for human-machine interaction modeling}
 The \emph{fourth chapter} is \\* 
 
 Les processus possibilistes qualitatifs ont toutefois leur place lorsque toutes les distributions
@@ -2548,6 +2567,9 @@ Processus $\pi$-HMP hidden markov processes, outils de diagnostic pour l'Intérac
 %%% CHAP4
 \subsection*{Probabilistic-possibilistic approach: an hybrid perspective}
 Finally, the \emph{fith chapter} is \\* 
+
+focuses on 
+the belief state management
 
 argues for a hydrid POMDP 
 model with both probabilistic 
