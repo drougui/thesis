@@ -2150,7 +2150,7 @@ A qualitative possibility distribution
 is even more imprecise
 since only qualitative information
 is given by such a distribution.
-This imprecision results in measures
+This imprecision results in the measures
 presented above: possibility and necessity measures. 
 As detailed in Section \ref{subsection_qualcrit},
 two qualitative criteria have been proposed 
@@ -2165,7 +2165,7 @@ the best case criterion in IPT.
 
 %%%% COMPLEXITY 
 One of the most interesting property
-of the $\pi$-POMDPs is about 
+of the $\pi$-POMDPs is
 the simplification of the strategy computation.
 Indeed, algorithms proposed 
 for solving classical (probabilistic) POMDPs
@@ -2194,13 +2194,13 @@ as the qualitative scale $\mathcal{L}$ is finite.
 The fully observable version 
 of the $\pi$-POMDP model is called $\pi$-MDP:
 as explained in Section \ref{section_piPOMDP} of Chapter \ref{SOTA}, 
-any $\pi$-POMDP reduces to a $\pi$-MDP whose the system space is
-the qualitative possibilistic belief space,
+any $\pi$-POMDP reduces to a $\pi$-MDP whose system space is
+the qualitative possibilistic belief space, and
 whose size is exponential in the number of states.
 In works \cite{DBLP:journals/corr/abs-1202-3718,Garcia20081018,Sabbadin:1999:pipomdp}, 
 $\pi$-MDP complexity appears to be lower than MDP complexity, which is polynomial \cite{Papadimitriou:1987}:
 $\pi$-POMDP complexity is then
-at worst exponential the process description,
+at worst exponential in the process description,
 whereas POMDP solving may be undecidable \cite{Madani:1999:UPP:315149.315395}.
 The approach of using of a $\pi$-POMDP instead of a probabilistic POMDP
 in order to simplify the resolution, can be compared to 
@@ -2210,7 +2210,7 @@ indeed, the latter also represents the agent knowledge in a more compact way.
 %%% IMPRECISION MODELISATION
 In addition to the simplification of the computations,
 the $\pi$-POMDP framework may be very interesting for modeling.
-Indeed, considering again 
+Indeed, when we considered 
 a robot using computer vision algorithms
 to get observations
 (see Figure \ref{observation_robot}),
@@ -2225,23 +2225,23 @@ and hard to define in practice.
 Finding qualitative estimates 
 of their recognition performance is easier: 
 the $\pi$-POMDP model 
-only require qualitative data, 
+only requires qualitative data, 
 thus it allows to build the model 
-without the use of more information 
-than really available. 
+without the use of information 
+other than the one really available. 
 For instance, 
 the confusion matrix 
 in Figure \ref{confusion_matrix}
 may lead to a qualitative possibilistic 
 observation function 
-which takes only into account
+which only takes into account
 how answer frequencies are sorted:
 in the presence of a human (see second line),
 the most frequent answer is ``human'',
 the second one is ``nothing'',
 the third one is ``car'', etc.
 Thus, the corresponding possibility distribution
-will be such that, 
+is such that, 
 conditional on the presence of a human,
 the possibility degree 
 of the answer ``human''
@@ -2252,7 +2252,7 @@ of the answer ``car'', etc.
 Instead of assigning frequencies 
 which are not really reliable in practice, 
 the qualitative possibilistic model
-expresses naturally imprecision 
+naturally expresses imprecisions
 about the problem.
 
 %%%IGNORANCE
@@ -2280,17 +2280,18 @@ and model parameter imprecision
 and ignorance
 related to robotic missions.
 This framework indeed simplifies computations,
-is able to encode the problem with only available data,
-and models formally the lack of knowledge:
+is able to encode the problem with only available data
+and formally models the lack of knowledge:
 thus this theory offers solutions to
-the three previously highlighted issues.
+the three issues highlighted previously.
 However we note that, as a qualitative framework, 
-it does not allow frequentist information encoding.
+it does not allow 
+frequentist information encoding.
 
 %%%NOT WIDELY STUDIED
 To the best of our knowledge,
 a very limited study of the $\pi$-POMDP model
-is present in the literature up to now:
+exists in the literature up to now:
 in fact, the work \cite{Sabbadin:1999:pipomdp}
 seems to be the only one proposing 
 both a definition of the $\pi$-POMDP
@@ -2349,19 +2350,19 @@ hard to find in the literature.
 This part ends with a review 
 of a large part 
 of the successful POMDP algorithms
-including algorithms used in the next chapters. 
+including the ones used in the next chapters. 
 
 The second part is naturally devoted to
 the qualitative possibilistic counterpart of the POMDP.
 It begins with a presentation of the Possibility Theory,
 with a specific focus on the qualitative version.
 It includes the qualitative counterparts of conditioning,
-and of averaging.
+and averaging.
 Finally, as all the needed theoretical tools have been presented,
 the fully observable model ($\pi$-MDP) can be defined,
 followed by the partially observable one ($\pi$-POMDP).
 As noted above, to the best of our knowledge,
-only one ten-pages paper has already dealt with
+only one ten-paged paper has already dealt with
 the $\pi$-POMDPs: 
 the second part of this chapter is thus the first work 
 detailing formally the construction of this model.
@@ -2372,7 +2373,8 @@ and thus used throughout this thesis,
 are those classically used in the POMDP framework:
 it should make our work more readable to the POMDP community 
 or more generally to the probabilistic community.
-Moreover, the choice of dedicating this first chapter 
+Moreover, dedicating 
+this first chapter 
 to a formal presentation of 
 the probabilistic and the qualitative possibilistic models
 is meant to highlight their common structure.
@@ -2398,16 +2400,17 @@ For instance, the battery level of a robot
 may be considered as directly 
 exploitable for the decision,
 making computations easier.
-More generally, existence of visible variables 
+More generally, the existence of visible variables 
 is common in robotics \cite{OngShaoHsuWee-IJRR10}.
 
 Next, a qualitative criterion
 for missions with unbounded durations
-is proposed, as well as
+is proposed, along with
 an algorithm for computing the associated
 optimal strategy.
 This algorithm is used to
-compute a strategy for a target recognition mission:
+compute a strategy 
+for a target recognition mission:
 experimental results compare 
 executions using this strategy to
 those using the strategy from a probabilistic algorithm, 
@@ -2429,18 +2432,19 @@ However they are not sufficient
 to reach a competitive computation time
 or to deal with realistic robotic problems:
 the orientation of the next chapter
-is motivated by this observation.
+stems from this observation.
 
 %%% CHAP2
 \subsection*{Factorized models and symbolic algorithms}
 
 %% INTRO
-The size of the robotic problem dealt in the previous chapter
+The size of the robotic problem dealt with 
+in the previous chapter
 is small enough to allow the proposed algorithm 
 to compute a strategy within a reasonable amount of time.
 The contributions of the \emph{third chapter}
-are meant to make possible computations for
-larger structured planning problems. 
+are meant to make computations possible 
+for larger structured planning problems. 
 
 %% PPUDD and factored models
 The first part of this chapter 
@@ -2451,7 +2455,7 @@ are provided to these processes --
 in a qualitative possibilistic sense,
 as defined in the first chapter.
 Large planning problems satisfying these assumptions 
-can be more easily solved:
+can be solved more easily:
 building upon the probabilistic 
 SPUDD algorithm \cite{Hoey99spudd:stochastic},
 we conceived an algorithm named PPUDD 
@@ -2464,8 +2468,8 @@ when performed in the possibilistic framework
 than in the probabilistic one:
 qualitative operations
 should lead to smaller ADDs
-than sum and product
-which produce ADDs with potentially
+when sum and product
+produce ADDs with potentially
 more leaves.
 
 %% belief factorization
@@ -2477,7 +2481,7 @@ However variables defining a factored $\pi$-MOMDP
 are those representing 
 successive system states and observations.
 That is why, the following section
-of this chapter exhibit sufficient conditions 
+of this chapter exhibits sufficient conditions 
 on the system state and observation variables
 leading to the desired independence 
 between belief state variables.
@@ -2485,7 +2489,7 @@ A robotic example is used as an illustration
 of these conditions.
 As proofs use the graphical concept 
 called \textit{$d$-Separation} \cite{pearl88},
-these conditions lead also to the
+these conditions also lead to the
 belief variable independence 
 in the probabilistic MOMDP framework.
  
@@ -2514,15 +2518,15 @@ have been published in
 \cite{DBLP:conf/aaai/DrougardTFD14}.
 %% ISSUES, link with the next (model -> HMI / model+ADD -> hybrid)
 The various planning problems
-of the competition highlight 
-also some issues of our algorithm
+of the competition also highlight 
+some issues of our algorithm
 when used to find an approximate strategy
 for a probabilistic problem
 in order to
 benefit from qualitative computations
 which are simpler.
 Although modeling points are part of these issues,
-next chapter shows that 
+the next chapter shows that 
 a possibilistic approach
 is very useful 
 where only qualitative
@@ -2539,9 +2543,9 @@ Hence the last chapter focuses on
 the belief state management
 as MDP algorithms using state space search
 \cite{DBLP:conf/aips/KellerE12,DBLP:conf/aaai/KolobovMW12} 
-does not face these issues
+do not face these issues
 and can solve the problem resulting 
-from this last work.
+from this last step of the study.
 
 %%% CHAP3
 \subsection*{A qualitative possibilistic process for human-machine interaction modeling}
@@ -2568,7 +2572,7 @@ In this chapter, used processes
 are similar to those
 studied in the previous chapters:
 the only difference is that actions 
-are no more chosen, but used as observations
+are not chosen anymore, but used as observations
 to infer the state of the human-machine system.
 This process is called \textit{qualitative possibilistic Hidden Markov Process}
 ($\pi$-HMP).
