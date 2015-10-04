@@ -2446,8 +2446,7 @@ larger structured planning problems.
 The first part of this chapter 
 proposes a definition 
 for the \textit{factored $\pi$-MOMDPs}:
-additional
-independence assumptions 
+additional independence assumptions 
 are provided to these processes --
 in a qualitative possibilistic sense,
 as defined in the first chapter.
@@ -2470,23 +2469,42 @@ which produce ADDs with potentially
 more leaves.
 
 %% belief factorization
-et d\'ecrivons sur les hypoth\`eses d'ind\'ependance
-possibles pour de tels processus. independent BELIEFs, pearl!! proba!
+Independence assumptions defining 
+a factored $\pi$-MOMDP 
+concerns the variables encoding 
+successive belief states.
+However variables defining a factored $\pi$-MOMDP
+are those representing 
+successive system states and observations.
+That is why, the following section
+of this chapter exhibit sufficient conditions 
+on the system state and observation variables
+leading to the desired independence 
+between belief state variables.
+A robotic example is used as an illustration
+of these conditions.
+As proofs use the graphical concept 
+called \textit{$d$-Separation} \cite{pearl88},
+these conditions lead also to the
+belief variable independence 
+in the probabilistic MOMDP framework.
 
-%% first tests, larger robotic missions
-We compare performances 
-of our solvers with those of 
-its probabilistic counterparts, 
+\textbf{FIN -- JE T'AIME MA BELLE LAURANNE :)}
+ 
+%% first tests, larger robotic missions TODO TODO 
+Performances of our solver PPUDD 
+are next compared with 
+those of its probabilistic counterparts, 
 in terms of computation time, 
 and with criteria measuring 
 the mission achievement. 
-for that, executions of various problems have been simulated
-
-%% IPPC14
-We participated in the competition in order to test the performance of our algorithm
-in the case of well known probabilistic models. EN TERMES DE REWARD EXPECTED
- et a \'et\'e test\'e lors de la comp\'etition internationale 
-de planification probabiliste (IPPC14). 
+Finally, the last part of this chapter
+describes the results of PPUDD 
+at the International Probabilistic Planning Competition\footnote{\url{https://cs.uwaterloo.ca/~mgrzes/IPPC_2014/}}.
+We participated in the competition 
+in order to test the performances of our algorithm
+against probabilistic one, in terms of expected reward,
+with various probabilistic planning problems. 
 
 %% CITE PUBLI
 Contributions \cite{DBLP:conf/aaai/DrougardTFD14} (without IPPC14)
