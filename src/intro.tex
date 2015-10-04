@@ -2545,38 +2545,81 @@ from this last work.
 
 %%% CHAP3
 \subsection*{A qualitative possibilistic process for human-machine interaction modeling}
-The \emph{fourth chapter} is \\* 
+%%% why? qualitative info only
+The \emph{fourth chapter} deals with
+situations where probability distributions
+are clearly not available:
+the managed problem comes from the work
+\cite{SERGIOTHESIS} and is a joint work with the author,
+Sergio Pizziol, working on the field of 
+\textit{Human-Machine Interactions} (HMI).
+In systems representing human behavior 
+in certain situations,
+for instance interacting with a control panel
+of an aerial vehicle,
+a sufficient amount of statistical data is lacking,
+especially concerning the human operator's state of mind:
+only expert knowledge can be used in practice
+as no frequentist information about the problem
+is available.
 
-Les processus possibilistes qualitatifs ont toutefois leur place lorsque toutes les distributions
-de probabilit\'e ne peuvent clairement pas \^etre d\'efinies dans le contexte: dans les syst\`emes
-mod\'elisant le comportement human, seules des donn\'ees expertes peuvent \^etre utilis\'ees pour
-la mod\'elisation. Pour cela, nous appliquons ces processus... \textbf{Application des processus possibilistes en diagnostique dans l'interaction homme-machine} \\
+%% like with previous processes
+In this chapter, used processes 
+are similar to those
+studied in the previous chapters:
+the only difference is that actions 
+are no more chosen, but used as observations
+to infer the state of the human-machine system.
+This process is called \textit{qualitative possibilistic Hidden Markov Process}
+($\pi$-HMP).
 
-Processus $\pi$-HMP hidden markov processes, outils de diagnostic pour l'Intéraction Homme-Machine (avec Sergio Pizziol)
-\begin{itemize}
-\item \textbf{occurrences:} états de la machine et actions humaines;
-\item \textbf{évaluation humaine} (de l'état de la machine);
-\item \textbf{effets:} transitions, classées par degrés de possibilité.
-\end{itemize}
-\begin{itemize}
-\item \textbf{estimation} de l'état selon l'opérateur humain;
-\item \textbf{détection} des erreurs humaines d'évaluation de l'état; 
-\item causes plausibles de ces erreurs (\textbf{diagnostique}).
-\end{itemize}
+This process is used as a tool
+to produce diagnosis for
+HMI systems: machine state 
+and human actions are called \textit{occurrences},
+and the possible transitions of the system
+are called \textit{effects}.
+After the model construction 
+describing the problem in terms
+of occurrences and effects
+from expert qualitative data
+and the machine model,
+the human assessment of the situation can be estimated.
+The proposed model can also detect
+human assessment errors, 
+and produce a diagnosis for them.
 
 %%% CHAP4
-\subsection*{Probabilistic-possibilistic approach: an hybrid perspective}
-Finally, the \emph{fith chapter} is \\* 
+\subsection*{Probabilistic-possibilistic approach: a hybrid perspective}
+The last chapter of this thesis
+persists to show the possible 
+improvement of the POMDP framework
+using the qualitative possibility theory,
+especially for the belief state management.
+It also takes into account the issues
+highlighted in the third chapter.
 
-focuses on 
-the belief state management
-
+Indeed, the \emph{fifth chapter} 
 argues for a hydrid POMDP 
-model with both probabilistic 
+with both probabilistic 
 and possibilistic settings. 
-A new translation from Partially Observable MDP into Fully
-Observable MDP is described here. Unlike the classical translation, the
-resulting problem state space is finite, making MDP solvers able to solve
-this simplified version of the initial partially observable problem: this
-approach encodes agent beliefs with possibility distributions over states,
-leading to an MDP whose state space is a finite set of epistemic states.
+A new translation from Partially Observable MDP 
+into Fully Observable MDP is described here. 
+Unlike the classical translation
+presented in the first chapter, 
+the resulting problem state space is finite, 
+making probabilistic MDP solvers able to solve
+this simplified version 
+of the initial partially observable problem.
+Indeed, this approach encodes agent beliefs 
+with possibility distributions over states,
+leading to an MDP whose state space 
+is a finite set of epistemic states.
+
+Additional simplifications of the computations
+are described for \textit{factored POMDPs} \cite{Sim:2008:SHS:1620163.1620241,Williams05factoredpartially,
+Veiga14aaai,DBLP:journals/corr/abs-1301-6719}, \textit{i.e.}
+POMDPs with a particular independence 
+structure.
+These last contributions have been published in
+\cite{DBLP:conf/sum/DrougardDFT15}.

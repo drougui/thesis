@@ -1,21 +1,27 @@
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
 
+Through this thesis, we developped \dots
+updates of possibilistic MDPs, 
+modelization examples, 
+demonstration of the accuracy of qualitative models,
+graphical results (factorization),
+simplification,
+perspective in a hybrid model
 
-chap1: qualitative aggregations of the preferences over time
+\subsection*{chap2}
+%%%1) CONTRIBUTIONS
+%%%%%%%%%%%%%
+%%% chap2 %%%
+%%%%%%%%%%%%%
+%%THEORETICAL CONTRIBUTIONS
+qualitative aggregations of the preferences over time
 can be derived from properties of the qualitative framework,
 and different approaches from pessimistic and optimistic.
-contribution: preuve de convergence est alors n\'ecessaire dans le but de calculer une strat\'egie \cite{Drougard13}. 
-puis une preuve est donnée à l'homologue de l'algorithme d'itération sur les valeurs. 
-can outperform 
-probabilistic POMDP ones 
-for a target recognition problem 
-where the agent's observations dynamics 
-is not properly defined.
-sa mise \`a jour
-poss\`ede la caract\'eristique int\'eressante d'accro\^itre la connaissance associ\'ee.
+contribution: 
+preuve de convergence est alors n\'ecessaire dans le but de calculer une strat\'egie \cite{Drougard13}. puis une preuve est donnée à l'homologue de l'algorithme d'itération sur les valeurs. 
 
-
+%%%PRACTICAL ONES
 The experiment uses both previous contributions.
 Indeed, the mixed-observability property of the problem,
 makes computations feasible in our example.
@@ -26,49 +32,53 @@ For instance, in our example,
 it allows to define properly the mission: 
 if the robot has not figured out the right target,
 we want the mission to be continued.
+can outperform probabilistic POMDP ones 
+for a target recognition problem 
+where the agent's observations dynamics 
+is not properly defined.
 
+%%%OBSERVATIONS
+sa mise \`a jour
+poss\`ede la caract\'eristique int\'eressante d'accro\^itre la connaissance associ\'ee.
++ PROOFS
 
-
-
+%%% LINK WITH MOTIVATION
 expe PO: robot chap2; robot chap3 PPUDD; chap4 HMI (belief on the human assessment);
 
+
+
+%%% CHAP2
+%%% THEORETICAL
+GRAPHICAL PROOFS
+
+%% WEE!
 Our experiments and the  results 
 of the International Probabilistic Planning Competition (IPPC 2014)
 show that this possibilistic approach
 can involve lower computation time
 and produce better policies
 than its probabilistic counterparts.
-
+%% OHH!
 Ces tests sur des probl\`emes de planification vari\'es m\`enent \`a l'observation que 
 ces m\'ethodes \`a ADDs, dites \textit{symboliques}, ne font pas le poids face aux
 approches proc\'edant \`a une recherche heuristique dans l'espace d'\'etat \cite{DBLP:conf/aips/KellerE12} (en termes de rewards... expliquer!). 
 Nous avons pu aussi prendre note des inconv\'enients du formalisme possibiliste qualitatif pour la mod\'elisation:
 le crit\`ere utilis\'e \'etant global, son choix restreint la g\'en\'eralit\'e du mod\`ele.\\
+(etre optimiste ou pessimiste?)
 
-independence belief proba, impact on the exact resolution?
-
-
-perspec: \cite{LIP61723} more discriminative criteria
-PSR \ref{Littman01predictiverepresentations}
-
-Through this thesis, we developped \dots
-updates of possibilistic MDPs, 
-modelization examples, 
-demonstration of the accuracy of qualitative models,
-graphical results (factorization),
-simplification,
-perspective in a hybrid model
 
 \section*{Perspectives}
+%%%
+%%% PERSPECTIVES
+%%%
 test hybrid POMDP\\
 refined ranking\\
 prob $\rightarrow$ poss\\
 
-%Dans la  continuité directe  de notre travail  de thèse,  nous pouvons
-%\dots
-
+independence belief proba, impact on the exact resolution?
+\cite{LIP61723} more discriminative criteria
+PSR \ref{Littman01predictiverepresentations}
 online POMDP solving (ref caro)
-
 The work \cite{Bonet:2002:QMP:2073876.2073884} proposes an other framework
 for planning under uncertainty, also qualified as qualitative. 
 However, this work uses quantitative operations
@@ -78,175 +88,12 @@ The authors remark however that Qualitative Possibility Theory leads to
 criteria which have not enough information for discriminating
 among optimal decisions.
 
-\begin{quote}
-Providing the autonomy to a robot 
-consists in computing a function 
-which returns accurate robot actions
-over time given the system observations. 
-Partially Observable Markov Decision Processes (POMDPs) 
-is a well-suited model 
-for such purpose 
-modeling probabilistic dynamics 
-of the system.
-The use of the POMDPs 
-raises however some practical issues,
-such as the difficulty to encode 
-robot ignorance, 
-or the high complexity 
-of the strategy computation problem. 
-This paper presents recent contributions 
-in the use of the Qualitative Possibility Theory
-for planning under uncertainty, 
-studied to answer to these concerns.
-It begins with an update 
-of the work of Sabbadin 
-about a possibilistic counterpart 
-of POMDPs called $\pi$-POMDP. 
-Then strategies computation time is decreased 
-with the use of Agebraic Decision Diagrams (ADDs)
-and benefiting from the problem structure.
-We compare performances 
-of our solvers with those of 
-its probabilistic counterparts, 
-in terms of computation time, 
-and with criteria measuring 
-the mission achievement. 
-While this possibilistic framework 
-provides good results,
-some highlighted issues
-are finally discussed: 
-conclusion argues for a hydrid POMDP 
-model with both probabilistic 
-and possibilistic settings. 
-\end{quote}
-\section*{Introduction}
-Partially Observable Markov Decision Processes 
-(POMDPs) \cite{Smallwood_Sondik} 
-define a useful formalism 
-to express sequential decision problems 
-under uncertainty.
-This framework models 
-an agent and its mission, 
-without assuming 
-that the latter knows directly 
-the current state of the system.
-In our study, 
-the agent is more precisely a robot, 
-and the system state 
-consists of a description of the situation, 
-including robot and environment features
-of interest.
-A POMDP is defined 
-setting up a set of possible system states 
-$s \in \mathcal{S}$,
-and reward values $r \in \mathbb{R}$ on it, 
-modeling the robotic mission. 
-A full definition of this process 
-includes as well the set of 
-possible observations of the system, 
-$o \in \mathcal{O}$, 
-and the set of available actions for the robot, 
-$a \in \mathcal{A}$. 
-Each action redefines 
-the conditional probabilities 
-linking system states over time, 
-namely $\textbf{p} \paren{s' \sachant s, a}$, 
-and those defining uncertainty of observations 
-conditionned on the actual system state, 
-$\textbf{p} \paren{ o' \sachant s', a}$:
-actions have a stochastic control on system states 
-and on system observations, 
-and the aim is to make action choices 
-leading to states with greatest rewards.
-Solving a POMDP consists in computing 
-a function called \textit{strategy} 
-which returns a proper action at each process step, 
-according to all received observations and selected actions  
-\textit{i.e.} all of the data available for the robot.
-A probability distribution known as \textit{belief} 
-estimates the actual system state, 
-as the latter is not directly observable. 
-The belief is updated at each stage of the process 
-using the current observation.
-It can be shown that an optimal strategy
-may be chosen among functions of the belief.
-Figure \ref{ID_pomdp} is a graphical representation 
-of a POMDP called \textit{Influence Diagram}.
-\begin{figure}
-\label{ID_pomdp}
-\caption{Influence Diagram of a POMDP, with system states $s \in \mathcal{S}$, 
-observations $o \in \mathcal{O}$, actions $a \in \mathcal{A}$, 
-rewards encoding mission goal $r \in \mathbb{R}$, 
-and agent beliefs $b$.}
-\end{figure}
- 
-Consider now robots whose observations 
-come from computer vision algorithms based on statistical learning: 
-perception performances depend on the training dataset of pictures,
-and observation probability distributions $\textbf{p} \paren{ o' \sachant s',a }$
-are also frequencies computed using such a labeled dataset.
-The imprecision about 
-the actual vision algorithm behaviour
-with real world pictures
-has to be taken into account 
-to make the robot autonomous 
-under any circumstances. 
-Moreover, consider missions 
-where a part of the system state,
-describing something that the robot
-is supposed to infer by itself, 
-is initially fully unknown:
-for instance the location 
-or the nature of a target. 
-Classical approaches initialize 
-the belief as 
-a subjective uniform probability distribution. 
-In this case the belief update 
-mixes subjective probabilities and frequencies,
-which is questionable.
-Finally solving a POMDP 
-\textit{i.e.} computing an optimal strategy 
-is at least a PSPACE-complete problem. 
-In practice, optimality can be reached 
-for tiny problems, 
-or highly structured ones. 
-Otherwise, only approximate solutions can be computed.  
-The use of the Qualitative Possibility Theory \cite{DBLP:journals/eor/DuboisPS01}
-is studied here,
-as it appears capable
-to both simplify the POMDPs, 
-and model imprecision and ignorance 
-related to robotic missions.
 
 Qualitative possibilistic POMDPs, 
 $\pi$-POMDPs \cite{Sabbadin:1999:pipomdp}, 
-are alternative processes 
-defined using a qualitative evaluation 
-of events plausibility
-instead of probabilities: 
-it allows to formally represent 
-agent ignorance, 
-and imprecision on observations hazard. 
-In this paper, 
-a possibilistic version of 
 Mixed-Observable MDPs \cite{OngShaoHsuWee-IJRR10}, 
 called $\pi$-MOMDP \cite{Drougard13}, 
-is first presented to reduce dramatically 
-the complexity of solving $\pi$-POMDPs, 
-some state variables of which are fully observable. 
-An algorithm
-for missions with unbounded durations
-is next proposed:
-returned strategies can outperform 
-probabilistic POMDP ones 
-for a target recognition problem 
-where the agent's observations dynamics 
-is not properly defined.
 
-Then factorized $\pi$-MOMDPs
-are defined making possible the processing
-of large structured planning problems. 
-Building upon the probabilistic 
 SPUDD algorithm \cite{Hoey99spudd:stochastic},
 we conceived an algorithm named PPUDD \cite{DBLP:conf/aaai/DrougardTFD14} 
 for solving factorized $\pi$-MOMDPs
@@ -263,7 +110,9 @@ Finally, points raised are added to
 the symbolic computations limits,
 and lead to the description
 of a future work.
-\section*{Background}
+
+
+%%%% TRIER LA SUITE %%TODO
 The work of Sabbadin \cite{Sabbadin:1999:pipomdp} 
 proposes a possibilistic counterpart 
 of the POMDPs which models the uncertainty with 
@@ -665,4 +514,13 @@ une recherche dans l'espace d'\'etats. Pour cela, nous d\'eveloppons un mod\`ele
 
 as in contingent/conformant planning \cite{Albore_atranslation-based},
 more refined
+
+%% chap HMI
+fourth chapter shows that 
+qualitative possibilistic processes
+are an appropriate choice
+to model situations 
+where probabilities 
+cannot be defined
+
 
