@@ -1,56 +1,114 @@
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
-Contributions of this thesis mainly starts from 
-the preliminary work of R\'egis Sabbadin \cite{Sabbadin:1999:pipomdp}.
-The latter proposes a possibilistic counterpart 
-of the POMDPs modeling uncertainty 
+Contributions of this thesis are
+mainly related to the preliminary work 
+of R\'egis Sabbadin \cite{Sabbadin:1999:pipomdp}.
+The latter proposes 
+a possibilistic counterpart 
+of the POMDPs 
+modeling uncertainty 
 with qualitative possibility distributions.
 
 %%% CONCL INTRO
-In this work, qualitative possibilistic models
-for planning under uncertainty are presented,
-studied to adress some issues 
-of the probabilistic POMDPs also formally introduced.
-The major motivation of this study is the complexity reduction: 
+Hence, in this work, 
+qualitative possibilistic models 
+for planning under uncertainty
+are developped. 
+They are studied 
+to adress some issues -- detailed in Introduction --
+of the probabilistic POMDPs: 
+the probabilistic framework is also 
+formally introduced 
+in the first chapter.
+
+The major motivation of this study 
+is the complexity reduction: 
 while the probabilistic belief space is infinite,
 the possibilistic one is finite.
-The qualitative possibilistic framework thus offers
-an appropriate belief space discretization.
-Moreover, total ignorance
-The agent belief is a possibility distribution 
-over $\mathcal{S}$: total ignorance is defined 
-by a belief equal to $1$ on all states, 
-whereas a given state $s$ is perfectly known 
-if the belief is equal to $1$ on this state 
-and to $0$ on all other states.
-Imprecision on probability distributions
-are naturally encoded with this formalism,
-leading to the choice of an optimistic 
-and a pessimistic criterion for strategy selection.
+The qualitative possibilistic framework 
+thus offers an appropriate 
+belief space discretization.
+Moreover, as the belief state 
+is a possibility distribution 
+over the system space in this framework, 
+total ignorance can be defined 
+by a belief equal to $1$ on all states.
+If a given state $s$ is perfectly known 
+the belief state equal to $1$ on this state 
+and to $0$ on all other states 
+is an appropriate representation.
 
-The qualitative possibilistic modeling needs less information 
-than the probabilistic one since the plausibilities of events 
-are ``only'' classified in $\mathcal{L}$ but not quantified.
-as in contingent/conformant planning \cite{Albore_atranslation-based},
-more refined: \textit{non-determinism}
-%% on aurait pu mettre d'ailleur enfant de prob et poss dans la figure gnagna
+Imprecisions of the probability distributions
+are also naturally encoded 
+with the possibilistic formalism, 
+resulting in two criteria
+for the selection of the strategy:
+one is optimistic 
+and the other pessimistic.
+A more practical advantage is that 
+the qualitative possibilistic modeling 
+needs less information about the system
+than the probabilistic one:
+the plausibilities of events 
+are ``only'' classified 
+in the possibilistic scale $\mathcal{L}$ 
+but not quantified.
+Possibilistic models can be seen 
+as a tradeoff between \textit{non-deterministic} ones, 
+whose uncertainties are not at all quantified 
+yielding a more imprecise model, 
+and probabilistic ones, 
+where uncertainties are fully specified.
+Indeed, under the non-deterministic formalism,
+an elementary event can be defined as ``possible'',
+and is impossible otherwise:
+no degree is available
+to differentiate a highly plausible event 
+from an unlikely one.
+The resolution of planning problems 
+using the framework of non-determinism 
+is called \textit{contingent/conformant planning} 
+studied for instance in \cite{Albore_atranslation-based}.
+By the way, in the introduction of this thesis,
+we might also add ``non-determinism''
+as a particular case of Possibility Theory
+in Figure \ref{uncertainty_theories},
+as values of associated non additive measures
+are $0$ or $1$ instead of a more flexible scale $\mathcal{L}$.
 
-%%% LINK WITH MOTIVATION
-expe PO: robot chap2; robot chap3 PPUDD IPPC; chap4 HMI (belief on the human assessment);
+In a nutshell, 
+this thesis consists in
+theoretical and practical contributions:
+on the one hand, theoretical contributions 
+are for instance 
+the proposed updates of the qualitative possibilistic processes
+-- mixed-observability and unbounded executions management -- 
+or independence results on them, with associated proofs.
+On the other hand, 
+practical contributions
+are the demonstration of the accuracy 
+of qualitative possibilistic models
+to simplify computations or for modeling,
+via experimental results (e.g. IPPC 2014) 
+and modeling examples (e.g. chapter on human-machine interaction).
+Particular emphasis is being placed 
+on the other motivations developped in Introduction:
+namely, robotic applications and belief management.
+For instance, target recognition missions 
+are studied in the second and third chapters 
+(e.g. \textit{Rocksample} problem, or the mission described in Figure \ref{robotgridfig});
+% robot chap2; robot reconnaissance chap navig/rocksampple PPUDD-IPPC-robotic system 
+IPPC 2014 contains also problems comparable to robotic systems 
+(e.g. \textit{Elevator} problem, or \textit{Tamarisk} problem, also used in 2014 RL competition). 
+Moreover, the fourth chapter shows good results 
+in estimating human assessment with qualitative possibility distributions
+(\textit{i.e.} belief states on the human assessment).
+A more detailed review of the contributions follows.
+%%% FIN TODO
 
-Through this thesis, we developped \dots
-updates of possibilistic MDPs, 
-modelization examples, 
-demonstration of the accuracy of qualitative models,
-graphical results (factorization),
-simplification,
-perspective in a hybrid model
-theoretical contributions and practical, 
-\textit{i.e.} experimental results and modeling examples
-A more detailed review of the contributions follows
 
 \subsection*{chap2}
-%%%1) CONTRIBUTIONS
+%%%1) CONTRIBUTIONS 
 %%%%%%%%%%%%%
 %%% chap2 %%%
 %%%%%%%%%%%%%
@@ -119,7 +177,7 @@ On the contrary a probabilistic belief is modified at each step.
 
 %%% CHAP3
 %%% THEORETICAL
-GRAPHICAL PROOFS
+GRAPHICAL PROOFS from graphical models (factorization),
 
 %% WEE!
 Our experiments and the  results 
@@ -303,7 +361,7 @@ they are used to translate this hybrid
 model into a classical Fully Observable MDP.
 Efficient sampling MDP solvers such as PROST 
 are then able to solve this simplified POMDP. 
-
+perspective in a hybrid model.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
