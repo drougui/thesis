@@ -8,15 +8,14 @@ a possibilistic counterpart
 of the POMDPs 
 modeling uncertainty 
 with qualitative possibility distributions.
-
 %%% CONCL INTRO
-Hence, in this work, 
+Hence, in our work, 
 qualitative possibilistic models 
 for planning under uncertainty
-are developped. 
-They are studied 
-to adress some issues -- detailed in Introduction --
-of the probabilistic POMDPs: 
+are developped and studied. 
+This study is meant to adress some issues 
+of the probabilistic POMDPs 
+detailed in Introduction: 
 the probabilistic framework is also 
 formally introduced 
 in the first chapter.
@@ -69,7 +68,7 @@ from an unlikely one.
 The resolution of planning problems 
 using the framework of non-determinism 
 is called \textit{contingent/conformant planning} 
-studied for instance in \cite{Albore_atranslation-based}.
+studied for instance in \cite{Albore_atranslation-based,bonet2014flexible}.
 By the way, in the introduction of this thesis,
 we might also add ``non-determinism''
 as a particular case of Possibility Theory
@@ -83,7 +82,7 @@ theoretical and practical contributions:
 on the one hand, theoretical contributions 
 are for instance 
 the proposed updates of the qualitative possibilistic processes
--- mixed-observability and unbounded executions management -- 
+-- mixed-observability and management of unbounded executions -- 
 or independence results on them, with associated proofs.
 On the other hand, 
 practical contributions
@@ -98,18 +97,23 @@ besides complexity reduction and problem imprecisions:
 namely, robotic applications and belief management.
 For instance, target recognition missions 
 are studied in the second and third chapters 
-(e.g. \textit{Rocksample} problem, or the mission described in Figure \ref{robotgridfig});
+(e.g. \textit{Rocksample} problem, 
+or even the mission described in Figure \ref{robotgridfig});
 % robot chap2; robot reconnaissance chap navig/rocksampple PPUDD-IPPC-robotic system 
 IPPC 2014 contains also problems comparable to robotic systems 
 (e.g. \textit{Elevator} problem, or \textit{Tamarisk} problem, also used in 2014 RL competition). 
 Moreover, the fourth chapter shows good results 
 in estimating human assessment with qualitative possibility distributions
 (\textit{i.e.} belief states on the human assessment of the machine state).
+Finally, the last contribution, 
+\textit{i.e.} the hybrid probabilistic-possibilistic POMDP, 
+can be seen as a concluding work, taking into account
+potential issues when using purely possibilistic models 
+for planning under uncertainty.
 A more detailed review of the contributions follows.
 
 \subsection*{New features for the $\pi$-POMDPs
 and first strategy executions}
-%%%1) CONTRIBUTIONS 
 %%%%%%%%%%%%%
 %%% chap2 %%%
 %%%%%%%%%%%%%
@@ -122,8 +126,9 @@ we first show that,
 as in the probabilistic framework,
 preference aggregation can be derived 
 from the properties of the framework 
--- here, the qualitative one, 
-e.g. qualitative counterpart of linearity for Sugeno integrals --
+-- here the qualitative counterpart 
+of the linearity
+for Sugeno integrals for instance --
 as proved in Annex \ref{theorem_intermpref_RETURN} 
 using the Theorem \ref{piPOMDPoptrewriting} 
 about belief-dependent value function.
@@ -137,9 +142,10 @@ note that the mixed optimistic-pessimistic criterion
 is mainly used along our work 
 since it is equivalent to 
 an optimistic criterion for $\pi$-MDP:
-the latter are compatible 
-with unbounded missions algorithms proposed next,
-and are more responsible with the given problems.
+this criterion is compatible 
+with algorithms for time-unbounded processes proposed next,
+and produces better strategies 
+for the treated problems.
 
 We then adapted $\pi$-POMDPs 
 to mixed-observability \cite{OngShaoHsuWee-IJRR10},
@@ -154,41 +160,52 @@ As proved in Annex \ref{theorem_DPpiMOMDP_RETURN}
 there exists an optimal strategy, 
 which is stationary 
 \textit{i.e.} which does not depend on the stage of the process $t$. 
-It can be found by the proposed dynamic programming scheme: 
-it is also shown that the number of iteration to make this scheme converge 
+This strategy can be computed 
+by the proposed dynamic programming scheme: 
+it is also shown that 
+the number of iteration 
+to make this scheme converge 
 is lower than the size of the state space.
-The hypothesis of the ``stay'' action existence
+The assumption of the existence of a ``stay'' action
 is not a constraint in practice
-as it is only selected in some goal states.
-Note also that the target recognition missions presented in this thesis 
+as it is only selected 
+in some goal states.
+Note also that the target recognition missions 
+presented in this thesis 
 have typically unbounded durations.
 
-%% TODO CORRIGER FROM HERE
 %%%PRACTICAL ONES
 As already pointed out,
 the experiments in the second chapter 
-use both previous contributions.
+use both previous theoretical contributions.
 Indeed, the mixed-observability property of the problem,
-makes computations feasible in our example.
+makes computations feasible for our robotic example.
 The proposed criterion is also really useful: 
-it is convenient to allow the computation of strategies 
-for robotic missions with unbounded durations.
+it is convenient to allow 
+the computation of strategies 
+for robotic missions 
+with unbounded durations.
 For instance, in our example, 
 it allows to define properly the mission: 
-if the robot has not figured out the right target,
+if the robot has not figured out 
+which target is right one,
 we want the mission to be continued.
 The first practical contributions of this thesis 
-is thus the execution of this robotic example:
-it is shown that our approach 
+is thus the computation of a strategy
+for this robotic mission and its execution.
+Indeed, we have shown 
+that the qualitative possibilistic approach 
 can outperform probabilistic POMDP ones 
 for a target recognition problem 
 where the agent's observations dynamics 
 is not properly defined.
-Note that the only information used to define system observation of the system,
+Note that the only information used 
+to define system observation of the system,
 is that the more the robot is far from a target, 
 the more the observation is noisy:
-it shows that the possibilistic framework
-may be useful in case of restricted knowledge about the problem.
+it already shows that the possibilistic framework
+may be useful in case of restricted knowledge 
+about the problem.
 
 
 %%%OBSERVATIONS
@@ -197,21 +214,27 @@ a very interesting behavior
 of the qualitative possibilistic belief state:
 under some conditions, 
 the belief update, 
-which uses the counterpart of Bayes rule \cite{Dubois199023},
+which is defined from the counterpart of Bayes rule \cite{Dubois199023},
 increases the knowledge associated to the belief state.
-The framework is responsible to the imprecision 
+Indeed, in our example, 
+the belief state is responsible to the imprecision 
 as it only takes into account 
 more reliable observations:
 the next belief is either more skeptic 
 about a state if its confirms the prior belief; 
 or changes to the opposite belief if it contradicts it.
-On the contrary a probabilistic belief is modified at each step. 
-Some conditions leading to this behavior are then presented,
-and associated proofs are given (see Annex \ref{theorem_specificity_belief_RETURN}).
+On the contrary a probabilistic belief 
+is eventually modified at each step. 
+Some conditions leading to this behavior 
+are then presented,
+and associated proofs are given 
+(see Annex \ref{theorem_specificity_belief_RETURN}).
 
 \subsection*{Graphical work on independence and factorization (PPUDD)}
-%%% CHAP3
-%%% THEORETICAL
+%%%%%%%%%%%%%
+%%% chap3 %%% TODO TODO
+%%%%%%%%%%%%%
+%%THEORETICAL CONTRIBUTIONS
 GRAPHICAL PROOFS from graphical models (factorization),
 %% WEE!
 Our experiments and the  results 
