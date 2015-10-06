@@ -116,40 +116,61 @@ and first strategy executions}
 %%% chap2 %%%
 %%%%%%%%%%%%%
 %%THEORETICAL CONTRIBUTIONS
-The very first update of the work \cite{Sabbadin:1999:pipomdp} 
-about Qualitative possibilistic POMDPs in this thesis, 
-concerns the qualitative aggregations of the preferences over time:
-we first show that, as in the probabilistic framework,
-aggregation can be derived from the properties of the qualitative framework.
+The very first update 
+of the Qualitative possibilistic POMDPs \cite{Sabbadin:1999:pipomdp} 
+concerns the qualitative aggregations 
+of the preferences over time:
+we first show that, 
+as in the probabilistic framework,
+preference aggregation can be derived 
+from the properties of the framework 
+-- here, the qualitative one, 
+e.g. qualitative counterpart of linearity for Sugeno integrals --
+as proved in Annex \ref{theorem_intermpref_RETURN} 
+using the Theorem \ref{piPOMDPoptrewriting} 
+about belief-dependent value function.
+The latter is also a contribution 
+as the first formal construction
+of the $\pi$-POMDP model.
 Different approaches between the pessimistic and the optimistic criterion
-are also presented: note that the mixed optimistic pessimistic criterion
-is mainly used along our work since it reduces to an optimistic $\pi$-MDP
-(compatible with unbounded missions and more responsible with the given problems).
-(mixed opt/pess)
+are also presented: 
+note that the mixed optimistic-pessimistic criterion 
+(see Definition \ref{def_optpesscrit}) 
+is mainly used along our work 
+since it is equivalent to 
+an optimistic criterion for $\pi$-MDP:
+the latter are compatible 
+with unbounded missions algorithms proposed next,
+and are more responsible with the given problems.
 
-Definition Mixed-Observable MDPs \cite{OngShaoHsuWee-IJRR10}
-dramatically reduces complexity and allows then first computations, 
-called $\pi$-MOMDP \cite{Drougard13}, 
-
-preuve de convergence est alors n\'ecessaire 
-dans le but de calculer une strat\'egie \cite{Drougard13}. 
-a proof is given for the counterpart of the value iteration algorithm
-As proved in \cite{Drougard13} and Annex \ref{theorem_DPpiMOMDP_RETURN}, 
-there exists an optimal strategy $\delta^{\ast}$, 
-which is stationary \textit{i.e.} 
-which does not depend on the stage of the process $t$. 
-It can be found by the following Dynamic Programming (DP) scheme: 
-This dynamic programming scheme converges in at most 
-$\# \mathcal{X}$ iterations.
-The hypothesis of the action $\overline{a}$ existence
+We then adapted $\pi$-POMDPs 
+to mixed-observability \cite{OngShaoHsuWee-IJRR10},
+which takes part in the theoretical contributions of our work:
+this contribution dramatically reduces the size of the belief space 
+and thus allows the first computations of strategies from $\pi$-POMDPs. 
+%% TODO
+Finally, an other theoretical contribution 
+is the qualitative counterpart of the value iteration algorithm,
+with the associated criterion for time-unbounded executions. 
+As proved in Annex \ref{theorem_DPpiMOMDP_RETURN}
+(and our publication \cite{Drougard13}), 
+there exists an optimal strategy, 
+which is stationary 
+\textit{i.e.} which does not depend on the stage of the process $t$. 
+It can be found by the proposed dynamic programming scheme: 
+it is also shown that the number of iteration to make this scheme converge 
+is lower than the size of the state space.
+The hypothesis of the ``stay'' action existence
 is not a constraint in practice
 as it is only selected in some goal states.
-Note that the value function is defined regardless of the mission duration.
-Typically, the target recognition missions presented in this thesis 
-have unbounded durations.
+Note also that the target recognition missions presented in this thesis 
+have typically unbounded durations.
 
+%% TODO CORRIGER FROM HERE
 %%%PRACTICAL ONES
-The experiment uses both previous contributions.
+As already pointed out,
+the experiments in the second chapter 
+use both previous contributions.
 Indeed, the mixed-observability property of the problem,
 makes computations feasible in our example.
 The proposed criterion is also really useful: 
@@ -159,39 +180,42 @@ For instance, in our example,
 it allows to define properly the mission: 
 if the robot has not figured out the right target,
 we want the mission to be continued.
+The first practical contributions of this thesis 
+is thus the execution of this robotic example:
+it is shown that our approach 
 can outperform probabilistic POMDP ones 
 for a target recognition problem 
 where the agent's observations dynamics 
 is not properly defined.
+Note that the only information used to define system observation of the system,
+is that the more the robot is far from a target, 
+the more the observation is noisy:
+it shows that the possibilistic framework
+may be useful in case of restricted knowledge about the problem.
 
-The following application shows the efficiency 
-of the $\pi$-MOMDPs framework to provide strategies
-well-suited for a recognition mission. 
-Consider a robot on a grid $g \times g$, 
-which perfectly knows its location $(x,y) \in \{ 1, \ldots, g \}^2$:
-each location is a visible state $s_v \in \mathcal{S}_v$. 
-The more the robot is far from a target, 
-the more the observation is noisy. 
 
 %%%OBSERVATIONS
-sa mise \`a jour Bayes rule \cite{Dubois199023}: 
-poss\`ede la caract\'eristique int\'eressante d'accro\^itre la connaissance associ\'ee.
-+ PROOFS
-
-The possibilistic belief update (\ref{possBelUpdate})
-is responsible as it only takes into account 
+Finally, the second chapter highlights 
+a very interesting behavior 
+of the qualitative possibilistic belief state:
+under some conditions, 
+the belief update, 
+which uses the counterpart of Bayes rule \cite{Dubois199023},
+increases the knowledge associated to the belief state.
+The framework is responsible to the imprecision 
+as it only takes into account 
 more reliable observations:
 the next belief is either more skeptic 
 about a state if its confirms the prior belief; 
 or changes to the opposite belief if it contradicts it.
 On the contrary a probabilistic belief is modified at each step. 
-
+Some conditions leading to this behavior are then presented,
+and associated proofs are given (see Annex \ref{theorem_specificity_belief_RETURN}).
 
 \subsection*{Graphical work on independence and factorization (PPUDD)}
 %%% CHAP3
 %%% THEORETICAL
 GRAPHICAL PROOFS from graphical models (factorization),
-
 %% WEE!
 Our experiments and the  results 
 of the International Probabilistic Planning Competition (IPPC 2014)
@@ -411,7 +435,7 @@ among optimal decisions.
 %% perspec: ce travail ouvre plein de travaux
 pessimistic $\pi$-MDP in order to solve unsafe problems. yiang shenoy
 PERSPECTIVES: modest/audacious
-
+modest: more stronger discretization
 
 
 
