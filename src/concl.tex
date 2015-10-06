@@ -338,7 +338,7 @@ called symbolic LRTDP \cite{symbLRTDP}
 our solver produces far better strategies 
 than the probabilistic approach.
 
-\subsection*{Discussion about current results}
+\subsection*{Discussion about the current results}
 %% fin 3 lien CHAP4-5
 %% ??  after? critique
 Experiments concerning the Navigation problem
@@ -346,14 +346,14 @@ is a good illustration of the optimistic and pessimistic criteria
 in the qualitative possibilistic framework: 
 a robot has to reach a goal as soon as possible,
 avoiding unsafe locations 
-(where there is a risk that it falls down and break).
+(for instance, locations where there is a risk that it falls down and break).
 The strategy maximizing 
 the optimistic criterion 
 makes the robot 
 unfrequently reach the goal,
 but more quickly
-than the pessimistic criterion
-which makes it often reach the goal.  
+than the one from the pessimistic criterion
+which makes it however often reach the goal.  
 Proposed approaches involves then 
 the choice of a criterion.
 This feature of the possibilistic approach
@@ -366,24 +366,23 @@ although it is generally
 more efficient that the pessimistic one
 (and thus chosen for the competition).
 
-%% TODO
 Presented models 
 assume also that preference
 and uncertainty degrees
 share the same scale
 which makes it hard to
-set in practice: 
-but makes the problem more complex (lien chapitre 4).
+set in practice.
 The fourth chapter about human-machine interaction
 is meant to show that,
 although qualitative possibilistic approach
 may pose questions concerning modeling,
 this approach can be very appropriate
-in some practical situations to produce diagnosis.
+in some practical situations,
+as in our case, to produce diagnosis.
 
 We got really good results 
 with PPUDD in previous experiments 
-among symbolic algorithms (SPUDD,symbolic LRTDP):
+among symbolic algorithms (SPUDD, symbolic LRTDP):
 for instance, SPUDD provides good strategies, but 
 cannot solve big instances of the tested problem. 
 However, state space search algorithms
@@ -399,24 +398,24 @@ presenting the hybrid POMDP.
 
 %% chap HMI 4
 \subsection*{Estimating in a qualitative world (HMI)}
+%% TODO
 fourth chapter shows that 
 qualitative possibilistic processes
 are an appropriate choice
 to model situations 
 where probabilities 
 cannot be defined
-use of leximin
+
+Theorem \ref{thmUpdate} and Theorem \ref{estimHMI}
+leading to the estimation of the human assessment.
+use of leximin for diagnosis.
+Toy example explanation and real problem analysis.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %% CHAP5
 \subsection*{A possibilistic discretization of the belief space (hybrid POMDP}
-Scale $\mathcal{L}$ serves as well to model 
-the \emph{preference} over states: 
-function $\mu: \mathcal{S} \rightarrow \mathcal{L}$ assigns a degree
-at each system state modeling how well this state fulfill the mission. 
-
 
 A future work is motivated by these issues
 and builds a POMDP with possibilistic beliefs in $B_h^{\pi}$,
@@ -428,6 +427,8 @@ model into a classical Fully Observable MDP.
 Efficient sampling MDP solvers such as PROST 
 are then able to solve this simplified POMDP. 
 perspective in a hybrid model.
+Final contribution Profiting from a large class of common structure
+at least among IPPC domains.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%
@@ -448,7 +449,10 @@ prob $\rightarrow$ poss\\
 learning poss sabbadin\\
 the use of the aggregation operator leximin 
 is a good alternative,
+but makes the problem more complex (lien chapitre 4).
 
+%% 
+ambicious: state space search
 
 independence belief proba, impact on the exact resolution?
 \cite{LIP61723} more discriminative criteria
