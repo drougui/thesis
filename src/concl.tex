@@ -1,3 +1,4 @@
+%%%fisherman's wharf hostel + bike
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
 Contributions of this thesis are
@@ -241,149 +242,160 @@ and associated proofs are given
 %%CHAP3
 Next theoretical contribution is 
 the introduction of the factored $\pi$-MOMDPs:
-indeed, we considered processes
+indeed, we have considered processes
 whose space is represented by $n$ 
-post action independent variables,
-\textit{i.e.} processes without dependence
-between state variables of the same time step.
-%TODO 
-An algorithm meant to exactly solve 
+post-action independent variables,
+\textit{i.e.} processes whose 
+state variables of the same time step
+are independent (conditional on the past).
+The algorithm proposed to exactly solve 
 these factorized processes,
 called PPUDD, is another contribution:
 it is the symbolic version of 
-the Dynamic Programming scheme 
+the dynamic programming scheme 
 proposed in the previous chapter.
 Inspired by SPUDD \cite{Hoey99spudd:stochastic}, 
 PPUDD means \emph{Possibilistic Planning Using Decision Diagrams}. 
 As SPUDD, it operates on ADDs 
 encoding value, preference and transition functions.
-Finally, the last contributions of the third chapter
-are the graphical proofs of independence
-on the graphical models representing
-factorization of the processes:
-we have shown that
-a natural factorisation of the state space 
-comes from some independence assumptions
-As proved in \cite{DBLP:conf/aaai/DrougardTFD14}, 
-beliefs of a $\pi$-MOMDP satisfacing these assumptions
-are post action independent beliefs: 
+Finally, the last theoretical contributions of the third chapter
+are the proofs of independence results,
+Theorem \ref{thmSHind} and Theorem \ref{thmVARind}:
+they relate to a proposed graphical model
+representing a particular factorization of the process
+\textit{i.e.} particular independence assumptions
+on the variables.
+Thus, we have shown that 
+these independence assumptions
+lead to a natural factorisation 
+of the space of the belief states.
+The belief state variables of a $\pi$-MOMDP 
+satisfacing these assumptions
+are post-action independent,
+and the associated problem 
+can be more easily solved by PPUDD. 
 The independence of sensors 
-and of corresponding hidden states 
-suffice to fullfil these conditions.
-The \textit{RockSample} problem, 
+and of corresponding hidden state variables 
+suffice to fullfil these conditions:
+for instance, the \textit{RockSample} problem, 
 well illustrates these conditions.
 
-%%%% PRACTICAL CONTRIB TODO
+%%%% PRACTICAL CONTRIB
 %% WEE!
 The motivation leading to the conception of PPUDD,
 \textit{i.e.} the guess that the use of operators $\min$ and $\max$ 
 leads to smaller ADDs, and thus to faster computations,
 has been verified in practice:
 our experiments and the results 
-of the International Probabilistic Planning Competition (IPPC 2014)
+of the International Probabilistic Planning Competition (IPPC 2014\footnote{\url{https://cs.uwaterloo.ca/~mgrzes/IPPC_2014/}})
 show that this possibilistic approach
 can involve lower computation time
 and produce better policies
 than its probabilistic counterparts
 when computation time is limited,
 or for high dimensional problems.
+For instance, 
 PPUDD performances have been compared 
-with the probabilistic MOMDP solver APPL \cite{Kurniawati-RSS08,OngShaoHsuWee-IJRR10}
+to the probabilistic MOMDP solver APPL \cite{Kurniawati-RSS08,OngShaoHsuWee-IJRR10}
 and the symbolic HSVI solver \cite{Sim:2008:SHS:1620163.1620241},
 in terms of computation time, 
 and using the average of 
 the total reward at execution. 
 PPUDD computes a strategy maximizing 
 exactly the possibilistic criterion 
-(\ref{optimizationCriterion})
-while APPL and symb. HSVI compute solutions
+while APPL and symb. HSVI compute strategies
 which approximately maximize the expected sum of rewards.
-These experimental results show that using an exact algorithm 
+The experimental results on the Rocksample problem 
+show that using an exact algorithm 
 (PPUDD) for an approximate model ($\pi$-MOMDPs) 
 can run significantly faster 
 than reasoning about exact models, 
 while providing better policies 
 than approximate algorithms (APPL) 
 for exact models.
+Most of the cited contributions of this chapter
+have been published in \cite{DBLP:conf/aaai/DrougardTFD14},
+and an implementation of PPUDD 
+to reproduce experiments 
+can be found 
+at the repository \url{www.github.com/drougui/ppudd}.
 
 %% IPPC14
-To focus on the behaviour 
-of this possibilistic qualitative approach 
+Finally, in order to focus on the behaviour 
+of the possibilistic qualitative approach 
 in a wide panel of probabilistic problems, 
 the next practical contribution 
 is the participation 
-in the fully observable track of the 
-\textit{International Probabilistic Planning Competition 2014} 
-(IPPC 2014\footnote{\url{https://cs.uwaterloo.ca/~mgrzes/IPPC_2014/}})
-with PPUDD. 
-The implementation of PPUDD for this computation 
+in the fully observable track of IPPC 2014
+with adapted versions of PPUDD.
+The implementation of our solver for this competition 
 was performed with the \textit{CU Decision Diagram Package}
 for the ADDs computations. 
 Comparing only solvers using ADDs, 
-PPUDD and a probabilistic solver called symbolic LRTDP 
-as a variant of \cite{Bonet03labeledrtdp:},
-our solver (PPUDD) produces clearly better strategies 
-than the probabilistic one.
-
-%% ??  after? critique
-+ risk and optimism traffic
-However, as highlighted by the domain ``Traffic''
-of the competition (see Figure \ref{IPPC}), 
-the possibilistic criterion (\ref{optcriterion})
-can be too optimistic.
-Ces tests sur des probl\`emes de planification vari\'es m\`enent \`a l'observation que 
-ces m\'ethodes \`a ADDs, dites \textit{symboliques}, ne font pas le poids face aux
-approches proc\'edant \`a une recherche heuristique dans l'espace d'\'etat \cite{DBLP:conf/aips/KellerE12} (en termes de rewards... expliquer!). 
-Nous avons pu aussi prendre note des inconv\'enients du formalisme possibiliste qualitatif pour la mod\'elisation:
-le crit\`ere utilis\'e \'etant global, son choix restreint la g\'en\'eralit\'e du mod\`ele.\\
-(etre optimiste ou pessimiste?)
-it highlights also some issues 
-of these qualitative models.
-Finally, points raised are added to 
-the symbolic computations limits,
-and lead to the description
-of a future work.
-
+PPUDD and a probabilistic solver 
+called symbolic LRTDP \cite{symbLRTDP}
+(as a variant of \cite{Bonet03labeledrtdp}),
+our solver produces far better strategies 
+than the probabilistic approach.
 
 \subsection*{Discussion about current results}
 %% fin 3 lien CHAP4-5
-Experiments  
-concerning the Navigation problem
-is a good illustration: 
-a robot which has to
-reach a goal:
-The classical criterion (\ref{optcriterion})
-(M1, optimistic) 
-leads to a poor strategy, 
-while a cautious criterion (M2, pessimistic)
-is more suited: 
-for most of missions however 
-the reverse occurs.
+%% ??  after? critique
+Experiments concerning the Navigation problem
+is a good illustration of the optimistic and pessimistic criteria
+in the qualitative possibilistic framework: 
+a robot has to reach a goal as soon as possible,
+avoiding unsafe locations 
+(where there is a risk that it falls down and break).
+The strategy maximizing 
+the optimistic criterion 
+makes the robot 
+unfrequently reach the goal,
+but more quickly
+than the pessimistic criterion
+which makes it often reach the goal.  
 Proposed approaches involves then 
 the choice of a criterion.
-Note that in this example, 
-SPUDD provides good strategies, but 
-cannot solve big instances. 
+This feature of the possibilistic approach
+explains also the difficulties experienced
+with the ``Traffic'' domain
+of the competition: 
+the optimistic criterion can be too optimistic
+for the given problem, 
+although it is generally 
+more efficient that the pessimistic one
+(and thus chosen for the competition).
 
-%% IDEM
+%% TODO
 Presented models 
 assume also that preference
 and uncertainty degrees
 share the same scale
 which makes it hard to
-set in practice: the use of
-the aggregation operator leximin 
-is a good alternative,
-but makes the problem more complex.
-Finally, state space search algorithms
-(PROST \cite{conf/aips/KellerE12} and GOURMAND) won IPPC 2014,
-and are yet far more efficient than ADD-based methods.
+set in practice: 
+but makes the problem more complex (lien chapitre 4).
+The fourth chapter about human-machine interaction
+is meant to show that,
+although qualitative possibilistic approach
+may pose questions concerning modeling,
+this approach can be very appropriate
+in some practical situations to produce diagnosis.
 
-Nous avons observ\'e la difficult\'e du formalisme possibiliste qualitatif \`a la
-description d'un probl\`eme de robotique autonome. Nous avons aussi confirm\'e
-l'int\'er\^et d'utiliser ce formalisme dans la mod\'elisation de la croyance de l'agent.
-De plus, les r\'esultats de la comp\'etition de planification incite \`a abandonner l'approche symbolique pour
-une recherche dans l'espace d'\'etats. Pour cela, nous d\'eveloppons un mod\`ele hybride
+We got really good results 
+with PPUDD in previous experiments 
+among symbolic algorithms (SPUDD,symbolic LRTDP):
+for instance, SPUDD provides good strategies, but 
+cannot solve big instances of the tested problem. 
+However, state space search algorithms
+(PROST \cite{DBLP:conf/aips/KellerE12} and GOURMAND \cite{DBLP:conf/aaai/KolobovMW12}) won IPPC 2014,
+and are yet far more efficient than ADD-based methods:
+MDP instances with a complex structure
+are encoded with ADDs big enough
+to disqualify these approaches.
+These observations and modeling considerations
+are the motivations of the last chapter,
+presenting the hybrid POMDP.
+
 
 %% chap HMI 4
 \subsection*{Estimating in a qualitative world (HMI)}
@@ -434,6 +446,9 @@ test hybrid POMDP\\
 refined ranking\\
 prob $\rightarrow$ poss\\
 learning poss sabbadin\\
+the use of the aggregation operator leximin 
+is a good alternative,
+
 
 independence belief proba, impact on the exact resolution?
 \cite{LIP61723} more discriminative criteria
