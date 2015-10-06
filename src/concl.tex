@@ -246,69 +246,53 @@ whose space is represented by $n$
 post action independent variables,
 \textit{i.e.} processes without dependence
 between state variables of the same time step.
-%TODO Algorithm PPUDD is a symbolic version of 
-the Dynamic Programming scheme
+%TODO 
+An algorithm meant to exactly solve 
+these factorized processes,
+called PPUDD, is another contribution:
+it is the symbolic version of 
+the Dynamic Programming scheme 
+proposed in the previous chapter.
 Inspired by SPUDD \cite{Hoey99spudd:stochastic}, 
 PPUDD means \emph{Possibilistic Planning Using Decision Diagrams}. 
 As SPUDD, it operates on ADDs 
 encoding value, preference and transition functions.
-operators $\min$ and $\max$, 
-ADDs are smaller, and thus computations are faster.
-
-GRAPHICAL PROOFS from graphical models (factorization),
-A natural factorisation of $\mathcal{X}$ comes from some independence assumptions
+Finally, the last contributions of the third chapter
+are the graphical proofs of independence
+on the graphical models representing
+factorization of the processes:
+we have shown that
+a natural factorisation of the state space 
+comes from some independence assumptions
 As proved in \cite{DBLP:conf/aaai/DrougardTFD14}, 
 beliefs of a $\pi$-MOMDP satisfacing these assumptions
-are post action independent beliefs: $x = (s_{v,1}, \ldots, s_{v,m}, \beta_1, \ldots, \beta_{l})$, 
-with $\beta_i$ a belief over variable $s_{h,i}$.
-The independence of sensors and of corresponding hidden states suffice to fullfil these conditions.
-A problem known as 
-the \textit{RockSample} problem, 
-looks like the one 
-of section \ref{QPMOMDP}.
-It is more complex 
-as the number of targets
-is greater than two: 
-targets are rocks, 
-and the robot is expected 
-to sample only ``scientifically good'' ones,
-estimating their nature 
-through specific observation actions.
-As this problem respects assumptions 
-encoded by the graphical 
-representation in Figure  
-the model is naturally expressed 
-as a factorized $\pi$-MOMDP. 
+are post action independent beliefs: 
+The independence of sensors 
+and of corresponding hidden states 
+suffice to fullfil these conditions.
+The \textit{RockSample} problem, 
+well illustrates these conditions.
 
-
-
-%%%% PRACTICAL CONTRIB
+%%%% PRACTICAL CONTRIB TODO
 %% WEE!
-Our experiments and the  results 
+The motivation leading to the conception of PPUDD,
+\textit{i.e.} the guess that the use of operators $\min$ and $\max$ 
+leads to smaller ADDs, and thus to faster computations,
+has been verified in practice:
+our experiments and the results 
 of the International Probabilistic Planning Competition (IPPC 2014)
 show that this possibilistic approach
 can involve lower computation time
 and produce better policies
-than its probabilistic counterparts.
-%% OHH!
-Ces tests sur des probl\`emes de planification vari\'es m\`enent \`a l'observation que 
-ces m\'ethodes \`a ADDs, dites \textit{symboliques}, ne font pas le poids face aux
-approches proc\'edant \`a une recherche heuristique dans l'espace d'\'etat \cite{DBLP:conf/aips/KellerE12} (en termes de rewards... expliquer!). 
-Nous avons pu aussi prendre note des inconv\'enients du formalisme possibiliste qualitatif pour la mod\'elisation:
-le crit\`ere utilis\'e \'etant global, son choix restreint la g\'en\'eralit\'e du mod\`ele.\\
-(etre optimiste ou pessimiste?)
-
-The implementation was performed 
-with the \textit{CU Decision Diagram Package}
-for the ADDs computations. 
-
-PPUDD performances are compared with 
-the probabilistic MOMDP solver APPL \cite{Kurniawati08sarsop:efficient}
-and the symbolic HSVI solver \cite{citeulike:2961378},
-first in terms of computation time, 
-and below with the average of 
-the total reward at execution 
-(see Figure \ref{figureexp2}.b). 
+than its probabilistic counterparts
+when computation time is limited,
+or for high dimensional problems.
+PPUDD performances have been compared 
+with the probabilistic MOMDP solver APPL \cite{Kurniawati-RSS08,OngShaoHsuWee-IJRR10}
+and the symbolic HSVI solver \cite{Sim:2008:SHS:1620163.1620241},
+in terms of computation time, 
+and using the average of 
+the total reward at execution. 
 PPUDD computes a strategy maximizing 
 exactly the possibilistic criterion 
 (\ref{optimizationCriterion})
@@ -322,33 +306,37 @@ while providing better policies
 than approximate algorithms (APPL) 
 for exact models.
 
+%% IPPC14
 To focus on the behaviour 
 of this possibilistic qualitative approach 
 in a wide panel of probabilistic problems, 
-we participated  in the fully observable track of the 
+the next practical contribution 
+is the participation 
+in the fully observable track of the 
 \textit{International Probabilistic Planning Competition 2014} 
 (IPPC 2014\footnote{\url{https://cs.uwaterloo.ca/~mgrzes/IPPC_2014/}})
 with PPUDD. 
-
+The implementation of PPUDD for this computation 
+was performed with the \textit{CU Decision Diagram Package}
+for the ADDs computations. 
 Comparing only solvers using ADDs, 
 PPUDD and a probabilistic solver called symbolic LRTDP 
-as a variant of \cite{Bonet03labeledrtdp:}.
+as a variant of \cite{Bonet03labeledrtdp:},
+our solver (PPUDD) produces clearly better strategies 
+than the probabilistic one.
+
+%% ??  after? critique
 + risk and optimism traffic
 However, as highlighted by the domain ``Traffic''
 of the competition (see Figure \ref{IPPC}), 
 the possibilistic criterion (\ref{optcriterion})
 can be too optimistic.
-
-SPUDD algorithm \cite{Hoey99spudd:stochastic},
-we conceived an algorithm named PPUDD \cite{DBLP:conf/aaai/DrougardTFD14} 
-for solving factorized $\pi$-MOMDPs
-using \textit{Algebraic Decision Diagrams} (ADD).
-Our experiments and the  results 
-of the International Probabilistic Planning Competition (IPPC 2014)
-show that this possibilistic approach
-can involve lower computation time
-and produce better policies
-than its probabilistic counterparts:
+Ces tests sur des probl\`emes de planification vari\'es m\`enent \`a l'observation que 
+ces m\'ethodes \`a ADDs, dites \textit{symboliques}, ne font pas le poids face aux
+approches proc\'edant \`a une recherche heuristique dans l'espace d'\'etat \cite{DBLP:conf/aips/KellerE12} (en termes de rewards... expliquer!). 
+Nous avons pu aussi prendre note des inconv\'enients du formalisme possibiliste qualitatif pour la mod\'elisation:
+le crit\`ere utilis\'e \'etant global, son choix restreint la g\'en\'eralit\'e du mod\`ele.\\
+(etre optimiste ou pessimiste?)
 it highlights also some issues 
 of these qualitative models.
 Finally, points raised are added to 
