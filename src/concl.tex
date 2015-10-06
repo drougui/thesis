@@ -150,11 +150,14 @@ for the treated problems.
 We then adapted $\pi$-POMDPs 
 to mixed-observability \cite{OngShaoHsuWee-IJRR10},
 which takes part in the theoretical contributions of our work:
-this contribution dramatically reduces the size of the belief space 
+this contribution, called $\pi$-MOMDP, 
+dramatically reduces the size of the belief space 
 and thus allows the first computations of strategies from $\pi$-POMDPs. 
 Finally, an other theoretical contribution 
-is the qualitative counterpart of the value iteration algorithm,
-with the associated criterion for time-unbounded executions. 
+is the qualitative counterpart 
+of the value iteration algorithm,
+with the associated criterion 
+for time-unbounded executions. 
 As proved in Annex \ref{theorem_DPpiMOMDP_RETURN}
 (and our publication \cite{Drougard13}), 
 there exists an optimal strategy, 
@@ -232,34 +235,18 @@ and associated proofs are given
 
 \subsection*{Graphical work on independence and factorization (PPUDD)}
 %%%%%%%%%%%%%
-%%% chap3 %%% TODO TODO
+%%% chap3 %%%
 %%%%%%%%%%%%%
 %%THEORETICAL CONTRIBUTIONS
-GRAPHICAL PROOFS from graphical models (factorization),
-%% WEE!
-Our experiments and the  results 
-of the International Probabilistic Planning Competition (IPPC 2014)
-show that this possibilistic approach
-can involve lower computation time
-and produce better policies
-than its probabilistic counterparts.
-%% OHH!
-Ces tests sur des probl\`emes de planification vari\'es m\`enent \`a l'observation que 
-ces m\'ethodes \`a ADDs, dites \textit{symboliques}, ne font pas le poids face aux
-approches proc\'edant \`a une recherche heuristique dans l'espace d'\'etat \cite{DBLP:conf/aips/KellerE12} (en termes de rewards... expliquer!). 
-Nous avons pu aussi prendre note des inconv\'enients du formalisme possibiliste qualitatif pour la mod\'elisation:
-le crit\`ere utilis\'e \'etant global, son choix restreint la g\'en\'eralit\'e du mod\`ele.\\
-(etre optimiste ou pessimiste?)
-
 %%CHAP3
-Consider $\pi$-MOMDPs 
-whose space $\mathcal{X}$ is represented by
-$n$ boolean variables $X=(X_1, \ldots, X_n)$.
-variables $X_i$ of a \textit{factorized $\pi$-MOMDP} 
-are said post action independent as there are no
-dependences (arrows) between variables of the same time step.
-
-Algorithm PPUDD is a symbolic version of 
+Next theoretical contribution is 
+the introduction of the factored $\pi$-MOMDPs:
+indeed, we considered processes
+whose space is represented by $n$ 
+post action independent variables,
+\textit{i.e.} processes without dependence
+between state variables of the same time step.
+%TODO Algorithm PPUDD is a symbolic version of 
 the Dynamic Programming scheme
 Inspired by SPUDD \cite{Hoey99spudd:stochastic}, 
 PPUDD means \emph{Possibilistic Planning Using Decision Diagrams}. 
@@ -268,10 +255,7 @@ encoding value, preference and transition functions.
 operators $\min$ and $\max$, 
 ADDs are smaller, and thus computations are faster.
 
-The implementation was performed 
-with the \textit{CU Decision Diagram Package}
-for the ADDs computations. 
-
+GRAPHICAL PROOFS from graphical models (factorization),
 A natural factorisation of $\mathcal{X}$ comes from some independence assumptions
 As proved in \cite{DBLP:conf/aaai/DrougardTFD14}, 
 beliefs of a $\pi$-MOMDP satisfacing these assumptions
@@ -295,6 +279,29 @@ encoded by the graphical
 representation in Figure  
 the model is naturally expressed 
 as a factorized $\pi$-MOMDP. 
+
+
+
+%%%% PRACTICAL CONTRIB
+%% WEE!
+Our experiments and the  results 
+of the International Probabilistic Planning Competition (IPPC 2014)
+show that this possibilistic approach
+can involve lower computation time
+and produce better policies
+than its probabilistic counterparts.
+%% OHH!
+Ces tests sur des probl\`emes de planification vari\'es m\`enent \`a l'observation que 
+ces m\'ethodes \`a ADDs, dites \textit{symboliques}, ne font pas le poids face aux
+approches proc\'edant \`a une recherche heuristique dans l'espace d'\'etat \cite{DBLP:conf/aips/KellerE12} (en termes de rewards... expliquer!). 
+Nous avons pu aussi prendre note des inconv\'enients du formalisme possibiliste qualitatif pour la mod\'elisation:
+le crit\`ere utilis\'e \'etant global, son choix restreint la g\'en\'eralit\'e du mod\`ele.\\
+(etre optimiste ou pessimiste?)
+
+The implementation was performed 
+with the \textit{CU Decision Diagram Package}
+for the ADDs computations. 
+
 PPUDD performances are compared with 
 the probabilistic MOMDP solver APPL \cite{Kurniawati08sarsop:efficient}
 and the symbolic HSVI solver \cite{citeulike:2961378},
