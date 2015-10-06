@@ -115,16 +115,30 @@ A more detailed review of the contributions follows.
 %%% chap2 %%%
 %%%%%%%%%%%%%
 %%THEORETICAL CONTRIBUTIONS
+First updates of Qualitative possibilistic POMDPs, 
+$\pi$-POMDPs \cite{Sabbadin:1999:pipomdp}, 
 qualitative aggregations of the preferences over time
 can be derived from properties of the qualitative framework,
 and different approaches from pessimistic and optimistic.
-contribution: 
-preuve de convergence est alors n\'ecessaire dans le but de calculer une strat\'egie \cite{Drougard13}. puis une preuve est donnée à l'homologue de l'algorithme d'itération sur les valeurs. 
+(mixed opt/pess)
 
-Qualitative possibilistic POMDPs, 
-$\pi$-POMDPs \cite{Sabbadin:1999:pipomdp}, 
 Mixed-Observable MDPs \cite{OngShaoHsuWee-IJRR10}, 
 called $\pi$-MOMDP \cite{Drougard13}, 
+
+preuve de convergence est alors n\'ecessaire 
+dans le but de calculer une strat\'egie \cite{Drougard13}. 
+a proof is given for the counterpart of the value iteration algorithm
+As proved in \cite{Drougard13}, there exists an optimal strategy $\delta^{\ast}$, 
+which is stationary \textit{i.e.} 
+which does not depend on the stage of the process $t$. 
+It can be found by the following Dynamic Programming (DP) scheme: 
+This dynamic programming scheme converges in at most 
+$\# \mathcal{X}$ iterations.
+The hypothesis of the action $\overline{a}$ existence
+is not a constraint in practice
+as it is only selected in some goal states.
+Note that the value function is defined regardless of the mission duration.
+
 
 %%%PRACTICAL ONES
 The experiment uses both previous contributions.
@@ -142,23 +156,6 @@ for a target recognition problem
 where the agent's observations dynamics 
 is not properly defined.
 
-%%%OBSERVATIONS
-sa mise \`a jour Bayes rule \cite{Dubois199023}: 
-poss\`ede la caract\'eristique int\'eressante d'accro\^itre la connaissance associ\'ee.
-+ PROOFS
-
-
-As proved in \cite{Drougard13}, there exists an optimal strategy $\delta^{\ast}$, 
-which is stationary \textit{i.e.} 
-which does not depend on the stage of the process $t$. 
-It can be found by the following Dynamic Programming (DP) scheme: 
-This dynamic programming scheme converges in at most 
-$\# \mathcal{X}$ iterations.
-The hypothesis of the action $\overline{a}$ existence
-is not a constraint in practice
-as it is only selected in some goal states.
-Note that the value function is defined regardless of the mission duration.
-
 The following application shows the efficiency 
 of the $\pi$-MOMDPs framework to provide strategies
 well-suited for a recognition mission. 
@@ -167,6 +164,11 @@ which perfectly knows its location $(x,y) \in \{ 1, \ldots, g \}^2$:
 each location is a visible state $s_v \in \mathcal{S}_v$. 
 The more the robot is far from a target, 
 the more the observation is noisy. 
+
+%%%OBSERVATIONS
+sa mise \`a jour Bayes rule \cite{Dubois199023}: 
+poss\`ede la caract\'eristique int\'eressante d'accro\^itre la connaissance associ\'ee.
++ PROOFS
 
 The possibilistic belief update (\ref{possBelUpdate})
 is responsible as it only takes into account 
@@ -177,6 +179,7 @@ or changes to the opposite belief if it contradicts it.
 On the contrary a probabilistic belief is modified at each step. 
 
 
+\subsection*{chap3}
 %%% CHAP3
 %%% THEORETICAL
 GRAPHICAL PROOFS from graphical models (factorization),
@@ -295,7 +298,7 @@ and lead to the description
 of a future work.
 
 
-
+\subsection*{link to chap4 chap5}
 %% fin 3 lien CHAP4-5
 Experiments  
 concerning the Navigation problem
@@ -336,6 +339,7 @@ De plus, les r\'esultats de la comp\'etition de planification incite \`a abandon
 une recherche dans l'espace d'\'etats. Pour cela, nous d\'eveloppons un mod\`ele hybride
 
 %% chap HMI 4
+\subsection*{chap4}
 fourth chapter shows that 
 qualitative possibilistic processes
 are an appropriate choice
@@ -348,6 +352,7 @@ use of leximin
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %% CHAP5
+\subsection*{chap5}
 Scale $\mathcal{L}$ serves as well to model 
 the \emph{preference} over states: 
 function $\mu: \mathcal{S} \rightarrow \mathcal{L}$ assigns a degree
