@@ -109,26 +109,33 @@ A more detailed review of the contributions follows.
 %%% FIN TODO
 
 
-\subsection*{chap2}
+\subsection*{New features for the $\pi$-POMDPs
+and first strategy executions}
 %%%1) CONTRIBUTIONS 
 %%%%%%%%%%%%%
 %%% chap2 %%%
 %%%%%%%%%%%%%
 %%THEORETICAL CONTRIBUTIONS
-First updates of Qualitative possibilistic POMDPs, 
-$\pi$-POMDPs \cite{Sabbadin:1999:pipomdp}, 
-qualitative aggregations of the preferences over time
-can be derived from properties of the qualitative framework,
-and different approaches from pessimistic and optimistic.
+The very first update of the work \cite{Sabbadin:1999:pipomdp} 
+about Qualitative possibilistic POMDPs in this thesis, 
+concerns the qualitative aggregations of the preferences over time:
+we first show that, as in the probabilistic framework,
+aggregation can be derived from the properties of the qualitative framework.
+Different approaches between the pessimistic and the optimistic criterion
+are also presented: note that the mixed optimistic pessimistic criterion
+is mainly used along our work since it reduces to an optimistic $\pi$-MDP
+(compatible with unbounded missions and more responsible with the given problems).
 (mixed opt/pess)
 
-Mixed-Observable MDPs \cite{OngShaoHsuWee-IJRR10}, 
+Definition Mixed-Observable MDPs \cite{OngShaoHsuWee-IJRR10}
+dramatically reduces complexity and allows then first computations, 
 called $\pi$-MOMDP \cite{Drougard13}, 
 
 preuve de convergence est alors n\'ecessaire 
 dans le but de calculer une strat\'egie \cite{Drougard13}. 
 a proof is given for the counterpart of the value iteration algorithm
-As proved in \cite{Drougard13}, there exists an optimal strategy $\delta^{\ast}$, 
+As proved in \cite{Drougard13} and Annex \ref{theorem_DPpiMOMDP_RETURN}, 
+there exists an optimal strategy $\delta^{\ast}$, 
 which is stationary \textit{i.e.} 
 which does not depend on the stage of the process $t$. 
 It can be found by the following Dynamic Programming (DP) scheme: 
@@ -138,7 +145,8 @@ The hypothesis of the action $\overline{a}$ existence
 is not a constraint in practice
 as it is only selected in some goal states.
 Note that the value function is defined regardless of the mission duration.
-
+Typically, the target recognition missions presented in this thesis 
+have unbounded durations.
 
 %%%PRACTICAL ONES
 The experiment uses both previous contributions.
@@ -179,7 +187,7 @@ or changes to the opposite belief if it contradicts it.
 On the contrary a probabilistic belief is modified at each step. 
 
 
-\subsection*{chap3}
+\subsection*{Graphical work on independence and factorization (PPUDD)}
 %%% CHAP3
 %%% THEORETICAL
 GRAPHICAL PROOFS from graphical models (factorization),
@@ -298,7 +306,7 @@ and lead to the description
 of a future work.
 
 
-\subsection*{link to chap4 chap5}
+\subsection*{Discussion about current results}
 %% fin 3 lien CHAP4-5
 Experiments  
 concerning the Navigation problem
@@ -339,7 +347,7 @@ De plus, les r\'esultats de la comp\'etition de planification incite \`a abandon
 une recherche dans l'espace d'\'etats. Pour cela, nous d\'eveloppons un mod\`ele hybride
 
 %% chap HMI 4
-\subsection*{chap4}
+\subsection*{Estimating in a qualitative world (HMI)}
 fourth chapter shows that 
 qualitative possibilistic processes
 are an appropriate choice
@@ -352,7 +360,7 @@ use of leximin
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%
 %% CHAP5
-\subsection*{chap5}
+\subsection*{A possibilistic discretization of the belief space (hybrid POMDP}
 Scale $\mathcal{L}$ serves as well to model 
 the \emph{preference} over states: 
 function $\mu: \mathcal{S} \rightarrow \mathcal{L}$ assigns a degree
