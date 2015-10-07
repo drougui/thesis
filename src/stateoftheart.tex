@@ -1,14 +1,14 @@
-The main topic of this thesis is the Partially Observable Markov Decision Process (POMDP).
+The main topic of this thesis is Partially Observable Markov Decision Processes (POMDPs).
 The practical use of this model has been criticized in Introduction, 
 however it sums up accurately the principal features of a robotic system.
-As it is possible to make this thesis mathematically self-contained
+As we ambition to make this thesis mathematically self-contained
 the POMDP model is built in Section \ref{section_Markov2POMDP} 
 from low level objects of Probability Theory.
 The main ways to compute strategies from this model are then summarized
 in Section \ref{section_SAalgo}.
 Next, Possibility Theory is presented
-in order to introduce the Qualitative Possibilistic Markov Decision Processes ($\pi$-MDPs)
-and the Partially Observable ones ($\pi$-POMDPs) which are the starting point
+in order to introduce Qualitative Possibilistic Markov Decision Processes ($\pi$-MDPs)
+and Partially Observable ones ($\pi$-POMDPs) which are the starting point
 of this work.
 
 \section{From Markov Chains to Partially Observable Markov Decision Processes}
@@ -68,11 +68,12 @@ which contains all the children of $S$
 and such that $\forall S' \in descend(S)$, $children(S') \subset descend(S)$ 
 \textit{i.e.} all the children of a descendant is a descendant.
 The assumption taken through a Bayesian Network is that each variable $S$ 
-is independant from its \textit{non-descendants} 
+is independent from its \textit{non-descendants} 
 $nondescend(S) = \set{\tilde{S} \notin descend(S) \cup \set{ S } \cup parents(S) }$
 conditional on its parents $parents(S)$,
 denoted by: 
 \[ S \perp\!\!\!\perp nondescend(S) \hspace{0.2cm} \vert \hspace{0.2cm} parents(S). \]
+In other words, $S$ only depends on its direct parents. 
 Figure \ref{fig_markov_chain} is also called Dynamic Bayesian Networks (DBNs) 
 \cite{Dean:1989:DBN} since the arrows model also successive time steps. 
 
@@ -120,24 +121,26 @@ $\forall t \in \mathbb{N}$, $\forall f: \mathcal{S} \rightarrow \mathbb{R}$ boun
 $\forall (s_0,\ldots,s_{t}) \in \mathcal{S}^{t+1}$,
 \begin{align*}
 \mathbb{E} \croch{ f(S_{t+1}) \sachant S_0 = s_0, \ldots, S_t = s_t }  
-&= \sum_{s' \in \mathcal{S}} f(s) \cdot \mathbb{P} \paren{ S_{t+1} = s' \sachant S_t = s_t } \\
+&= \sum_{s' \in \mathcal{S}} f(s') \cdot \mathbb{P} \paren{ S_{t+1} = s' \sachant S_t = s_t } \\
 &= \mathbb{E} \croch{ f(S_{t+1}) \sachant S_t = s_t }.
 \end{align*}
 \end{Property}
 The proof is given in Annex \ref{res_markov_RETURN}.
 
-This result will help to rigorously set up Markov Decision Processes,
+This result will help rigorously set up Markov Decision Processes,
 presented in the next section.
 
-\subsection{The Markov Decision Process}
+\subsection{Markov Decision Processes}
 \label{subsection_MDP}
-The MDP \cite{puterman94}
+MDPs \cite{puterman94} were proposed
 was built to model \textit{systems} 
 subject to a probabilistic uncertainty
 dependent on \textit{actions} over \textit{time}.
 In its classical formulation, the finite set $\mathcal{S}$
 defines the possible \textit{states of the system} $s \in \mathcal{S}$.
-Here, for the needs of the POMDP model building,
+Here, for the needs of 
+the POMDP model building 
+in a following section,
 $\mathcal{S}$ is defined as a countable set of states, 
 as stated earlier.
 The set of the non-negative integers $\mathbb{N}$ 
@@ -150,12 +153,17 @@ of what information is used
 to decide each action, 
 the \textit{agent} is defined as
 the entity responsible for decision making,
-\textit{i.e.} must choose the successive actions.
+\textit{i.e.} she/he must choose the successive actions
+given the informations about the system.
 In our case, a system state $s \in \mathcal{S}$ 
 consists of the features of both a robot 
 and its environment,
 needed to describe the robotic mission.
-The agent is here the decision making part of the robot.
+The agent is in this case 
+the decision making part of the robot
+who determines the robot's actions
+to be exectuted 
+given the successive states of the system.
 
 If the sequence of chosen actions $a \in \mathcal{A}$
 is known, an MDP is a Markov Chain:
@@ -169,10 +177,18 @@ by selecting the actions $a \in \mathcal{A}$
 at each time step $t \in \mathbb{N}$.
 
 In the MDP framework, it is assumed that 
-the agent is informed of the current system state $s_t \in \mathcal{S}$
+the agent is perfectly informed 
+of the current system state $s_t \in \mathcal{S}$
 at each time step. 
-Its decision can then be based on 
-the current system state and all previous ones.
+Its decision can then be \textit{a priori} 
+based on the current system state 
+and all previous ones:
+Theorem \ref{thm_mdp_finiteH}
+shows however that, 
+for the used criterion,
+it is equivalent to consider 
+that each decision is taken
+based on the current state only.
 A stochastic matrix $M^{d}$ can be defined for
 each \textit{decision rule} $\left \{ \begin{array}{ccc}
 d : & \mathcal{S} \rightarrow & \mathcal{A} \\
@@ -212,14 +228,14 @@ of the International Probabilistic Planning Competition,
 if the state $s$ encodes a robot location which is not the goal,
 $r_t(s,a)=-1$, and $r_t(s,a)=0$ otherwise.
 If the designers of the model want
-the robot to be in sleep mode
+the robot to be in a sleep mode
 at the end of the mission,
 terminal reward could have been defined
 as $R(s)=1$ if the system state $s$ 
 encodes the sleep mode, and $R(s)=0$ otherwise.
 If some of the moving actions of the robot 
 were more energy demanding than others,
-$\forall s \in \mathcal{S}$ 
+for all $s \in \mathcal{S}$ 
 the functions $a \mapsto r_t(s,a)$ may be non-constant, etc.
 
 Solving the optimal control problem
@@ -256,7 +272,7 @@ and is classically performed using Dynamic Programming \cite{puterman94}.
 The notation $(d)$ is used from now on
 to represent a strategy $(d_t)_{t=0}^{H-1} \in \mathcal{D}_H$.
 Theorem \ref{max_criterion} highlights the opportunity 
-to use the Dynamic Programming 
+to use Dynamic Programming 
 in order to compute the optimal value function:
 \begin{equation}
 \label{max_criterion} 
@@ -310,7 +326,7 @@ The proof of this theorem is given in Annex \ref{thm_mdp_finiteH_RETURN} and use
 If the state space $\mathcal{S}$ is finite,
 Algorithm \ref{dynamic_programming_mdp} solves
 the optimal control problem of a Markov Chain,
-or briefly the MDP problem:
+\textit{i.e.} the MDP problem:
 computations are performed recursively,
 using the Dynamic Programming equations.
 
@@ -330,7 +346,7 @@ The previous section was devoted to present
 the finite horizon version of the MDP framework.
 In some situations, designers of the MDP model
 do not know when the process will end,
-or they want the agent to manage the system forever: 
+or they want the agent to control the system forever: 
 the MDP problem has to be expressed whatever the horizon $H$,
 or, more generally, for an infinite horizon.
 For instance, when the MDP models a robotic mission,
@@ -339,7 +355,7 @@ in order to let the mission be completed,
 in case of delay.
 
 An infinite horizon MDP 
-is defined by the $6$-uplet 
+is defined by the $6$-tuple 
 $\langle \mathcal{S},\mathcal{A},T,r,s_0,\gamma \rangle$:
 \begin{itemize}
 \item $\mathcal{S}$ is the countable set of potential states of the system, 
@@ -355,7 +371,7 @@ the function $s' \mapsto \textbf{p} \paren{ s' \sachant s,a} \in T$
 defined on $\mathcal{S}$.
 Note that in this formulation,
 the probability distribution is stationary
-\textit{i.e.} does not depend on the stage of the process:	
+\textit{i.e.} it does not depend on the stage of the process:	
 $\forall t \in \mathbb{N}$, $\textbf{p}_t \paren{ s' \sachant s,a} = \textbf{p} \paren{ s' \sachant s,a} $.
 As previously, we assume that 
 $\forall s \in \mathcal{S}$, $\forall a \in \mathcal{A}$, 
@@ -394,7 +410,8 @@ Finally, the agent gets the reward $r(s_{t},a_t) \in \mathbb{R}$
 which is aggregated to the previous ones
 with a sum.
 Figure \ref{fig_mdp} graphically sums up 
-the stationary MDP: the presented figure is an Influence Diagram,
+the stationary MDP model: 
+the presented figure is an Influence Diagram,
 \textit{i.e.} it represents the relations between successive variables,
 just like a Dynamic Bayesian Network, but also including actions and rewards.
 \begin{figure}
