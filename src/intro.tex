@@ -27,15 +27,15 @@ in various situations,
 or by taking into account the description of the sensors, 
 data processing, or any related expert information.
 For instance, in the case of a robot using Computer Vision (CV),
-the output of the picture processing algorithm employed
+the output of the image processing algorithm employed
 is considered as an observation of the system
 since it is the result of processed sensor data
 and the input of the decision model:
-here data are pictures from camera.
+here data are images from camera.
 For a given camera, and a given vision algorithm,
 the behavior of the observation
 is related to the action and to the system state
-during the process of taking pictures. 
+during the process of taking images. 
 
 Thus, in order to make a robot 
 autonomously fulfill a chosen \textit{mission}, 
@@ -91,18 +91,19 @@ and the chosen action $a_t \in \mathcal{A}$.
 This relation is described by a transition function 
 $\textbf{p} \paren{ s_{t+1} \sachant s_t, a_t}$
 which is defined as the probability distribution %%%% TODO TODO TODO TODO
-on the next system states $s_{t+1}$ conditional for each action: 
+on the next system states $s_{t+1}$ conditioned on each action: 
 if the action $a_t \in \mathcal{A}$ is selected by the agent, 
 and the current system state is $s_t \in \mathcal{S}$, 
 the next state $s_{t+1} \in \mathcal{S}$
-is reached with the probability denoted by 
-$\textbf{p} \paren{ s_{t+1} \sachant s_t, a_t }$. 
+is reached with probability $\textbf{p} \paren{ s_{t+1} \sachant s_t, a_t }$. 
 
 The mission of the agent is described in terms of rewards:
-a reward function $r(s,a) \in \mathbb{R}$ 
+a reward function $r: (s,a) \mapsto r(s,a) \in \mathbb{R}$ 
 is defined for each action $a \in \mathcal{A}$
 and system state $s \in \mathcal{S}$,
-and models the goal of the agent. 
+and models the goal of the agent.
+Each reward value $r(s,a) \in \mathbb{R}$
+is a local incentive for the agent.
 The more rewards are gathered during one execution of the process, the better:
 a realization of a sequence of system states
 and actions is considered as well fulfilling the desired mission 
@@ -119,15 +120,6 @@ For instance, a preferred strategy
 may be a function $d$ defined on $\mathcal{S}$,
 as the current state is available to the agent, 
 and with values in $\mathcal{A}$.
-A criterion measuring the accuracy of the strategy $d$ 
-may then be the (infinite horizon) expected discounted total reward: 
-\begin{equation}
-\label{criterion}
-\mathbb{E} \croch{ \sum_{t=0}^{+ \infty} \gamma^t r(s_t,d_t) },
-\end{equation}
-where $d_t=d(s_t) \in \mathcal{A}$ 
-and $0<\gamma<1$ is a discount factor 
-assuring the convergence of the sum.
 
 %%% ROBOT POMPIER
 \begin{figure} \centering
@@ -154,7 +146,7 @@ assuring the convergence of the sum.
 \end{tikzpicture}
 \caption[Use of a POMDP for the firefighter robot mission modeling]{
 Use of a POMDP for the firefighter robot mission modeling:
-in this toy example, the mission of the robot is the fire prevention.
+in this toy example, the mission of the robot is fire prevention.
 The \textbf{states of the system} $s \in \mathcal{S}$ encode for instance the robot location, 
 the water jet orientation, the amount of water used,
 the fire location and its level on a scale between ``minor fire'' and  ``severe fire'', etc.
@@ -162,7 +154,7 @@ Using vision and heat sensors,
 the robot gets \textbf{observations} $o \in \mathcal{O}$ 
 which are the raw or processed values from the sensors:
 the output of a classifier
-whose input is a picture of the scene
+whose input is a image of the scene
 (see Figure \ref{observation_robot} 
 and \ref{CV_algoConvNet}), 
 and which returns the fire level or location
@@ -198,25 +190,42 @@ the belief state can be seen as the robot's guess.}
 \label{robot_pompier}
 \end{figure}
 
+Such markovian strategies are proven to be optimal 
+for some criteria 
+like the one based on 
+accumulated discounted rewards:
+indeed, a well-known criterion 
+measuring the accuracy of strategy $d$ 
+is the (infinite horizon) expected discounted total reward: 
+\begin{equation}
+\label{criterion}
+\mathbb{E} \croch{ \sum_{t=0}^{+ \infty} \gamma^t r(s_t,d_t) },
+\end{equation}
+where $d_t=d(s_t) \in \mathcal{A}$ 
+and $0<\gamma<1$ is a discount factor 
+ensuring the convergence of the sum.
+
 The assumption that the agent has a perfect 
 knowledge of the system state
 is quite strong:
 in particular, in the case of robots realizing tasks with conventional captors,
-the latter are usually unable to provide 
-all the features of interest for the mission 
-to the robot.
-Thus, a more flexible model has been built, allowing a \textit{partial observability}
+the latter are usually unable to provide to the robot
+all the features of interest for the mission.
+Thus, a more flexible model has been built, 
+taking into account \textit{partial observability}
 of the system state by the agent.
 %%% ROBOT POMPIER FIN
 
 %%% POMDP
 Indeed a Partially Observable MDP (POMDP) \cite{Smallwood_Sondik} 
-makes a step further into the modeling flexibility, 
+makes a step further into modeling flexibility, 
 handling situations in which the agent 
 does not know directly
 the current state of the system: 
-it finely models 
-an agent acting under uncertainty in a partially hidden environment.
+it more finely models 
+an agent acting 
+under uncertainty 
+in a partially hidden environment.
 
 The set of system states $\mathcal{S}$, 
 the set of actions $\mathcal{A}$, 
@@ -251,7 +260,7 @@ expected discounted sum of rewards (\ref{criterion}).
 %
 % belief
 %
-Most of the POMDP algorithms reason about the \textit{belief state}, 
+Most POMDP algorithms reason about the \textit{belief state}, 
 defined as the probability of the actual system state knowing
 all the system observations and agent actions from the beginning.
 This belief is updated at each time step using the Bayes
@@ -259,8 +268,8 @@ rule and the new observation.
 At a given time step $t \in \mathbb{N}$, 
 the belief state $b_t(s)$ is defined 
 as the probability that the $t^{th}$ state is $s \in \mathcal{S}$
-conditional on all the past actions and observations, 
-and with the prior $b_0$:
+conditioned on all past actions and observations, 
+and with prior $b_0$:
 it estimates the actual system state using the available data,
 as the latter is not directly observable.
 
@@ -306,11 +315,11 @@ as illustrated by the Bayesian Network in Figure \ref{BayesNetPOMDP}.
 \end{tikzpicture}
 \caption[Bayesian Network illustrating the belief update.]{Bayesian Network illustrating the belief update: the states are the gray circular nodes, 
 the action is the red square node, and the observation is the blue circular node.
-The random variable $S_t$ representing the next state $s_{t+1}$ 
-depends on the current one $s_t$ and the current action $a_t$.
+The random variable $S_{t+1}$ representing the next state $s_{t+1}$ 
+depends on the current one $s_t$ and on the current action $a_t$.
 The random variable $O_{t+1}$ representing the next observation $o_{t+1}$ 
 depends on the next state $s_{t+1}$ 
-and the current action $a_t$ too.
+and on the current action $a_t$ too.
 The belief state $b_{t}$ (resp. $b_{t+1}$)
 is the probabilistic estimation of the current (resp. next) system state $s_t$ (resp. $s_{t+1}$).}
 \label{BayesNetPOMDP}
@@ -318,7 +327,7 @@ is the probabilistic estimation of the current (resp. next) system state $s_t$ (
 
 As successive beliefs are computed 
 with the observations perceived by the agent,
-they are considered as visible for the agent. 
+they are considered as visible by the agent. 
 %Moreover, it can be easily shown that
 %the expected total reward can be rewritten 
 %\begin{equation}
@@ -332,7 +341,7 @@ over $\mathcal{S}$.
 An optimal strategy can be looked for 
 as a function $d$ defined on $\mathbb{P}^{\mathcal{S}}$ 
 such that successive $d_t = d(b_t) \in \mathcal{A}$ 
-maximize the expected reward \ref{criterion}:
+maximize the expected reward (\ref{criterion}):
 the agent decisions are then based on the belief state.
 
 %
@@ -341,13 +350,13 @@ the agent decisions are then based on the belief state.
 The POMDP framework is a flexible model for autonomous robotics,
 as illustrated by the firefighter example, see Figure \ref{robot_pompier}:
 it allows to describe all the robotic and surrounding system,
-as well as the robot mission,
+as well as the robot's mission,
 and it is commonly used in robotics 
 \cite{conf/isrr/PineauG05,OngShaoHsuWee-IJRR10,DBLP:conf/rss/Marthi12,DBLP:conf/ecai/ChanelTL12,DBLP:conf/aaai/ChanelTL13}.
 It takes into account that the robot receives data
 from its sensors only,
 and thus has to figure out the actual system state 
-using these data, called observations,
+using these data, named observations,
 in order to fulfill the mission.
 However the POMDP model raises some issues,
 in particular in the robotic context.
@@ -362,22 +371,23 @@ is PSPACE-hard in finite horizon \cite{Papadimitriou:1987}
 and even
 undecidable in infinite horizon \cite{Madani:1999:UPP:315149.315395}.
 Moreover a space exponential in the problem description may be required 
-for an explicit specification of such a strategy
-(see \cite{Mundhenk:2000:CPP:867838} 
-for a more detailed complexity analysis of POMDPs).
+for an explicit specification of such a strategy.
+See \cite{Mundhenk:2000:CPP:867838} 
+for a more detailed complexity analysis of POMDPs.
 
-This high complexity is well-known by POMDP users:
-optimality can be reached 
+This high complexity is well-known by POMDP practitioners:
+optimality can only be reached 
 for tiny problems, 
 or highly structured ones.
 Classical approaches try to solve this problem
-using Dynamic Programming \cite{Cassandra97incrementalpruning}.
+using Dynamic Programming 
+and linear programming techniques \cite{Cassandra97incrementalpruning}.
 Otherwise, only approximate solutions can be computed,
 and thus the strategy has no optimality guaranty.
 For instance, popular approaches such as point-based methods 
 \cite{Pineau_2003_4826,Kurniawati-RSS08,Smith:2004:HSV:1036843.1036906}, 
 grid-based ones \cite{Geffner98solvinglarge,Brafman97aheuristic,Bonet_newgrid-based}
-or Monte Carlo approach \cite{NIPS2010_4031},
+or Monte Carlo approaches \cite{NIPS2010_4031},
 use approximate computations.
 The next POMDP's practical issues that will be highlighted, 
 concern modeling flaws appearing when using this framework:
@@ -391,14 +401,14 @@ they are easily illustrated via robotic situations.
 \caption[Example of an observation method in a robotic context]{
 Example of an observation method in a robotic context:
 the robot, here a drone, is equipped with a camera
-and uses a classifier computed from a picture dataset
+and uses a classifier computed from a image dataset
 (as NORB, see Figure \ref{NORB}): 
-such a classifier is described by Figure \ref{CV_algoConvNet}.
-The classifier is computed before the mission (off-line)
-with a picture dataset (see the right part of the illustration),
+such a classifier is described in Figure \ref{CV_algoConvNet}.
+The classifier is generated before the mission (off-line)
+with a image dataset (see the right part of the illustration),
 and the classifier output is used during the mission (online) 
 as an observation, for the agent (see the left part).
-Here, observations are thus generated by computer vision.}
+Here, observations are thus generated by computer vision means.}
 \label{observation_robot}
 \end{figure}
 %
@@ -413,24 +423,24 @@ Here, observations are thus generated by computer vision.}
 Consider now robots using visual perception, 
 and whose observations 
 come from computer vision algorithms based on statistical learning
-(see Figure \ref{observation_robot}).
+(see, for instance, Figure \ref{observation_robot}).
 In this situation, the robot uses a \textit{classifier}
-to recognize objects in pictures: 
+to recognize objects in images: 
 the classifier is supposed to return the name of 
-the object actually in the picture, 
+the object actually in the image, 
 and makes some mistakes 
 with a low probability 
 (see confusion matrix of Figure \ref{confusion_matrix}).
 
-The classifier is computed using a \textit{training dataset} of pictures
+The classifier is computed using a \textit{training dataset} of images
 (as NORB, see Figure \ref{NORB}, authors made it available at \url{http://www.cs.nyu.edu/~ylclab/data/norb-v1.0/}).
-A powerful gradient-based learning algorithm meant to compute classifiers using picture datasets
+A powerful gradient-based learning algorithm meant to compute classifiers using image datasets
 is described in Figure \ref{CV_algoConvNet}: the associated framework is called Convolutional Nextwork \cite{Lecun98gradient-basedlearning}.
-The figures (\ref{NORB}), (\ref{CV_algoConvNet}) and (\ref{confusion_matrix})
-illustrate the example of a classifier computed for a drone mission where features of interests
+Figures (\ref{NORB}), (\ref{CV_algoConvNet}) and (\ref{confusion_matrix})
+illustrate the example of a classifier computed for a UAV mission where features of interests
 (system states of the problem) 
 are related with the presence (or absence) of animals, cars, humans, planes or trucks:
-the statistical problem of computing a classifier recognizing such objects in pictures 
+the statistical problem of computing a classifier recognizing such objects in images 
 is called \textit{multiclass classification}.
 
 %%%
@@ -440,7 +450,7 @@ is called \textit{multiclass classification}.
 \begin{figure} \centering
 \begin{tikzpicture}
 \node (notes) at (1cm,7cm) { 
-NORB dataset: \color{blue} $(\mbox{picture}_i,\mbox{label}_i)_{i=1}^N$
+NORB dataset: \color{blue} $(\mbox{image}_i,\mbox{label}_i)_{i=1}^N$
 };
 
 \def\names{{"bla","human","car","truck","truck","nothing","nothing","nothing","truck"}}%
@@ -480,17 +490,17 @@ NORB dataset: \color{blue} $(\mbox{picture}_i,\mbox{label}_i)_{i=1}^N$
 	}
 
 \end{tikzpicture}
-\caption[Example of picture dataset for computer vision.]{Example of picture dataset for computer vision: 
-the labeled picture dataset NORB \cite{LeCun.2004}. The size of NORB is higher than $3.10^5$,
-and pictures from this dataset represents objects among the $5$ classes: 
+\caption[Example of image dataset for computer vision.]{Example of image dataset for computer vision: 
+the labeled image dataset NORB \cite{LeCun.2004}. The size of NORB is higher than $3.10^5$,
+and images from this dataset represents objects among the $5$ classes: 
 ``animal'', ``car'', ``human'', ``nothing'', ``plane'' and ``truck''.
-Each element of a labeled picture dataset is composed of a picture (e.g. a picture showing a car)
-and a label corresponding to the class of the object represented by the picture 
+Each element of a labeled image dataset is composed of a image (e.g. a image showing a car)
+and a label corresponding to the class of the object represented by the image 
 (in the previous example, the label is ``car'').
 This dataset can be used for supervised learning to compute a classifier (see Figure \ref{CV_algoConvNet}).
 In order to be able to discern locations of targets, 
-a picture is labeled with the name of centered object 
-(``nothing'' if there is nothing in the picture center).}
+a image is labeled with the name of centered object 
+(``nothing'' if there is nothing in the image center).}
 \label{NORB}
 \end{figure}
 %%%%%
@@ -500,26 +510,26 @@ a picture is labeled with the name of centered object
 %
 % IMPRECISION OBSERVATION
 %
-As the classifier is learned based on a picture dataset 
+As the classifier is learned based on a image dataset 
 (see weights learned in Figure \ref{CV_algoConvNet}),
 its behavior, and thus its performances 
 (\textit{i.e.} how well it predicts objects in images) 
 are inevitably dependent on the dataset.
-It is a problem if the picture variability in the dataset
+It is a problem if the image variability in the dataset
 is too low:
 in this case, the probabilistic behavior of the classifier 
-will be dependent on these particular pictures, 
+will be dependent on these particular images, 
 and the robotic system will have poor observation
 capabilities when the considered mission involves 
-pictures too different from the ones from the dataset. 
+images too different from the ones from the dataset. 
 
-Some large picture datasets with a high image variability exists 
+Some large image datasets with a high image variability exists 
 (e.g. NORB, Figure \ref{NORB}, although variability could be ideally higher):
 note however that with such datasets, the vision performances are reduced,
 or good performances are, at least, harder to reach.
 
 A confusion matrix can be computed (see Figure \ref{confusion_matrix})
-using such a labeled picture dataset,
+using such a labeled image dataset,
 not used for the training, and called \textit{testing dataset}: 
 observation frequencies can be deduced from this matrix,
 normalizing rows into probabilities.
@@ -553,7 +563,7 @@ were more reliable, or the vision performances upgraded
 (since separation when learning the classifier is easier).
 However, as more observation or states are involved in this case,
 the POMDP is harder to solve.
-Moreover, as the number of pictures per class is reduced 
+Moreover, as the number of images per class is reduced 
 (since there are more complex and numerous classes), 
 a poorer confusion matrix is obtained when testing (in terms of confidence).
 
@@ -566,7 +576,7 @@ are not precisely known in practice.
 The imprecision about these probabilities, 
 for instance the imprecision related to 
 the vision algorithm behavior
-with real world pictures,
+with real world images,
 has to be taken into account 
 to make the robot autonomous 
 under any circumstances.
@@ -1041,13 +1051,13 @@ in practice.
 	}
 \end{tikzpicture}
 \caption[Example of classifier training for computer vision]{Example of classifier training for computer vision:
-the labeled picture dataset NORB, see Figure \ref{NORB},
+the labeled image dataset NORB, see Figure \ref{NORB},
 is used to train and test a classifier.
 The learning algorithm is based on Convolutional Network \cite{Lecun98gradient-basedlearning,DBLP:journals/jfr/SermanetHSGBECML09}
 using gradient methods \cite{bottou-91c,lecun-98x,bottou-tricks-2012}.
 The weights $W=(w_0,\ldots,w_m)$ are the parameters of a particular transformation 
 (see the ``bi-pyramid'' of successive transformation stages) 
-from the picture to a vector representing a label among $\set{animal,car,human,nothing,plane,truck}$. 
+from the image to a vector representing a label among $\set{animal,car,human,nothing,plane,truck}$. 
 These weights are learned in order to minimize a given loss function
 \textit{i.e.} a proper criterion representing the error of the classifier over the dataset.
 A classical loss function is the Mean Squared Error (MSE). 
@@ -1072,10 +1082,10 @@ $154$ & $283$ & $36$ & $63$ & $61$ & $4263$ & nothing & $87.716\%$  \\ %\special
 \end{tabular}
 \caption[Example of confusion Matrix for multiclass classification]{
 Example of confusion matrix for multiclass classification:
-this matrix is computed with a testing dataset of pictures, different from the training dataset.
-Each row only considers the pictures of a given object,
+this matrix is computed with a testing dataset of images, different from the training dataset.
+Each row only considers the images of a given object,
 and numbers represents the answers of the classifier: 
-for instance, $3688$ pictures of animals are well recognized, 
+for instance, $3688$ images of animals are well recognized, 
 but $575$ are confused with a human.
 Average row correct is here $80.223\%$.
 Torch7 environment \cite{Collobert_NIPSWORKSHOP_2011} has also been used 
@@ -1739,7 +1749,7 @@ a mass function describing
 the uncertainty about the observations.
 The way of defining this mass function from a given classifier 
 (for instance as the one described in Figure \ref{CV_algoConvNet})
-and a given testing dataset of pictures (as NORB, see Figure \ref{NORB})
+and a given testing dataset of images (as NORB, see Figure \ref{NORB})
 is not obvious.
 Indeed the imprecision of the probabilistic behavior
 of the resulting computer vision algorithm
