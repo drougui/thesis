@@ -389,9 +389,21 @@ For instance, popular approaches such as point-based methods
 grid-based ones \cite{Geffner98solvinglarge,Brafman97aheuristic,Bonet_newgrid-based}
 or Monte Carlo approaches \cite{NIPS2010_4031},
 use approximate computations.
-The next POMDP's practical issues that will be highlighted, 
-concern modeling flaws appearing when using this framework:
-they are easily illustrated via robotic situations.
+
+The \textit{Predictive State Representation} 
+approach \cite{Littman01predictiverepresentations},
+reasons directly at the level 
+of the sequences of observations and actions,
+without referring to the belief states.
+It may be an interesting approach to simplify computations \cite{1383528},
+but only few works address this problem.
+This approach is more motivated by research in learning 
+\cite{singh:icml03,DBLP:journals/corr/BootsGG13}.
+%and is not meant to handle parameter imprecision.
+Moreover, it does not tackle the next POMDP's practical issues 
+that will be highlighted, 
+concerning modeling flaws appearing when using this framework:
+these issues are easily illustrated via robotic situations.
 
 %
 % VISION IN ROBOTICS
@@ -521,9 +533,9 @@ in this case, the probabilistic behavior of the classifier
 will be dependent on these particular images, 
 and the robotic system will have poor observation
 capabilities when the considered mission involves 
-images too different from the ones from the dataset. 
+images too different from the ones in the dataset. 
 
-Some large image datasets with a high image variability exists 
+Some large image datasets with a high image variability exist 
 (e.g. NORB, Figure \ref{NORB}, although variability could be ideally higher):
 note however that with such datasets, the vision performances are reduced,
 or good performances are, at least, harder to reach.
@@ -534,17 +546,17 @@ not used for the training, and called \textit{testing dataset}:
 observation frequencies can be deduced from this matrix,
 normalizing rows into probabilities.
 A row corresponds to an object in the scene,
-and probabilities on this row are observation probabilities,
-\textit{i.e.} each probability is the frequency with which 
+and probabilities in this row are observation probabilities,
+\textit{i.e.} each probability value is the frequency with which 
 the classifier returns the name of the object of the corresponding column.
 These probabilities can be used to define the observation function 
 $\textbf{p} \paren{o' \sachant s',a}$
 introduced above. 
 This approach raises the issue of knowing if the testing dataset 
-is representative enough of the mission reality.
-If not, the observation probabilities may not be reliable,
+is representative enough of the actual mission.
+If not, these observation probabilities may not be reliable,
 and the POMDP badly defined: 
-however, as shown by the equation (\ref{probBayesRule})
+however, as shown by equation (\ref{probBayesRule})
 the belief update needs a perfect knowledge of the
 observation probability distributions.
 
@@ -574,9 +586,9 @@ unfortunately the actual frequencies
 used to compute them
 are not precisely known in practice.
 The imprecision about these probabilities, 
-for instance the imprecision related to 
-the vision algorithm behavior
-with real world images,
+for instance the imprecision related to
+the behavior of outputs of the computer vision algorithms 
+when dealing with images taken during the mission,
 has to be taken into account 
 to make the robot autonomous 
 under any circumstances.
@@ -1053,7 +1065,7 @@ in practice.
 \caption[Example of classifier training for computer vision]{Example of classifier training for computer vision:
 the labeled image dataset NORB, see Figure \ref{NORB},
 is used to train and test a classifier.
-The learning algorithm is based on Convolutional Network \cite{Lecun98gradient-basedlearning,DBLP:journals/jfr/SermanetHSGBECML09}
+The learning algorithm is based on Convolutional Networks \cite{Lecun98gradient-basedlearning,DBLP:journals/jfr/SermanetHSGBECML09}
 using gradient methods \cite{bottou-91c,lecun-98x,bottou-tricks-2012}.
 The weights $W=(w_0,\ldots,w_m)$ are the parameters of a particular transformation 
 (see the ``bi-pyramid'' of successive transformation stages) 
@@ -1084,7 +1096,7 @@ $154$ & $283$ & $36$ & $63$ & $61$ & $4263$ & nothing & $87.716\%$  \\ %\special
 Example of confusion matrix for multiclass classification:
 this matrix is computed with a testing dataset of images, different from the training dataset.
 Each row only considers the images of a given object,
-and numbers represents the answers of the classifier: 
+and numbers represent the answers of the classifier: 
 for instance, $3688$ images of animals are well recognized, 
 but $575$ are confused with a human.
 Average row correct is here $80.223\%$.
@@ -1106,10 +1118,11 @@ Here, transition and observation functions,
 namely $\textbf{p} \paren{ s' \sachant s,a }$ 
 and $\textbf{p} \paren{ o' \sachant s',a }$,
 $\forall (s,s',o',a) \in \mathcal{S}^2 \times \mathcal{O} \times \mathcal{A}$,
-are called \textit{POMDP parameters}, or yet \textit{model parameters}. 
+are known as \textit{POMDP parameters}, 
+or also \textit{model parameters}. 
 To the best of our knowledge,
 the first model meant to handle parameter imprecision
-has been called POMDPIP, 
+has been named POMDPIP, 
 for \textit{POMDP with Imprecise Parameters} (POMDPIP) \cite{Itoh2007453}. 
 In this work, each POMDP parameter is replaced by 
 a set of possible parameters.
@@ -1118,13 +1131,13 @@ introduces the Imprecise Probability Theory
 that inspired this idea:
 in this theory, uncertainty and knowledge about it 
 are represented by sets of probability distributions
-(called \textit{credal sets})
+(named \textit{credal sets})
 to express the fact that the model is not fully known.
-Imprecision of the POMDP model is well expressed in this way:
+Imprecision on the POMDP model is well expressed in this way:
 for instance, if confidence bounds on the computed probabilities
 are available, 
 these bounds can be taken 
-into account when modeling,
+into account when modeling the problem,
 considering the sets of all likely 
 probability distributions.
 
@@ -1141,11 +1154,11 @@ of a particular ``averaged POMDP'':
 this POMDP results from the computation of
 the average of the possible parameters 
 with respect to the given second order belief.
-However, the parameters of this new POMDP 
-are potentially not even part of the set 
-of the possible parameters.
+However, the ``averaged parameters'' of this new POMDP 
+are potentially not even part of the credal set 
+(e.g. with non-convex credal sets).
 Although POMDPIPs are well designed, 
-imprecision is not really handled when 
+imprecision is not satisfactorily handled when 
 the problem is solved
 because of the use of a second order belief.
 Moreover, it is claimed that the actual second order belief 
@@ -1155,31 +1168,41 @@ the analysis of performances only details
 how far is the approximated strategy 
 from the ``averaged POMDP''.	
 
-Another work, called \textit{Bounded Parameters POMDPs} 
-(BPPOMDP) \cite{NiYaLiaZhi} 
-does not introduce any second order belief. 
+Another work, named \textit{Bounded Parameters POMDPs} 
+(BPPOMDP) \cite{NiYaLiaZhi},
+deals with parameter imprecision:
+in this work, imprecision on each parameter,
+\textit{i.e.} on each probability distribution defining the POMDP,
+is described by a lower and a upper bound
+on possible distributions.
+In other words, credal sets are defined with bounds.
+The BPPOMDP solving does not introduce 
+any second order belief. 
 However, solving BPPOMDPs is similar 
-to \cite{Itoh2007453} in spirit
+to solving POMDPIPs \cite{Itoh2007453} in spirit
 since the flexibility provided by the parameter imprecision
-is used to make the computations as easy as possible.
-In this framework, the criterion defining optimal strategies 
-is not even made explicit.
+is used to make the computations as easy as possible:
+the criterion defining optimal strategies 
+is not made explicit,
+but care is taken to simplify
+the representation 
+of an approximate criterion
+in order to avoid memory issues.
 
-The major issue with these frameworks 
-(namely POMDPIP and BPPOMDP)
+The major issue with POMDPIP and BPPOMDP frameworks
 is that no appropriate criterion choice is made
 to manage parameter imprecision:
-for instance, a suitable approach is 
+for instance, a suitable approach would be 
 to compute a cautious strategy 
 regarding the imprecision \textit{i.e.} 
 taking into account the worst case.
-Yet, the opposite approach is to look 
+Yet, the opposite approach would be to look 
 for an optimistic strategy, 
 considering the best case.
 
 A more recent approach deals 
 with the cautious point of view,
-and is thus called 
+and is thus named 
 \textit{robust POMDP} \cite{DBLP:conf/icml/Osogami15}.
 Inspired by the corresponding work 
 in the fully observable case 
@@ -1194,8 +1217,7 @@ If the parameter imprecision is not stationary,
 \textit{i.e.} can change at each time step,
 the corresponding optimal strategy (in the maximin sense)
 can be easily computed using classical computations
-(called \textit{Dynamic Programming}, 
-see Section \ref{subsectionDP} of Chapter \ref{chap_SOTA}).
+(called \textit{Dynamic Programming} \cite{bellman54}).
 However, when the parameter imprecision is stationary,
 things become harder:
 the proposed computations lead to an approximately optimal strategy,
@@ -1212,12 +1234,13 @@ such as (\ref{criterion}) easier.
 Although the use of sets of probability distributions 
 (credal sets) makes the model more consistent 
 with the reality of the problem (parameters are imprecise in practice),
-taking them (really) into account (e.g. with a maximin criterion) 
+taking them into account  
 increases eventually the complexity 
-of the optimal strategy computation.
-This intuition is illustrated by Figure \ref{uncertainty_theories}:
+of the optimal strategy computation
+(e.g. with a maximin criterion).
+This intuition is illustrated in Figure \ref{uncertainty_theories}:
 Imprecise Probability Theory has the greatest expressiveness 
-compared to the other theories,
+compared to the other theories \cite{Walley2000125},
 that is why computations with this modeling 
 can be expected to be harder to perform.
 As explained above, POMDP solving is already a really hard task,
@@ -1225,8 +1248,8 @@ thus using a framework leading to more complex computations
 does not seem to be a good approach. 
 Moreover, with this framework, 
 some restrictive assumptions are commonly needed
-such as the convexity of credal sets,
-and optimization may require linear programs \cite{NE:05,DBLP:conf/icml/Osogami15}.
+such as the convexity of credal sets \cite{NE:05,DBLP:conf/icml/Osogami15}.
+%and optimization may require linear programs 
 %As discussed during this thesis 
 %(for instance see Section \ref{section_expe_PPUDD} of Chapter \ref{chap_symb}),
 Modeling a problem in an expressive manner may lead
@@ -1235,20 +1258,19 @@ as done with the POMDPIP and BPPOMDP frameworks.
 It may be a better approach to start with a simpler model
 which can be solved more easily in practice. 
 
-Finally, while there are fascinating questions of algorithms in this area,
-this thesis does not deal with Reinforcement Learning (RL, \cite{NIPS2009_3780,Ross:2011:BAL:1953048.2021055}), 
-as we are interested in robotic applications 
-whose very first executions have to proceed efficiently.
-The basic reason is that robotic systems may be expensive,
+Finally, while there are fascinating questions about algorithms in this area,
+this thesis does not deal with Reinforcement Learning (RL) \cite{NIPS2009_3780,Ross:2011:BAL:1953048.2021055}.
+We are interested in robotic applications 
+whose very first executions have to proceed efficiently and safely:
+the basic reason is that robotic systems and their operations may be expensive,
 and executions are not allowed to break the robot.
+However, RL sequentially improves a strategy
+with potentially unsafe executions.
 %The problem of interest here 
 %is called \textit{offline POMDP solving}.
-However, they are complementary studies:
-instead of making the strategy 
-as optimal as possible, 
-RL improves sequentially the latter
+However, RL approaches
+ may improve the strategy in the long term
 using all the previous executions.
-%for statistical learning.
 
 \begin{figure} \centering
 \begin{tikzpicture}
@@ -1308,14 +1330,14 @@ it corresponds to the set of all the possible
 probability distributions in IPT.
 If the mass function is equal to zero 
 for each non-singleton subsets,
-it corresponds simply to a probability distribution
+it simply corresponds to a probability distribution
 since $bel=Pl$.
 If the mass function is positive only on a
 sequence of nested subsets, 
 it corresponds to a possibility distribution:
 $bel$ is then called the \textbf{necessity measure},
 and $Pl$ the \textbf{possibility measure} (see Section \ref{posspres} of Chapter \ref{chap_SOTA}).
-Probability and Possibility Theory are thus
+Probability and Possibility Theories are thus
 particular cases of BFT and a fortiori of IPT.}
 \label{uncertainty_theories}
 \end{figure}
@@ -1394,11 +1416,11 @@ Indeed, all probabilities are the same
 because no event is more plausible than another:
 it corresponds to equal betting rates.
 However following belief updates (see Equation \ref{probBayesRule}) 
-will eventually mix up frequentist probability distributions 
-(transition and observation functions) 
+will eventually mix up frequentist probability distributions,
+given by transition and observation functions, 
 with this initial belief which is a subjective probability distribution:
 it does not always make sense
-and it is questionable in any cases. 
+and it is questionable in many cases. 
 Thus, the use of POMDPs in these contexts, 
 faces the difficulty to encode agent ignorance.
  
@@ -1407,16 +1429,17 @@ about given features of the system
 may be initially partial (or even absent),
 it makes sense to pay attention to the evolution of 
 this knowledge during the execution of the considered process.
-Some works inspired by the field of \textit{Active Perception}, 
+Some works inspired by the research in \textit{Active Perception}, 
 have been focusing on the information gathered
 by the agent in the POMDP framework
 \cite{conf/stairs/ChanelFTI10,oatao11449}.
 In these works, 
 the \textit{entropy} of the belief state
 is taken into account in the criterion, 
-making the computed strategy 
-ensure that reached belief states have a lower entropy
-(\textit{i.e.} are more close to a deterministic probability distribution)
+ensuring the computed strategy 
+to make the process 
+reach belief states that have a lower entropy
+(\textit{i.e.} are closer to a deterministic probability distribution)
 while always satisfying the requirement of an high expected total reward.
 This approach leads to really interesting results
 in practice.
@@ -1438,10 +1461,10 @@ possible, even if it is not possible due to the actual
 probability distributions of the model 
 (e.g. if the transition probability distribution 
 $\textbf{p} \paren{s_{t+1} \sachant s_t,a_t}$ 
-has an high entropy for each actions $a_t \in \mathcal{A}$),
+has an high entropy for each action $a_t \in \mathcal{A}$),
 and even if it is not needed 
-(e.g. if each system states $s \in \mathcal{S}$ such that the belief state $b_t$
-is not zero, $b_t(s)>0$, lead to an high reward).
+(e.g. if each system state $s \in \mathcal{S}$ such that the belief state $b_t$
+is not zero, $b_t(s)>0$, leads to an high reward).
 %In other words, the POMDP framework 
 %defines the successive belief states
 %as probability distributions
@@ -1458,7 +1481,7 @@ which is really useful in some practical problems.
 Other models have been introduced, making the reward function dependent
 on the belief state 
 \cite{conf/nips/Araya-LopezBTC10,oatao11437}:
-this allows to make the agent behavior vary with respect to
+this enables to make the agent behavior vary with respect to
 the probabilistic representation of its knowledge.
 
 %it may make the  actually the real  the POMDP is in practice, a belief state may have an high entropy
@@ -1484,23 +1507,24 @@ when using the POMDP framework to compute strategies,
 especially in the robotic context. 
 The really high complexity of the problem 
 of computing an optimal strategy 
-is a first point: 
+is a first issue: 
 robotic missions often result in high dimensional problems,
-preventing any algorithm from the computation of a
+preventing any algorithm 
+to computed a
 sufficiently near optimal strategy,
 because of the prohibitive computation time 
-and/or memory needed for this task.
+or memory needed for this task.
 Second we highlighted 
 the difficulty of defining 
 the probability distributions
 describing the problem:
 for instance the observation function 
 can be hard to define
-when the observations comes from 
+when the observations come from 
 complex computer vision algorithms.
 Finally the problem of managing 
 the knowledge 
-(and the ignorance) 
+and the ignorance
 of the agent 
 has been discussed:
 there is no clear answer
@@ -1559,7 +1583,7 @@ during the first mission executions.
 %is maximized.
 
 The general challenge guiding this work 
-is to proceed to strategy computations 
+is to proceed with strategy computations 
 only using data and knowledge %about the problem 
 really available in practice,
 possibly making the strategy computation easier,
@@ -1580,7 +1604,8 @@ may increase the complexity of strategy computations,
 previous discussions on the issues 
 of parameter imprecision
 and agent knowledge 
-suggest that we consider alternative uncertainty theories:
+suggest that we should consider 
+alternative uncertainty theories:
 those described in Figure \ref{uncertainty_theories}
 may bring useful properties
 to deal with our problems.
@@ -1648,13 +1673,13 @@ Another example is the computation
 of one of the probability distributions
 leading to the observation function:
 $o' \in \mathcal{O} \mapsto \textbf{p} \paren{ o' \sachant s',a}$,
-for a given couple $(s',a) \in \mathcal{S} \times \mathcal{A}$.
+for a given pair $(s',a) \in \mathcal{S} \times \mathcal{A}$.
 In this case, the finite universe $\Omega$ can be defined as the set of observations $\mathcal{O}$,
 and an observation $o' \in \mathcal{O}$ is an elementary event.
 
 Suppose now that 
 we need to compute,
-for a modeling purpose
+for some modeling purpose
 (e.g. to define the transition or the observation functions of a POMDP),
 a frequentist probability distribution
 describing a given situation
@@ -1695,7 +1720,7 @@ as no better precision is available.
 As just formally presented, 
 the use of a mass function can be needed
 to handle the imprecision of a given dataset. 
-This tool can be also the direct translation 
+The mass function can be also the direct translation 
 of the lack of knowledge about a given situation.
 
 Indeed, the total ignorance 
@@ -1715,8 +1740,8 @@ the support of the (unknown)
 probability distribution 
 describing the situation 
 of interest is $A$.
-Note also that the BFT framework allows 
-to encode the complete knowledge 
+Note also that the BFT framework enable 
+to encode complete knowledge 
 about the probability distribution 
 describing the situation:
 it is the case when the mass 
@@ -1725,8 +1750,8 @@ is positive on singletons only,
 Thus, it generalizes Probability Theory as
 illustrated by Figure \ref{uncertainty_theories}.
 The fully observable MDP framework
-has been already updated 
-with this formalism \cite{trevizan2007planning}:
+has been already extented to 
+this formalism \cite{trevizan2007planning}:
 to the best of our knowledge, 
 no update of the POMDP framework using BFT 
 has been proposed.
@@ -1850,7 +1875,7 @@ such that the mass function is positive: $m(A)>0$.
 As Probability Theory and Possibility Theory
 are particular cases of BFT (see Figure \ref{uncertainty_theories}),
 each of the probability (resp. possibility) distributions
-is equivalent to certain mass function.
+is equivalent to a certain mass function.
 Thus, the left part of the illustration 
 shows the focal sets 
 from a probability measure $\mathbb{P}$:
@@ -1902,7 +1927,7 @@ assigns zero to the empty set by definition.
 The classical definition 
 of a possibility measure, 
 denoted by $\Pi: 2^{\Omega} \rightarrow [0,1]$,
-is in fact the results presented just above:
+corresponds in fact to the results presented just above:
 \begin{itemize} 
 \item $\Pi(\Omega) = 1$;
 \item $\Pi(\emptyset) = 0$; 
@@ -1929,7 +1954,7 @@ probability distribution
 $\textbf{p}: \omega \mapsto \mathbb{P}(\set{\omega})$,
 using the additivity of the probability measure.
 
-The definition of this measure lead to
+The definition of this measure leads to
 the possibilistic normalization: 
 \begin{equation*} 
 \max_{\omega \in \Omega} \pi(\omega) = \Pi(\Omega) = 1.
@@ -1946,7 +1971,10 @@ with $\textbf{p}:\Omega \rightarrow [0,1]$
 a probability distribution).
 Moreover, elementary events 
 such that $\pi(\omega)=1$ 
-are entirely possible.
+are entirely possible:
+here, this is not equivalent to $\textbf{p}(\omega)=1$
+but rather a necessary condition
+for a probability value equal to one.
 
 As $\Omega$ is a finite set,
 the number of possible values
@@ -1961,9 +1989,9 @@ the different values
 of the possibility distribution,
 \textit{i.e.} $\set{ \pi(\omega) \sachant \omega \in \Omega }$.
 
-On the one hand, if the current 
+On one hand, if the current 
 possibilistic belief 
-coincide with the distribution
+coincides with the distribution
 $\pi(\omega)=1$, 
 $\forall \omega \in \Omega$, 
 all elementary events are totally possible,
@@ -1972,6 +2000,7 @@ the total ignorance
 of the actual elementary event:
 this means that 
 Possibility Theory can 
+satisfactorily
 encode agent ignorance,
 one of the issues 
 guiding our work.
@@ -1984,7 +2013,9 @@ equal to the classical indicator function
 of the singleton 
 $\set{ \tilde{\omega} }$, \textit{i.e.} 
 $\pi(\omega) 
-= \mathds{1}_{\set{ \tilde{\omega} }}(\omega)$.
+= \mathds{1}_{\set{ \tilde{\omega} }}(\omega)$:
+the possibility degree of $\tilde{\omega}$
+is $1$, and all others have a possibility degree equal to $0$.
 
 Finally, between these two extrema, 
 a possibilistic situation 
@@ -2111,13 +2142,13 @@ or as any other totally ordered set indifferently.
 As they are qualitative data, 
 we use the term \textit{possibility degrees} 
 instead of possibility values.
-Next section clarifies why 
+The next section clarifies why 
 the use of a qualitative framework
 is beneficial in terms of complexity
-and modeling.
+and modeling to our study.
 
 Note the similarities between 
-Possibility and Probability Theory, 
+Possibility and Probability Theories, 
 replacing $\max$ by $+$, and $\min$ by $\times$
 (in the qualitative case). 
 Note also that Qualitative 
@@ -2134,7 +2165,7 @@ and the \textit{min-plus} one
 $(\mathbb{R} \cup \set{+\infty}, \min,+)$.
 
 %%% PIPOMDP
-\subsection*{Qualitative Possibilistic POMDP}
+\subsection*{Qualitative Possibilistic POMDPs}
 A qualitative possibilistic counterpart 
 of the POMDP framework
 has been proposed in \cite{Sabbadin:1999:pipomdp}:
@@ -2171,13 +2202,13 @@ counterparts of the probabilistic criterion (\ref{criterion}):
 a pessimistic one, which is a
 qualitative counterpart of the maximin 
 (worst-case) criterion in IPT.
-The other criterion qualifies as optimistic, 
+The other criterion is qualified as optimistic, 
 as a qualitative counterpart of 
 the best case criterion in IPT.
 
 %%%% COMPLEXITY 
 One of the most interesting property
-of the $\pi$-POMDPs is
+of $\pi$-POMDPs is
 the simplification of the strategy computation.
 Indeed, algorithms proposed 
 for solving classical (probabilistic) POMDPs
@@ -2188,6 +2219,7 @@ each time step leads eventually
 to a finite number of new belief states,
 which makes this set countable. 
 In order to get useful properties
+and means
 for the strategy computation,
 the set of all probability distributions
 over the system space $\mathcal{S}$ is considered, 
@@ -2210,24 +2242,28 @@ any $\pi$-POMDP reduces to a $\pi$-MDP whose system space is
 the qualitative possibilistic belief space, and
 whose size is exponential in the number of states.
 In works \cite{DBLP:journals/corr/abs-1202-3718,Garcia20081018,Sabbadin:1999:pipomdp}, 
-$\pi$-MDP complexity appears to be lower than MDP complexity, which is polynomial \cite{Papadimitriou:1987}:
-$\pi$-POMDP complexity is then
-at worst exponential in the process description,
+complexity of $\pi$-MDP 
+appears to be lower than complexity of MDP, 
+which is polynomial \cite{Papadimitriou:1987}:
+complexity of $\pi$-POMDP is then
+at worst exponential in the problem description,
 whereas POMDP solving may be undecidable \cite{Madani:1999:UPP:315149.315395}.
-The approach of using of a $\pi$-POMDP instead of a probabilistic POMDP
-in order to simplify the resolution, can be compared to 
-the \textit{Predictive State Representation} approach \cite{Littman01predictiverepresentations}:
-indeed, the latter also represents the agent knowledge in a more compact way.
+%The approach of using a $\pi$-POMDP 
+%instead of a probabilistic POMDP
+%in order to simplify the resolution, 
+%can be compared to 
+
 
 %%% IMPRECISION MODELISATION
-In addition to the simplification of the computations,
-the $\pi$-POMDP framework may be very interesting for modeling.
+In addition to simplifying the computations,
+the $\pi$-POMDP framework may be very interesting 
+to our use case.
 Indeed, when we considered 
 a robot using computer vision algorithms
 to get observations
 (see Figure \ref{observation_robot}),
 we previously highlighted the difficulty
-of defining properly 
+of properly defining
 the probabilistic observation function:
 probability values of the answers
 of the vision algorithms
@@ -2254,7 +2290,7 @@ the second one is ``nothing'',
 the third one is ``car'', etc.
 Thus, the corresponding possibility distribution
 is such that, 
-conditional on the presence of a human,
+conditioned on the presence of a human,
 the possibility degree 
 of the answer ``human''
 is higher than the possibility degree 
@@ -2279,16 +2315,16 @@ when it has to represent
 an agent which initially ignores
 a given situation.
 Thus, the $\pi$-POMDP framework 
-allows a formal modeling 
+allows for a formal modeling 
 of the agent's lack of knowledge.
 
 %%CORRESPONDS TO OUR ISSUES 
 The use of the Qualitative Possibility Theory 
 \cite{DBLP:journals/eor/DuboisPS01}
 is thus studied in this work,
-as it appears able
+as it appears to be able
 to both simplify a POMDP, 
-and model parameter imprecision 
+and to model parameter imprecision 
 and ignorance
 related to robotic missions.
 This framework indeed simplifies computations,
@@ -2297,28 +2333,29 @@ and formally models the lack of knowledge:
 thus this theory offers solutions to
 the three issues highlighted previously.
 However we note that, as a qualitative framework, 
-it does not allow 
+it does not allow for 
 frequentist information encoding.
 
 %%%NOT WIDELY STUDIED
 To the best of our knowledge,
-a very limited study of the $\pi$-POMDP model
+a rather limited study of the $\pi$-POMDP model
 exists in the literature up to now:
 in fact, the work \cite{Sabbadin:1999:pipomdp}
 seems to be the only one proposing 
-both a definition of the $\pi$-POMDP
+both a definition of $\pi$-POMDPs
 and a toy example to illustrate this model.
 The fully observable version ($\pi$-MDP)
 has generated some more interest
+in the research community
 \cite{Sabbadin2001287,conf/ecai/Sabbadi00,LIP61498}.
 
 \section*{Description of our Study}
 % Le sujet de la thèse
 This thesis contributes to determine
-what Qualitative Possibility Theory 
-can provide in \textit{planning under uncertainty
+to which extend Qualitative Possibility Theory 
+can contribute to \textit{planning under uncertainty
 in partially observable domains}, 
-and more generally in 
+and more generally to 
 \textit{sequential uncertainty management}, 
 in terms of computation simplification 
 and modeling. 
@@ -2337,7 +2374,7 @@ and details its contents.
 
 %%%% SOTA
 \subsection*{State of the art}
-As the probabilistic POMDP and the qualitative possibilistic one 
+As probabilistic POMDPs and qualitative possibilistic ones 
 are the central objects of this thesis,
 the \emph{first chapter} presents these models
 starting from low level definitions.
@@ -2358,10 +2395,10 @@ it begins with the presentation of the less complex
 fully observable case, called MDP.
 The well-know POMDP is then set up, 
 giving some formal results and proofs 
-hard to find in the literature. 
+that are sometimes hard to find in the literature. 
 This part ends with a review 
-of a large part 
-of the successful POMDP algorithms
+about some of the most
+successful POMDP algorithms
 including the ones used in the next chapters. 
 
 The second part is naturally devoted to
@@ -2377,7 +2414,7 @@ As noted above, to the best of our knowledge,
 only one ten-paged paper has already dealt with
 the $\pi$-POMDPs: 
 the second part of this chapter is thus the first work 
-detailing formally the construction of this model.
+formally detailing the construction of this model.
 
 Note that the notations and the terminology 
 set up in this initial chapter,
@@ -2402,16 +2439,17 @@ and to the chosen approach \textit{i.e.} pessimistic or optimistic.
 
 A qualitative possibilistic version of the
 Mixed-Observable MDPs 
-\cite{OngShaoHsuWee-IJRR10,AraThoBufCha-ICTAI10}, 
-named $\pi$-MOMDP and generalizing both $\pi$-MDP and $\pi$-POMDP,
-is then built: 
-it reduces dramatically 
+\cite{OngShaoHsuWee-IJRR10,AraThoBufCha-ICTAI10},
+where some state variables are fully observable, 
+is then built.
+It is named $\pi$-MOMDP and generalizes both $\pi$-MDP and $\pi$-POMDP.
+This contribution reduces dramatically 
 the complexity of solving $\pi$-POMDPs, 
+while catching finer information about the environment
 some state variables of which are fully observable. 
 For instance, the battery level of a robot
-may be considered as directly 
-exploitable for the decision,
-making computations easier.
+may be considered as directly observable information
+for decision making, leading to easier computations.
 More generally, the existence of visible variables 
 is common in robotics \cite{OngShaoHsuWee-IJRR10}.
 
@@ -2427,10 +2465,11 @@ experimental results compare
 executions using this strategy to
 those using the strategy from a probabilistic algorithm, 
 in situations where the probabilistic dynamic of the observations 
-is not properly defined.
+is actually not properly defined.
 
 Note that this experiment is the first practical use
-of the $\pi$-POMDP framework.
+of the $\pi$-POMDP framework
+to the best of our knowledge.
 It also highlights interesting behaviors
 of the qualitative possibilistic belief state:
 they are then clarified theoretically 
@@ -2438,7 +2477,7 @@ in the end of the chapter.
 
 The main contributions of this chapter 
 have been published in \cite{Drougard13}.
-The experiment illustrates that 
+The experiments illustrate that 
 these contributions are necessary in practice.
 However they are not sufficient
 to reach a competitive computation time
@@ -2470,7 +2509,7 @@ Large planning problems satisfying these assumptions
 can be solved more easily:
 building upon the probabilistic 
 SPUDD algorithm \cite{Hoey99spudd:stochastic},
-we conceived an algorithm named PPUDD 
+we conceived a possibilistic algorithm named PPUDD 
 for solving factorized $\pi$-MOMDPs
 using \textit{Algebraic Decision Diagrams} (ADD).
 The guess motivating this contribution 
@@ -2481,15 +2520,17 @@ than in the probabilistic one:
 qualitative operations
 should lead to smaller ADDs
 when sum and product
+are replaced with $\min$ and $\max$ operators
+because the formers
 produce ADDs with potentially
 more leaves.
 
 %% belief factorization
 Independence assumptions defining 
 a factored $\pi$-MOMDP 
-concerns the variables encoding 
+concern the variables encoding 
 successive belief states.
-However variables defining a factored $\pi$-MOMDP
+Moreover variables defining a factored $\pi$-MOMDP
 are those representing 
 successive system states and observations.
 That is why, the following section
@@ -2510,17 +2551,17 @@ Performances of our solver PPUDD
 are next compared to
 those of its probabilistic counterparts, 
 in terms of computation time, 
-and with criteria measuring 
-the mission achievement. 
+and with quality criteria measuring 
+some mission achievement metrics. 
 Finally, the last part of this chapter
 describes the results of PPUDD 
-at the International Probabilistic 
+at the 2014 International Probabilistic 
 Planning Competition\footnote{\url{https://cs.uwaterloo.ca/~mgrzes/IPPC_2014/}}.
 We participated in the competition
 in order to test the performances
 of our algorithm
-against probabilistic one,
-in terms of expected reward,
+against probabilistic ones,
+in terms of expected reward gathering,
 with various
 probabilistic planning problems. 
 
@@ -2546,16 +2587,18 @@ data are available.
 The approach proposed in the final chapter 
 takes into account 
 the highlighted modeling issues.
-Moreover, time can be lost 
-before computations of PPUDD,
+Moreover, time can be entirely consumed 
+before actual computations of PPUDD begin,
 when loading ADDs encoding some 
 high dimensional planning problems:
 memory issues are also observed in practice.
+%%%%%%%%% TODO TODO
 Hence the last chapter focuses on 
 the belief state management
 as MDP algorithms using state space search
 \cite{DBLP:conf/aips/KellerE12,DBLP:conf/aaai/KolobovMW12} 
-do not face these issues
+do not face the memory issues 
+due to ADD encoding of the problems,
 and can solve the problem resulting 
 from this last step of the study.
 
