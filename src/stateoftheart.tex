@@ -488,7 +488,7 @@ $d^+_t(s) = d_{t+1}(s)$.
 The set of bounded functions defined on $\mathcal{S}$ 
 and with real values, is denoted by
 $\mathcal{F}_{B}(\mathcal{S},\mathbb{R})$.
-The Bellman operator defined as 
+The Bellman operator is defined as 
 \[ \left. \begin{array}{ccccc}
  \mathcal{B}^d: & \mathcal{F}_{B}(\mathcal{S},\mathbb{R}) & \xrightarrow{\hspace*{2cm}} \hspace{0.5cm} \mathcal{F}_{B}(\mathcal{S},\mathbb{R}) & \\
 & V & \xmapsto{\hspace*{2cm}} \hspace{1cm}  s \hspace{0.3cm} \longmapsto &  r\Big(s,d_0(s)\Big) + \displaystyle  \gamma  \sum_{s' \in \mathcal{S}_{s,d(s)}}  \textbf{p} \Big( s' \Big\vert s,d_0(s) \Big)  V(s').
@@ -527,6 +527,8 @@ $V^d \in \mathcal{F}_{B} (\mathcal{S},\mathbb{R})$.
 This equation is a characteristic equation 
 of the value function $V^d$
 for a given stationary strategy $(d)$. 
+It is worth mentioning that it is also a linear invertible
+system whose analytical solution is known.
 
 In order to simplify the next formulae,
 the operator $\mathcal{B}^a$,
