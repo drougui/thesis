@@ -5,8 +5,8 @@
 %%% CONTEXT
 \malettrine{P}{roviding} decisional autonomy to a robot 
 requires among other things to compute a function which returns
-the name of the actions to be triggered
-at a given moment, with respect to the data from its sensors.
+the symbols of the actions to be triggered
+at a given moment, considering the data from its sensors.
 The features of interest of the robot 
 and its  surroundings form a \textit{system}.
 In general, for a given sequence of actions performed by the robot, 
@@ -20,26 +20,27 @@ are not generally a deterministic outcome
 of the state of the system or of the taken actions:
 nevertheless, these data, 
 called also \textit{observations} of the system, 
-depend on the robot actions and system states. 
+depend on the robot's actions and system states. 
 Relations between observations, system states and actions 
 may be known through tests of the sensors
 in various situations, 
-or by taking into account the sensors description, 
-the data processing, or any related expert information.
+or by taking into account the description of the sensors, 
+data processing, or any related expert information.
 For instance, in the case of a robot using Computer Vision (CV),
 the output of the picture processing algorithm employed
 is considered as an observation of the system
-since it is the result of processed sensor data:
+since it is the result of processed sensor data
+and the input of the decision model:
 here data are pictures from camera.
 For a given camera, and a given vision algorithm,
 the behavior of the observation
 is related to the action and to the system state
-during the picture taking process. 
+during the process of taking pictures. 
 
 Thus, in order to make a robot 
 autonomously fulfill a chosen \textit{mission}, 
 we are  looking for a function returning actions 
-conditional on the sequence of system observations,
+conditioned on the sequence of system observations,
 and taking into account uncertainty 
 about the system evolution 
 and its observation.
@@ -50,7 +51,8 @@ is not restricted to robotics and
 is called \textit{sequential decision making under uncertainty}:
 in the general case,
 the entity which has to act is called the \textit{agent}.
-In this thesis, 
+In this thesis, although provided results are mostly theoretical
+and general enough to tackle much more various applications,
 the problem of strategy computation 
 is studied in the context of autonomous robotics,
 and the agent is the decisional part of the robot.
@@ -64,12 +66,12 @@ Markov Decision Processes (MDPs)
 define a useful formalism 
 to express sequential decision problems 
 under probabilistic uncertainty \cite{Bel}.
-It is a well suited framework 
+It is a framework well suited to compute strategies 
 if the actual system state is known by the agent
 at each point in time.
 In the robotic context,
 this assumption means that
-the considered mission allows to assume 
+the considered mission allows us to assume 
 that the robot has full knowledge 
 of the features of interest via its sensors.
 In this model,
@@ -88,7 +90,7 @@ only depends on the current one $s_t \in \mathcal{S}$
 and the chosen action $a_t \in \mathcal{A}$.
 This relation is described by a transition function 
 $\textbf{p} \paren{ s_{t+1} \sachant s_t, a_t}$
-which is defined as the probability distribution
+which is defined as the probability distribution %%%% TODO TODO TODO TODO
 on the next system states $s_{t+1}$ conditional for each action: 
 if the action $a_t \in \mathcal{A}$ is selected by the agent, 
 and the current system state is $s_t \in \mathcal{S}$, 
@@ -155,7 +157,7 @@ Use of a POMDP for the firefighter robot mission modeling:
 in this toy example, the mission of the robot is the fire prevention.
 The \textbf{states of the system} $s \in \mathcal{S}$ encode for instance the robot location, 
 the water jet orientation, the amount of water used,
-the fire location and its level on a scale between ``minor fire'' and  ``big fire'', etc.
+the fire location and its level on a scale between ``minor fire'' and  ``severe fire'', etc.
 Using vision and heat sensors, 
 the robot gets \textbf{observations} $o \in \mathcal{O}$ 
 which are the raw or processed values from the sensors:
@@ -174,7 +176,7 @@ The \textbf{reward function} $r(s,a)$ decreases with the fire level state,
 and is decreased by a cost proportional to the amount of water used:
 as an optimal strategy maximizes the mean of the sum of the rewards, 
 the goal of the robot is thus to attack fires without wasting water.
-This mean can be computed knowing the probabilities describing the uncertainty dynamic of the system.
+This mean can be computed knowing the probabilities describing the uncertain dynamic of the system.
 The robot actions $a \in \mathcal{A}$ have a probabilistic effect on the system,
 as described by the \textbf{transition function} $\textbf{p} \paren{s' \sachant s,a}$: 
 for instance, the activation of wheel rotors modifies the location of the robot,
@@ -183,14 +185,14 @@ takes part in the definition of the POMDP.
 An other example is the action modifying the water jet orientation, 
 which redefines the probability of the next fire level given the current system state.
 The robot actions $a \in \mathcal{A}$ and next states $s' \in \mathcal{S}$ 
-may also influence the observations from the sensors, 
+may also impact the observations from the sensors, 
 as defined by the \textbf{observation function} $\textbf{p} \paren{o' \sachant s',a}$: 
 for instance, the orientation of the vision sensor may modify 
 the probability of fire detection or fire level evaluation, 
 which are parts of the observations $o' \in \mathcal{O}$. 
 Finally, the \textbf{belief state} is the conditional probability distribution 
 of the current system state
-conditional on all observations and actions up to the current time step: 
+conditioned on all observations and actions up to the current time step: 
 as observations and actions are the only data available to the robot,
 the belief state can be seen as the robot's guess.}
 \label{robot_pompier}
