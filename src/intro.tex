@@ -2565,11 +2565,9 @@ in terms of expected reward gathering,
 with various
 probabilistic planning problems. 
 
-%% CITE PUBLI
 Some contributions of this chapter 
 have been published in 
 \cite{DBLP:conf/aaai/DrougardTFD14}.
-%% ISSUES, link with the next (model -> HMI / model+ADD -> hybrid)
 The various planning problems
 of the competition also highlight 
 some issues of our algorithm
@@ -2592,15 +2590,18 @@ before actual computations of PPUDD begin,
 when loading ADDs encoding some 
 high dimensional planning problems:
 memory issues are also observed in practice.
-%%%%%%%%% TODO TODO
-Hence the last chapter focuses on 
-the belief state management
-as MDP algorithms using state space search
+MDP algorithms using state space search
 \cite{DBLP:conf/aips/KellerE12,DBLP:conf/aaai/KolobovMW12} 
-do not face the memory issues 
-due to ADD encoding of the problems,
-and can solve the problem resulting 
-from this last step of the study.
+do not face these issues due to ADD-encoding of MDP instances.
+%%%%%%%%% TODO TODO
+They can be used to solve
+the problem resulting from 
+the last chapter.
+The latter focuses on 
+the belief state management,
+and proposes a hybrid POMDP
+technically resulting in a
+classical probabilistic MDP.
 
 %%% CHAP3
 \subsection*{A qualitative possibilistic process for human-machine interaction modeling}
@@ -2610,7 +2611,7 @@ situations where probability distributions
 are clearly not available:
 the managed problem comes from the work
 \cite{SERGIOTHESIS} and is a joint work with the author,
-Sergio Pizziol, working on the field of 
+Sergio Pizziol, working in the field of 
 \textit{Human-Machine Interactions} (HMI).
 In systems representing human behavior 
 in certain situations,
@@ -2661,9 +2662,10 @@ highlighted in the third chapter.
 Indeed, the \emph{fifth chapter} 
 argues for a hydrid POMDP 
 with both probabilistic 
-and possibilistic settings. 
-A new translation from Partially Observable MDP 
-into Fully Observable MDP is described here. 
+and possibilistic settings
+coherently mixed up. 
+A new translation from POMDPs
+into Fully Observable MDPs is described here. 
 Unlike the classical translation
 presented in the first chapter, 
 the resulting problem state space is finite, 
