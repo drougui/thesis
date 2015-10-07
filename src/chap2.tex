@@ -2243,7 +2243,19 @@ solves factored possibilistic qualitative (MO)MDPs with symbolic calculations. I
 possibilistic models are a good tradeoff between non-deterministic ones, whose
 uncertainties are not at all quantified yielding a very approximate model, and
 probabilistic ones, where uncertainties are fully specified,
-sometimes arbitrarily in practice. Moreover,
+sometimes arbitrarily in practice. 
+The resolution of planning problems 
+using the framework of non-determinism 
+is called \textit{contingent/conformant planning} 
+studied for instance in \cite{Albore_atranslation-based,bonet2014flexible}.
+By the way, in the introduction of this thesis,
+we might also add ``non-determinism''
+as a particular case of Possibility Theory
+in Figure \ref{uncertainty_theories},
+as values of associated non additive measures
+are $0$ or $1$ instead of a more flexible scale $\mathcal{L}$.
+
+Moreover,
 $\pi$-MOMDPs reason about finite values in a qualitative scale $\mathcal{L}$ whereas
 probabilistic MOMDPs deal with values in $\mathbb{R}$, which implies larger ADDs
 for symbolic algorithms. Also, the former reduce to finite-state belief
