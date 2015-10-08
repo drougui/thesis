@@ -271,7 +271,7 @@ and is classically performed using Dynamic Programming \cite{puterman94}.
 
 The notation $(d)$ is used from now on
 to represent a strategy $(d_t)_{t=0}^{H-1} \in \mathcal{D}_H$.
-Theorem \ref{max_criterion} highlights the opportunity 
+Theorem \ref{thm_mdp_finiteH} highlights the opportunity 
 to use Dynamic Programming 
 in order to compute the optimal value function:
 \begin{equation}
@@ -566,11 +566,23 @@ The associated stationary strategy, \textit{i.e.}
 the strategy $(d^*_t)_{t \in \mathbb{N}} \in \mathcal{D}_{\infty}$
 such that $\forall t \in \mathbb{N}$,
 $\forall s \in \mathcal{S}$,
-$d_t^*(s)=d^*(s)$, 
-is called \textit{greedy strategy}:
-\textbf{the greedy strategy is optimal}.
+$d_t^*(s)=d^*(s)$ is optimal for the criterion (\ref{fctV}).
 \end{theorem}
 The proof is given in Annex \ref{vstar_optimal_RETURN}.
+Note that the $d^*$ maximizes the criterion
+also among all history-dependent strategies,
+\textit{i.e.} strategies depending 
+on all the previous system states.
+Indeed, it can be shown 
+as in the proof of Theorem \ref{thm_mdp_finiteH}
+(\textit{i.e.} using Property \ref{res_markov})
+that the value function (\ref{fctV}) 
+from a given time step
+only depends on the current system state 
+and not on the previous ones:
+thus there is no need to
+adapt the returned action
+with respect to the previous system states.
 
 If the state space $\mathcal{S}$ is finite, 
 the \textit{Value Iteration Algorithm} \ref{algorithmIV},
@@ -602,7 +614,8 @@ $ \displaystyle d(s) \in \operatorname*{argmax}_{a \in \mathcal{A}} \set{ r(s,a)
 \subsubsection{Error analysis}
 \label{section_error_analysis}
 Let us denote by $(V^i)_{i \geqslant 0}$ the successive
-functions computed by the algorithm \ref{algorithmIV}.
+functions computed by Algorithm \ref{algorithmIV}
+presented thereafter.
 The optimal value function is denoted by $V^*$.
 First, the following theorem informs us about the convergence of $V^N$:
 \begin{theorem}
@@ -624,7 +637,11 @@ The control of the strategy error is given by the next theorem:
 The proof is given in Annex \ref{conv_MDP2_RETURN}.
 
 The number of iteration $N$
-can be set up using this bound:
+can be set up using this bound\footnote{The standard VI algorithm uses the distance between two
+successive value functions for the stopping criterion (\textit{while} loop):
+this distance is related to the distance between the current value function 
+and the optimal one
+using another result of Banach's contraction theorem (see \cite{puterman94}). }:
 if the desired maximal error is $\varepsilon>0$,
 $N$ has to be greater than 
 $\log \paren{ \frac{ \varepsilon(1-\gamma)}{2\normsup{V^1-V^0}}}/\Big(\log(\gamma)\Big)$.
@@ -649,7 +666,7 @@ received at each time step.
 \subsubsection{Definition}
 \label{section_definition_POMDP}
 A POMDP, in the infinite horizon settings,
-is defined by a $8$-uple $<\mathcal{S},\mathcal{A},\mathcal{O},T,O,r,b_0, \gamma>$:
+is defined by a $8$-tuple $<\mathcal{S},\mathcal{A},\mathcal{O},T,O,r,b_0, \gamma>$:
 \begin{itemize}
 \item $\mathcal{S}$ 
 the \textbf{finite} set of system states: the current state $s_t$
@@ -657,7 +674,8 @@ is not given as input to the agent;
 \item $\mathcal{A}$ the finite set of actions 
 which can be selected by the agent;
 \item $\mathcal{O}$ the finite set of observations
-that the agent may receive;
+that the agent may receive: the current observation $o_t \in \mathcal{O}$
+is given as input to the agent;
 \item $T$ the set of transition probability distributions
 of the system state: $ \forall s \in \mathcal{S}, a \in \mathcal{A}$, 
 probability distributions $\textbf{p} \paren{ . \sachant s,a} \in T $ 
@@ -671,7 +689,7 @@ $\forall s' \in \mathcal{S}$, $a \in \mathcal{A}$,
 probability distributions $\textbf{p} \paren{ . \sachant s',a } \in O $
 are defined over the set of observations $\mathcal{O}$;
 \item $r(s,a)$
-the reward given to the agent
+the reward gathered by the agent
 in the situation where it selects action $a \in \mathcal{A}$ 
 when the system is in state $s\in\mathcal{S}$. 
 \item $b_0$, a probability distribution 
@@ -680,7 +698,7 @@ represented by the random variable $S_0$:
 $S_0 \sim b_0$, \textit{i.e.}
 $\forall s \in \mathcal{S}$, $b_0(s) = \mathbb{P}(S_0 = s)$. 
 This probability distribution 
-is called \textit{initial belief} about the system state. 
+is called \textit{initial belief state} about the system state. 
 It is an \textit{epistemic} probability distribution, 
 because it estimates the actual initial system state,
 since it is not available for the agent.
@@ -690,7 +708,7 @@ is assumed to be finite here:
 this is a sufficient assumption for the robotic mission features
 we would like to model,
 and a classical way to define POMDPs.
-Previously, in the the Fully Observable case 
+Previously, in the Fully Observable case 
 (MDP, see Section \ref{subsection_MDP}), 
 the space $\mathcal{S}$ was assumed countable,
 which is a less restrictive assumption 
@@ -741,8 +759,8 @@ red squares are selected actions $a_t$,
 and yellow diamonds are the associated rewards.
 Green circles at the top of the figure are the successive belief states 
 $B_t$ constituting the belief updating process,
-computed using the update $B_{t+1} = u(B_t,a_t,O_{t+1})$: 
-thus, just like the wavy lines leading to rewards, 
+computed using the update $B_{t+1} = u(B_t,a_t,O_{t+1})$.
+Just like the wavy lines leading to rewards, 
 the green dotted lines represent a deterministic influence.
 The Bayesian Network resulting from removing belief states and rewards, 
 asserts that $\forall t \geqslant 1$, $S_{t+1} \perp\!\!\!\perp \set{ S_{0},S_1, O_1, \ldots, S_{t-1}, O_{t-1} } \vert \set{S_t,A_t}$,
@@ -755,7 +773,8 @@ conditional on $\set{S_t, A_t}$.}
 \subsection{The belief updating process}
 \label{thebeliefprocess}
 The independence assumptions highlighted by the Bayesian Network 
-(black straight-lined arrows and associated nodes)
+(as a first step, the black straight-lined arrows and associated nodes,
+and finally, the dashed green ones too)
 of Figure \ref{POMDP}, assert that the probability distributions
 defining the POMDP fully describe the uncertainty related to the system:
 at time step $t \geqslant 1$, the probability that the $t$ first observations
@@ -817,7 +836,7 @@ we denote it by \[ b_{t+1} = u(b_t,a_t,o_{t+1}).\]
 The proof is given in Annex \ref{belief_process_recursif_RETURN}.
 }
 The belief update formula (\ref{belief_update}) 
-is more simply written
+is more simply written as
 \[ b_{t+1}(s') \propto \displaystyle \sum_{s \in \mathcal{S}}  \textbf{p} \paren{ o_{t+1} \sachant s', a_{t} } \cdot \textbf{p} \paren{ s' \sachant s,a_t } \cdot b_t(s) \]
 as $\displaystyle \sum_{\tilde{s} \in \mathcal{S}} \sum_{\tilde{s}' \in \mathcal{S}} \textbf{p} \paren{ o_{t+1} \sachant \tilde{s}', a_{t} } \cdot \textbf{p} \paren{ \tilde{s}' \sachant \tilde{s},a_t } \cdot b_t(\tilde{s})$ is nothing more than a normalization constant.
 
@@ -874,17 +893,17 @@ Thanks to Fubini theorem and the linearity of the probabilistic expectation,
 \nonumber	& = \sum_{ t \geqslant 0} \gamma^t \cdot \mathbb{E} \croch{ \mathbb{E} \croch{ \sum_{s \in \mathcal{S}} r(s,A_t) \cdot \mathds{1}_{\set{S_t = s}} \sachant I_t } } \\
 \label{long_reason}	& = \sum_{ t \geqslant 0} \gamma^t \cdot \mathbb{E} \croch{  \sum_{s \in \mathcal{S}} r(s,A_t) \cdot \mathbb{E} \croch{ \mathds{1}_{\set{S_t = s}} \sachant I_t } } \\
 \nonumber	& = \sum_{ t \geqslant 0} \gamma^t \cdot \mathbb{E} \croch{ \sum_{s \in \mathcal{S}} r(s,A_t) \cdot B_t(s) }
-\mbox{ by defition of } B_t \\
+\mbox{ by definition of } B_t \\
 \label{reward_bel}	& = \sum_{ t \geqslant 0} \gamma^t \cdot \mathbb{E} \croch{ r(B_t,A_t) } \\ 
 \nonumber		& = \mathbb{E} \croch{ \sum_{ t \geqslant 0} \gamma^t \cdot  r(B_t,A_t) }
 \end{align}
 where the belief reward function $r: (b,a) \mapsto r(b,a):= \sum_s r(s,a) \cdot b(s)$ 
-is introduced at line (\ref{reward_bel}).
+is introduced in line (\ref{reward_bel}).
 Line \ref{long_reason} uses the linearity of the conditional expectation 
 and Property \ref{prop_def_condexpec} (as a function of $I_t$, $A_t = d_t(I_t)$ is $\sigma(I_t)$-measurable, see Property \ref{sigmaYmeas_phi}).
 
 Another way to see that the expectation of the discounted reward is equal to the expected discounted belief reward 
-is to compute it conditional on the action sequence:
+is to compute it conditionally on the action sequence:
 \begin{theorem}
 \label{rewriting_probPOMDP}
 \begin{equation}
@@ -912,13 +931,13 @@ each reachable belief state has a finite number of possible successors.
 As there is only one initial belief state,
 each set of belief states generated for each time step is finite.
 Numbering them is thus as easy as
-numbering each belief states of each successive finite set, 
+numbering each belief state of each successive finite set, 
 following the time index $t$.
 The set of all probability distributions
 is denoted by $\mathbb{P}^{\mathcal{S}}$:
 thus, $\mathbb{P}^{\mathcal{S}}_{b_0} \subset \mathbb{P}^{\mathcal{S}}$.
 
-Let $b_t$ a given belief state, 
+Let $b_t$ be a given belief state, 
 \textit{i.e.} a probability distribution in $\mathbb{P}^{\mathcal{S}}_{b_0}$.
 The sequence $(B_t)_{t \in \mathbb{N}}$ is a sequence of random variables:
 as highlighted by the belief update (\ref{belief_update}),
@@ -940,7 +959,7 @@ where $b_{b_0}^{i_t}$ is the current belief state if the initial belief is $b_0$
 The proof is given in Annex \ref{belief_markovien_RETURN}.
 }
 
-As highlighted by the equation (\ref{result_belief_markov}) in the proof, 
+As highlighted by equation (\ref{result_belief_markov}) in the proof, 
 if $B_t=b_t$, the probability that the next belief $B_{t+1}$ is $b_{t+1}$, 
 is the sum of all probabilities of the observations $o'$
 such that $u \paren{b_t,a_t,o'}=b_{t+1}$, \textit{i.e.}
@@ -968,7 +987,9 @@ As $B_0 = b_0$, we can write that $\mathbb{P}(B_0 = b_0) = 1$, and then previous
 \[ \mathbb{E} \croch{ \sum_{ t \geqslant 0} \gamma^t \cdot r\Big(S_t,d_t(I_t)\Big) } = \mathbb{E} \croch{ \sum_{ t \geqslant 0} \gamma^t \cdot  r\Big(B_t,d_t(I_t)\Big) \sachant B_0 = b_0 }. \]
 The right part of the equation is the value function of the MDP $\langle \tilde{S}, \mathcal{A}, \tilde{T}, \tilde{r}, \tilde{s_0}, \gamma  \rangle$.
 As highlighted by Dynamic Programming exposed in the sections \ref{subsectionDP} and \ref{subsectionIHMDP}, 
-the criterion may varies for two belief states, but not if the information varies but leads to the same belief state:
+the criterion may vary for two belief states, 
+but not if the information varies 
+always leading to the same belief state:
 action sequence has to be chosen as a sequence of functions of the current belief,
 \textit{i.e.} a maximizing action sequence $(A_t)_{t \geqslant 0}$ 
 is given by a strategy $(d_t)_{t \geqslant 0}$: $A_t = d_t(B_t)$.
@@ -984,8 +1005,8 @@ is summed up here:
 \begin{itemize}
 \item $\tilde{\mathcal{S}} = \mathbb{P}_{b_0}^{\mathcal{S}}$, the set of all reachable belief states from the initial one $b_0$;
 \item $\tilde{T}$ contains all transition probability distributions
-of the beliefs: $\forall a \in \mathcal{A}$, $\forall b \in  \mathbb{P}_{b_0}^{\mathcal{S}}$, 
-the belief transition probability distribution defined by the equation (\ref{belief_transition}),
+for belief states: $\forall a \in \mathcal{A}$, $\forall b \in  \mathbb{P}_{b_0}^{\mathcal{S}}$, 
+the belief transition probability distribution defined by equation (\ref{belief_transition}),
 $\textbf{p} \paren{ \cdot \sachant b, a }$ is in $\tilde{T}$; 
 \item the reward function $\tilde{r}$ is defined by the equation (\ref{reward_bel}),
 \item the initial state $\tilde{s_0} = b_0$.
@@ -995,13 +1016,13 @@ remain the same.
 Note also that this belief-MDP fulfills the conditions 
 defined in Section \ref{subsectionIHMDP}.
 First, $\tilde{\mathcal{S}} = \mathbb{P}^{\mathcal{S}}_{b_0}$ is countable.
-Second, the successors of $b_t$ for the action $a \in \mathcal{A}$ 
+Second, the successors of $b_t$ for action $a \in \mathcal{A}$ 
 form the set $\set{ u \paren{ b_t,a,o'} \in \mathbb{P}^{\mathcal{S}}_{b_0} \sachant o' \in \mathcal{O} }$,
 which is finite as $\mathcal{O}$ is finite.
 For each $b \in \tilde{\mathcal{S}}$
 and $a \in \mathcal{A}$,
 a finite number of beliefs $b' \in \tilde{\mathcal{S}}$ 
-are such that $\textbf{p} \paren{ b' \sachant b, a }>0$,
+is such that $\textbf{p} \paren{ b' \sachant b, a }>0$,
 \textit{i.e.} $\forall b \in \tilde{\mathcal{S}}$, 
 $\forall a \in \mathcal{A}$, 
 the support of the transition probability distribution  
@@ -1032,8 +1053,15 @@ and replacing $d_0(b)$ by $a \in \mathcal{A}$
 \label{equation_bellmanOperator_POMDP}
  \mathcal{B}^* V(b) = \max_{a \in \mathcal{A}} \set{ \sum_{s \in \mathcal{S}} r(s,a) \cdot b(s) + \gamma \cdot \sum_{o' \in \mathcal{O}} \textbf{p} \paren{o' \sachant b , a } \cdot V \Big( u(b,a,o')  \Big) }. 
 \end{equation}
-The Dynamic Programming Equation $V^* = \mathcal{B}^* V^*$ characterizes \[ \sup_{d \in \mathcal{D}_{\infty}} V^{d}(b) = \sup_{d \in \mathcal{D}_{\infty}} \mathbb{E} \croch{ \sum_{t=0}^{+ \infty} \gamma^t \cdot \tilde{r}\Big(B_t,d_t(B_t)\Big) \sachant B_0=b  }. \]
-
+The Dynamic Programming Equation $V^* = \mathcal{B}^* V^*$ characterizes 
+\[ \sup_{d \in \mathcal{D}_{\infty}} V^{d}(b) = \sup_{d \in \mathcal{D}_{\infty}} \mathbb{E} \croch{ \sum_{t=0}^{+ \infty} \gamma^t \cdot \tilde{r}\Big(B_t,d_t(B_t)\Big) \sachant B_0=b  }. \]
+Given the fact that some optimal MDP strategies
+are Markovian for additive criteria
+(\textit{i.e.} only depends on the time step 
+and the current system state),
+some optimal POMDP policies 
+only depend on the current belief state,
+or equivalently on the full history of observations.
 
 \subsection{Solving a POMDP}
 Given an action $a \in \mathcal{A}$, 
@@ -1059,7 +1087,7 @@ where $\alpha \in \mathbb{R}^{\mathcal{S}}$ is called ``$\alpha$-vector'':
 \vbox{
 \begin{theorem}
 \label{PWLC_theorem}
-PWLC functions becomes PWLC functions after the application of the operator $\mathcal{B}^*$. 
+PWLC functions remain PWLC after the application of the operator $\mathcal{B}^*$. 
 More specifically, if a function $V: \mathbb{P}^{\mathcal{S}} \rightarrow \mathbb{R}$ is PWLC, \textit{i.e.} such that
 \[ V(b) = \max_{\alpha \in \Gamma} \langle \alpha, b \rangle_{\mathbb{R}^{\mathcal{S}}} =  \max_{\alpha \in \Gamma} \sum_{s \in \mathcal{S}} \alpha(s) \cdot b(s) \mbox{ with } \Gamma \subset \mathbb{R}^{\mathcal{S}}, \# \Gamma < + \infty, \] 
 then, $\forall b \in \mathbb{P}^{\mathcal{S}}$,
@@ -1073,20 +1101,22 @@ with the new $\alpha$-vectors $\alpha_{a,(\alpha_o)} \in \Gamma'$ defined as
 \alpha_{a,(\alpha_o)}(s) = r(s,a) + \gamma \cdot \sum_{o' \in \mathcal{O}, s' \in \mathcal{S}} \textbf{p} \paren{ o' \sachant s',a } \cdot \textbf{p} \paren{ s' \sachant s,a } \cdot \alpha_{o'}(s), 
 \end{equation}
 where $(\alpha_o) \in \Gamma^{\mathcal{O}}$ is the notation for 
-a vector such that the coordinate of index $o \in \mathcal{O}$ 
-is an $\alpha$-vector $\alpha_o \in \Gamma$.
+a vector such that the coordinates with index $o \in \mathcal{O}$ 
+are $\alpha$-vector $\alpha_o \in \Gamma$.
 \end{theorem}
 The proof is given in Annex \ref{PWLC_theorem_RETURN}.
+Figures \ref{alphavectors_POMDP} and \ref{alphavectors_POMDP3D}
+represent examples of PWLC value functions
 }
 
-This result has inspired many POMDP solvers.
+This result inspired many POMDP solvers.
 Indeed, it makes possible to compute the optimal value function and the associated strategy
 in finite horizon settings, and to approach them for an infinite horizon POMDP,
 through a few modifications of the Value Iteration algorithm, Algorithm \ref{algorithmIV}: 
 while the state space is infinite, the value function is summed up in a set of $\alpha$-vectors.
 Let us start with a PWLC function $V^0(b)= \displaystyle\max_{\alpha \in \Gamma^0} \sum_{s \in \mathcal{S}} \alpha(s) \cdot b(s)$,
 where $\Gamma^0$ is the initial set of $\alpha$-vectors.
-In order to remain close to the finite horizon case,
+In order to perform the same computations as in the finite horizon case,
 it is possible to start with the \textit{reward vectors} as initial $\alpha$-vectors:
 $\Gamma^0 = \set{ \alpha \in \mathbb{R}^{\mathcal{S}} \sachant \forall s \in \mathcal{S}, \alpha(s) = r(s,a) \mbox{ with } a \in \mathcal{A} }$.
 The function encoded by $\Gamma^0$ is in this case the optimal initial reward 
@@ -1142,7 +1172,8 @@ which makes computations possible in practice.
 \end{tikzpicture} 
 \caption[Value function PWLC and $\alpha$-vectors for a state space $\mathcal{S} = \set{s_A,s_B}$]{Example of useful alpha vectors (red), value function PWLC (thick blue), and useless (bad) alpha vectors (dotted green) of a POMDP at a given iteration: 
 the state space is $\mathcal{S} = \set{s_A,s_B}$: $x$-axis represents $b(s_A)$ 
-and $y$-axis represents $V(b)$. As $\# \mathcal{S} = 2$, $b(s_B) = 1 - b(s_A)$.}  \label{alphavectors_POMDP} 
+and $y$-axis represents $V(b)$. As $\# \mathcal{S} = 2$, $b(s_B) = 1 - b(s_A)$.}  
+\label{alphavectors_POMDP} 
 \end{figure}
 
 \begin{figure}  
@@ -1186,12 +1217,13 @@ and $y$-axis represents $V(b)$. As $\# \mathcal{S} = 2$, $b(s_B) = 1 - b(s_A)$.}
 \end{tikzpicture}
 \caption[Value function PWLC for a state space $\mathcal{S} = \set{s_A,s_B,s_C}$]{
 Value function PWLC at a given iteration when the state space is $\mathcal{S} = \set{s_A,s_B,s_C}$: $x$-axis represents $b(s_A)$, $y$-axis represents $b(s_B)$ 
-and $z$-axis represents $V(b)$. As $\# \mathcal{S} = 3$, $b(s_C) = 1 - b(s_A) - b(s_B)$. $V(b)$ is the maximum of a set of hyperplans.}  \label{alphavectors_POMDP3D}  
+and $z$-axis represents $V(b)$. As $\# \mathcal{S} = 3$, $b(s_C) = 1 - b(s_A) - b(s_B)$. $V(b)$ is the maximum of a set of hyperplans.}  
+\label{alphavectors_POMDP3D}  
 \end{figure}
 
-Given the number of iterations $N$ 
+Given a number of iterations $N$ 
 for a specified error bound $\varepsilon>0$ 
-(see the error analysis of Section \ref{resMDP}), 
+(see the error analysis in Section \ref{resMDP}), 
 Algorithm \ref{algorithmIVPOMDP}
 leads to a value function in the form of a set of $\alpha$-vectors $\Gamma_{\varepsilon}$:
 $V^{\varepsilon}(b) = \max_{\alpha \in \Gamma_{\varepsilon}} \sum_{s \in \mathcal{S}} \alpha(s) \cdot b(s)$.
@@ -1202,10 +1234,10 @@ The associated strategy, approximately optimal, is
 \end{align*}
 At execution, if the agent has a belief $b$,
 and the $\alpha$-vector $\alpha_{a,(\alpha_o)}$ 
-is such that $\forall \alpha \in \Gamma_{\varepsilon}$, $\langle \alpha_{a,(\alpha_o)}, b \rangle_{\mathbb{R}^{\mathcal{S}}} \leqslant \langle \alpha , b \rangle_{\mathbb{R}^{\mathcal{S}}}$,
+is such that $\forall \alpha \in \Gamma_{\varepsilon}$, $\langle \alpha_{a,(\alpha_o)}, b \rangle_{\mathbb{R}^{\mathcal{S}}} \geqslant \langle \alpha , b \rangle_{\mathbb{R}^{\mathcal{S}}}$,
 then action $a$ is approximately optimal (with error $\varepsilon$).
 
-\begin{algorithm} \caption{Value Iteration Algorithm for POMDP} 
+\begin{algorithm} \caption{Value Iteration Algorithm for POMDPs} 
 \label{algorithmIVPOMDP}
 $\Gamma \gets \Gamma^0$; \\
 $i \gets 1$; \\
@@ -1256,9 +1288,9 @@ a satisfactory strategy. The next section is devoted to the presentation
 of the most notorious algorithms producing approximate stategies
 within reasonable time.
 
-\subsection{Computation of Strategies in Practice}
+\subsection{Strategy computation in Practice}
 \label{section_SAalgo}
-This section is meant to sum up the main ways 
+This section is meant to sum up the main good recipes 
 to approximate POMDP optimal strategies,
 as strategy computation is a difficult task in practice
 and theoretically intractable
@@ -1325,6 +1357,10 @@ a function $\overline{V_1}$ (also an upper bound of $V^*$)
 which tends to be closer to $V^*$ than $\overline{V_0}$ (thanks to the convergence), 
 then $\max \set{ \overline{V_0}, \overline{V_1}  }$
 is not a better upper bound: it is actually the worst.
+However, it is convenient to consider the maximum
+over all computed alpha vectors in practice,
+that is why $\min \set{ \overline{V_0}, \overline{V_1} }$
+is not considered.
 
 Another method can be used to maintain and improve an upper bound 
 of the value function: 
@@ -1333,10 +1369,10 @@ computed over a set of $n>0$ beliefs,
 leading to the belief-value mappings 
 $\set{ b_i, \overline{v}_i }_{i=1}^{n}$,
 where $\overline{V}_0(b_i) = \overline{v}_i$
-and $(b_i,v_i) \in \mathbb{P}^{\mathcal{S}} \times \mathbb{R}$.
+and $(b_i,\overline{v}_i) \in \mathbb{P}^{\mathcal{S}} \times \mathbb{R}$.
 As the limit of a sequence of convex functions
 is convex, the optimal value function $V^*$ is known to be convex.
-As the mappings are such that $v_i \geqslant V^*(b_i)$, 
+As the mappings are such that $\overline{v}_i \geqslant V^*(b_i)$, 
 and as $V^*$ is convex, any convex combination of the beliefs $(b_i)_{i=1}^n$
 has an optimal value lower or equal to the same convex combination of the upper bound values $(\overline{v_i})_{i=1}^n$.
 Indeed, if $(w_i)_{i=1}^n$ are convex coefficients, \textit{i.e.} 
@@ -1349,7 +1385,7 @@ the belief-value mappings $\set{ b_i, \overline{v_i} }_{i=1}^n$
 may be completed with the couples $(b,v)$ such that
 $b \in \mathbb{P}^{\mathcal{S}}$ is in the convex hull of $(b_i)_{i=1}^{n}$,
 and $v$ is the lowest value of $\sum_{i=1}^n w_i \cdot \overline{v_i}$,
-where $(w_i)_{i=1}^n$ convex coefficients such that $b = \sum_{i=1}^n w_i \cdot b_i$.
+where $(w_i)_{i=1}^n$ are convex coefficients such that $b = \sum_{i=1}^n w_i \cdot b_i$.
 These coefficients defining the interpolation of the belief-value mappings 
 can be computed using linear programming
 or with approximate computations 
@@ -1357,8 +1393,10 @@ or with approximate computations
 Finally, consider $b_j \in (b_i)_{i=1}^n$ 
 such that $\forall a \in \mathcal{A}$, $\forall o' \in \mathcal{O}$,
 $u(b_j,a,o')$ is in $(b_i)_{i=1}^n$.
-The upper bound value $\overline{v_j}$ associated to $b_j$ can be replaced by 
-$(\mathcal{B}^* \overline{V}_0)(b_j)$, computed using the equation (\ref{equation_bellmanOperator_POMDP}) defining the Dynamic Programming operator $\mathcal{B}^*$:
+The upper bound value $\overline{v_j}$ associated to $b_j$ can be replaced with 
+$(\mathcal{B}^* \overline{V}_0)(b_j)$, 
+computed using the equation (\ref{equation_bellmanOperator_POMDP}) 
+defining the Dynamic Programming operator $\mathcal{B}^*$:
 \[ (\mathcal{B}^* \overline{V}_0)(b_j) = \max_{a \in \mathcal{A}} \Big\{ \sum_{s \in \mathcal{S}} r(s,a) \cdot b_j(s) + \gamma \cdot \sum_{o' \in \mathcal{O}} \textbf{p} \paren{o' \sachant b_j , a } \overline{V}_0 \paren{ u(b_j,a,o')  } \Big\}, \]
 where $\overline{V}_0 \paren{ u(b_j,a,o')  } = \overline{v_k}$
 with $u(b_j,a,o') = b_k \in (b_i)_{i=1}^n$.
@@ -1370,7 +1408,7 @@ it consists in computing an optimal value function
 for the underlying MDP \textit{i.e.} for the MDP built 
 ignoring the observations and the observation probabilities, 
 and considering that the state is fully observable.
-A MDP strategy is looked for among a more general set of functions 
+A MDP strategy is searched among a more general set of functions 
 of the data available at execution, 
 than a POMDP strategy. 
 First, the reward is defined on the system states and the actions,
@@ -1381,17 +1419,18 @@ the functions from the actions and the observations consist thus of a subset of 
 We can conclude that, the optimal value function of the POMDP starting from the deterministic belief $b^A_0(s) = \mathds{1}_{ \set{s=s_A}}$ with $s_A \in \mathcal{S}$,
 namely 
 \[ V^*(b^A_0) = \max_{  \substack{ (d_t)_{t \geqslant 0} \mbox{ \tiny s.t. } \\ d_t: \mathcal{I}_t \rightarrow \mathcal{A}  }} \mathbb{E}_{S_0 \sim b^A_0} \croch{ \sum_{t \geqslant 0} \gamma^t \cdot r\Big(S_t,d(I_t)\Big) }, \]
-is lower or equal to the optimal value function for the associated MDP starting from $s_A$: 
+is lower than or equal to the optimal value function for the associated MDP starting from $s_A$: 
 \[ V_{MDP}^*(s_A) = \max_{  \substack{ (d_t)_{t \geqslant 0} \mbox{ \tiny s.t. } \\ d_t: \mathcal{S} \rightarrow \mathcal{A} } } \mathbb{E} \croch{ \sum_{t \geqslant 0} \gamma^t \cdot r\Big(S_t,d(S_t)\Big) \sachant S_0 = s_A  }. \]
 Indeed, the maximum operator of the latter 
 is performed on a set of functions including 
 the one used to maximize the POMDP value function at $b^A_0$ (first equation).
-Hence, an initial upper bound of the POMDP optimal value function $V^*$ can be computed for the deterministic beliefs \textit{i.e.} 
-the beliefs $b \in \mathbb{P}^{\mathcal{S}}$ such that $b(s) = \mathds{1}_{\set{ s=s_A }}$ with $s_A \in \mathcal{S}$:
+Hence, an initial upper bound of the POMDP optimal value function $V^*$ can be computed for the deterministic belief states \textit{i.e.} 
+the belief state $b \in \mathbb{P}^{\mathcal{S}}$ such that $b(s) = \mathds{1}_{\set{ s=s_A }}$ with $s_A \in \mathcal{S}$:
 $\overline{V_0}(b) \geqslant V_{MDP}^*(s_A)$. 
-The convex hull of these deterministic beliefs is the full set of probability distributions $\mathbb{P}^{\mathcal{S}}$.
+The convex hull of these deterministic belief states is the full set of probability distributions $\mathbb{P}^{\mathcal{S}}$.
 Thus, using the previous interpolation trick, an upper bound of $V^*$ is available in the full belief space $\mathbb{P}^{\mathcal{S}}$. 
 Other methods to compute bounds for $V^*$ are available for instance in \cite{conf/aaai/Hauskrecht97}.
+Figure \ref{bounds_POMDP} illustrates the described bounds.
 
 \begin{figure} 
 \center
@@ -1461,25 +1500,25 @@ the squares represent the belief-value mappings. }  \label{bounds_POMDP}
 \end{figure}
 
 Some recent POMDP solvers are said to be \textit{point-based} as they maintain
-a set of beliefs $(b_i)_{i=1}^n$ (the \textit{belief points}) 
-and the associated $\alpha$-vectors $\alpha$-vectors $(\alpha_i)_{i=1}^n$.
+a set of belief states $(b_i)_{i=1}^n$ (the \textit{belief points}) 
+with associated $\alpha$-vectors $(\alpha_i)_{i=1}^n$.
 The current approximation $V$ of the optimal value function is described 
 by $(\alpha_i)_{i=1}^n$: $\forall b \in \mathbb{P}^{\mathcal{S}}$,
 $V(b) = \max_{i=1}^n \sum_{s \in \mathcal{S}} \alpha_i(s) \cdot b(s)$. 
-Each belief of $(b_i)_{i=1}^n$ is such that
+Each belief state of $(b_i)_{i=1}^n$ is such that
 $V(b_i) = \sum_{s \in \mathcal{S}} b_i(s) \cdot \alpha_i(s)$.
-The point-based Bellman backup of a belief $b_i$ is the replacement of its $\alpha$-vector 
+The point-based Bellman backup of a belief state $b_i$ is the replacement of its $\alpha$-vector 
 $\alpha_i$ by one of the new $\alpha$-vectors (Equation \ref{alpha_vector}) 
-which maximize the equation (\ref{bellman_alpha}) 
-with the belief $b_i$, \textit{i.e.} replacing it by 
+which maximize equation (\ref{bellman_alpha}) 
+with the belief state $b_i$, \textit{i.e.} replacing it with 
 $\alpha' \in \operatorname*{argmax}_{\alpha' \in \Gamma'} \langle \alpha', b_i \rangle_{\mathbb{R}^{\mathcal{S}}}$.
 
 The first point-based algorithm was PBVI (\textit{Point-Based Value Iteration})
 \cite{Pineau_2003_4826} which starts with a single belief point $b_0$.
-At a given iteration, the point-based Bellman backup of each belief 
+At a given iteration, the point-based Bellman backup of each belief state
 of the current set $(b_i)_{i=1}^n$ are computed and lead to a new set of 
-$\alpha$-vectors $(v_i')_{i=1}^n$. This operation is repeted until
-the convergence of the $\alpha$-vectors. Next, for each belief in $(b_i)_{i=1}^n$,
+$\alpha$-vectors $(v_i')_{i=1}^n$. This operation is repeated until
+the convergence of the $\alpha$-vectors. Next, for each belief state in $(b_i)_{i=1}^n$,
 one successor is selected: the most distant one from $(b_i)_{i=1}^n$, 
 with respect to a given distance metric.
 These successors are added to the set, which becomes $(b_i)_{i=1}^{2n}$,
@@ -1488,104 +1527,104 @@ and the next iteration begins.
 Another point-based POMDP solver is the \textit{Perseus} solver \cite{Spaan04techrep}:
 this solver starts running trials of random exploration of the belief space,
 sampling $a \in \mathcal{A}$ and observation $o' \in \mathcal{O}$ at each time step of a trial 
-to compute the next belief $b'=u(b,a,o')$ from the current one $b \in \mathbb{P}^{\mathcal{S}}$.
-The set of all reached beliefs is $(b_i)_{i=1}^{n}$ and does not evolve anymore. 
+to compute the next belief state $b'=u(b,a,o')$ from the current one $b \in \mathbb{P}^{\mathcal{S}}$.
+The set of all reached belief states is $(b_i)_{i=1}^{n}$ and does not evolve anymore. 
 A lower bound PWLC $\underline{V}$ is used to approach the value function:
 the associated set of $\alpha$-vectors is denoted by $\underline{\Gamma}$.
 At each iteration, $\mathbb{B}$ is initialized as a copy of $(b_i)_{i=1}^{n}$,
 and $\Gamma = \emptyset$. 
-While $\mathbb{B} \neq \emptyset$, an arbirary belief $b$ is selected in $\mathbb{B}$,
+While $\mathbb{B} \neq \emptyset$, an arbirary belief state $b$ is selected in $\mathbb{B}$,
 and the associated new $\alpha$-vector $\alpha'$ is computed with the point-based Bellman backup on $b$ 
 and using $\underline{\Gamma}$.
 If $\langle \alpha', b \rangle_{\mathbb{R}^{\mathcal{S}}} \geqslant \underline{V}(b)$,
-all the beliefs whose value is improved by $\alpha'$,
-\textit{i.e.} the beliefs $\tilde{b} \in \mathbb{B}$ such that
+all the belief states whose value is improved by $\alpha'$,
+\textit{i.e.} the belief states $\tilde{b} \in \mathbb{B}$ such that
 $\langle \alpha', \tilde{b} \rangle_{\mathbb{R}^{\mathcal{S}}} \geqslant \underline{V}(\tilde{b}) $, are removed from $\mathbb{B}$.
 The new $\alpha'$ is added to $\Gamma$.
 Otherwise, if $\langle \alpha', b \rangle_{\mathbb{R}^{\mathcal{S}}} < \underline{V}(b)$,
-$b$ is removed from $\mathbb{B}$ and an $\alpha$-vector from 
-$\underline{\Gamma}$ $\tilde{\alpha} \in \operatorname*{argmax}_{\alpha \in \underline{\Gamma}} \langle \alpha, b \rangle_{\mathbb{R}^{\mathcal{S}}}$ 
+$b$ is removed from $\mathbb{B}$ and an $\alpha$-vector from  
+$\underline{\Gamma}$ such that $\tilde{\alpha} \in \operatorname*{argmax}_{\alpha \in \underline{\Gamma}} \langle \alpha, b \rangle_{\mathbb{R}^{\mathcal{S}}}$ 
 is added into $\Gamma$. When $\mathbb{B} = \emptyset$, $\underline{\Gamma}$ is set to $\Gamma$,
 and a new iteration begins.
 
 The HSVI solver (\textit{Heuristic Search Value Iteration}) \cite{Smith:2004:HSV:1036843.1036906} is also a point-based algorithm.
-This solver maintains both an upper and a lower bound of $V^*$: $\overline{V}$ and $\underline{V}$.
+This solver maintains both an upper and a lower bound on $V^*$: $\overline{V}$ and $\underline{V}$.
 It takes into account that the error of the approximation of $V^*$ 
 is less important for much later successors of $b_0 \in \mathbb{P}^{\mathcal{S}}$,
 due to the discount factor $\gamma$:
-given an error $\varepsilon>0$, a sequence of beliefs $(b_t)_{t\geqslant0}$ is generated
+given an error $\varepsilon>0$, a sequence of belief states $(b_t)_{t\geqslant0}$ is generated
 from $b_0$ until $\overline{V}(b_t) - \underline{V}(b_t) < \frac{\varepsilon}{\gamma^t}$. 
 The generation of the belief sequence is done selecting actions 
-according to the upper bound: if the current belief is $b$, the chosen action is in
+according to the upper bound: if the current belief state is $b$, the chosen action is in
 $\operatorname*{argmax}_{a \in \mathcal{A}} r(s,a) + \gamma \sum_{o' \in \mathcal{O}} \overline{V}\Big(u(b,a,o')\Big)$.
 This trick tends to force the improvement of the upper bound: if the selected action is not optimal,
-as successors for this action are selected, the computations will focussed on
-these beliefs, and will decrease (improve) the upper bound for them.
+as successors for this action are selected, the computations will focused on
+these belief states, and will decrease (improve) the upper bound for them.
 As well, the observation selected $o' \in \mathcal{O}$ is such that 
 the value $\overline{V}\Big(u(b,a,o')\Big) - \underline{V}\Big(u(b,a,o')\Big) \cdot \textbf{p} \paren{ o' \sachant b, a }$ is the greatest:
-the probable beliefs for which $\overline{V}$ and $\underline{V}$
+the probable belief states for which $\overline{V}$ and $\underline{V}$
 are poor bounds are preferred, in order to focus the computational efforts
 on the belief space subsets where the bounds are the worst. 
-Then, both bounds are updated starting with the last reached belief
-back in time step to $b_0$: this order makes these updates more efficient.
+Then, both bounds are updated starting with the last reached belief state
+backward down to time step $t_0$: this order makes these updates more efficient.
 The scheme starting with a belief sequence generation, and updating the bounds on it,
 is repeated until $\overline{V}(b_0) - \underline{V}(b_0) < \varepsilon$.
 
 The solver SARSOP \cite{Kurniawati-RSS08}, inspired by HSVI and FSVI \cite{shani}, 
 refines the generation method of the belief sequence. 
 First of all, the belief space is clustered using a simple learning technique:
-the features are for intance the initial upper bound 
-$\underline{V_0}$ and the entropy of beliefs.
+the features are for instance the initial upper bound 
+$\underline{V_0}$ and the entropy of belief states.
 This discretization is used to maintain an estimation of the optimal value function denoted by $\widehat{V}$:
 this estimation is constant over each cluster, equal to 
-the average of the estimated optimal value of the beliefs in this cluster.
-Let $b$ be a belief reached during a generation of a belief sequence:
-$L_1$ is real number such that $L_1 \leqslant V^*(b)$.
+the average of the estimated optimal value of the belief states in this cluster.
+Let $b$ be a belief state reached during a generation of a belief sequence:
+$L_1$ is a real number such that $L_1 \leqslant V^*(b)$.
 Let $L_2 = \Big( \mathcal{B}^* \underline{V} \Big)(b)$. 
 Thus, the lower bound of the optimal value function $\underline{V}$ on $b$
-is likely to be improved by selecting the next belief $b'=u(b,a,o')$ 
+is likely to be improved by selecting the next belief state $b'=u(b,a,o')$ 
 (where $a \in \mathcal{A}$ and $o' \in \mathcal{O}$ are selected as in HSVI)
-if the optimal value of $b'$ is likely to be big enough for it:
+if the optimal value for $b'$ is likely to be large enough for it:
 that is, if $r(b,a) + \gamma \cdot \bigg( \textbf{p} \paren{ o' \sachant b,a } \cdot \widehat{V}(b') + \sum_{\tilde{o} \neq o'} \textbf{p} \paren{ \tilde{o} \sachant b,a } \cdot \underline{V}\Big(u(b,a,\tilde{o})\Big) \bigg)$ is greater than $L = \max \set{ L_1, L_2 }$.
-In this case, if $L_1'$ such that $L = r(b,a) + \gamma \cdot \bigg( \textbf{p} \paren{ o' \sachant b,a } \cdot L_1' + \sum_{\tilde{o} \neq o'} \textbf{p} \paren{ \tilde{o} \sachant b,a } \cdot \underline{V}\Big(u(b,a,\tilde{o})\Big) \bigg)$, 
+In this case, if $L_1'$ is such that $L = r(b,a) + \gamma \cdot \bigg( \textbf{p} \paren{ o' \sachant b,a } \cdot L_1' + \sum_{\tilde{o} \neq o'} \textbf{p} \paren{ \tilde{o} \sachant b,a } \cdot \underline{V}\Big(u(b,a,\tilde{o})\Big) \bigg)$, 
 the condition $\widehat{V}\Big(u(b,a,\tilde{o})\Big) \geqslant L_1'$ 
-is a good indicator that the selection of the belief $b'$ is likely to improve the current lower bound at $b$:
+is a good indicator that the selection of the belief state $b'$ is likely to improve the current lower bound at $b$:
 if $\widehat{V}(b') \geqslant L_1'$ (and if, as in HSVI, $\overline{V}(b') - \underline{V}(b') \leqslant \frac{\varepsilon}{\gamma^t}$), 
-the belief $b'$ is selected and the same test is performed on its successor knowing that $V^*(b')$ is likely to be greater than $L_1'$.
-In this way, the belief sequences selected may be longer than in HSVI,
-as sequence generation continues if the next beliefs are likely to improve optimal value function estimation. 
+the belief state $b'$ is selected and the same test is performed on its successor knowing that $V^*(b')$ is likely to be greater than $L_1'$.
+In this way, the selected belief sequences may be longer than in HSVI,
+as sequence generation continues if the next belief states are likely to improve optimal value function estimation. 
 Next, when the generation of the sequence ends, 
-the bound updates start from the last belief to $b_0$, 
-following the generated belief sequence
+the bound updates start from the last belief state down to $b_0$, 
+following the generated belief state sequence
 in the reverse order (as with HSVI).
-Finally, SARSOP proposes also another major computation simplification:
+Finally, SARSOP proposes also another major computational simplification:
 all the previous belief sequence generations can be summed up  
 in a tree representing the different transitions $b \rightarrow u(b,a,o')$
 and which is recorded in the memory. 
 Let us define $\underline{Q}(b,a) = r(b,a) + \gamma \cdot \sum_{o' \in \mathcal{O}} \textbf{p} \paren{ o' \sachant b,a } \cdot \underline{V}\Big( u \paren{ b,a,o' } \Big)$,
 and $\overline{Q}(b,a)$ with the same formula replacing  $\underline{V}$ by $ \overline{V}$.
-If $b$ is a belief, $a$ an action, and 
+If $b$ is a belief state, $a$ an action, and 
 $\exists a' \in \mathcal{A}$, $\exists b' \in \mathbb{P}^{\mathcal{S}}_{b_0}$ 
 such that $\overline{Q}(b,a) \leqslant \underline{Q}(b',a')$,
-then, all the successors of $b$ by selecting action $a$ are
+then, all the successors of $b$ when selecting action $a$ are
 removed from the three, and the associated $\alpha$-vectors deleted.
-Indeed, less stored $\alpha$-vectors and beliefs speed up the POMDP resolution,
+Indeed, less stored $\alpha$-vectors and belief states speed up the POMDP resolution,
 as lots of useless computations are avoided:
-the computations are focused on the beliefs which seems to be in $\mathbb{P}^{\mathcal{S}}_{b_0,*}$,
+the computations are focused on the belief states which seem to be in $\mathbb{P}^{\mathcal{S}}_{b_0,*}$,
 the notation for the subset of $\mathbb{P}^{\mathcal{S}}_{b_0}$
-containing the beliefs reached with an optimal strategy.
+containing the belief states reached with an optimal strategy.
 
 While the $\alpha$-vector (or Sondic's) representation is used by a large part
-of the POMDP solvers, the \textit{grid-based} POMDP solvers, which does not use it, 
+of POMDP solvers, \textit{grid-based} POMDP solvers, which does not use it, 
 are also popular algorithms \cite{bonet:icml02,Lovejoy91,Brafman97aheuristic,Bonet_newgrid-based}.
 These solvers are based on a discretization of the belief space $\mathbb{P}^{\mathcal{S}}$
-which leads to an MDP over the finite set of discretized beliefs: 
-computed strategies map any cluster of beliefs to an action $a \in \mathcal{A}$.
+which leads to an MDP over the finite set of discretized belief states: 
+computed strategies map any cluster of belief states to an action $a \in \mathcal{A}$.
 
 Another POMDP solver based on a discretization of the belief space is RTDP-bel \cite{Geffner98solvinglarge}.
 The discretization is only used to store a finite number of values during the computations.
 The approximation maintains the approximate optimal value function as a piecewise constant function:
-two beliefs in the same discretization group have the same value.
+two belief states in the same discretization group have the same value.
 The algorithm operates in the same way as RTDP (\textit{Real Time Dynamic Programming}) \cite{Barto93learningto},
 a \textit{Goal-MDP} solver which converges to the optimal value function without considering all the system states.
 A Goal-MDP \cite{Bertsekas:2000:DPO:517430} is an MDP 
@@ -1594,16 +1633,20 @@ called \textit{set of goals}. The system states in $\mathcal{G}$ are absorbing a
 $\forall (s,a) \in \mathcal{G} \times \mathcal{A}$,
 $r(s,a)=0$ and $\textbf{p} \paren{s \sachant s,a} = 1$.
 The criterion of a Goal-MDP is the expected (undiscounted) total reward,
-\textit{i.e.} the expectation of the sum of the rewards over time steps (without factors $\gamma^t$).
+\textit{i.e.} the expectation of the sum of the rewards over time steps 
+without factors $\gamma^t$: indeed, the sum of costs is guaranteed
+to converge provided that there exist proper strategies
+(\textit{i.e.} reaching goals with probability $1$)
+and no positive-cost cycles in the MDP graph.
 As well, a \textit{Goal-POMDP} is a POMDP with only negative rewards
 and a set of goals $\mathcal{G}$ which are  absorbing, cost-free and fully observable system states \textit{i.e.}
 $\mathcal{O}$ contains $\mathcal{G}$ too, 
 and $\forall s' \in \mathcal{G}$, $\forall a \in \mathcal{A}$, $\forall t \geqslant 0$,
 $\mathbb{P} \paren{ O_{t+1} = s' \sachant S_{t+1} = s', a  } = 1$.
 In fact RTDP-bel is a Goal-POMDP solver.
-It initializes the value function $V$ with a (piecewise constant) upper bound called \textit{admissible heuristique}.
+It initializes the value function $V$ with a (piecewise constant) upper bound called \textit{admissible heuristic}.
 Then, the repetition of trials starting from $b_0$ improves the approximation of the optimal value function and the associated strategy.
-At a given stage of a trial, the current belief is denoted by $b$. 
+At a given stage of a trial, the current belief state is denoted by $b$. 
 The $Q$-value is $Q(b,a) = \set{ r(b,a) + \sum_{o' \in \mathcal{O}} \textbf{p} \paren{ o' \sachant b, a  } \cdot V \Big( u(b,a,o') \Big) }$.
 An action $a \in \operatorname*{argmax}_{\tilde{a} \mathcal{A}} Q(b,\tilde{a})$
 is selected, and $V(b)$ is updated to $\max_{a \in \mathcal{A}} Q(b,a)$.
@@ -1611,7 +1654,7 @@ Then $s$ is sampled from $b$, as well as $s'$ according to $\textbf{p} \paren{ s
 and $o'$ using $\textbf{p} \paren{ o' \sachant s',a }$.
 If $b'=u(b,a,o')$ is such that $\forall s \in \mathcal{S}\setminus\mathcal{G}$, 
 $b'(s)=0$, then another trial begins. Otherwise, the next stage of the trial consider $b'$.
-Any classical (discounted) POMDP (Section \ref{section_definition_POMDP})
+Since any classical (discounted) POMDP (Section \ref{section_definition_POMDP})
 can be translated into a Goal-POMDP \cite{DBLP:conf/ijcai/BonetG09},
 then RTDP-bel can solve any POMDP.
 
@@ -1621,7 +1664,8 @@ The latter is based on the UCB (Upper Confidence Bound) strategy for stochastic 
 and is an instance of MCTS (Monte-Carlo Tree Search) \cite{2008}.
 A decision tree whose nodes are the reached states and arrows are the actions, 
 is built during simulations to maintain at each node
-the counts $N(s,a)$ of the visit of the couple $(s,a)$, $\forall a \in \mathcal{A}$.
+the counts $N(s,a)$ of the visits to the couple $(s,a)$, 
+for each action $a \in \mathcal{A}$ and for each reachable system state.
 The estimation $V$ of the optimal value function
 is computed by Monte-Carlo simulations.
 The $Q$-value is $Q(s,a) = \set{ r(s,a) + \gamma \cdot \sum_{s' \in \mathcal{S}} \textbf{p} \paren{ s' \sachant s,a } \cdot V(s') }$.
@@ -1630,11 +1674,12 @@ $a \in \operatorname*{argmax}_{a \in \mathcal{A}} \set{ Q(s,a)+ c \cdot \sqrt{ \
 where $N(s) = \sum_{a \in \mathcal{A}} N(s,a)$ 
 and $c>0$ is the relative ratio between exploration to exploitation: 
 the more $c$ is small, the more actions with high values are selected (exploitation),
-the more $c>0$ is big, the more the actions are selected with about the same rate,
+the more $c>0$ is large, the more the actions are selected with about the same rate,
 without paying attention to the estimated values. 
 The term $c \cdot \sqrt{ \frac{log N(s)}{N(s,a)} }$ is meant to
 force the actions rarely tried before to be selected (exploration).
-In the case of POMCP, during computations, the belief is approximated 
+In the POMCP case, during computations, 
+the belief state is approximated 
 by an unweighted particule filter $B_t(s) \approx \frac{1}{K} \sum_{i=1}^{K} \mathds{1}_{S_i = s}$
 where $\forall i=1,\ldots,K$, $S_i \sim B_t$, 
 and the nodes of the tree represent possible successive information 
@@ -1644,7 +1689,7 @@ instead of the system states like in UCT.
 The algorithms presented in this section 
 are part of the state of the art POMDP solvers,
 and some of them will be used in the next chapters
-in order to propose comparisons with our work.
+in order to conduct comparisons with our work.
 Now, the second main subject of this thesis
 is presented: Possibility Theory, and the qualitative possibilistic counterpart
 of the Partially Observable Markov Decision Processes.
