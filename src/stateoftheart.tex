@@ -154,7 +154,7 @@ to decide each action,
 the \textit{agent} is defined as
 the entity responsible for decision making,
 \textit{i.e.} she/he must choose the successive actions
-given the informations about the system.
+given the current information about the system.
 In our case, a system state $s \in \mathcal{S}$ 
 consists of the features of both a robot 
 and its environment,
@@ -975,7 +975,7 @@ it defines the transition probability distributions of the belief process,
 where $\sum_{(s,s') \in \mathcal{S}^2}\textbf{p} \paren{ o' \sachant s', a_t } \cdot \textbf{p} \paren{ s' \sachant s, a_t } \cdot b_t(s)$ is denoted by 
 $\textbf{p} \paren{ o' \sachant b_t, a_t }$.
 
-Finally, the reward associated with the belief $b_t$ is defined as previously
+Finally, the reward associated with the belief state $b_t$ is defined as previously
 \begin{equation}
 \label{belief_reward} \begin{array}{ccccc} \tilde{r}: & \mathbb{P}^{\mathcal{S}}_{b_0}  \times \mathcal{A} & \rightarrow & \mathbb{R} \\ 
 						& (b,a) & \mapsto & \sum_{s \in \mathcal{S}} r(s) \cdot b(s),
@@ -990,7 +990,7 @@ As highlighted by Dynamic Programming exposed in the sections \ref{subsectionDP}
 the criterion may vary for two belief states, 
 but not if the information varies 
 always leading to the same belief state:
-action sequence has to be chosen as a sequence of functions of the current belief,
+action sequence has to be chosen as a sequence of functions of the current belief state,
 \textit{i.e.} a maximizing action sequence $(A_t)_{t \geqslant 0}$ 
 is given by a strategy $(d_t)_{t \geqslant 0}$: $A_t = d_t(B_t)$.
 As this criterion can be computed directly with the belief-MDP model 
@@ -1021,7 +1021,7 @@ form the set $\set{ u \paren{ b_t,a,o'} \in \mathbb{P}^{\mathcal{S}}_{b_0} \sach
 which is finite as $\mathcal{O}$ is finite.
 For each $b \in \tilde{\mathcal{S}}$
 and $a \in \mathcal{A}$,
-a finite number of beliefs $b' \in \tilde{\mathcal{S}}$ 
+a finite number of belief states $b' \in \tilde{\mathcal{S}}$ 
 is such that $\textbf{p} \paren{ b' \sachant b, a }>0$,
 \textit{i.e.} $\forall b \in \tilde{\mathcal{S}}$, 
 $\forall a \in \mathcal{A}$, 
@@ -1065,17 +1065,17 @@ or equivalently on the full history of observations.
 
 \subsection{Solving a POMDP}
 Given an action $a \in \mathcal{A}$, 
-the reward $\tilde{r}$ of a belief $b \in \mathbb{P}^{\mathcal{S}}$ 
-is a linear function of the belief $b$: $\tilde{r}(b,a) = \sum_{s \in \mathcal{S}} r(s,a) \cdot b(s) = \langle \tilde{r}_a, b \rangle_{\mathbb{R}^{\mathcal{S}}}$,
+the reward $\tilde{r}$ of a belief state $b \in \mathbb{P}^{\mathcal{S}}$ 
+is a linear function of the belief state $b$: $\tilde{r}(b,a) = \sum_{s \in \mathcal{S}} r(s,a) \cdot b(s) = \langle \tilde{r}_a, b \rangle_{\mathbb{R}^{\mathcal{S}}}$,
 where $\tilde{r}_a$ is the vector from $\mathbb{R}^{\mathcal{S}}$ 
 such that for each index $s \in \mathcal{S}$, the value is $r(a,s) \in \mathbb{R}$. 
 The function $(x,y) \mapsto \langle x , y \rangle_{\mathbb{R}^{\mathcal{S}}}$
 is the classical scalar product of $x$ and $y$ in the vector space $\mathbb{R}^{\mathcal{S}}$.
 
-For each belief $b \in \mathbb{P}^{\mathcal{S}}$, 
+For each belief state $b \in \mathbb{P}^{\mathcal{S}}$, 
 the value $V^0(b) = \max_{a \in \mathcal{A}} \tilde{r}\paren{ b,a }$,
 is the optimal expected reward for an horizon $0$ (only one decision step), 
-starting with the belief $b$. 
+starting with the belief state $b$. 
 This function is PieceWise Linear and Convex (PWLC), \textit{i.e.}
 there exists a finite set of vectors $\Gamma \subset \mathbb{R}^{\mathcal{S}}$
 such that $V^0(b) = \max_{\alpha \in \Gamma} \langle \alpha, b \rangle_{\mathbb{R}^{\mathcal{S}}}$.
@@ -1120,7 +1120,7 @@ In order to perform the same computations as in the finite horizon case,
 it is possible to start with the \textit{reward vectors} as initial $\alpha$-vectors:
 $\Gamma^0 = \set{ \alpha \in \mathbb{R}^{\mathcal{S}} \sachant \forall s \in \mathcal{S}, \alpha(s) = r(s,a) \mbox{ with } a \in \mathcal{A} }$.
 The function encoded by $\Gamma^0$ is in this case the optimal initial reward 
-for an agent whose belief is $b$:
+for an agent whose belief state is $b$:
 $V^0(b) 
 = \max_{\alpha \in \Gamma^0} \sum_{s \in \mathcal{S}} \alpha(s) \cdot b(s) 
 = \max_{a \in \mathcal{A}} \sum_{s \in \mathcal{S}} r(s,a) \cdot b(s) 
@@ -1232,7 +1232,7 @@ The associated strategy, approximately optimal, is
  d^{\varepsilon}(b) & \in \operatorname*{argmax}_{a \in \mathcal{A}} \max_{ (\alpha_o) \in (\Gamma_{\varepsilon})^{\mathcal{O}}} \langle \alpha_{a,(\alpha_o)}, b \rangle_{\mathbb{R}^{\mathcal{S}}} \\
 & \in \operatorname*{argmax}_{a \in \mathcal{A}} \max_{ (\alpha_o) \in \Gamma_{\varepsilon}^{\mathcal{O}}} \sum_{s \in \mathcal{S}} r(s,a) + \gamma \cdot \sum_{o' \in \mathcal{O}} \sum_{s' \in \mathcal{S}} \textbf{p} \paren{o' \sachant s',a} \cdot \textbf{p} \paren{ s' \sachant s ,a  } \cdot \alpha_{o'}(s').
 \end{align*}
-At execution, if the agent has a belief $b$,
+At execution, if the agent has a belief state $b$,
 and the $\alpha$-vector $\alpha_{a,(\alpha_o)}$ 
 is such that $\forall \alpha \in \Gamma_{\varepsilon}$, $\langle \alpha_{a,(\alpha_o)}, b \rangle_{\mathbb{R}^{\mathcal{S}}} \geqslant \langle \alpha , b \rangle_{\mathbb{R}^{\mathcal{S}}}$,
 then action $a$ is approximately optimal (with error $\varepsilon$).
@@ -1319,7 +1319,7 @@ the constant function $\underline{V_0}(b) = \sum_{t \geqslant 0} \gamma^t \cdot 
 $\forall b \in \mathbb{P}^{\mathcal{S}}$,
 is an example of initial lower bound 
 of the optimal value function:
-the worst reward is gathered at each time step.
+the worst reward is obtained at each time step.
 The only $\alpha$-vector
 representing this function is 
 $\alpha_0(s) = \frac{r_{min}}{1 - \gamma }$, $\forall s \in \mathcal{S}$.
@@ -1342,30 +1342,31 @@ are lower bounds of $V^*$, $\max \set{\underline{V_0}, \underline{V_1}}$ too,
 \textit{i.e.} $\max_{\alpha \in \underline{\Gamma_0} \cup \underline{\Gamma_1}} \sum_{s \in \mathcal{S}} \alpha(s) \cdot b(s)$
 is a lower bound of $V^*(b)$, and the best available at the moment.
 Hence, it is sufficient to maintain a set of $\alpha$-vectors $\underline{\Gamma}$:
-the $\alpha$-vectors computed from $\underline{\Gamma}$ may be added into $\underline{\Gamma}$, 
+the $\alpha$-vectors computed from $\underline{\Gamma}$ may be added to $\underline{\Gamma}$, 
 and the dominated ones may be removed.
 Thanks to the convergence of $\Big( (\mathcal{B}^*)^n \underline{V_0} \Big)_{n \in \mathbb{N}}$ towards $V^*$, 
 the computation of new $\alpha$-vectors tends to improve the lower bound.
 
-The presented mechanism of incremental improvement
+The presented machinery of incremental improvement
 of the lower bound of $V^*$
 using new $\alpha$-vectors 
-does not allow to compute an upper bound:
+cannot be adapted to compute an upper bound:
 starting from an upper bound $\overline{V_0}$,
 if the computed $\alpha$-vectors represent
 a function $\overline{V_1}$ (also an upper bound of $V^*$)
 which tends to be closer to $V^*$ than $\overline{V_0}$ (thanks to the convergence), 
 then $\max \set{ \overline{V_0}, \overline{V_1}  }$
-is not a better upper bound: it is actually the worst.
+is not a better upper bound: 
+it is actually the worst one.
 However, it is convenient to consider the maximum
 over all computed alpha vectors in practice,
 that is why $\min \set{ \overline{V_0}, \overline{V_1} }$
-is not considered.
+cannot be considered.
 
-Another method can be used to maintain and improve an upper bound 
+Another method must be used to maintain and improve an upper bound 
 of the value function: 
 an upper bound $\overline{V}_0$ of the optimal value function is only
-computed over a set of $n>0$ beliefs,
+computed over a set of $n>0$ belief states,
 leading to the belief-value mappings 
 $\set{ b_i, \overline{v}_i }_{i=1}^{n}$,
 where $\overline{V}_0(b_i) = \overline{v}_i$
@@ -1373,18 +1374,18 @@ and $(b_i,\overline{v}_i) \in \mathbb{P}^{\mathcal{S}} \times \mathbb{R}$.
 As the limit of a sequence of convex functions
 is convex, the optimal value function $V^*$ is known to be convex.
 As the mappings are such that $\overline{v}_i \geqslant V^*(b_i)$, 
-and as $V^*$ is convex, any convex combination of the beliefs $(b_i)_{i=1}^n$
+and as $V^*$ is convex, any convex combination of the belief states $(b_i)_{i=1}^n$
 has an optimal value lower or equal to the same convex combination of the upper bound values $(\overline{v_i})_{i=1}^n$.
 Indeed, if $(w_i)_{i=1}^n$ are convex coefficients, \textit{i.e.} 
 $\sum_{i=1}^n w_i = 1$ and $\forall i \in \set{1,\ldots,n}$, $w_i\geqslant 0$,
 then the optimal value function at $\sum_{i=1}^n w_i \cdot b_i$ 
 is bounded by the convex combination of $(\overline{v_i})_{i=1}^n$
 with respect to $(w_i)_{i=1}^n$: $V^*(\sum_{i=1}^n w_i \cdot b_i) \leqslant \sum_{i=1}^n w_i \cdot V^*(b_i) \leqslant \sum_{i=1}^n w_i \cdot \overline{v_i}$.
-In order to get an upper bound of $V^*$ defined on a larger set of beliefs, 
+In order to get an upper bound of $V^*$ defined on a larger set of belief states, 
 the belief-value mappings $\set{ b_i, \overline{v_i} }_{i=1}^n$
-may be completed with the couples $(b,v)$ such that
+may be completed with the pairs $(b,v)$ such that
 $b \in \mathbb{P}^{\mathcal{S}}$ is in the convex hull of $(b_i)_{i=1}^{n}$,
-and $v$ is the lowest value of $\sum_{i=1}^n w_i \cdot \overline{v_i}$,
+and $v$ is the least value of $\sum_{i=1}^n w_i \cdot \overline{v_i}$,
 where $(w_i)_{i=1}^n$ are convex coefficients such that $b = \sum_{i=1}^n w_i \cdot b_i$.
 These coefficients defining the interpolation of the belief-value mappings 
 can be computed using linear programming
@@ -1408,7 +1409,7 @@ it consists in computing an optimal value function
 for the underlying MDP \textit{i.e.} for the MDP built 
 ignoring the observations and the observation probabilities, 
 and considering that the state is fully observable.
-A MDP strategy is searched among a more general set of functions 
+An MDP strategy is searched among a more general set of functions 
 of the data available at execution, 
 than a POMDP strategy. 
 First, the reward is defined on the system states and the actions,
@@ -1416,10 +1417,10 @@ which are directly available during execution in fully observable settings.
 Second, as the uncertainty over the observations is conditional on the system state,
 the observation random variables $O_t$ can be written as measurable functions of the state and action variables $S_t$ and $A_{t-1}$:
 the functions from the actions and the observations consist thus of a subset of the functions from the system states and the actions.
-We can conclude that, the optimal value function of the POMDP starting from the deterministic belief $b^A_0(s) = \mathds{1}_{ \set{s=s_A}}$ with $s_A \in \mathcal{S}$,
+We can conclude that, the optimal value function of the POMDP starting from the deterministic belief state $b^A_0(s) = \mathds{1}_{ \set{s=s_A}}$ with $s_A \in \mathcal{S}$,
 namely 
 \[ V^*(b^A_0) = \max_{  \substack{ (d_t)_{t \geqslant 0} \mbox{ \tiny s.t. } \\ d_t: \mathcal{I}_t \rightarrow \mathcal{A}  }} \mathbb{E}_{S_0 \sim b^A_0} \croch{ \sum_{t \geqslant 0} \gamma^t \cdot r\Big(S_t,d(I_t)\Big) }, \]
-is lower than or equal to the optimal value function for the associated MDP starting from $s_A$: 
+is less than or equal to the optimal value function for the associated MDP starting from $s_A$: 
 \[ V_{MDP}^*(s_A) = \max_{  \substack{ (d_t)_{t \geqslant 0} \mbox{ \tiny s.t. } \\ d_t: \mathcal{S} \rightarrow \mathcal{A} } } \mathbb{E} \croch{ \sum_{t \geqslant 0} \gamma^t \cdot r\Big(S_t,d(S_t)\Big) \sachant S_0 = s_A  }. \]
 Indeed, the maximum operator of the latter 
 is performed on a set of functions including 
@@ -1516,7 +1517,7 @@ $\alpha' \in \operatorname*{argmax}_{\alpha' \in \Gamma'} \langle \alpha', b_i \
 The first point-based algorithm was PBVI (\textit{Point-Based Value Iteration})
 \cite{Pineau_2003_4826} which starts with a single belief point $b_0$.
 At a given iteration, the point-based Bellman backup of each belief state
-of the current set $(b_i)_{i=1}^n$ are computed and lead to a new set of 
+of the current set $(b_i)_{i=1}^n$ is computed and lead to a new set of 
 $\alpha$-vectors $(v_i')_{i=1}^n$. This operation is repeated until
 the convergence of the $\alpha$-vectors. Next, for each belief state in $(b_i)_{i=1}^n$,
 one successor is selected: the most distant one from $(b_i)_{i=1}^n$, 
@@ -1544,12 +1545,12 @@ The new $\alpha'$ is added to $\Gamma$.
 Otherwise, if $\langle \alpha', b \rangle_{\mathbb{R}^{\mathcal{S}}} < \underline{V}(b)$,
 $b$ is removed from $\mathbb{B}$ and an $\alpha$-vector from  
 $\underline{\Gamma}$ such that $\tilde{\alpha} \in \operatorname*{argmax}_{\alpha \in \underline{\Gamma}} \langle \alpha, b \rangle_{\mathbb{R}^{\mathcal{S}}}$ 
-is added into $\Gamma$. When $\mathbb{B} = \emptyset$, $\underline{\Gamma}$ is set to $\Gamma$,
+is added to $\Gamma$. When $\mathbb{B} = \emptyset$, $\underline{\Gamma}$ is set to $\Gamma$,
 and a new iteration begins.
 
 The HSVI solver (\textit{Heuristic Search Value Iteration}) \cite{Smith:2004:HSV:1036843.1036906} is also a point-based algorithm.
 This solver maintains both an upper and a lower bound on $V^*$: $\overline{V}$ and $\underline{V}$.
-It takes into account that the error of the approximation of $V^*$ 
+It takes into account the fact that the error of the approximation of $V^*$ 
 is less important for much later successors of $b_0 \in \mathbb{P}^{\mathcal{S}}$,
 due to the discount factor $\gamma$:
 given an error $\varepsilon>0$, a sequence of belief states $(b_t)_{t\geqslant0}$ is generated
@@ -1558,7 +1559,7 @@ The generation of the belief sequence is done selecting actions
 according to the upper bound: if the current belief state is $b$, the chosen action is in
 $\operatorname*{argmax}_{a \in \mathcal{A}} r(s,a) + \gamma \sum_{o' \in \mathcal{O}} \overline{V}\Big(u(b,a,o')\Big)$.
 This trick tends to force the improvement of the upper bound: if the selected action is not optimal,
-as successors for this action are selected, the computations will focused on
+as successors for this action are selected, the computations will focus on
 these belief states, and will decrease (improve) the upper bound for them.
 As well, the observation selected $o' \in \mathcal{O}$ is such that 
 the value $\overline{V}\Big(u(b,a,o')\Big) - \underline{V}\Big(u(b,a,o')\Big) \cdot \textbf{p} \paren{ o' \sachant b, a }$ is the greatest:
@@ -1607,17 +1608,20 @@ If $b$ is a belief state, $a$ an action, and
 $\exists a' \in \mathcal{A}$, $\exists b' \in \mathbb{P}^{\mathcal{S}}_{b_0}$ 
 such that $\overline{Q}(b,a) \leqslant \underline{Q}(b',a')$,
 then, all the successors of $b$ when selecting action $a$ are
-removed from the three, and the associated $\alpha$-vectors deleted.
+removed from the tree, and the associated $\alpha$-vectors deleted.
 Indeed, less stored $\alpha$-vectors and belief states speed up the POMDP resolution,
 as lots of useless computations are avoided:
-the computations are focused on the belief states which seem to be in $\mathbb{P}^{\mathcal{S}}_{b_0,*}$,
-the notation for the subset of $\mathbb{P}^{\mathcal{S}}_{b_0}$
-containing the belief states reached with an optimal strategy.
+the computations are focused on the belief states 
+which seem to be in $\mathbb{P}^{\mathcal{S}}_{b_0,*}$.
+The set $\mathbb{P}^{\mathcal{S}}_{b_0,*}$ is %the notation for 
+the subset of $\mathbb{P}^{\mathcal{S}}_{b_0}$
+containing the belief states reached 
+with an optimal strategy.
 
-While the $\alpha$-vector (or Sondic's) representation is used by a large part
+While the $\alpha$-vector (or Sondic's) representation is used by a large proportion
 of POMDP solvers, \textit{grid-based} POMDP solvers, which does not use it, 
 are also popular algorithms \cite{bonet:icml02,Lovejoy91,Brafman97aheuristic,Bonet_newgrid-based}.
-These solvers are based on a discretization of the belief space $\mathbb{P}^{\mathcal{S}}$
+These solvers are based on a discretization of the belief space $\mathbb{P}^{\mathcal{S}}$,
 which leads to an MDP over the finite set of discretized belief states: 
 computed strategies map any cluster of belief states to an action $a \in \mathcal{A}$.
 
@@ -1628,8 +1632,11 @@ two belief states in the same discretization group have the same value.
 The algorithm operates in the same way as RTDP (\textit{Real Time Dynamic Programming}) \cite{Barto93learningto},
 a \textit{Goal-MDP} solver which converges to the optimal value function without considering all the system states.
 A Goal-MDP \cite{Bertsekas:2000:DPO:517430} is an MDP 
-whose all rewards are negative and with a subset of the system state $\mathcal{G} \subset \mathcal{S}$
-called \textit{set of goals}. The system states in $\mathcal{G}$ are absorbing and cost-free: 
+all reward values of which are negative;
+it includes also a subset of the system state 
+$\mathcal{G} \subset \mathcal{S}$
+called \textit{set of goals}. 
+The system states in $\mathcal{G}$ are absorbing and cost-free: 
 $\forall (s,a) \in \mathcal{G} \times \mathcal{A}$,
 $r(s,a)=0$ and $\textbf{p} \paren{s \sachant s,a} = 1$.
 The criterion of a Goal-MDP is the expected (undiscounted) total reward,
@@ -1653,10 +1660,10 @@ is selected, and $V(b)$ is updated to $\max_{a \in \mathcal{A}} Q(b,a)$.
 Then $s$ is sampled from $b$, as well as $s'$ according to $\textbf{p} \paren{ s' \sachant s,a }$, 
 and $o'$ using $\textbf{p} \paren{ o' \sachant s',a }$.
 If $b'=u(b,a,o')$ is such that $\forall s \in \mathcal{S}\setminus\mathcal{G}$, 
-$b'(s)=0$, then another trial begins. Otherwise, the next stage of the trial consider $b'$.
-Since any classical (discounted) POMDP (Section \ref{section_definition_POMDP})
+$b'(s)=0$, then another trial begins. Otherwise, the next stage of the trial considers $b'$.
+As any classical (discounted) POMDP (Section \ref{section_definition_POMDP})
 can be translated into a Goal-POMDP \cite{DBLP:conf/ijcai/BonetG09},
-then RTDP-bel can solve any POMDP.
+RTDP-bel can solve any POMDP.
 
 Finally, POMCP \cite{NIPS2010_4031} is the partially observable counterpart 
 of the MDP solver UCT \cite{Kocsis:2006:BBM:2091602.2091633}. 
@@ -1682,7 +1689,7 @@ In the POMCP case, during computations,
 the belief state is approximated 
 by an unweighted particule filter $B_t(s) \approx \frac{1}{K} \sum_{i=1}^{K} \mathds{1}_{S_i = s}$
 where $\forall i=1,\ldots,K$, $S_i \sim B_t$, 
-and the nodes of the tree represent possible successive information 
+and the nodes of the tree represent possible successive pieces of information 
 $i_t = \set{a_0,o_1,\ldots,a_{t-1},o_t}$, 
 instead of the system states like in UCT.
 

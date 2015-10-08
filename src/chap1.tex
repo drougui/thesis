@@ -17,7 +17,8 @@ if the probability distributions defining the POMDP are not known in practice,
 as in the robotic vision example given in Introduction,
 a qualitative description of the problem is more suitable.
 
-The $\pi$-POMDP model has been previously defined in the pessimistic settings only \cite{Sabbadin:1999:pipomdp}.
+The pessimistic version of the $\pi$-POMDP model 
+has been previously defined in \cite{Sabbadin:1999:pipomdp}.
 This section is then devoted to the update of this promising model:
 first, optimistic and pessimistic models 
 with intermediate preferences are built and discussed.
@@ -27,7 +28,7 @@ is defined, describing the systems some state variables
 of which are fully observable:
 it is shown that this property, if correctly taken into account,
 reduces dramatically the complexity of solving $\pi$-POMDPs.
-Finally, a value iteration algorithm for infinite horizon 
+Finally, a value iteration algorithm for the infinite horizon 
 $\pi$-MDPs (Fully and Partially Observable) 
 is next proposed and the optimality of the returned strategy (for a specified criterion) 
 is shown assuming the existence of a ``stay'' action in some goal states.
@@ -41,8 +42,14 @@ for a target recognition problem
 where the agent's observations are imprecise. 
 
 \section{Intermediate Preferences in $\pi$-POMDPs}
-In the previous chapter, $\pi$-MDPs have been defined with intermediate preference degrees,
-and after that, the particular case of terminal preferences only has been presented. 
+In the previous chapter, 
+$\pi$-MDPs criteria 
+taking into account 
+intermediate preference degrees
+have been defined;
+after that, the particular case 
+of terminal preferences only 
+has been presented. 
 The global preference degree of a trajectory $\mathcal{T} = (s_0,\ldots,s_{H}) \in \mathcal{S}^{H+1}$ 
 has been defined there as the minimum of all the preference degrees of the encountered states:
 \begin{equation}
@@ -346,7 +353,7 @@ The maximum-based global preference $\overline{\mathcal{G}}$ (\ref{globalprefmax
 the fact that at least one encountered state has a high preference.
 As explained just above, 
 this global preference has been introduced 
-in order to make possible both the definition of belief-based preferences 
+in order to enable both the definition of belief-based preferences 
 ($\overline{\rho}$ and $\overline{\Psi}$ 
 as in the Terminal Preference case Section \ref{section_piPOMDP}),
 and a global preference for belief trajectories 
@@ -384,14 +391,14 @@ with only high preferences, and a trajectory
 with only one state with a high preference.
 As it will be presented and tested in this thesis, 
 the \textit{lexi} approaches, or other criteria \cite{LIP61723}
-can bypass some qualitative issues. 
+can solve these difficulties. 
 
 
 Finally, it can be noted that, in the optimistic case, 
 a $\pi$-POMDP is satisfied by a total ignorant belief state:
 for instance, if $\forall s \in \mathcal{S}$, $\beta(s) = 1$,
 $\overline{\Psi}(\beta) = \max_{s \in \mathcal{S}} \min \set{ \Psi(s), \beta(s) } = \max_{s \in \mathcal{S}} \Psi(s) $.
-Thus, an uninformative belief leads to the best preference.
+Thus, an uninformative belief state leads to the best preference.
 A criterion mixing a pessimistic belief-based preference $\overline{\Psi}$
 and an optimistic one over the belief preferences 
 can be introduced, even if it means that 
