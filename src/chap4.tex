@@ -303,7 +303,7 @@ uses the Choquet integral adapted to fuzzy measures.
 This integral is used with the dual measure of the possibility measure defined by the belief state. 
 The dual measure of a possibility measure, called the \textit{necessity measure} (see Definition \ref{DEF_necessity}), 
 and the use of this integral makes the rewards values pessimistic about the potential lack of knowledge
-described by the associated belief.
+described by the associated belief state.
 
 However the number of possibilistic belief distributions, or \textit{fuzzy epistemic states},
 grows exponentially with the number of initial POMDP system states. 
@@ -533,12 +533,12 @@ and applying it on a simple factored POMDP problem.
 As claimed by Zadeh, ``most information/intelligent
 systems will be of hybrid type'' \cite{DBLP:journals/soco/Zadeh98}:
 the idea developped here is to use a granulated representation of the agent knowledge 
-using possibilistic beliefs instead of probabilistic beliefs
+using possibilistic belief states instead of probabilistic belief states
 in the POMDP framework.
 The first advantage of this granulation
-is that strategy computations
+is that strategy computation
 is performed reasoning on
-a finite set of possibilistic beliefs 
+a finite set of possibilistic belief states 
 called then epistemic states:
 the set of all possibility distributions 
 defined over $\mathcal{S}$, denoted by $\Pi^{\mathcal{S}}_{\mathcal{L}}$ is
@@ -548,7 +548,7 @@ while the set of probability distributions over $\mathcal{S}$ is infinite.
 %Possibilistic counterparts of POMDP, named $\pi$-(PO)MDPs have been already defined 
 %\cite{Sabbadin_1999_pipomdp, LIP61498} and efficiently used for planning under uncertainty problems \cite{DBLP:conf/aaai/DrougardTFD14}. 
 The $\pi$-MDPs studied in the first chapters of this thesis 
-are quite different from the model exposed in this paper. 
+are quite different from the model exposed in this chapter. 
 For instance, Qualitative Possibilistic MDPs 
 do not use quantitative data as probabilities or rewards. 
 Dynamics is described in a purely qualitative possibilistic way. 
@@ -560,7 +560,7 @@ among the degrees of the qualitative possibilistic scale.
 A commensurability assumption between reward and possibility 
 degrees, i.e. a meaning of why they share the same scale, 
 is needed to use the criteria proposed in these frameworks.
-Our model bypass these demands: a real number is assigned 
+Our model bypasses these demands: a real number is assigned 
 to each possibilistic belief (epistemic state), 
 instead of a qualitative utility degree: 
 it represents the reward got by the agent 
@@ -589,52 +589,26 @@ Finally rewards are defined on epistemic states
 using the discrete Choquet integral
 and leading to the definition of the resulting MDP.
 
-%%%%%
-\vide{
-\subsection{Possibilistic Belief}
-Consider that we have possibility distributions similar to those used to define
-the initial POMDP: a transition distribution, giving the possibility degree of reaching $s' \in \mathcal{S}$
-from $s \in \mathcal{S}$ using action $a \in \mathcal{A}$, $\pi \paren{ s' \sachant s, a } \in \mathcal{L}$;
-as well as an observation one, giving the possibility degree of observing $o' \in \Omega$, in a system
-state $s' \in \mathcal{S}$ after the use of $a \in \mathcal{A}$, $\pi \paren{ o' \sachant s' ,a } \in \mathcal{L}$.
-
-Indeed, this work is devoted to few kinds of practical problems:
-real problems modeled as POMDPs are often intractable. 
-Our granulated approach is in this case a simplification 
-of the initial POMDP, and possibility distributions
-are computed from the POMDP probability distributions, 
-using a possibility-probability transformation \cite{Dubois93onpossibility/probability}.
-On the other hand, some problems lead to POMDPs with partially defined probability distributions: 
-the estimated frequence has no strong guarantees.
-A more faithful representation is given with possibility distributions 
-modeling the inherent imprecision, defining transition and observation possibility distribution.
-In the case of factorized models detailed latter,
-an other possibility distribution definition is proposed.
-
-Let $\beta_0: \mathcal{S} \rightarrow \mathcal{L}$ be an initial possibilistic belief,
-normalized as any possibility distribution: $\max_{s \in \mathcal{S}} \beta(s)=1$.
-As in the probabilistic case (see Equation \ref{probBayesRule}), possibilistic belief can be defined recursively
-using the possibilistic belief update \cite{Drougard13}, easily derived from the counterpart of the
-Bayes rule \ref{possBayesRule}: at time step $t$, 
-if the possibilistic belief is $\beta_t$, action is $a \in \mathcal{A}$ 
-and new observation $\tilde{o} \in \Omega$, next belief is
-\begin{eqnarray}
-\label{possBelUpdate} \beta_{t+1}(s') = u(\beta_{t},a,\tilde{o})(s') =  \left \{ \begin{array}{ccc} 1 \mbox{ if } \pi \paren{ \tilde{o},s' \sachant b_t^{\pi}, a} = \displaystyle \max_{\tilde{s} \in \mathcal{S}} \pi \paren{ \tilde{o}, \tilde{s} \sachant b_t^{\pi}, a} \\
- \pi \paren{ \tilde{o}, s' \sachant b_t^{\pi}, a} \mbox{ otherwise},
-\end{array} \right.
-\end{eqnarray}
-where the joint possibility distribution over $\Omega \times \mathcal{S}$
-$\pi \paren{ \tilde{o},s' \sachant b_t^{\pi}, a}$ is equal to \[ \max_{s \in \mathcal{S}} \min \set{ \pi \paren{ \tilde{o} \sachant s',a }, \pi \paren{ s' \sachant s,a }, b_t^{\pi}(s)}.\]
-Note that keeping a qualitative view for the belief update,
-\textit{i.e.} using the $\min$ operator 
-to compute the joint possibility distribution (see Equation \ref{possInter})
-allows to reason on a finite set of beliefs, as no new values are created:
-the classical product is used in the quantitative part of the possibility Theory, 
-but not considered in this work.
-Moreover, the use of the qualitative belief update 
-has already been used in planning, leading to good results
-in practice \cite{DBLP:conf/aaai/DrougardTFD14}.
-}
+Consider that possibility distributions similar to those used to define the initial
+POMDP are available: a transition distribution, giving the possibility degree of
+reaching $s' \in \mathcal{S}$ from $s \in \mathcal{S}$
+using action $a \in \mathcal{A}$,  $\pi \paren{s' \sachant s,a} \in \mathcal{L}$; 
+as well as an observation one, giving the possibility degree of observing 
+$o \in \mathcal{O}$, in a system state $s \in \mathcal{S}$ 
+after the use of action $a \in \mathcal{A}$, 
+$\pi \paren{o' \sachant s',a} \in \mathcal{L}$. 
+Indeed, this work
+is devoted to two kinds of practical problems. On the one hand real problems
+modeled as POMDPs are often intractable: our granulated approach is in this
+case a simplification of the initial POMDP, and possibility distributions are computed 
+from the POMDP probability distributions, using a possibility-probability
+transformation \cite{Dubois93onpossibility/probability}. 
+On the other hand, some problems lead to POMDPs with
+partially defined probability distributions: some estimated probabilities have no
+strong guarantees. 
+A more faithful representation is given with possibility distri-
+butions modeling the inherent imprecision, defining transition and observation
+possibility distributions.
 \subsection{Set transitions}
 \label{setTrans}
 First, we use here some notations:
@@ -649,11 +623,11 @@ reached state is part of the POMDP definition via the observation function $O$.
 The probability distribution over observations conditionned on previous state is obtained using transition function $T$:
 \[ \textbf{p} \paren{ o' \sachant s,a } = \sum_{s' \in \mathcal{S}} O(s',a,o') \cdot T(s,a,s') . \]
 This distribution and the possibilistic belief $\beta$ about the system state, 
-can lead to an approximate probability distribution over next observations. Indeed,
+can lead to an approximate probability distribution over the next observations. Indeed,
 a probability distribution over the system state, 
 $\overline{\beta} \in \mathbb{P}_{\mathcal{S}}$, 
 can be derived from $\beta$
-using extension of Laplace principle.
+using an extension of the Laplace principle.
 Then approximate distribution over $o' \in \mathcal{O}$ is defined as
 \begin{equation}
 \label{obsProb}
@@ -669,7 +643,7 @@ over epistemic states is defined as
 A way to construct a probability distribution $\overline{\beta}$ from
 a possibility one $\beta$ is the use of the pignistic transformation
 \cite{Du2006.7} minimizing the arbitrariness
-in the translation into probability distribution:
+in the translation:
 numbering system states with the order induced by distribution $\beta$,
 $1 = \beta(s_1) \geqslant \beta(s_2) \geqslant 
 \ldots \geqslant \beta(s_{\# \mathcal{S}+1}) = 0$, 
@@ -684,7 +658,7 @@ defined by distribution $\beta$ \cite{Dubois93onpossibility/probability}, and
 respects the Laplace principle of Insufficient Reason (ignorance 
 leads to uniform probability).
 
-Although possibilistic beliefs were so far defined in 
+Although possibilistic belief states were so far defined in 
 a qualitative way, degrees 
 of $\mathcal{L}$ are considered as numerical in this section and
 the following: the section about factorization will make it clear that
@@ -697,7 +671,7 @@ in the next section.
 \subsection{Reward aggregation}
 \label{aggreg}
 After the transition function, it remains to assign a reward to each epistemic state:
-in the classical probabilistic translation, the reward assigned to a belief $b$ is
+in the classical probabilistic translation, the reward assigned to a belief state $b$ is
 the reward expectation according to the probability distribution $b$: $\sum_{s \in \mathcal{S}} r(s,a) \cdot b(s)$.
 Here, the agent knowledge is represented with a possibility distribution $\beta$: 
 it sums up the frequentist uncertainty of the problem, 
@@ -796,7 +770,7 @@ $\mathcal{O}=\set{ o_1, \ldots, o_n }$;
 Note that a problem with non boolean variables can be easily reduced to such a problem
 with the boolean variables assumption. 
 For simplicity, and as state $s_j \in \mathcal{S}$ and observation $o_i \in \mathcal{O}$ notations are no longer reused 
-in this paper, only variables are denoted with these letters from now: $s \in \mathbb{S}$ and $o \in \mathbb{O}$.
+in this chapter, only variables are denoted with these letters from now: $s \in \mathbb{S}$ and $o \in \mathbb{O}$.
  
 %A POMDP process evolves with discrete time steps.
 Non-primed variables correspond to the
@@ -914,7 +888,7 @@ $\mathcal{P}(s'_i)$ and $\mathcal{Q}(o'_i)$ designate as well a set of variables
 or a vector comprised of these variables (with an arbitrary order).
 Distribution over $\mathcal{P}(o_i')$ assignments benefits from previous rewritings:
 \begin{eqnarray}
-\textbf{p} \paren{ \mathcal{P}(o_i') \sachant \mathbb{S},a} =  \prod_{s'_j \in \mathcal{P}(o_i')} T_j^a(\mathcal{P}(s'_j), s'_j) = \prod_{ s'_j \in \mathcal{P}(o_i')} \textbf{p} \paren{ s_j' \sachant \mathcal{P}(s_j'),a }
+\textbf{p} \paren{ \mathcal{P}(o_i') \sachant \mathbb{S},a} =  \hspace{-0.2cm} \prod_{s'_j \in \mathcal{P}(o_i')} T_j^a(\mathcal{P}(s'_j), s'_j) = \hspace{-0.2cm} \prod_{ s'_j \in \mathcal{P}(o_i')} \textbf{p} \paren{ s_j' \sachant \mathcal{P}(s_j'),a }
 \label{distribPOP} =  \textbf{p} \paren{ \mathcal{P}(o_i') \sachant \mathcal{Q}(o_i') ,a}
 \end{eqnarray} 
 \begin{figure}
@@ -1062,21 +1036,14 @@ data of the original problem. The counterpart of Equation \ref{probObel} is then
 \end{equation}
 where $\overline{\beta}$ is the probability distribution over $2^{\mathcal{P}(s'_v)}$ 
 extracted from the possibilistic belief over the same space, using transformation (\ref{transform}).
-\subsection{Joint possibility distributions}
+%\subsection{Joint possibility distributions}
 %In this work, beliefs, or epistemic states of the agent, are reduced to
 %fuzzy sets of possible system states (instead of classical probability distributions $b: \mathcal{S} \rightarrow [0,1]$). 
 %Such successive beliefs are built using 
-Possibility distributions of the problem are here
-nothing more than probability distributions previously defined, normalized 
-in a possibilistic sense: if $v \in \set{\top,\bot}$ maximizes $\textbf{p}(v)$,
-$\pi(v)=1$, otherwise $\pi(v)=\textbf{p}(v)$.
-
-Joint possibility distributions over $o_i' \times \mathcal{P}(o'_i)$, needed for belief process definition (possibilistic belief update, Theorem \ref{belief_process_recursif_poss}), 
-are computed in the following way:
-\begin{eqnarray*}
-\pi \paren{ o_i', \mathcal{P}(o'_i) \sachant \mathcal{Q}(o'_i), a } & = & \min \set{ \pi \paren{ o_i' \sachant \mathcal{P}(o'_i), a}, \pi \paren{ \mathcal{P}(o'_i) \sachant \mathcal{Q}(o'_i), a  } } \\
-& = & \min \set{ \pi \paren{ o_i' \sachant \mathcal{P}(o'_i), a}, \min_{s'_j \in \mathcal{P}(o'_i)} \pi \paren{ s'_j \sachant \mathcal{P}(s'_j), a  } }.
-\end{eqnarray*}
+%Possibility distributions of the problem are here
+%nothing more than probability distributions previously defined, normalized 
+%in a possibilistic sense: if $v \in \set{\top,\bot}$ maximizes $\textbf{p}(v)$,
+%$\pi(v)=1$, otherwise $\pi(v)=\textbf{p}(v)$.
 
 %\nico{
 %Recall the possibilistic Bayes rule: $b^{a,o'}(s')$
@@ -1099,7 +1066,7 @@ are computed in the following way:
 %\nonumber \mbox{ then } \pi \paren{ o', s' \sachant b, a } = 1.
 %\end{eqnarray}
 %}
-\subsection{Beliefs process definition and handling}
+\subsection{Belief updating process definition and handling}
 This section is meant to define marginal belief distributions instead of a global one,
 in order to benefit from the factorized structure of the initial POMDP. Indeed,
 possibilistic belief distributions have different definitions according to which class of state variables they concern:
@@ -1124,6 +1091,15 @@ non-normalized belief is, $\forall i=1,\ldots,\tilde{n}$
 \label{inferredBel}
 \tilde{b}'(\mathcal{P}(o_i')) = \max_{v \in 2^{\mathcal{Q}(o_i')}} \min \set{ \pi \paren{ o_i', \mathcal{P}(o_i') \sachant v,a}, b(v) }.
 \end{equation}
+where joint possibility distributions over $o_i' \times \mathcal{P}(o'_i)$, 
+needed for belief process definition (possibilistic belief update, Theorem \ref{belief_process_recursif_poss}), 
+are computed in the following way:
+\begin{eqnarray*}
+\pi \paren{ o_i', \mathcal{P}(o'_i) \sachant \mathcal{Q}(o'_i), a } & = & \min \set{ \pi \paren{ o_i' \sachant \mathcal{P}(o'_i), a}, \pi \paren{ \mathcal{P}(o'_i) \sachant \mathcal{Q}(o'_i), a  } } \\
+& = & \min \set{ \pi \paren{ o_i' \sachant \mathcal{P}(o'_i), a}, \min_{s'_j \in \mathcal{P}(o'_i)} \pi \paren{ s'_j \sachant \mathcal{P}(s'_j), a  } }.
+\end{eqnarray*}
+
+
 A possibilistic normalization finalizes the belief update: for $w \in 2^{\mathcal{P}(o_i')}$,
 \begin{eqnarray}
 \label{possNorm} b'(w') & = & \left \{ \begin{array}{ccc} 1 \mbox{ if } w' \in \operatorname*{argmax}_{v' \in 2^{\mathcal{P}(o_i')}} \tilde{b}'(v'); \\
@@ -1140,7 +1116,7 @@ variable $s_{f,j}$ is
 \label{fullyHiddenBel}
 \tilde{b}'(s_{f,j}') = \max_{v \in 2^{\mathcal{P}(s_{f,j}') }} \min \set{ \pi \paren{ s_{f,j}' \sachant v,a}, b(v) },
 \end{equation}
-which leads to the actual new belief $b'$ after normalization (\ref{possNorm}).
+which leads to the actual new belief state $b'$ after normalization (\ref{possNorm}).
 In practice, as each fully hidden variable is considered independently from the others, 
 following the previous reasoning for vector of inferred hidden s.v., 
 the number of belief variables is $n_f = \lceil \log_2(l^2 - (l-1)^2) \rceil = \lceil \log_2(2l-1) \rceil$.
@@ -1154,17 +1130,17 @@ where $\mathbb{S}$ has to be seen as a vector composed of all state variables.\\
 The latter is considered as the agent belief
 to make the final MDP factorized.
 
-\subsection{Select and use belief variables}
-Starting with initial beliefs defined for each visible state variable $s_{v,j}$,
+\subsection{Selection and use of belief variables}
+Starting with initial belief states defined for each visible state variable $s_{v,j}$,
 for each vector of inferred hidden variables $\mathcal{P}(o'_i)$ and for each fully 
-hidden variable $s_{f,j}$, these beliefs are updated at each time step according to the
+hidden variable $s_{f,j}$, these belief states are updated at each time step according to the
 transformations described above.
 
 However previous formulae \ref{inferredBel} 
 and distribution over observation variable $o'_i \in \mathbb{O}$, Equation \ref{probObel}, 
 depend on belief distribution
 over $\mathcal{Q}(o'_i) \subseteq \mathbb{S}$.
-They can be computed from the available beliefs as follow: $\forall i=1,\ldots,\tilde{n}$,
+They can be computed from the available belief states as follow: $\forall i=1,\ldots,\tilde{n}$,
 \begin{eqnarray}
 \label{bq}
 b(\mathcal{Q}(o_i')) = \max_{v \in 2^{\mathcal{K}_i}}  \min \set{ \min_{s_{v} \in \mathcal{Q}(o_i') \cap \mathbb{S}_v} b(s_{v}), \min_{j \in \mathcal{J}_i }  b(\mathcal{P}(o_j)), \min_{s_{f} \in \mathcal{Q}(o_i') \cap \mathbb{S}_f} b(s_{f}) },
@@ -1393,10 +1369,10 @@ and its dynamics. Each location of the rover is formally described by a variable
 if the rover is at the $j^{th}$ location, and $\bot$ otherwise. The set of fully hidden variables consists thus
 of these $n$ variables: $\mathbb{S}_f = \set{L_1, L_2, \ldots, L_{n}}$. 
 
-Initial location is known, described by variable $L_1$, and leading to a deterministic initial belief: 
+Initial location is known, described by variable $L_1$, and leading to a deterministic initial belief state: 
 $\beta_0(\mathcal{S}_h) = 1$ if $L_1=\top$ and $L_j = \bot$ $\forall j \neq 1$, $0$ otherwise. However
-initial nature of each rock is not known. Instead of a uniform probability distribution over the
-rocks nature (``rock has to be sampled'', or ``rock is not interesting''), the Possibility Theory allows to represent this initial ignorance with the
+the initial nature of each rock is not known. Instead of a uniform probability distribution over the
+rocks nature (``rock has to be sampled'', or ``rock is not interesting''), Possibility Theory allows to represent this initial ignorance with the
 marginal belief $\beta_0(\mathcal{S}_h) = 1$, for each assignment of the hidden inferred state variables
 modelling nature of the rocks. 
 
@@ -1419,7 +1395,7 @@ leading to faster computations.
 \section{Conclusion}
 This chapter described a hydrid translation 
 of a POMDP problem into a finite state space MDP one:  
-the Qualitative Possibility Theory, 
+Qualitative Possibility Theory
 is used here to maintain an epistemic state during the process. 
 The MDP problem, result of this translation, 
 is entirely built defining transition and reward functions

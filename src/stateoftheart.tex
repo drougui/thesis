@@ -885,7 +885,7 @@ value function definition (\ref{pomdp_value}).
 The information random variable $I_t$
 becomes then 
 $\set{ O_1, \ldots, O_t, A_1, \ldots A_t }$.
-Thanks to Fubini theorem and the linearity of the probabilistic expectation,
+Using Fubini theorem and the linearity of the probabilistic expectation,
 \begin{align}
 \nonumber V^d(b_0)  	& = \sum_{ t \geqslant 0} \gamma^t \cdot \mathbb{E} \croch{ r(S_t,A_t) }  \\
 \nonumber			& = \sum_{ t \geqslant 0} \gamma^t \cdot \mathbb{E} \Big[ \mathbb{E} \croch{r(S_t,A_t) \sachant I_t } \Big]
@@ -1288,7 +1288,7 @@ a satisfactory strategy. The next section is devoted to the presentation
 of the most notorious algorithms producing approximate stategies
 within reasonable time.
 
-\subsection{Strategy computation in Practice}
+\subsection{Upper and lower bound of a value function}
 \label{section_SAalgo}
 This section is meant to sum up the main good recipes 
 to approximate POMDP optimal strategies,
@@ -1344,7 +1344,7 @@ is a lower bound of $V^*(b)$, and the best available at the moment.
 Hence, it is sufficient to maintain a set of $\alpha$-vectors $\underline{\Gamma}$:
 the $\alpha$-vectors computed from $\underline{\Gamma}$ may be added to $\underline{\Gamma}$, 
 and the dominated ones may be removed.
-Thanks to the convergence of $\Big( (\mathcal{B}^*)^n \underline{V_0} \Big)_{n \in \mathbb{N}}$ towards $V^*$, 
+Because of the convergence of $\Big( (\mathcal{B}^*)^n \underline{V_0} \Big)_{n \in \mathbb{N}}$ towards $V^*$, 
 the computation of new $\alpha$-vectors tends to improve the lower bound.
 
 The presented machinery of incremental improvement
@@ -1354,7 +1354,7 @@ cannot be adapted to compute an upper bound:
 starting from an upper bound $\overline{V_0}$,
 if the computed $\alpha$-vectors represent
 a function $\overline{V_1}$ (also an upper bound of $V^*$)
-which tends to be closer to $V^*$ than $\overline{V_0}$ (thanks to the convergence), 
+which tends to be closer to $V^*$ than $\overline{V_0}$ (because of the convergence), 
 then $\max \set{ \overline{V_0}, \overline{V_1}  }$
 is not a better upper bound: 
 it is actually the worst one.
@@ -1500,6 +1500,7 @@ The upper bound $\overline{V^*}$ is represented by the piecewise linear dashed o
 the squares represent the belief-value mappings. }  \label{bounds_POMDP} 
 \end{figure}
 
+\subsection{POMDP solvers}
 Some recent POMDP solvers are said to be \textit{point-based} as they maintain
 a set of belief states $(b_i)_{i=1}^n$ (the \textit{belief points}) 
 with associated $\alpha$-vectors $(\alpha_i)_{i=1}^n$.

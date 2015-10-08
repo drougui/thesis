@@ -87,7 +87,11 @@ and the strategy $(\delta) = (\delta_t)_{t=0}^{H-1}$ with $\forall t \in \set{1,
 \item $\underline{\mathcal{G}} \Big( \mathcal{T}, (\delta) \Big) = \underline{\mathcal{G}} \bigg( (s_t)_{t=0}^{H}, \Big(\delta_t(s_t)\Big)_{t=0}^{H-1} \bigg) = \rho \Big( \mathcal{T},(a)_{t=0}^{H-1} \Big)$, see the equation (\ref{globalprefmin2}).
 \end{itemize}
 \end{Def}
-Note that a $\pi$-MDP with an optimistic criterion (or optimistic value function, see the equation (\ref{equation_optqualvalue}) of Section \ref{subsection_piMDPs})
+Note that other aggregation methods giving their results in $\mathcal{L}$ are possible: 
+for instance median value or majority value.
+However those aggregation methods do not have features
+allowing an easy use of dynamic programming.
+Note also that a $\pi$-MDP with an optimistic criterion (or optimistic value function, see the equation (\ref{equation_optqualvalue}) of Section \ref{subsection_piMDPs})
 and a maximum-based global preference degree $\overline{\mathcal{G}}$ has not been defined yet 
 (all $\pi$-MDPs seen previously had a minimum-based global preference $\underline{\mathcal{G}}$),
 and we propose it now:
@@ -1330,7 +1334,8 @@ possibilistic MDP model, whose complexity is exponentially smaller than
 possibilistic POMDPs, so that we could compare $\pi$-MOMDPs with their
 probabilistic counterparts on realistic robotic problems. Our experimental
 results show that possibilistic strategies can outperform probabilistic 
-ones when the observation function is not precisely known.
+ones when the probabilities of the observation function are not precisely known,
+and thus defined quite differently from the actual ones.
 
 A value iteration algorithm for the pessimistic $\pi$-MDPs 
 can be easily written on the basis of the optimistic value iteration algorithm,
@@ -1377,7 +1382,7 @@ However, $\pi$-POMDPs with a large system state
 (or $\pi$-MOMDPs with large $\mathcal{S}_h$) 
 cannot be solved with reasonable computation times 
 by algorithms developed until now.
-The next section presents and uses another problem structure,
+The next chapter presents and uses another problem structure,
 the possibilistic counterpart of \textit{factored POMDPs},
 which leads to easier computations of optimal possibilistic strategies 
 and making various experiments:
