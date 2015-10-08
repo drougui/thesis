@@ -65,12 +65,12 @@ the probability value of an event is an exchangeable bet, \textit{i.e.}
 the value in $[0,1]$ that a given person is willing to give
 for the bet winning $1$ if the event is true.
 However this person takes into account in her/his choice of value
-that the bet can be reversed just before verifying if the event if true.
+that the bet can be reversed just before verifying if the event is true.
 Indeed, she/he may be asked to get the chosen value,
 and to give $1$ if the event is true.
 As the probability values depend on a natural person,
 who wants to guess the actual probability distribution 
-as well as possible with respect to all her/his information about the event,
+as well as possible with respect to information she/he knows about the event,
 they are called \textit{subjective probabilities}:
 that is why the theory based on this definition is called
 Subjective Probability Theory.
@@ -87,7 +87,7 @@ is the set of each probability measure $\mathbb{P}$
 such that $\forall A \subset \Omega$, $\mathbb{P}(A) \leqslant \Pi(A)$.
 In this case, possibility measures are thus ``inflated'' probability measures,
 in order to model that frequencies are not well known,
-as illustrated by Figure \ref{figure_quantitativeposs}.
+as illustrated iin Figure \ref{figure_quantitativeposs}.
 The possibility measure is then $\forall A \subset \Omega$, $\Pi(A) = \max_{\mathbb{P} \in \mathcal{P}^{\Pi}} \mathbb{P}(A)$.
 
 If the set of probability distributions consists of 
@@ -96,12 +96,12 @@ all the probability distributions defined on $\Omega$,
 and then $\forall A \subset \Omega$,
 $\Pi(A) = \max_{\mathbb{P} \in \mathcal{P}^{\Pi}} \mathbb{P}(A) = 1$:
 the ignorant possibility measure is equal to $1$ for each set $A \subset \Omega$,
-a illustrated Figure \ref{poss1}.
+as illustrated in Figure \ref{poss1}.
 On the contrary, if the actual elementary event is known to be $\omega_A$,
 $\forall \omega \in \Omega$ such that $\omega \neq \omega_A$, $\Pi \paren{ \set{\omega} } = \mathbb{P} \paren{ \set{\omega} } = 0$
 and  $\Pi \paren{ \set{\omega_A} } = \mathbb{P} \paren{ \set{\omega_A} } = 1$,
-as illustrated Figure \ref{poss4}.
-It is worth noting that there exists some sets of probability distributions
+as illustrated in Figure \ref{poss4}.
+It is worth noting that there exist some sets of probability distributions
 which are not represented by any quantitative possibility distribution:
 for instance, the set of probability distributions on $\Omega = \set{\omega_A,\omega_B}$,
 $\set{ \mathbb{P} \sachant \mathbb{P}(\omega_A) \geqslant 0.1, \mathbb{P}(\omega_B) \geqslant 0.1  }$.
@@ -120,7 +120,7 @@ $\set{ \mathbb{P} \sachant \mathbb{P}(\omega_A) \geqslant 0.1, \mathbb{P}(\omega
 \legend{-,-,some probability distributions}
 \end{axis} 
 \end{tikzpicture}
-\caption{ignorant distribution}
+\caption{ ignorant distribution }
 \label{poss1}
 \end{subfigure}
 \hspace{-0.15cm}
@@ -137,10 +137,10 @@ $\set{ \mathbb{P} \sachant \mathbb{P}(\omega_A) \geqslant 0.1, \mathbb{P}(\omega
 \legend{-,-,some probability distributions}
 \end{axis} 
 \end{tikzpicture}
-\caption{three different degrees}
+\caption{ three different degrees }
 \label{poss2}
 \end{subfigure}
-\hspace{-0.25cm}
+\hspace{-0.1cm}
 \begin{subfigure}{0.245\linewidth}
 \begin{tikzpicture}[scale=0.5]
 \begin{axis}[ymax=1.1, ymin=0, ybar, enlargelimits=0.3, legend style={at={(0.5,-0.15)}, anchor=north}, ylabel={\hspace{1cm}}, symbolic x coords={$a$, $b$, $c$}, xtick=data, bar width=40pt] 
@@ -154,7 +154,7 @@ $\set{ \mathbb{P} \sachant \mathbb{P}(\omega_A) \geqslant 0.1, \mathbb{P}(\omega
 \legend{-,-,some probability distributions}
 \end{axis} 
 \end{tikzpicture}
-\caption{two different degrees}
+\caption{ two different degrees \ \ \  }
 \label{poss3}
 \end{subfigure}
 \hspace{-0.25cm}
@@ -173,13 +173,17 @@ $\set{ \mathbb{P} \sachant \mathbb{P}(\omega_A) \geqslant 0.1, \mathbb{P}(\omega
 \label{poss4}
 \end{subfigure}
 \caption[Quantitative possibility distributions and associated probability distributions]{Example of quantitative possibility distributions (thick blue), and some of the associated probability distributions (thin) 
-\textit{i.e.} some of the probability measures encoded by the possibility distribution. Distributions are defined on $\Omega = \set{a,b,c}$.}
+\textit{i.e.} some of the probability measures encoded by the possibility distribution. 
+Indeed, a quantitative possibility distribution
+is a upper bound on possible probability distributions,
+defining thus a particular crecal set. 
+Distributions are defined on $\Omega = \set{a,b,c}$.}
 \label{figure_quantitativeposs}
 \end{figure}
 
-Unlike quantitative one, Qualitative Possibility Theory 
+Unlike quantitative ones, Qualitative Possibility Theory 
 uses possibility measures whose values are defined in any ordered scale.
-This theory allows to reason under a lack of quantitative information:
+This theory allows us to reason under a lack of quantitative information:
 the only information given by a qualitative possibility measure 
 is the rank between events \textit{i.e.} $\forall A,B \subseteq \Omega$, 
 the information ``event $A$ is less plausible than event $B$'', 
@@ -203,8 +207,8 @@ may need to be more flexible
 about the membership of elements using \textit{membership degrees}:
 a \textit{fuzzy set} $\textgoth{A}$
 is defined by a characteristic function $\mathds{1}_{\textgoth{A}}: \Omega \rightarrow \mathcal{L}$
-whose possible values are not only in $\set{0,1}$ 
-but may be in the possibility scale $\mathcal{L}$: 
+whose range of values is not only $\set{0,1}$ 
+but may be in a totally ordered set $\mathcal{L}$: 
 $\mathds{1}_{\textgoth{A}}(\omega) \in \mathcal{L}$ 
 is the \textit{membership degree} of $\omega \in \Omega$.
 If $\mathds{1}_{\textgoth{A}}(\omega) = 0$, then $\omega \notin \textgoth{A}$.
@@ -214,7 +218,7 @@ then $\omega \in \textgoth{A}$ with membership degree $\lambda$.
 
 Let us define the \textit{possibility distribution} as $\pi(\omega) = \Pi(\set{\omega})$:
 according to Definition \ref{poss_measure},
-the possibility measure is entirely defined with the distribution $\pi$.
+the possibility measure is entirely defined by the distribution $\pi$.
 Consider that the set $\Omega$ is the set of states $\mathcal{S}$.
 Let $S$ be a variable representing a state of the problem, 
 and whose values are in $\mathcal{S}$.
@@ -227,7 +231,8 @@ $\mathds{1}_{\textgoth{T}}(s)$ is the degree of membership of $s \in \mathcal{S}
 For instance, in the previous example, $\mathds{1}_{\textgoth{T}}(s_B) = 0$,
 and $\mathds{1}_{\textgoth{T}}(s)  > \mathds{1}_{\textgoth{T}}(s')$
 if $s$ is ``closer'' (in some sense) to $s_A$ than $s'$.
-In summary, the function $\mathds{1}_{\textgoth{T}}: \mathcal{S} \rightarrow \mathcal{S}$ 
+In summary, 
+the function $\mathds{1}_{\textgoth{T}}: \mathcal{S} \rightarrow \mathcal{L}$ 
 gives the degree of similarity of a prototype,
 which corresponds to the expert description.
 It is assumed that at least one state $s \in \mathcal{S}$
@@ -259,16 +264,19 @@ Hence, the normalization condition of Definition \ref{poss_measure},
 becomes $\max_{s \in \mathcal{S}} \pi(s) = 1$, 
 which looks more like the probabilistic normalization $\sum_{s \in \mathcal{S}} \textbf{p}(s)=1$.
 As a conclusion, a possibility degree $\pi(s)$ can be seen as a ``non-surprise'' degree,
-since $1 - \pi(s)$ is considered as the ``surprise'' degree of the event $\set{S = s}$.
+since $1 - \pi(s)$ is considered as the ``surprise'' degree of the event $\set{S = s}$:
+the more an event is surprising, the more the complementary event is necessary.
 
-For each possibility measure, a dual measure called \textit{necessity} can be defined:
+Hence, for each possibility measure, a dual measure called \textit{necessity} can be defined:
 the necessity degree of an event increases if the possibility degree of the opposite event decreases.
+\vbox{
 \begin{Def}[Necessity Measure associated to $\Pi$]
 \label{DEF_necessity}
 The necessity measure associated to $\Pi$ is the fuzzy measure $\mathcal{N}:2^\Omega \rightarrow [0,1]$ such that
 $\forall A \subset \Omega$, \[ \mathcal{N}(A)=1-\Pi(\overline{A}), \]
 where $\overline{A}$ is the complementary event of $A$ in $\Omega$.
 \end{Def}
+}
 Note that, as $\mathcal{N}(\emptyset) =1 - \Pi(\Omega) = 0 $,  %$\mathcal{N}(\Omega) = 1 - \Pi(\emptyset)=1$, 
 and as $\forall A,B$ subsets of $\Omega$ such that $A \subseteq B$, $\mathcal{N}(A) = 1-\Pi(\overline{A}) \leqslant 1-\Pi(\overline{B}) = \mathcal{N}(B)$,
 the necessity is indeed a fuzzy measure.
@@ -278,8 +286,8 @@ is not entirely possible ($\Pi(A)<1$), then
 this event is not necessary at all ($\mathcal{N}(A)=0$). 
 As well, if the necessity degree of the event $A \subseteq \Omega$
 is positive ($\mathcal{N}(A)>0$), then it is entirely possible $\Pi(A)=1$. 
-Indeed, $\Pi(A \cap \overline{A}) = \Pi(\Omega) = 1$
-and $\Pi(A \cap \overline{A}) = \max \set{\Pi(A), \Pi(\overline{A})}$.
+Indeed, $\Pi(A \cup \overline{A}) = \Pi(\Omega) = 1$
+and $\Pi(A \cup \overline{A}) = \max \set{\Pi(A), \Pi(\overline{A})}$.
 Thus $\max \set{\Pi(A), \Pi(\overline{A})} = 1$.
 Then, if $\Pi(A) < 1$, $\Pi(\overline{A}) = 1$ and $\mathcal{N}(A) = 0$.
 As well, if $\mathcal{N}(A)>0$, $\Pi(\overline{A})<1$ and then $\Pi(A) = 1$.
@@ -340,7 +348,8 @@ Indeed,
 
 The total ignorance is modeled by a possibility distribution $\pi$ such that $\forall \omega \in \Omega$,
 $\pi(\omega)=1$ \textit{i.e.} any elementary event is possible.
-As well $\forall A \subseteq \Omega$, $A \neq \Omega$, $\mathcal{N}(A)=1-\Pi(\overline{A})=1-\max_{\omega \in \overline{A}} \Pi(\omega)=0$:
+In this case, $\forall A \subseteq \Omega$, $A \neq \Omega$, 
+$\mathcal{N}(A)=1-\Pi(\overline{A})=1-\max_{\omega \in \overline{A}} \Pi(\omega)=0$:
 apart from the universe $\Omega$,
 no event is necessary. 
 
@@ -359,7 +368,8 @@ This idea is led by the word \textit{specificity}:
 A possibility distribution $\pi_2$ is more specific (\textit{i.e.} more informative) than another possibility distribution $\pi_1$, if $\forall \omega \in \Omega$,
 \[ \pi_2(\omega) \leqslant \pi_1(\omega).\]
 \end{Def}
-Both notions of specificity and necessity are illustrated by Figure \ref{figure_necspec}.
+Both notions of specificity and necessity are illustrated
+in Figure \ref{figure_necspec}.
 
 The main concepts of Possibility Theory have been presented.
 Possibilistic planning models studied in this thesis 
@@ -638,8 +648,8 @@ as a solution of the following equation:
 \label{joint_poss}
 \Pi(A \cap B) = \min \Big\{ \Pi (A \vert B) , \Pi(B)  \Big\}.
 \end{equation}
-Intuitively, once conditioned on the event $B$,
-the event $A$ (or rather ``$A \vert B$'') 
+Intuitively, once conditioned on event $B$,
+event $A$ (or rather ``$A \vert B$'') 
 does not interact with the event $B$ anymore.
 Moreover Equation \ref{joint_poss} is close to the probabilistic equation 
 $\mathbb{P} \paren{ A \cap B } = \mathbb{P} (A \vert B) \cdot \mathbb{P} (B) $
@@ -695,7 +705,7 @@ when the event $A$ contains the elementary event which has the higest possibilit
 \textit{i.e.} if $\Pi(B)=\Pi(A \cap B)$, then $\Pi \paren{ A \sachant B } = 1$.
 Indeed, as conditioning on $B$ assumes that the new set of possible elementary events (universe) 
 is $B$, $A$ has the maximal possibility degree among the new universe $B$:
-the possibility measure conditional on $B$ is normalized,
+the possibility measure conditioned on $B$ is normalized,
 setting to $1$ the possibility degree of most plausible events in $B$.
 As qualitative possibility distributions only define a ranking between the events,
 the possibility degree of events $A$ such that $\Pi(A \cap B)< \Pi(B)$ (second case of Equation \ref{equation_conditioning})
@@ -832,7 +842,7 @@ it follows that the M-independence implies the NI-independence:
 it can be also observed replacing $\Pi \paren{A \sachant B}$ by $\Pi \paren{A}$
 in the equation \ref{joint_poss}, as both possibility degrees are equal. 
 
-This independence is causal, and not symetric. Figure \ref{figure_Mindep} displays an exemple of joint distribution $\pi(x,y)$ 
+This independence is causal, and not symetric. Figure \ref{figure_Mindep} displays an example of a joint distribution $\pi(x,y)$ 
 such that $\pi \paren{x \sachant y} = \pi(x)$. However $\pi \paren{y \sachant x} \neq \pi(y)$:
 indeed, if $X=x_A$, $Y$ is fully unknown, \textit{i.e.} $\pi \paren{ y \sachant x_A}=\begin{pmatrix} 1 & 1 & 1 \end{pmatrix}$,
 if $X=x_B$, $\pi \paren{  y \sachant x_B } = \begin{pmatrix} 0.6 & 0.4 & 1 \end{pmatrix}$, and the same for $X=x_C$.
@@ -858,7 +868,7 @@ The proof is given in Annex \ref{MS2_ignor_RETURN}.
 Finally, we present a second qualitative possibilistic conditioning,
 proposed in \cite{deCampos:1999:ICP:314962.314985},
 based on the previous one (Definition \ref{def_cond}):
-this one ensure that the posterior distribution is not less specific than the prior.
+this one ensures that the posterior distribution is not less specific than the prior.
 \begin{Def}[Alternative Qualitative Possibilistic Conditioning]
 \label{altern_qual_cond}
 This alternative conditioning is denoted by $\pi ( x \Vert y )$
@@ -866,14 +876,14 @@ and is a modified version of the classical one (Definition \ref{def_cond}): $\fo
 \[ \pi ( x \Vert y ) = \left \{ \begin{array}{cc} \pi(x) & \mbox{ if } \pi \paren{ x' \sachant y } \geqslant \pi(x'), \forall x' \in \mathcal{X}, \\ \pi \paren{ x \sachant y } & \mbox{ otherwise. } \end{array} \right. \]
 \end{Def}
 
-A more general presentation of the various possibilistic conditioning and independence
+A more general presentation of the various possibilistic conditionings and independences
 and their consequences on possibilistic graphical models 
 is available in the thesis of N.Ben Amor \cite{Be2002.7}.
 
-This section just introduced that,
-as the studied models will be qualitative,
+We just introduced that
 the operators $\min$ and $\max$
-will be present in most equations below.
+will be present in most of equations below
+as the studied models are purely qualitative.
 Some properties about these operators,
 which are used in the following sections, 
 end this one.
@@ -971,7 +981,7 @@ and $A_{\#\Omega+1} = \emptyset$.
 \end{Def}
 The proof of the equality is given in Annex \ref{sugeno_integral_RETURN}.
 
-As illustrated by Figure \ref{figure_sugeno}, the Sugeno integral of $f: \Omega \rightarrow \mathcal{L}$ with respect to the fuzzy measure $\mu$
+As illustrated in Figure \ref{figure_sugeno}, the Sugeno integral of $f: \Omega \rightarrow \mathcal{L}$ with respect to the fuzzy measure $\mu$
 is the highest degree $\lambda \in \mathcal{L}$ 
 such that the measure $\mu$ of $\set{ \omega \sachant f(\omega) \geqslant \lambda}$ 
 is higher or equal to $\lambda$. As an example, the $h$-index
@@ -980,13 +990,13 @@ with respect to the counting measure.
 
 The Sugeno integral with respect to a possibility measure,
 and the one with respect to a necessity measure,
-lead to two  criteria: an optimistic and a cautious one.
-The following theorem rewrites both integral in a more simple way:
+lead to two criteria presented below. %an optimistic and a cautious one.
+Before that, the following theorem rewrites both integral in a more simple way.
 \begin{theorem}[Sugeno Integrals with respect to Possibility and Necessity measures]
 \label{sugenoPossNec}
 \begin{align}
-\label{equation_sugenoposs} \mathbb{S}_{\Pi}[f] &= \max_{i=1}^{\# \Omega} \min \set{ f(\omega_i), \pi(\omega_i) }  & \mbox{ (\textit{optimistic}), }\\
-\label{equation_sugenonec} \mathbb{S}_{\mathcal{N}}[f] &= \min_{i=1}^{\# \Omega} \max \set{ f(\omega_i), 1-\pi(\omega_i) }  & \mbox{ (\textit{cautious}) }.
+\label{equation_sugenoposs} \mathbb{S}_{\Pi}[f] &= \max_{i=1}^{\# \Omega} \min \set{ f(\omega_i), \pi(\omega_i) },\\
+\label{equation_sugenonec} \mathbb{S}_{\mathcal{N}}[f] &= \min_{i=1}^{\# \Omega} \max \set{ f(\omega_i), 1-\pi(\omega_i) } .
 \end{align}
 are rewritings of the Sugeno integrals with respect to 
 possibility and necessity measures.
@@ -1013,7 +1023,7 @@ In the same way,
 \label{line4nec} &= 1 -\max_{s \in \mathcal{S}} \min \set{ \mathds{1}_{\overline{A}}(s), \pi(s) } \\
 \nonumber &= 1 - \max_{s \in \overline{A}} \pi(s) = 1 - \Pi \paren{ \set{S \in \overline{A}} } = \mathcal{N} \paren{ \set{S \in A}}.
 \end{align}
-where lines (\ref{line3nec}) and (\ref{line4nec}) come from equation 
+where lines (\ref{line3nec}) and (\ref{line4nec}) come from equations
 (\ref{equationmaxmin1}) and (\ref{equationmaxmin2}) 
 of Property (\ref{property_minmax}).
 These remarks are the counterparts of the probabilistic equality $\mathbb{E} \croch{ \mathds{1}_{\set{S \in A}} } = \mathbb{P}( \set{S\in A})$.
@@ -1038,14 +1048,14 @@ Let $\pi_a$ be the possibility distribution
 describing the uncertainty about the system state
 given that action $a \in \mathcal{A}$ has been selected, 
 and $\rho(s)$ the preference of the system state $s \in \mathcal{S}$.
-Using the formula (\ref{equation_sugenoposs}) with $f=\rho(S)$, 
+Using formula (\ref{equation_sugenoposs}) with $f=\rho(S)$, 
 the Sugeno integral of the preference with respect to the possibility measure $\Pi_a$ 
 leads to an optimistic criteria for $a \in \mathcal{A}$:
 \label{def_qualcrit}
 \begin{align}
 \label{equation_critopt} \mathbb{S}_{\Pi_a}[\rho(S)] &= \max_{s \in \mathcal{S}} \min \set{ \rho(s), \pi_a(s) }.
 \end{align}
-As well, using the formula (\ref{equation_sugenonec}) with $f=\rho(S)$, 
+As well, using formula (\ref{equation_sugenonec}) with $f=\rho(S)$, 
 the Sugeno integral of the preference with respect to the necessity measure associated to $\Pi_a$, $\mathcal{N}_a$, 
 leads to a cautious criteria for $a \in \mathcal{A}$:
 \begin{align}
@@ -1076,7 +1086,7 @@ unwanted states are avoided by the system.
  
 The characteristic function of the complementary set of $\textgoth{T}^a$, denoted by $\overline{\textgoth{T}^a}$ 
 is $\mathds{1}_{\overline{\textgoth{T}^a}} = 1 - \mathds{1}_{\textgoth{T}^a} = 1- \pi_a$:
-the fuzzy set of implausible system state.
+the fuzzy set of implausible system states.
 An action $a \in \mathcal{A}$ maximizing the pessimistic criterion (\ref{equation_critpess}),
 is thus an action that maximizes the lowest membership degree of $\overline{\textgoth{T}^a} \cup \textgoth{R}$,
 \textit{i.e.} of the fuzzy set of the system states which are implausible or preferred.
@@ -1119,7 +1129,7 @@ and the black circles represent the characteristic function of the intersection 
 Actions maximizing the optimistic criterion (\ref{equation_critopt}),
 maximizes the highest membership degree $\max_{s \in \mathcal{S}} \mathds{1}_{\textgoth{T}^a \cap \textgoth{R}}(s)$,
 which is here equal to $0.6$, the degree of $s_D$. 
-The dashed blue line may also represend $1 - \pi_a(s) = \mathds{1}_{\overline{\textgoth{T}^a}}(s)$,
+The dashed blue line may also represent $1 - \pi_a(s) = \mathds{1}_{\overline{\textgoth{T}^a}}(s)$,
 and the black squares represent the characteristic function of the union 
  $\mathds{1}_{\overline{\textgoth{T}^a} \cup \textgoth{R}}(s) = \max \set{\rho(s), 1-\pi_a(s) }$.
 Actions maximizing the pessimistic criterion (\ref{equation_critpess}),
@@ -1129,7 +1139,7 @@ which is here equal to $0$, as $s_A$ and $s_H$ are totally possible and unpleasa
 \end{figure}
 
 Note that, for a function $f: \mathcal{A} \rightarrow \mathcal{L}$,
-$\operatorname*{argmax}_{a \in A} f(a) = 1 - \operatorname*{argmin}_{a \in A} f(a)$,
+$\max_{a \in A} f(a) = 1 - \min_{a \in A} f(a)$,
 which can be shown as equation (\ref{equationmaxmin2}) of Property \ref{property_minmax}.
 Thus, 
 \[\operatorname*{argmax}_{a \in A} \set{ \displaystyle \min_{s \in  \mathcal{S}} \max\set{ \rho(s),  1- \pi_a(s) } } = \operatorname*{argmin}_{a \in A} \set{ \displaystyle 1 - \min_{s \in \mathcal{S}} \max\set{ \rho(s), 1 - \pi_a(s) } }.\]
@@ -1141,7 +1151,7 @@ of the fuzzy set $\textgoth{T}^a \cap \overline{\textgoth{R}}$,
 the pessimistic criterion tries to keep down all membership degrees of this set. 
 
 The pessimistic criterion (\ref{equation_critpess}) tends to avoid unwanted system states,
-whereas the optimistic criterion (\ref{equation_critopt}) wants to make possible 
+whereas the optimistic criterion (\ref{equation_critopt}) wants to make it possible 
 that the system reaches preferred ones.
 Figure (\ref{figure_criteria}) illustrates the result of the criteria for a given action $a\in\mathcal{A}$.
 
@@ -1205,19 +1215,19 @@ for $a_2$. Thus, as $\rho(s_B)<1$, $a_1$ maximizes the optimistic criterion (\re
 \node (mu2) at (8.15,0.2) {$\rho(s_B)=0.5$};
 \node (mu3) at (8,-0.8) {$\rho(s_C)=0$};
 \end{tikzpicture}
-\caption[Example of a situation to illustrate qualitative criteria]{Illustration of the situation in the example of Section \ref{subsection_qualcrit}
+\caption[Example of a situation to illustrate qualitative criteria]{Illustration of the example of Section \ref{subsection_qualcrit}
 about qualitative criteria. Action $a_1$ maximizes the optimistic criterion (\ref{equation_critopt}),
 which can lead to the best state ($s_A$), but also the worst ($s_C$).
 On the contrary, action $a_2$ maximizes the pessimistic criterion (\ref{equation_critpess})
 since the worst state is not reachable with this action.}  \label{figure_example}
 \end{figure}
 
-The optimistic criterion is maximized by the action $a_1$, 
+The optimistic criterion is maximized by action $a_1$, 
 because with this action, the best system state, $s_A$, is entirely possible.
 However, this action makes also the worst system state, $s_C$ entirely possible:
 state $s_A$ is not necessary at all: 
 $\mathcal{N}(\set{ s_A }) = 1-\pi \paren{\set{ s_B , s_C }} = 1 - \max \paren{ \pi(s_B), \pi(s_C)} = 0$. 
-A more cautious action is $a_2$, whose the preference of the reached state ($s_B$)
+A more cautious action is $a_2$, whose preference of the reached state ($s_B$)
 is lower than $1$, but certain.
 
 As expected, the action $a_2$ maximizes the cautious criterion (\ref{equation_critpess}):
@@ -1236,13 +1246,13 @@ This choice is more cautious since $\mathcal{N}_{a_2}(\set{ s_B} ) = 1-\Pi \pare
 
 This section ends with a remark about this qualitative framework:
 possibility degrees are compared to preference degrees in the presented criteria.
-This requests a \textit{commensurability} assumption,
+This requires a \textit{commensurability} assumption,
 \textit{i.e.} these comparisons must mean something. 
 When values of $\rho$ are in $\set{ 0 , 1 }$, 
 this assumption is not necessary as system states with a preference of $1$
 are the goals, and other states are not.
 How to model problems in practice 
-with these settings will be detailed in experimental parts.
+with these settings will be detailed in the experimental parts.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{$\pi$-MDPs}
 \label{subsection_piMDPs}
@@ -1412,7 +1422,7 @@ $\delta_{t} = \delta_{H-i}$ is used at time step $t$,
 These Dynamic Programming formulae 
 lead to the optimistic algorithm, Algorithm \ref{dynamic_programming_pimdp} and 
 the pessimistic one Algorithm \ref{dynamic_programming_pimdppess},
-qualitatif possibilistic counterpart of Algorithm \ref{dynamic_programming_mdp}
+the qualitative possibilistic counterpart of Algorithm \ref{dynamic_programming_mdp}
 for finite horizon probabilistic MDPs.
 \begin{algorithm}
  \caption{Dynamic Programming Algorithm for Optimistic $\pi$-MDP} \label{dynamic_programming_pimdp}
@@ -1688,7 +1698,7 @@ of the belief-based optimistic preference $\overline{\Psi}(B_H^{\pi}) = \max_{s 
 with respect to the possibility measure over the observation sequences.
 That is, denoting by $\beta^{\delta,\widehat{o}_H}_{\beta_0}$
 the belief state generated by the observation sequence $\widehat{o}_H$ and the strategy $(\delta_t)_{t=0}^{H-1}$,
-the \textbf{optimistic criterion can be rewritten}
+the \textbf{optimistic criterion can be rewritten as}
 \begin{align}
 \label{piPOMDPoptrewriting}
 \overline{U_H}\Big(\beta_0,(\delta)_{t=0}^{H-1}\Big) &= \max_{\widehat{o}_H} \min \set{ \overline{\Psi}(\beta^{\delta,\widehat{o}_H}_{\beta_0}),  \pi \Big( \widehat{o}_H \Big\vert (\delta), \beta_0 \Big) } \\
@@ -1696,10 +1706,10 @@ the \textbf{optimistic criterion can be rewritten}
 \end{align}
 %$\mathbb{S}_{\Pi} \Big[ \Psi(S_H) \Big\vert B^{\pi}_0 = \beta_0, (\delta) \Big] = \mathbb{S}_{\Pi_{\delta},S_0 \sim \beta_0} \Big[ \mathbb{S}_{\Pi_{\delta},S \sim B^{\pi}_H} \croch{ \Psi(S)  } \Big] = \mathbb{S}_{\Pi} \Big[ \max_{s \in \mathcal{S}} \min \set{\Psi(s), B^{\pi}_H(s) } \Big], $
 
-As well, the pessimistic criterion is equal to the Sugeno integral of the belief-based pessimistic preference
+Likewise, the pessimistic criterion is equal to the Sugeno integral of the belief-based pessimistic preference
 $\underline{\Psi}(B^{\pi}_H) = \min_{s \in \mathcal{S}} \max \set{ \Psi(s), 1 - B^{\pi}_H(s) }$,
 with respect to the necessity measure over the observation sequences.
-The $\pi$-POMDP \textbf{pessimistic criterion can be rewritten}
+The $\pi$-POMDP \textbf{pessimistic criterion can be rewritten as}
 \begin{align}
 \label{piPOMDPpessrewriting}
 \underline{U_H}\Big(\beta_0,(\delta)_{t=0}^{H-1}\Big) &= \min_{\widehat{o}_H} \max \set{ \underline{\Psi}(\beta^{\delta,\widehat{o}_H}_{\beta_0}), 1-\pi \Big( \widehat{o}_H \Big\vert (\delta), \beta_0 \Big) } \\
@@ -1846,7 +1856,7 @@ $\underline{U^*_0} \gets \underline{\Psi}$;\\
 \end{algorithm}
 
 In this first chapter, probabilistic and qualitative possibilistic POMDPs have been built one after the other
-putting some light on the similarities between both models:
+shedding some light on the similarities between both models:
 with probabilistic POMDPs, system state dynamics and observation uncertainty 
 are described with probabilities $\textbf{p} \paren{ s' \sachant s,a } \in \mathbb{R}$
 and $\textbf{p} \paren{ o' \sachant s',a } \in \mathbb{R}$
@@ -1871,7 +1881,7 @@ for the optimistic criterion,
 and $\underline{\rho}(b,a) = \mathbb{S}_{\mathcal{N}, S \sim \beta} \croch{ \rho(S,a) } = \min_{s \in \mathcal{S}} \max \set{ \rho(s,a), 1 - \beta(s) }$
 for the pessimistic one.
 
-Next chapter proposes some improvements of the qualitative possibilistic model: 
+The next chapter proposes some improvements of the qualitative possibilistic model: 
 first, criteria are discussed, concerning the preference aggregation, 
 and the impact of the choice of the (optimistic or pessimistic) criterion.
 Next, the Mixed-Observability property is defined:
