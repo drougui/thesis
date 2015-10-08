@@ -7,13 +7,15 @@ for this reason, $\pi$-POMDPs can be seen as a simpler model
 for sequential decision making under uncertainty,
 than the probabilistic one. This is a good point as solving probabilistic POMDPs 
 is at least a PSPACE problem \cite{Papadimitriou:1987,Madani:1999:UPP:315149.315395}.
-Moreover, the qualitative possibility theory allows to model the total ignorance
+Moreover, Qualitative Possibility Theory allows to model total ignorance
 as noted in Introduction: it is a motivation for the study of this model.
 The distribution $\forall s \in \mathcal{S}$, $\beta(s) = 1$ means that all
 states are plausible according to the belief state $\beta$, \textit{i.e.} 
 the agent considers that all system states are possible. 
-Finally, possibility distributions only sort events and does not assign qualitative values to them: 
-if the probability distributions defining the POMDP are not known in practice,
+Finally, possibility distributions only sort events
+and represent their plausibility only roughly:
+no quantitative value is assigned to them.
+If the probability distributions defining the POMDP are not known in practice,
 as in the robotic vision example given in Introduction,
 a qualitative description of the problem is more suitable.
 
@@ -27,13 +29,13 @@ Next, the \textit{Mixed-Observability} property \cite{OngShaoHsuWee-IJRR10,AraTh
 is defined, describing the systems some state variables 
 of which are fully observable:
 it is shown that this property, if correctly taken into account,
-reduces dramatically the complexity of solving $\pi$-POMDPs.
+dramatically reduces the complexity of solving $\pi$-POMDPs.
 Finally, a value iteration algorithm for the infinite horizon 
 $\pi$-MDPs (Fully and Partially Observable) 
 is next proposed and the optimality of the returned strategy (for a specified criterion) 
 is shown assuming the existence of a ``stay'' action in some goal states.
 Experimental work finally 
-illustrates performances of the strategies 
+illustrates the performance of the strategies 
 computed from different criteria. 
 It is also shown that strategies computed 
 from $\pi$-POMDPs can
@@ -66,7 +68,7 @@ in the probabilistic model, given in the equation (\ref{criterion}).
 Let $(A_t)_{t=0}^{H-1}$ be a sequence of action variables modeling the successive agent decisions.
 Global preferences over system state trajectories $(S_t)_{t=0}^{H}$ are denoted as follows:
 \begin{itemize}
-\item a new one, \textbf{maximum-based},
+\item the \textbf{maximum-based} one, not very demanding,
 \begin{equation}
 \label{globalprefmax}
 \overline{\mathcal{G}} \Big( (S_t)_{t=0}^{H}, (A_t)_{t=0}^{H-1} \Big) = \max \bigg\{ \max_{t=0}^{H-1} \set{ \rho_t\Big( S_t, A_t \Big)  }, \Psi(S_H) \bigg\}, 
@@ -124,7 +126,7 @@ $\forall s \in \mathcal{S}$,
 \overline{\overline{\delta^*_{H-i}}}(s) \in \operatorname*{argmax}_{a \in \mathcal{A}} \max \set{ \rho_{H-i}(s,a), \max_{s' \in \mathcal{S}} \min \set{ \pi_{H-i} \paren{ s' \sachant s, a  } , \overline{\overline{U^*_{i-1}}}(s') }  }.
 \end{eqnarray}
 \end{theorem}
-This theorem can be shown in exactly the same way as the proof of Theorem \ref{DPpiMDP}
+This theorem can be proved in exactly the same way as the proof of Theorem \ref{DPpiMDP}
 (see Annex \ref{DPpiMDP_RETURN}),
 however the equation (\ref{equationmaxmin8}) of Property \ref{property_minmax} has to be used.
 
@@ -212,7 +214,7 @@ for probabilistic POMDPs:\\
 Recall that the sequence of variables representing the successive belief states
 is denoted by $(B^{\pi}_t)_{t=0}^{H-1}$, and the sequence of action variables
 by $A_t$ (it includes the case $A_t = \delta_t(I_t)$). 
-Following equalities are true:
+The following equalities are true:
 \label{theorem_intermpref}
 \begin{align}
 \mathbb{S}_{\Pi} \croch{  \overline{\mathcal{G}} \Big( (S_t)_{t=0}^{H}, (A_t)_{t=0}^{H-1} \Big) } &= \mathbb{S}_{\Pi} \croch{ \overline{\mathcal{G}} \Big( (B^{\pi}_t)_{t=0}^{H},  (A_t)_{t=0}^{H-1} \Big)  }, \\
@@ -270,10 +272,10 @@ of Section \ref{subsection_piMDPs}).
 \end{itemize}
 
 Note that line \ref{sugenomaxitivity} of Property \ref{sugenoproperties} 
-offers the rewriting of the optimistic $\pi$-POMDP 
+justifies the rewriting of the optimistic $\pi$-POMDP 
 ($\pi$-POMDP with criterion \ref{optmaxpiPOMDPcrit})
 if the global preference degree is maximum-based.
-However, such a rewritting is impossible with the minimum-based global preference.
+However, such a rewriting is impossible with the minimum-based global preference.
 Indeed, in order to keep a criterion based on the minimum (\ref{globalprefmin2}), 
 the following equality should be true: $ \mathbb{S}_{\Pi} \croch{ \min \set{ f, g} } = \min \set{ \mathbb{S}_{\Pi} \croch{f}, \mathbb{S}_{\Pi} \croch{g} } $.
 However, the following counterexample confirms that this equality is not true in general:
@@ -428,7 +430,7 @@ For instance, in the case of the optimistic $\pi$-POMDP value function
 (\textit{i.e.} based on $\mathbb{S}_{\Pi}$) 
 with a maximum-based global preference ($\overline{\mathcal{G}}$),
 \begin{itemize}
-\item $\widehat{U^*_{i}}$ is denoted by $\overline{U^*_i}$,
+\item $\widehat{U^*_{i}}$ is denoted by $\overline{U^*_i}$ as the optimistic criterion,
 \item $\tilde{\Psi}(\beta) = \overline{\Psi}(\beta) = \max_{s \in \mathcal{S}} \min \set{ \Psi(s), \beta(s)  }$,
 \item $\tilde{\rho_t}(\beta,a) = \overline{\rho_t}(\beta) = \max_{s \in \mathcal{S}} \min \set{ \rho_t(s,a), \beta(s)  }$,
 \item $\widehat{M}$ is the maximum operator,
@@ -440,7 +442,7 @@ Another example is the case of the pessimistic $\pi$-POMDP value function
 (\textit{i.e.} based on $\mathbb{S}_{\mathcal{N}}$) 
 with a minimum-based global preference ($\underline{\mathcal{G}}$),
 \begin{itemize}
-\item $\widehat{U^*_{i}}$ is denoted by $\underline{U^*_i}$,
+\item $\widehat{U^*_{i}}$ is denoted by $\underline{U^*_i}$ as the pessimistic criterion,
 \item $\tilde{\Psi}(\beta) = \underline{\Psi}(\beta) = \min_{s \in \mathcal{S}} \max \set{ \Psi(s), 1 - \beta(s)  }$,
 \item $\tilde{\rho_t}(\beta,a) = \underline{\rho_t}(\beta) = \min_{s \in \mathcal{S}} \max \set{ \rho_t(s,a), 1 - \beta(s)  }$,
 \item $\widehat{M}$ is the minimum operator,
@@ -458,12 +460,18 @@ it may be defined as the minimum or the maximum operator,
 \item $\widehat{\mathbb{S}}\bigg( \pi_t \paren{o' \sachant \beta, a}, \widehat{U^*_{i-1}} \Big( \nu( \beta,a,o') \Big) \bigg)  = \max_{o' \in \mathcal{O}} \min \set{\pi_t \paren{ o' \sachant \beta,a }, U^*_{i-1}\Big( \nu( \beta,a,o') \Big)  }$,
 \end{itemize}
 see just above Definition \ref{def_optpesscrit} for the case of terminal preference only.
+The new mixed optimistic-pessimistic criterion of Definition \ref{def_optpesscrit} 
+will be the most frequently used in this thesis,
+mainly because it can be translated into 
+optimistic $\pi$-MDP which produce good approximate strategies 
+for probabilistic problem \cite{conf/ecai/Sabbadi00}, 
+and because it is adapted to the ubounded execution criterion presented below.
 
 Let us recall now that $\tilde{\mathcal{S}}^{\pi} = \Pi^{\mathcal{S}}_{\mathcal{L}}$ 
-is a finite set of cardinal $\# \tilde{\mathcal{S}}^{\pi} = \# \mathcal{L}^{\# \mathcal{S}} - (\# \mathcal{L}-1)^{\# \mathcal{S}}$ 
+is a finite set of cardinality $\# \tilde{\mathcal{S}}^{\pi} = \# \mathcal{L}^{\# \mathcal{S}} - (\# \mathcal{L}-1)^{\# \mathcal{S}}$ 
 (the total number of $\# \mathcal{S}$-size vectors valued in $\mathcal{L}$, minus $(\# \mathcal{L}-1)^{\# \mathcal{S}}$ non-normalized distributions).
 %Algorithm \ref{piMDP_horizon_fini} can be easily adapted to the partially observable case using this Bellman equation.
-For concrete problems, the state space can be dramatically large: $\# \tilde{\mathcal{S}}^{\pi}$ explodes and computations become intractable like in standard probabilistic POMDPs. The next section presents a way to exploits a specific structure of the problem that is very common in practice.
+For concrete problems, the state space can be dramatically large: $\# \tilde{\mathcal{S}}^{\pi}$ explodes and computations become intractable like in standard probabilistic POMDPs. The next section presents a way to exploit a specific structure of the problem that is very common in practice.
  
 \section{Mixed-Observability and $\pi$-MOMDPs}
 \label{sectionpiMO}
@@ -607,7 +615,7 @@ The proof is given in Annex \ref{thm_natureReachBel_RETURN}
 
 As all reachable belief states are in $\mathcal{S}_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}}$
 when the mixed-observability property holds, 
-the next theorem rewrites the belief update function for the beliefs 
+the next theorem rewrites the belief update function for the belief states 
 $\beta_h \in \Pi^{\mathcal{S}}_{\mathcal{L}}$ over the hidden system states $s_h \in \mathcal{S}_h$.
 \begin{theorem}[Belief Update for a $\pi$-MOMDP]
 \label{thmMomdpBelup}
@@ -738,7 +746,7 @@ which is exponentially smaller than the size of standard
 $\pi$-POMDPs' belief space: 
 \[ \# \Pi^{\mathcal{S}}_{\mathcal{L}} = \# \mathcal{L}^{\# \mathcal{S}_v \times \# \mathcal{S}_h} - (\# \mathcal{L}-1)^{\# \mathcal{S}_v \times \# \mathcal{S}_h}. \]
 An even finer belief $\pi$-MDP 
-would be defined on the set of reachable belief states 
+could be defined on the set of reachable belief states 
 starting from the initial belief state $\beta_0$: 
 $\Pi^{\mathcal{S}}_{\mathcal{L},\beta_0}$ which is a subset of 
 $\Pi^{\mathcal{S}_h}_{\mathcal{L}}$. 
@@ -776,9 +784,9 @@ It is not surprising that we are facing the same issue in $\pi$-MDPs since the
 possibilistic dynamic programming operator does not rely on algebraic products
 so that it cannot be contracted by some \textit{discount factor} $0 < \gamma < 1$.
 
-For infinite horizon problems, the optimisitc $\pi$-MDP model 
+For infinite horizon problems, the optimistic $\pi$-MDP model 
 has to undergo a little change.
-The dynamic is defined as stationary,
+The dynamics is defined as stationary,
 as in the probabilistic case, see Section \ref{subsectionIHMDP}:
 $\forall t \geqslant 0$,
 $\forall (s,s') \in \mathcal{S}^2$, $\forall \in \mathcal{A}$,
@@ -917,7 +925,7 @@ or $\Psi(s) \geqslant \overline{U^*}(s')$.
 If the problem is non trivial, 
 it means that $s$ is a goal ($\Psi(s)>0$) 
 and that degrees of possibility of transitions to better goals 
-are lower than the degree of preference for $s$.
+are less than the degree of preference for $s$.
 
 \subsection{Value Iteration for $\pi$-MOMDPs}
 \label{section_VIpiMOMDP}
@@ -928,7 +936,7 @@ This Value Iteration algorithm is, for instance, devoted to $\pi$-MOMDPs
 with the $\pi$-POMDP mixed optimistic-pessimistic criterion,
 see Definition \ref{def_optpesscrit}: the terminal preference function is then
 $\underline{\Psi}(s_v,\beta_h) = \min_{s_h \in \mathcal{S}_h} \max \set{ \Psi(s_v,s_h) , 1 - \beta_h(s_h) }$.
-An other example of appropriate $\pi$-MOMDP 
+Another example of appropriate $\pi$-MOMDP 
 with the optimistic $\pi$-POMDP criterion 
 (see Algorithm \ref{PIPOMDP_algo_opt_intermpref}, removing intermediate preferences):
 the terminal preference function is in this case
@@ -1019,7 +1027,7 @@ is the location of the robot,
 $(x_i,y_i)$ the position of target $i$, 
 and $D$ a normalization constant. 
 We suppose that the observations 
-of both targets are independant:
+of both targets are independent:
 then, for instance, the probability 
 $\textbf{p} \paren{ oAB \sachant (x,y), A1 }$ is equal to 
 $\textbf{p} \paren{ good_1 \sachant (x,y)} 
@@ -1045,7 +1053,7 @@ because it consumes the entire RAM after $15$ iterations.
 In the framework of Qualitative Possibility Theory, 
 it is considered always possible to observe the good target: 
 $\pi \paren{good \sachant x,y}=1$. 
-Secondly, further the robot is from target $i$, 
+Secondly, the farther the robot is from target $i$, 
 the more likely it is to badly observe it 
 (e.g. observe $A$ instead of $B$), 
 which is a reasonable assumption 
@@ -1059,7 +1067,7 @@ or any other scale preserving the fact
 that the possibility degree of misperceiving 
 increases with the distance from the considered target. 
 The observation of a target is also considered 
-as NI-independant from the the observation of the other target
+as NI-independent from the the observation of the other target
 (see Definition \ref{def_NIindep} of Section \ref{qualitative_indep}).
 Thus for instance, 
 $\pi \paren{ oAB \sachant (x,y), A1 }=1$, 
@@ -1115,7 +1123,7 @@ with standard $\pi$-POMDPs,
 which indeed justifies 
 our present work on $\pi$-MOMDPs.
 
-In order to compare performances 
+In order to compare the performances 
 of the probabilistic and possibilistic models, 
 we compare the average of their total (undiscounted) rewards at execution,
 \textit{i.e.} a reward-based criterion really close to the probabilistic criterion
@@ -1126,7 +1134,7 @@ is fully known
 by the agent when the robot 
 is at a target's location, 
 it can not end up choosing target $B$. 
-If $k$ is the number of time steps to identify 
+If $k$ is the number of time steps needed to identify 
 and reach the correct target, 
 then the total reward is $100-k$. 
 
@@ -1138,7 +1146,7 @@ then the total reward is $100-k$.
 We consider now that, 
 in reality (thus here for the simulations),
 and contrary to what is described by the model, 
-used image processing algorithms badly perform 
+the image processing algorithms badly perform 
 when the robot is far away from targets, 
 \textit{i.e.}, if $\forall i \in \{1,2\}$, 
 $\sqrt{(x-x_i)^2+(y-y_i)^2}>C$, 
@@ -1281,24 +1289,24 @@ the true target is the other one.
 Now if we set $P_{bad}=0.8$ 
 and evaluate the total reward 
 at execution for different 
-wrong initial beliefs, 
+wrong initial belief states, 
 we get Figure \ref{figureexp}.b 
 with the same parameters: 
 we compare here the possibilistic model 
 and the probabilistic one 
-when the initial belief 
+when the initial belief state 
 is strongly oriented 
 towards the wrong hidden states 
 (i.e. the agent strongly 
 believes that target 1 is B 
 whereas it is A in reality). 
-Note that the possibilistic belief 
+Note that the possibilistic belief state 
 of the good target 
 decreases when the necessity of the
 bad one increases. 
 This figure shows that the possibilistic model 
 yields higher rewards at execution 
-if the initial belief is wrong 
+if the initial belief state is wrong 
 and the observation function is imprecise~\footnote{
 The implementation of the solver,
 as well as a generator of descriptions of such recognition problems
@@ -1345,7 +1353,7 @@ the problem resolution.
 Indeed, this model only implies maximum and minimum operators.
 Note also that if the model has been built from expert 
 qualitative information about the plausible behaviour of the system,
-an arbitrary probabilistic POMDP has no more guarantees than
+an arbitrary probabilistic POMDP offers no more guarantee than
 the possibilistic one 
 which only uses really available description of the problem.
 
@@ -1357,21 +1365,22 @@ the possibilistic belief updating process may
 has an interesting behaviour.
 Under some sufficient assumptions
 given by Theorem \ref{theorem_specificity_belief},
-the belief state is not modify by less reliable information
+the belief state is not modified 
+by less reliable information
 than the previously gathered information, 
 but is able to change to a quite opposite belief state
-if an information which suggests it and which is more reliable is received.
+if an information item which suggests it and which is more reliable is received.
 More complex problems have to be studied 
-to have a better overview of this behaviour
+to get a better overview of this behavior
 in a wider set of situations.
 However, $\pi$-POMDPs with a large system state
 (or $\pi$-MOMDPs with large $\mathcal{S}_h$) 
 cannot be solved with reasonable computation times 
 by algorithms developed until now.
 The next section presents and uses another problem structure,
-possibilistic counterpart of \textit{factored POMDPs},
+the possibilistic counterpart of \textit{factored POMDPs},
 which leads to easier computations of optimal possibilistic strategies 
-and making wider experiments possible:
+and making various experiments:
 the developed solvers use Algebraic Decision Diagrams
 avoiding some useless computations
 and making handled data more compact.
