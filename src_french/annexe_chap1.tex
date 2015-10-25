@@ -1,0 +1,694 @@
+\subsection{Property linking $\mathbb{S}_{\Pi}$ and $\mathbb{S}_{\mathcal{N}}$}
+\begin{Property}
+\label{prop_SpiSn}
+Let $f$ be a function from $\Omega$ to $\mathcal{L}$:
+\[ \mathbb{S}_{\Pi} \croch{1-f} = 1 - \mathbb{S}_{\mathcal{N}} \croch{ f }  \]
+\end{Property}
+\begin{proof}
+By definition (see Definition \ref{sugeno_integral} and Theorem \ref{sugenoPossNec}),
+\begin{align*}
+\mathbb{S}_{\Pi} \croch{ 1 - f } &= \max_{\omega \in \Omega} \min \set{ 1 - f(\omega), \pi(\omega) } \\
+&= \max_{\omega \in \Omega} \Big\{ 1 - \max \set{ f(\omega), 1 -\pi(\omega) } \Big\} \\
+&= 1 - \min_{\omega \in \Omega} \max \set{ f(\omega), 1 - \pi(\omega) } \\
+&= 1 - \mathbb{S}_{\mathcal{N}} \croch{f},
+\end{align*}
+using equations (\ref{equationmaxmin1}) and (\ref{equationmaxmin2}) of Property \ref{property_minmax}.
+\end{proof}
+\subsection{Proof of Property \ref{sugenoproperties}}
+\label{sugenoproperties_RETURN}
+\begin{proof}
+First, $\forall \omega \in \Omega$, 
+$\max \set{ f(\omega), g(\omega) } \geqslant f(\omega)$, and $\max \set{ f(\omega), g(\omega) } \geqslant g(\omega)$.
+Thus, $\forall \omega \in \Omega$, $\max \set{ f(\omega), g(\omega) } \geqslant \min \set{f(\omega),\pi(\omega)}$, 
+and $\max \set{ f(\omega), g(\omega) } \geqslant \min \set{g(\omega), \pi(\omega)}$.
+As well, note that $\forall \omega \in \Omega$, $\pi(\omega) \geqslant \min \set{ f(\omega), \pi(\omega) }$,
+and $\forall \omega \in \Omega$, $\pi(\omega) \geqslant \min \set{ g(\omega), \pi(\omega) }$.
+Thus, $\forall \omega \in \Omega$,
+\[ \min \Big\{ \max \set{ f(\omega), g(\omega)} , \pi(\omega) \Big\} \geqslant \min \set{ f(\omega), \pi(\omega) } \]
+and
+\[ \min \Big\{ \max \set{ f(\omega), g(\omega)} , \pi(\omega) \Big\} \geqslant \min \set{ g(\omega), \pi(\omega) }. \]
+Recall that the Sugeno integral $\mathbb{S}_{\Pi} \croch{ \max \set{f,g} }$ is equal to 
+\[ \max_{\omega' \in \Omega} \min \Big\{ \max \set{ f(\omega'), g(\omega') }, \pi(\omega')  \Big\}.\]
+Using previous inequalities, $\forall \omega \in \Omega$, 
+\[ \mathbb{S}_{\Pi} \croch{ \max \set{f,g} } \geqslant \min \set{ f(\omega), \pi(\omega) }\] and
+\[ \mathbb{S}_{\Pi} \croch{ \max \set{f,g} } \geqslant \min \set{ g(\omega), \pi(\omega) }, \] and then
+\[ \mathbb{S}_{\Pi} \croch{ \max \set{f,g} } \geqslant \max_{\omega \in \Omega}\min \set{ f(\omega), \pi(\omega) } = \mathbb{S}_{\Pi} \croch{f}, \] 
+and
+\[ \mathbb{S}_{\Pi} \croch{ \max \set{f,g} } \geqslant \max_{\omega \in \Omega} \min \set{ g(\omega), \pi(\omega) } = \mathbb{S}_{\Pi} \croch{g}.\]
+We can conclude that $\mathbb{S}_{\Pi} \croch{\max\set{f,g}} \geqslant \max \set{\mathbb{S}_{\Pi}\croch{f}, \mathbb{S}_{\Pi}\croch{g} }$.
+
+Now, let us show that $\mathbb{S}_{\Pi}\croch{\max \set{f,g}} \leqslant \max \set{\mathbb{S}_{\Pi}\croch{f}, \mathbb{S}_{\Pi}\croch{g} }$:
+let us denote by $\omega^*$ an element from $\Omega$ such that 
+\[ \omega^* \in \operatorname*{argmax} \min \Big\{ \max \set{ f(\omega), g(\omega) }, \pi(\omega) \Big\}. \]
+Thus, $\mathbb{S}_{\Pi}\croch{ \max \set{f, g} }= \min \Big\{ \max \set{ f(\omega^*), g(\omega^*) }, \pi(\omega^*) \Big\}$.
+On the one hand, if $f(\omega^*) \geqslant g(\omega^*)$,
+\begin{align*}
+\mathbb{S}_{\Pi} \croch{\max \set{f,g} } &= \min \set{ f(\omega^*), \pi(\omega^*) } \\
+& \leqslant \max_{\omega \in \Omega} \min \set{ f(\omega), \pi(\omega) } = \mathbb{S}_{\Pi} \croch{ f } \leqslant \max \set{ \mathbb{S}_{\Pi} \croch{ f }, \mathbb{S}_{\Pi} \croch{ g }  }. 
+\end{align*}
+On the other hand, if $f(\omega^*) \leqslant g(\omega^*)$,
+\begin{align*}
+\mathbb{S}_{\Pi} \croch{\max \set{f,g} } &= \min \set{ g(\omega^*), \pi(\omega^*) } \\
+& \leqslant \max_{\omega \in \Omega} \min \set{ g(\omega), \pi(\omega) } = \mathbb{S}_{\Pi} \croch{ g } \leqslant \max \set{ \mathbb{S}_{\Pi} \croch{ f }, \mathbb{S}_{\Pi} \croch{ g }  }. 
+\end{align*}
+Finally, $\mathbb{S}_{\Pi} \croch{ \max \set{ f,g } } = \max \set{\mathbb{S}_{\Pi} \croch{f}, \mathbb{S}_{\Pi} \croch{g} }$.
+
+Using Property \ref{prop_SpiSn}, equation (\ref{equationmaxmin2}) of Property \ref{property_minmax},
+and the previous result,
+\begin{align*}
+\mathbb{S}_{\mathcal{N}}\croch{ \min \set{f,g} } &= \mathbb{S}_{\mathcal{N}} \croch{ 1 - \max \set{ 1-f,1-g } } \\
+&= 1 -\mathbb{S}_{\Pi} \croch{ \max \set{ 1 - f, 1 - g } } \\
+&= 1 - \max \set{ \mathbb{S}_{\Pi} \croch{ 1 - f }, \mathbb{S}_{\Pi} \croch{ 1-g }  } \\
+&= \min \set{ 1 - \mathbb{S}_{\Pi} \croch{ 1 - f }, 1 -\mathbb{S}_{\Pi} \croch{ 1-g } }\\
+&= \min \set{ \mathbb{S}_{\mathcal{N}} \croch{f}, \mathbb{S}_{\mathcal{N}} \croch{g} }.
+\end{align*}
+\end{proof}	
+
+\subsection{Proof of Theorem \ref{theorem_intermpref}}
+\label{theorem_intermpref_RETURN}
+\begin{proof}
+In order to make the following calculus lines easier to read,
+$\Psi(S_H)$ is denoted by $\rho_H(S_H,A_H)$,
+$\overline{\Psi}(B^{\pi}_t)$ is denoted by $\overline{\rho_H}(B^{\pi}_H,A_H)$,
+and $\underline{\Psi}(B^{\pi}_t)$ is denoted by $\underline{\rho_H}(B^{\pi}_H,A_H)$:
+\begin{align}
+\label{beliefbasedpossglobopt1} \mathbb{S}_{\Pi} \croch{  \overline{\mathcal{G}} \Big( (S_t)_{t=0}^{H}, (A_t)_{t=0}^{H-1} \Big) } 
+ &= \mathbb{S}_{\Pi} \croch{  \max_{t=0}^{H} \rho_t (S_t, A_t) } \\
+\label{beliefbasedpossglobopt2} &= \max_{t=0}^{H} \mathbb{S}_{\Pi} \croch{ \rho_t (S_t, A_t) } \\
+\label{beliefbasedpossglobopt3} &= \max_{t=0}^{H} \mathbb{S}_{\Pi} \croch{ \overline{\rho_t} (B^{\pi}_t, A_t) } \\
+\label{beliefbasedpossglobopt4} &=  \mathbb{S}_{\Pi} \croch{ \max_{t=0}^{H} \overline{\rho_t} (B^{\pi}_t, A_t) } \\
+\label{beliefbasedpossglobopt5} &= \mathbb{S}_{\Pi} \croch{ \overline{\mathcal{G}} \Big( (B^{\pi}_t)_{t=0}^{H},  (A_t)_{t=0}^{H-1} \Big) },
+\end{align}
+where $\overline{\rho_t}(B^{\pi}_t,A_t) = \max_{s \in \mathcal{S}} \min \set{ \rho_t(s,A_t), B^{\pi}_t(s) }$.
+The definition of $\overline{\mathcal{G}}$ 
+(see Definition \ref{def_globaldef})
+explains the first line (\ref{beliefbasedpossglobopt1}).
+Line (\ref{beliefbasedpossglobopt2}) 
+comes from the maxitivity of $\mathbb{S}_{\Pi}$,
+described in Property \ref{sugenoproperties}.
+The Theorem \ref{piPOMDPrewriting} is applied to each
+terms of the maximum operator in line (\ref{beliefbasedpossglobopt3}).
+Finally, line (\ref{beliefbasedpossglobopt4}) uses Property \ref{sugenoproperties}
+and line (\ref{beliefbasedpossglobopt5}) uses the definition of
+$\overline{\mathcal{G}}$ for belief states.
+\begin{align}
+\label{beliefbasedpossglobpess1} \mathbb{S}_{\mathcal{N}} \croch{  \overline{\mathcal{G}} \Big( (S_t)_{t=0}^{H}, (A_t)_{t=0}^{H-1} \Big) } 
+ &= \mathbb{S}_{\mathcal{N}} \croch{  \min_{t=0}^{H} \rho_t (S_t, A_t) } \\
+\label{beliefbasedpossglobpess2} &= \min_{t=0}^{H} \mathbb{S}_{\mathcal{N}} \croch{ \rho_t (S_t, A_t) } \\
+\label{beliefbasedpossglobpess3} &= \min_{t=0}^{H} \mathbb{S}_{\mathcal{N}} \croch{ \underline{\rho_t} (B^{\pi}_t, A_t) } \\
+\label{beliefbasedpossglobpess4} &=  \mathbb{S}_{\mathcal{N}} \croch{ \min_{t=0}^{H} \underline{\rho_t} (B^{\pi}_t, A_t) } \\
+\label{beliefbasedpossglobpess5} &= \mathbb{S}_{\mathcal{N}} \croch{ \underline{\mathcal{G}} \Big( (B^{\pi}_t)_{t=0}^{H},  (A_t)_{t=0}^{H-1} \Big)  },
+\end{align}
+where $\underline{\rho_t}(B^{\pi}_t,A_t) = \min_{s \in \mathcal{S}} \max \set{ \rho_t(s,A_t), 1 - B^{\pi}_t(s) }$.
+The definition of $\underline{\mathcal{G}}$ 
+(see Definition \ref{def_globaldef})
+explains line (\ref{beliefbasedpossglobpess1}).
+The minitivity of $\mathbb{S}_{\mathcal{N}}$,
+described in Property \ref{sugenoproperties},
+allows to writte the line (\ref{beliefbasedpossglobpess2}). 
+For line (\ref{beliefbasedpossglobpess3}), 
+the Theorem \ref{piPOMDPrewriting} is applied to each
+terms of the minimum operator.
+Finally, Property \ref{sugenoproperties} is used for line (\ref{beliefbasedpossglobpess4}),
+and line (\ref{beliefbasedpossglobpess5}) comes from the definition of
+$\underline{\mathcal{G}}$ for belief states.
+\end{proof}
+
+\subsection{Proof of Theorem \ref{thm_natureReachBel}}
+\label{thm_natureReachBel_RETURN}
+\begin{proof}
+We proceed by induction on $t \in \mathbb{N}$: as the initial visible state $s_{v,0}$ is known by the agent, only states $s=(s_v,s_h)$ for which $s_v=s_{v,0}$ are such that $\beta_0(s)>0$. A belief over hidden states can be thus defined as $\beta_{h,0}(s_h) = \max_{s_v \in \mathcal{S}_v} \beta_0(s_v,s_h) = \beta_0(s_{v,0},s_h)$.
+
+ At time $t$, if $\beta_t(s)=0$ for each $ s=(s_v,s_h) \in \mathcal{S}$ such that $s_v \neq s_{v,t}$, the same notation can be adopted: $\beta_{h,t}(s_h) = \beta_{t}(s_{v,t},s_h)$. Thus, if the agent reaches state $s_{t+1}=(s_{v,t+1},s_{h,t+1})$ 
+using action $a_t \in \mathcal{A}$,
+and if $s' = (s_{v}',s_h')$ with $s_v' \neq s_{v,t+1}$, 
+then $s_v' \neq o_{v,t+1}$ and:
+\begin{eqnarray*} 
+\pi_t \paren{ o_{t+1},s' \sachant \beta_{t},a_t} \hspace{-0.2cm}  
+& = & \hspace{-0.2cm}  \min \set{ \pi_t \paren{ o_{t+1} \sachant s',a_t }, 
+\max_{s \in \mathcal{S}} \min \set{ \pi_t \paren{ s' \sachant s,a_t }, \beta_{t}(s') } } \\
+& = & \hspace{-0.2cm}  0.
+\end{eqnarray*}
+thanks to Equation (\ref{simplif1}). Finally, belief update formula (\ref{possbeliefupdate}) ensures that $\beta_{t+1}(s') = 0$,
+since $0 = \pi_t \paren{ o_{t+1},s' \sachant \beta_{t},a_t} < \pi_t \paren{ o_{t+1}\sachant \beta_{t},a_t}$
+(as $o_{t+1}$ is received, $o_{t+1}$ is not impossible, otherwise the model is wrong). 
+Then, $\beta_{t+1}$ is entirely encoded by 
+$(s_{v,t+1},\beta_{h,t+1})$ with $s_{v,t+1} = o_{v,t+1}$ and $\beta_{h,t+1}(s_h)= \max_{s_v} \beta_{t+1}(s_v,s_h)$, $\forall s_h \in \mathcal{S}_h$.
+\end{proof}
+
+\subsection{Proof of Theorem \ref{thmMomdpBelup}}
+\label{thmMomdpBelup_RETURN}
+\begin{proof}
+Starting from the standard belief update equation (\ref{possbeliefupdate}) of Theorem \ref{belief_process_recursif_poss} 
+with $o_{t+1}=(o_{v,t+1},o_{h,t+1})$, 
+and using equation (\ref{simplif1}) in the case of $o_{v,t+1}=s_{v,t+1}$ (\textit{i.e.} $o_v'=s_v'$), 
+we get that $\beta_{t+1}(s_v',s_h')$ is equal to the right part of the equation (\ref{equation_piMOMDPupdate}). 
+As defined in Theorem \ref{thm_natureReachBel}, $\beta_{t+1,h}(s_h') = \max_{\overline{s_v} \in \mathcal{S}_v} \beta_{t+1}(\overline{s_v},s_h')$;
+as shown in its proof, $\forall s_v' \in \mathcal{S}_v$ such that $s_v' \neq o_v$, $\beta_{t+1}(s_v,s_h)=0$.
+Thus, $\beta_{h,t+1}(s_h')$ is equal to $\beta_{t+1}(s_v',s_h')$ with $o_v' = s_v'$,
+\textit{i.e.} to the right part of the equation.
+\end{proof}
+
+
+\subsection{Proof of Theorem \ref{theorem_DPpiMOMDP}}
+\label{theorem_DPpiMOMDP_RETURN}
+\begin{proof}
+Using the classical dynamic programming equation, Theorem \ref{thm_natureReachBel}, and the facts $\mathcal{S}_v=\mathcal{O}_v$ and that $s_v'\neq o_v'$ is impossible,\\
+$\widehat{U_i^*}(s_v,\beta_h) = \widehat{U_i^*}(\beta)$
+\begin{align*}
+&= \max_{a \in \mathcal{A}} \operatorname*{\widehat{M}} \Bigg\{ \widehat{\rho_t}(\beta,a), \widehat{\mathbb{S}}\bigg( \pi_t \paren{o' \sachant \beta, a}, \widehat{U^*_{i-1}} \Big( \nu( \beta,a,o') \Big) \bigg) \Bigg\} \\
+&= \max_{a \in \mathcal{A}} \operatorname*{\widehat{M}} \Bigg\{ \widehat{\rho_t}(\beta,a), \widehat{\mathbb{S}}\bigg( \pi_t \paren{o_v',o_h' \sachant \beta, a}, \widehat{U^*_{i-1}} \Big( \nu(\beta,a,o_v',o_h') \Big) \bigg) \Bigg\} \\
+&= \max_{a \in \mathcal{A}} \operatorname*{\widehat{M}} \Bigg\{ \widehat{\rho_t}(s_v,\beta_h,a), \widehat{\mathbb{S}}\bigg( \pi_t \paren{s_v',o_h' \sachant \beta, a}, \widehat{U^*_{i-1}} \Big( \nu(\beta,a,s_v',o_h') \Big) \bigg) \Bigg\} \\
+&= \max_{a \in \mathcal{A}} \operatorname*{\widehat{M}} \Bigg\{ \widehat{\rho_t}(s_v,\beta_h,a), \widehat{\mathbb{S}}\bigg( \pi_t \paren{s_v',o_h' \sachant \beta, a}, \widehat{U^*_{i-1}} \Big(s_v', \nu_h(s_v,\beta_h,a,s_v',o_h') \Big) \bigg) \Bigg\} 
+%&= \max_{a \in \mathcal{A}} \max_{(o_v',o_h') \in \mathcal{O}} \min \set{ \beta^a(o_v',o_h'), U^*_{i-1}(\beta^{a,(o_v',o_h')}) } \\
+%&= \max_{a \in \mathcal{A}} \max_{s_v' \in \mathcal{S}_v} \max_{o_h' \in \mathcal{O}_h} \min \set{ \beta^a(s_v',o_h'), u_{i-1}^*(\beta^{a,s_v',o_h'}) } \\
+%&= \max_{a \in \mathcal{A}} \max_{s_v' \in \mathcal{S}_v} \max_{o_h' \in \mathcal{O}_h} \hspace{-0.1cm} \min \hspace{-0.05cm} \set{ \hspace{-0.05cm} \beta^a(s_v',o_h'), u_{i-1}^*(s_v',\beta_h^{a,s_v',o_h'}) }
+\end{align*}
+where $\forall s_h \in \mathcal{S}_h$, 
+\begin{eqnarray*}
+\beta_h'(s_h') = \nu_h(s_v,\beta_h,a,s_v',o_h')(s_h')= \max_{\overline{s}_v \in \mathcal{S}_v} \nu(\beta,a,s_v',o_h')(\overline{s}_v,s_h') & = & \nu(\beta,a,s_v',o_h')(s_v',s_h')\\
+& = & \beta_{t+1}(s_v',s_h').
+\end{eqnarray*}
+% The computation of all the intermediate distributions leading to the updated belief are simplified as well: knowing that $a_t \in \mathcal{A}$
+% is used by the agent, the possibility distribution over the future
+% system states becomes
+%\begin{eqnarray*}
+ % \beta_{t}^{a_t}(s') & = & \max_{s \in \mathcal{S}} \min \set{ \pi \paren{ s' %\sachant s,a_t }, \beta_t(s) } \\
+ % & = & \max_{s_h \in S_h} \min \set{ \pi \paren{ s' \sachant s_{v,t},s_h,a_t }, \beta_{h,t}(s_h) } 
+%\end{eqnarray*} 
+%$\forall s'=(s_v',s_h') \in \mathcal{S}$.
+%The belief over observations defined in the 
+%last section can be written: $\forall o'=(o_v',o_h') \in \mathcal{O}$,
+%%\begin{eqnarray*}
+%\beta^{a}(o') & = & \max_{s' \in \mathcal{S}} \min \set{ \pi \paren{ o_v',o_h' \sachant s', a }, \beta_t^{a_t}(s') } \\
+%& = & \hspace{-0.2cm} \max_{s_h' \in \mathcal{S}_h} \min \set{ \pi \paren{ o_h' \sachant s_v',s_h',a_t }, \beta_t^{a_t}(s_v',s_h')} 
+%\end{eqnarray*} 
+% with $s_v'=o_v'$ since otherwise $\pi \paren{ o' \sachant s_v',s_h',a }=0$ according to Equation (\ref{simplif1}). Then: $\beta^a(s_v',o_h')=\beta^a(o_v',o_h')$.
+\end{proof}
+
+\subsection{Proof of Theorem \ref{theorem_specificity_belief}}
+\label{theorem_specificity_belief_RETURN}
+\begin{proof}
+Let $\beta_t$ be a belief state in $\Pi^{\mathcal{S}}_{\mathcal{L}}$,
+$a$ be an action in $\mathcal{A}$,
+and let us denote $\max_{s \in \mathcal{S}}\min \set{ \pi \paren{s' \sachant s,a}, \beta_t(s)}$ 
+by $\beta^a_t(s')$, $\forall s' \in \mathcal{S}$.
+
+For each $s' \in \mathcal{S}$, 
+we denote by $\mathcal{P}_a(s')$ the set of system states
+which lead to $s'$ selecting action $a \in \mathcal{A}$:
+$\set{ s \in \mathcal{S} \sachant \pi \paren{ s' \sachant s,a }=1 }$.
+As the transition possibility distribution $\pi \paren{ s' \sachant s,a }$ is
+deterministic, $\forall s \in \mathcal{S}$, 
+$\exists ! s' \in \mathcal{S}$ such that $\pi \paren{ s' \sachant s,a } = 1$.
+It implies that $\forall (s',\tilde{s}) \in \mathcal{S}^2$,
+$\mathcal{P}_a(s') \cap \mathcal{P}_a(\tilde{s}) = \emptyset$
+(otherwise, $\exists s \in \mathcal{S}$ leading 
+to two different successors
+selecting action $a$, 
+namely $s'$ and $\tilde{s}$).
+Moreover, $\cup_{s' \in \mathcal{S}} \mathcal{P}_a(s') = \mathcal{S}$
+(otherwise $\exists s \in \mathcal{S}$ without any successor $s' \in \mathcal{S}$).
+Thus, $\forall s' \in \mathcal{S}$, 
+two cases are possible:
+either there is no system state $s \in \mathcal{S}$ leading to $s'$
+selecting action $a$, 
+\textit{i.e.} $\mathcal{P}_a(s')=\emptyset$,
+and then $\beta^a_t(s') = 0$
+%and then $\beta_t^a(s') = 0$
+(since $\forall s \in \mathcal{S}$, $\pi \paren{ s' \sachant s,a} = 0$). 
+%(since $\forall s \in \mathcal{S}$, $\pi \paren{s' \sachant s,a} = 0$).
+Otherwise, $\mathcal{P}_a(s') \neq \emptyset$
+and $\beta^a_t(s') = \max_{s \in \mathcal{P}_a(s')} \beta_t(s)$.
+As, $\forall s' \in \mathcal{S}$, $\max_{s \in \mathcal{P}_a(s')} \beta_t(s) \leqslant \sum_{s \in \mathcal{P}_a(s')} \beta_t(s)$,
+\[ \sum_{s' \in \mathcal{S}} \beta^a_t(s') \leqslant \sum_{s' \in \mathcal{S}} \sum_{s \in \mathcal{P}_a(s')} \beta_t(s) = \sum_{s \in \mathcal{S}} \beta_t(s),\]
+\textit{i.e.}
+%$\beta^a_t(s') \preceq \beta_t$: 
+%indeed, if $s$ is such that 
+%$\beta(s) = l \in \mathcal{L}$,
+%then let $s' \in \mathcal{S}$ 
+%be the only state such that
+%$\pi \paren{s'\sachant s,a}=1$.
+%Then, $\beta^a_t(s') = \beta_t(s) = l$.
+%Hence, in the case where $\pi \paren{s' \sachant s,a}$ 
+%is a bijection from $\mathcal{S}$ 
+%to $\mathcal{S}$, 
+%$\sum_{s \in \mathcal{S}} \beta^a_t(s) = \sum_{s \in \mathcal{S}} \beta_t(s) $.
+%In the general case, 
+$\beta^a_t \preceq \beta_t$.
+%since some of the (deterministic) transitions
+%lead to the same system state,
+%and thus some states $s'$ cannot be reached ($\beta_t^a(s') = 0$).
+Finally, since $\pi \paren{ o' \sachant s',a }=1$, 
+$\min \set{ \pi \paren{ o' \sachant s',a }, \beta^a_t(s') } = \beta^a_t(s')$.
+Thus, using the belief update equation (\ref{possbeliefupdate}), $\beta^a_t=\beta_{t+1}$, 
+and then $\beta_{t+1} \preceq \beta_t$.
+We can conclude that the first conditions lead to $\beta_{t+1} \preceq \beta_t$.
+
+We prove now that the second conditions
+lead to the same conclusion. 
+First note that if $\pi \paren{s'\sachant s,a} = \mathds{1}_{\set{s'=s}}$, 
+then $\beta^a_t = \beta_t$.
+%Hence, the possibilistic normalization 
+%which ends the belief update (\ref{possbeliefupdate})
+%....
+Two cases are now distinguished.
+First, suppose that it exists a system state $s' \in \mathcal{S}$ such that 
+$\min \set{ \pi \paren{ o' \sachant s',a}, \beta^a_t(s') }=1$:
+using the belief update (\ref{possbeliefupdate}), 
+we get that
+$\forall s' \in \mathcal{S}$,
+$\beta_{t+1}(s') = \min \set{ \pi \paren{ o' \sachant s',a}, \beta^a_t(s') }$.
+%Hence, $\# \set{ s \in \mathcal{S} \sachant \beta_t(s) = 1 } 
+%\geqslant \# \set{ s \in \mathcal{S} \sachant \beta_{t+1} = 1 }=1$,
+%and 
+%system states $s' \in \mathcal{S}$ satisfying $\beta_t(s')<1$, 
+%are such that 
+Yet, %$\beta_{t+1}(s') = 
+$\min \set{ \pi \paren{ o' \sachant s',a}, \beta^a_t(s')} \leqslant \beta^a_t(s')
+= \beta_t(s')$, thus $\beta_{t+1}$ is more specific than $\beta_t$ 
+(and then $\beta_{t+1} \preceq \beta_t$).
+%Obviously, system states $s' \in \mathcal{S}$ satisfying $\beta_t(s')=1$
+%are such that $1 = \beta_t(s') \geqslant \beta_{t+1}(s')$.
+%We can then conclude that $\beta_{t+1} \preceq \beta_t$.
+Second, suppose that $\forall s' \in \mathcal{S}$, 
+$\min \set{ \pi \paren{ o' \sachant s', a}, \beta^a_t(s') }<1$.
+Then, only one $s' \in \mathcal{S}$ 
+can maximize $\min \set{ \pi \paren{o' \sachant s',a}, \beta^a_t(s') }$.
+Indeed, otherwise, 
+it would be two system states 
+$s'$ and $\tilde{s}$ such that
+one of the following equalities hold:
+$\pi \paren{o' \sachant  s', a} = \pi \paren{ o' \sachant \tilde{s}, a}$;
+or $\pi \paren{o' \sachant s',a} = \beta^a_t(\tilde{s})$;
+%or $\pi \paren{o' \sachant \tilde{s},a} = \beta^a_t(s')$;
+or $\beta^a_t(s') = \beta^a_t(\tilde{s})$.
+We know that the belief update (\ref{possbeliefupdate})
+defines $\beta_{t+1}(s')$
+as the possibility degree $\beta^a_t(s')$, 
+or $\pi \paren{o' \sachant s',a}$, or yet $1$.
+Since $\forall s \in \mathcal{S}$, $\beta_0(s)=1$
+and
+since $\forall o' \in \mathcal{O}$, 
+$\forall a \in \mathcal{A}$,
+$\forall (s', \tilde{s}) \in \mathcal{S}^2$,
+$\pi \paren{o' \sachant s',a} \neq \pi \paren{o' \sachant \tilde{s},a}$,
+belief states obtained from $\beta_0$,
+using successive belief updates (\ref{possbeliefupdate}), 
+never assign the same possibility degree to
+two different states, 
+except if it is the possibility degree $1$. 
+It contradicts thus the fact that more than one system state 
+$s' \in \mathcal{S}$ 
+maximize $\min \set{ \pi \paren{o' \sachant s',a}, \beta^a_t(s') }$.
+Let us note the maximizing system state $s^*$:
+using belief update (\ref{possbeliefupdate}),
+this state is the only system state such that $\beta_{t+1}(s^*)=1$.
+System states $s' \in \mathcal{S}$ 
+which do not maximize the joint possibility distribution
+($s' \neq s^*$)
+ are such that
+$ \beta_{t+1}(s') = \min \set{ \pi \paren{ o' \sachant s',a }, \beta^a_t(s')} \leqslant \beta^a_t(s')=\beta_t(s')$.
+Thus if $\beta_t(s^*) = 1$, $\beta_{t+1}$ is more specific than $\beta_t$
+(and then $\beta_{t+1} \preceq \beta_t$).
+In order to complete the proof, we now show that 
+the inequality $\beta_{t+1} \preceq \beta_t$ remains true 
+even if $\beta_t(s^*) < 1$.
+Let us denote by $\tilde{s} \in \mathcal{S}$
+a system state such that $\beta_t(\tilde{s}) = 1$.
+We can affirm that $\beta_{t+1}(\tilde{s}) < \beta_t(s^*)$.
+Indeed, if this was not the case,
+then $\beta_{t+1}(\tilde{s}) \geqslant \beta_t(s^*)$,
+and 
+\[ \beta_{t+1}(\tilde{s}) \geqslant \min \set{ \pi \paren{o' \sachant s^*,a}, \beta_t(s^*)}
+=\min \set{ \pi \paren{o' \sachant s^*,a}, \beta^a_t(s^*)},\]
+where the last equality is due to the fact that $\beta^a_t=\beta_t$.
+Since $\beta_{t+1}(\tilde{s}) = \min \set{ \pi \paren{o' \sachant \tilde{s},a}, \beta^a_t(\tilde{s})}$, $s^*$ is not maximizing: it is a contradiction.
+Thus, $\beta_{t+1}(\tilde{s}) < \beta_t(s^*)$.
+Finally, $\sum_{s \in \mathcal{S} \setminus \set{s^*,\tilde{s}}} \beta_{t+1}(s) \leqslant \sum_{s \in \mathcal{S} \setminus \set{s^*,\tilde{s}}} \beta_t(s)$, $\beta_{t+1}(s^*) = \beta_t(\tilde{s}) = 1$
+and $\beta_{t+1}(s^*)< \beta_t(\tilde{s})$,
+thus $\beta_{t+1} \preceq \beta_t$ (and even $\beta_{t+1} \prec \beta_t$).
+\end{proof} 
+
+\newpage
+\section{Proof of Theorem \ref{thmIV}: optimality of the strategy computed by Algorithm \ref{algorithmIVPIMDP}}
+\label{proofThmIV}
+This appendix demonstrates that Algorithm \ref{algorithmIVPIMDP} returns the
+ maximum value of Equation (\ref{optcriterion}) and an optimal strategy. 
+Note that the computed optimal strategy is stationary,
+and is optimal regardless of the initial state. 
+We recall that $\exists \widehat{a} \in \mathcal{A}$ such that $\forall s \in \mathcal{S}$, 
+$\pi \paren{ s' \sachant s,\widehat{a} } = 1$ if $s'=s$, and $0$ otherwise. 
+The existence of this action $\widehat{a}$ makes the maximum value of the criterion 
+non-decreasing with respect to the horizon size.
+Let us denote by $(u^*_i)_{i \geqslant 0}$ 
+the sequence of functions $\overline{U^*}$
+computed by the algorithm: $\forall i\geqslant 1$, 
+$u^*_{i-1}$ is the function $\overline{U^*}$
+at the beginning of the $i^{th}$ iteration (line \ref{beginning_while_VI}).
+That is, $u^*_0 = \Psi$, and $\forall i \geqslant 1$, $\forall s \in \mathcal{S}$, 
+$u^*_{i}(s) = \max_{a \in \mathcal{A}} \min \set{ \pi \paren{s' \sachant s,a}, u^*_{i-1}(s) }$.
+As well, $\forall s \in \mathcal{S}$,
+we denote by $\delta^*_i$ 
+the strategy $\delta^*: \mathcal{S} \rightarrow \mathcal{A}$ 
+computed after $i$ iterations (according to the while loop).
+Finally, $\mathcal{T}_i$ is the set of $i$-length
+system state trajectories $(s_1,\ldots,s_i)$,
+and $\Delta_i$ the set of $i$-length strategies:
+$(\delta_t)_{t=0}^{i-1}$ such that $\delta: \mathcal{S} \rightarrow \mathcal{A}$.
+\begin{Lemma} \label{nondecreasingU}
+ $\forall s \in \mathcal{S}$, $\forall i \geqslant 0$, $u^*_i(s) \leqslant u^*_{i+1}(s)$. 
+\end{Lemma}
+\begin{proof}
+Let $s_0 \in \mathcal{S}$. 
+Looking at Algorithm \ref{dynamic_programming_pimdp}
+for optimistic finite-horizon $\pi$-MDP, 
+and looking at Algorithm \ref{algorithmIVPIMDP}, 
+we see that $\forall i \geqslant 0$,
+$u^*_i = \overline{U_i^*}$ 
+(in the case of terminal preference only, 
+\textit{i.e.} $\forall t \geqslant 0$, 
+$\forall a \in \mathcal{A}$, 
+$\forall s \in \mathcal{S}$, $\rho_t(s,a)=1$
+since the global preference (\ref{globalprefmin}) 
+is based on the miminum operator,
+see Section \ref{subsection_piMDPs}),
+and thus, $\forall p \geqslant 1$
+\[ u^*_{p+1}(s_0) 
+= \displaystyle \max_{(\delta) \in \Delta_{p+1}} \max_{\tau \in \mathcal{T}_{p+1} } 
+\min \set{ \min_{i=0}^p \pi \Big( s_{i+1} \Big\vert s_i,\delta_i(s_i) \Big), \Psi(s_{p+1}) }. \]
+Consider the particular trajectories 
+$\tau' \in \mathcal{T}_{p+1}' \subset \mathcal{T}_{p+1}$ 
+such that $\tau'=(s_1,\ldots,s_p,s_{p+1})$
+and $s_p=s_{p+1}$.
+Consider also the particular policies 
+$(\delta') \in \Delta_{p+1}' \subset \Delta_{p+1}$ 
+such that 
+$(\delta')=(\delta_0,\ldots,\delta_{p-1},\widehat{\delta})$,
+where $\widehat{\delta}$ 
+is the decision rule such that 
+$\widehat{\delta}(s) = \widehat{a}$ 
+(action ``stay''). 
+It is obvious that 
+\[ u^*_{p+1}(s_0) 
+\geqslant \displaystyle \max_{(\delta') \in \Delta_{p+1}' } 
+\max_{\tau' \in \mathcal{T}_{p+1}'} 
+\min \set{ \min_{i=0}^p \pi \Big( s_{i+1} \Big\vert s_i,\delta_i'(s_i) \Big), \Psi(s_{p+1}) } . \] 
+
+The right part of this inequality can be rewritten as
+\[ \max_{(\delta) \in \Delta_{p} } \max_{\tau \in \mathcal{T}_{p}} 
+\min \set{ \min_{i=0}^{p-1} \pi \Big( s_{i+1} \Big\vert s_i, \delta_i(s_i) \Big), \pi \paren{ s_p \sachant s_p, \widehat{a} }, \Psi(s_{p}) } = u^*_p(s_0) \]
+ since $ \pi \paren{ s_p \sachant s_p, \widehat{a} } = 1$.
+Hence, $\forall p \geqslant 0$, 
+$u^*_{p+1}(s_0) \geqslant u^*_p(s_0)$.
+%the maximum value of the optimistic criterion satisfies $\forall s \in \mathcal{S}$, $\forall p \in \N$, $u^*_{p+1}(s) \geqslant u^*_p(s)$. Indeed let $(\delta) \in \Delta_p$ be an optimal policy for a $p$-sized horizon, $\tau=(s_1,\ldots,s_p)$ the trajectory which maximizes \[\min \set{ \min_{i=0,\ldots,p-1} \pi \paren{ s_{i+1} \sachant s_i, \delta_i(s_i) }, \mu(s_p) },\] and $s_{p+1}=s_p$. Policy $\delta'=((\delta),\overline{\delta}) \in \Delta_{p+1}$ is such that 
+%\begin{eqnarray}
+%\nonumber u^*_p(s_0) & = & \min \set{ \min_{i=0,\ldots,p} \pi \paren{ s_{i+1} \sachant s_i, \delta'_i(s_i) }, \mu(s_{p+1}) } \\
+%\label{croissance_ustar} & \leqslant & u_{p+1}(s_0,(\delta')) \leqslant u^*_{p+1}(s_0)
+%\end{eqnarray} 
+%because $s_{p+1}=s_p$ so $\pi \paren{s_{p+1} \sachant s_p,\widehat{a}} = 1$. 
+%Then $(u^*_p(s))_{p \in \N}$ is non-decreasing $\forall s \in \mathcal{S}$.
+\end{proof}
+The meaning of this lemma is: 
+it is always more possible 
+to reach a state $s$ from $s_0$ in at most $p+1$ steps 
+than in at most $p$ steps.
+As for each $s \in \mathcal{S}$, 
+$\Big(u^*_p(s)\Big)_{p \in \mathbb{N}} \leqslant 1$, 
+Lemma \ref{nondecreasingU} insures 
+that the sequence $(u_p^*(s))_{p \in \mathbb{N}}$ converges. 
+The next lemma shows that the convergence 
+of this sequence occurs in finite time.
+\begin{Lemma}
+For all $\forall s \in \mathcal{S}$, 
+the number of iterations of the sequence 
+$\Big(u^*_p(s)\Big)_{p \in \mathbb{N}}$ up to convergence 
+is bounded by $\# \mathcal{S} \times \# \mathcal{L}$.
+\end{Lemma}
+\begin{proof} 
+Recall first that values of the possibility 
+and preference distributions 
+are in $\mathcal{L}$ 
+which is finite 
+and totally ordered: 
+we can write $\mathcal{L}$=$\{ 0,l_1,l_2,\ldots,1 \}$ 
+with $0 < l_1 < l_2 < \ldots < 1$. 
+If two successive functions 
+$u^*_k$ and $u^*_{k+1}$ are equal,
+then $\forall s \in \mathcal{S}$ 
+sequences $\Big(u_p^*(s)\Big)_{p \geqslant k }$ are constant. 
+Indeed this sequence can be defined by the recursive formula
+\[ u^*_{p}(s) = \max_{a \in \mathcal{A}} \max_{s' \in \mathcal{S}} \min \set{ \pi \paren{ s' \sachant s,a }, u^*_{p-1}(s') }. \]
+Thus if $\forall s \in \mathcal{S}$, 
+$u^*_p(s) = u_{p-1}^*(s)$ 
+then the next iteration ($p+1$) 
+faces the same situation 
+($u^*_{p+1}(s) = u_{p}^*(s)$, $\forall s \in \mathcal{S}$). 
+The slowest convergence can then be described as follows: 
+for each $p \in \mathbb{N}$ 
+only one $s \in \mathcal{S}$ 
+is such that $u_{p+1}^*(s) > u^*_p(s)$. 
+Moreover, for this $s$, 
+if $u_p^*(s)=l_i$, 
+then $u_{p+1}^*(s)=l_{i+1}$. 
+We can conclude that for $p > \# \mathcal{L} \times \# \mathcal{S}$, 
+the sequence is constant. 
+\end{proof}
+%First note that the variable $u^*(s)$ of Algorithm \ref{algorithmIVPIMDP} is equal to $u^*_p(s)$ after the $p^{th}$ iteration. 
+We conclude that the variable $\overline{U^*}$
+of the algorithm converges 
+to the maximal value of the criterion 
+for an $(\# \mathcal{L} \times \# \mathcal{S})$-size horizon 
+and can not be greater: 
+the function $\overline{U^*}$ returned is thus optimal 
+with respect to Equation (\ref{optcriterion}) 
+and is computed in a finite number of steps.
+
+%Suppose the system is in state $s \in \mathcal{S}$. The stationary policy returned by Algorithm \ref{algorithmIVPIMDP}, denoted by $(\delta^*)$, consists in executing: either a maximizing action at the last increase of the algorithm's variable $u^*(s)$, or $\widehat{a}$ if this variable $u^*(s)$ has been constant since the beginning.
+
+In the following, we prove the optimality of the strategy,
+based on the decision rule $\overline{\delta^*}: \mathcal{S} \rightarrow \mathcal{A}$, 
+returned by Algorithm \ref{algorithmIVPIMDP}. 
+For this purpose, we will construct a trajectory $\tau = (s_1, \ldots, s_p) \in \mathcal{T}_p$
+of size $p$ smaller than $\# \mathcal{S}$ 
+which maximizes $\min \set{ \pi \paren{\tau \sachant s_0, (\delta) }, \Psi(s_p) }$ 
+with strategy $(\overline{\delta^*}) = (\overline{\delta^*_t})_{t\geqslant 0}$
+such that $\forall s \in \mathcal{S}$,
+$\forall t \geqslant 0$,
+$\overline{\delta^*_t}(s) = \overline{\delta^*}(s)$. 
+The next two lemmas are needed for this construction and require some notations. 
+
+Let $s_0 \in \mathcal{S}$ 
+and $p$ be the smallest integer 
+such that $\forall p' \geqslant p$, 
+$u^*_{p'}(s_0)=\overline{U^*}(s_0)$, 
+where $\overline{U^*}$ is here the optimal value 
+of the infinite horizon criterion of Equation 
+(\ref{optcriterion}) returned by Algorithm \ref{algorithmIVPIMDP}
+(variable $\overline{U^*}(s)$ of Algorithm \ref{algorithmIVPIMDP} 
+does not increase after $p$ iterations). 
+Algorithm \ref{dynamic_programming_pimdp}
+for optimistic finite-horizon $\pi$-MDP
+(in the case of terminal preference only)
+can be used to return an optimal strategy 
+in the finite-horizon sence, see criterion (\ref{MDPtermprefcritopt}), 
+denoted by $(\delta^{(s_0)}) \in \Delta_p$
+(this strategy is not stationary in general). 
+With this notation, 
+$\forall s \in \mathcal{S}$, \ $\overline{\delta^*}(s) = \delta_0^{(s)}(s)$,
+since $\delta_0^{(s)}(s)$ 
+is the last selected action before convergence
+of $\Big(\overline{U^*_i}(s)\Big)_{i \geqslant 0}$
+(see Algorithm \ref{dynamic_programming_pimdp}).
+ 
+Consider now a trajectory 
+$\tau=(s_1,s_2,\ldots,s_p)$ which maximizes 
+\[ \min \set{ \min_{i=0}^{p-1} \pi \Big( s_{i+1} \Big\vert s_i, \delta^{(s_0)}_i(s_i) \Big), \Psi(s_p) }.\]
+This trajectory is called \textit{optimal trajectory of minimal size from $s_0$}. 
+\begin{Lemma} \label{stage1}
+Let $\tau=(s_1,\ldots,s_p)$ be an optimal trajectory of minimal size from $s_0$.
+Then, $\forall k \in \set{1,\ldots,p-1}$, 
+\[ \overline{U^*}(s_0) \leqslant u^*_{p-k}(s_k) \leqslant \overline{U^*}(s_k), \]
+where $\overline{U^*}$ is the optimal value function
+returned by Algorithm \ref{algorithmIVPIMDP},
+and $u^*_{p-k}(s_k)$ is equal to $\overline{U^*_{p-k}}(s_k)$
+in Algorithm \ref{dynamic_programming_pimdp}
+(or defined above).
+\end{Lemma} 
+\begin{proof}
+Let $k \in \set{1,\ldots,p-1}$. 
+\begin{eqnarray}
+\nonumber \overline{U^*}(s_0) 
+& = & \min \set{ \min_{i=0}^{p-1} \pi \Big( s_{i+1} \Big\vert s_i, \delta^{(s_0)}_i(s_i) \Big), \Psi(s_p) } \\
+\nonumber & \leqslant & \min \set{ \min_{i=k}^{p-1} \pi \Big( s_{i+1} \Big\vert s_i, \delta^{(s_0)}_i(s_i) \Big), \Psi(s_p) } \leqslant \overline{U^*_{p-k}}(s_k) = u_{p-k}^*(s_k) \leqslant \overline{U^*}(s_k)
+\end{eqnarray}
+since $(u^*_p)_{p \in \mathbb{N}}$ is non-decreasing (see Lemma \ref{nondecreasingU}),
+and $\forall i \geqslant 0$, $\overline{U^*_i} = u^*_i$ (see Algorithm \ref{dynamic_programming_pimdp}) whose limit is $\overline{U^*}$.
+\end{proof}
+\begin{Lemma} \label{stage2}
+Let $\tau=(s_1,\ldots,s_p)$ be an optimal trajectory of minimal size from $s_0$ 
+and $k \in \set{1,\ldots,p-1}$. 
+If $\overline{U^*}(s_0) = \overline{U^*}(s_k)$, 
+then $\overline{\delta^*}(s_k)=\delta^{(s_0)}_k(s_k)$.
+\end{Lemma}
+\begin{proof}
+Suppose that $\overline{U^*}(s_0) = \overline{U^*}(s_k)$. 
+Since $\overline{U^*}(s_0) \leqslant u^*_{p-k}(s_k) 
+\leqslant \overline{U^*}(s_k)$ (Lemma \ref{stage1}),
+we obtain that $u^*_{p-k}(s_k) = \overline{U^*}(s_k).$
+The criterion in $s_k$ is thus optimized 
+within a $(p-k)$-horizon. 
+Moreover a shorter horizon is not optimal: 
+$\forall m \in \{1, \ldots,p-k \}$, 
+$u^*_{p-k-m}(s_k) < \overline{U^*}(s_k)$ 
+\textit{i.e.} with a ($p-k-m$)-size horizon 
+the criterion in $s_k$ is not maximized. 
+Indeed if the contrary was true, 
+the criterion in $s_0$ would be maximized 
+within a $(p-m)$-size horizon: 
+the strategy 
+\[ \delta'=(\delta^{(s_0)}_0, \delta^{(s_0)}_1,\ldots,\delta^{(s_0)}_{k-1},\delta^{(s_k)}_0,\ldots,\delta^{(s_k)}_{p-k-m-1}) \in \Delta_{p-m}\] 
+would be optimal. 
+Indeed,
+\begin{eqnarray*}
+\overline{U^*}(s_0) & = & \min \set{ \min_{ i=0}^{k-1} \pi \paren{ s_{i+1} \sachant s_i,\delta^{(s_0)}_i(s_i) }, u^*_{p-k}(s_k) } \\
+ & = & \min \set{ \min_{i=0}^{k-1} \pi \paren{ s_{i+1} \sachant s_i,\delta^{(s_0)}_i(s_i) }, \overline{U^*}(s_k) }.
+\end{eqnarray*}
+Then let $\overline{\tau} 
+= (\overline{s}_1,\ldots,\overline{s}_{p-k-m}) \in \mathcal{T}_{p-k-m}$ 
+be an optimal trajectory of minimal size from $s_k$. 
+Setting $\overline{s_0} = s_k$, 
+$\overline{\tau}$ thus maximizes 
+$\min \set{ \min_{i=0}^{p-k-m-1} \pi \paren{ \overline{s}_{i+1} \sachant \overline{s}_i, \delta^{(s_k)}_i (\overline{s}_i) }, \Psi(\overline{s}_{p-k-m}) }$,
+which is then equal to $\overline{U^*}(s_k)$.
+If $(s_1',\ldots,s_{p-m}') 
+= (s_1,\ldots,s_{k-1},\overline{s}_{0},\ldots,\overline{s}_{p-k-m})$,
+\[ \overline{U^*}(s_0) 
+= \displaystyle \min \set{ \min_{ i=0}^{ p-m-1 } \pi \Big( s_{i+1}' \Big\vert s_i',\delta_i'(s_i) \Big), \Psi(s_{p-m}') }, \]
+\textit{i.e.} $\exists p'<p$ such that $\overline{U^*}(s_0)=u^*_{p'}(s_0)$: 
+it contradicts the assumption that $(s_1,\ldots,s_p)$ is an optimal trajectory of minimum size. 
+Thus $p-k$ is the smallest integer such that 
+$u^*_{p-k}(s_k)=\overline{U}^*(s_k)$: 
+we finally conclude that 
+$\overline{\delta^*}(s_k) \ \Big(:=\delta^{(s_k)}_0 (s_k)\Big) \ = \delta^{(s_0)}_k(s_k),$
+as the action $\delta^{(s_0)}_k(s_k)$
+is also selected during the iteration $p-k$,
+maximizing the same value function.
+\end{proof}
+\begin{theorem} 
+Let $(\overline{\delta^*})$ be the strategy returned by Algorithm \ref{algorithmIVPIMDP};
+$\forall s_0 \in \mathcal{S}$, there exists $p^* \leqslant \# \mathcal{S}$ and a trajectory $(s_1,\ldots,s_{p^*})$ such that 
+\[ \overline{U^*}(s_0) 
+= \min \set{ \min_{i=0}^{p^{*}-1} \pi \Big( s_{i+1} \Big\vert s_i, \overline{\delta^*}(s_i) \Big), \Psi(s_{p^*}) }, \] 
+\textit{i.e.} $(\overline{\delta^*})$ is an optimal strategy.
+\end{theorem}
+\begin{proof}
+Let $s_0$ be in $\mathcal{S}$ 
+and $\tau \in \mathcal{T}_p$ be an optimal trajectory 
+of minimal size $p$ from $s_0$. 
+If $\forall k \in \set{1,\ldots,p-1}$, 
+$\overline{U^*}(s_k) = \overline{U^*}(s_0)$,
+then, using Lemma \ref{stage2}, $\forall k \in \set{1,\ldots,p-1}$,
+$\overline{\delta^*}(s_k):=\delta^{(s_k)}_0 (s_k) = \delta^{(s_0)}_k(s_k)$,
+and then the criterion in $s_0$ is maximized with $(\overline{\delta^*})$ 
+since it is maximized with $(\delta_t^{(s_0)})_{t=0}^{p-1}$:
+the optimality of the strategy is shown. 
+
+Otherwise, let $ k$ be the smallest integer 
+$\in \set{1,\ldots,p-1}$ such that 
+$\overline{U^*}(s_k) > \overline{U^*}(s_0)$:
+the definition of $k$ and Lemma \ref{stage1} implies that
+$\overline{U^*}(s_k) > \overline{U^*}(s_i) = \overline{U^*}(s_0)$,
+$\forall i \in \set{0, \ldots, k-1}$.
+%$\delta^{(s_k)}_0 (s_k) \neq \delta^{(s_0)}_k(s_k)$. 
+%Lemmas \ref{stage1} and \ref{stage2} ensure that $u^*(s_k)>u^*(s_0)$. Definition of $k$ ensures that $u^*(s_k)>u^*(s_i)$ $\forall i \in \{0,\ldots, k-1 \} $. 
+
+Reiterate beginning with $s^{(1)}_0 = s_k$: 
+let $p^{(1)}$ be the number of iterations 
+until variable $\overline{U^*}(s^{(1)})$ of Algorithm \ref{algorithmIVPIMDP} converges 
+\textit{i.e.} the smallest integer such that 
+$\overline{U^*}(s^{(1)}_0) = u^*_{p^{(1)}}(s^{(1)}_0)$. 
+Let $\tau^{(1)} \in T_{p^{(1)}}$
+be a trajectory 
+which maximizes 
+$\min \set{ \min_{i=0}^{p^{(1)}-1} \pi \Big(s_{i+1} \Big\vert s_i, 
+\delta^{(s_0^{(1)})}_i(s_i) \Big), \Psi(s_{p^{(1)}}^{(1)}) } $ 
+($\tau^{(1)}$ is an optimal trajectory of minimal size from $s_k=s_0^{(1)}$). 
+We select $k^{(1)}$ in the same way as previously 
+and reiterate beginning with $s^{(2)}_0=s^{(1)}_{k^{(1)}}$
+ which is such that $\overline{U^*}(s^{(1)}_{k^{(1)}})>\overline{U^*}(s^{(1)}_0)$, 
+and $\overline{U^*}(s^{(1)}_{k^{(1)}})>\overline{U^*}(s^{(1)}_i)$ 
+$\forall i \in \{0,\ldots, k^{(1)} -1 \} $ etc. 
+Lemma \ref{diffstates} below shows that all selected states 
+$(s_0,\ldots,s_{k-1},s_0^{(1)},\ldots,s^{(1)}_{k^{(1)}-1},s^{(2)}_0\ldots,s^{(2)}_{k^{(2)}-1},s^{(3)}_0, \ldots )$, 
+are different. 
+Thus this selection process ends since 
+$\# \mathcal{S}$ is a finite set. 
+The total number of selected states 
+is denoted by $p^*=k + \sum_{i=1}^{q-1} k^{(i)} + p^{(q)}$ 
+with $q \geqslant 0$ the number of new selected trajectories. 
+Then the strategy 
+\[ (\delta')=(\delta_0,\ldots,\delta_{k-1},\delta^{(s_0^{(1)})}_0,\ldots,\delta^{ (s_0^{(1)})}_{k^{(1)}-1},\ldots,\delta^{(s_0^{(q)})}_{p^{(q)}})\] 
+corresponds to $(\delta^*)$ over $\tau'=(s_1',\ldots,s_{p^*}') 
+= (s_0,s_1,\ldots,s_{k-1},s^{(1)}_{0},\ldots,s^{(1)}_{k^{(1)}-1},\ldots,s^{(m)}_{p^{(q)}-1} )$
+and this strategy is optimal because 
+$\overline{U^*}(s_0) = \overline{U}\Big(s_0,(\delta^*)\Big)$: indeed,
+\begin{eqnarray*}
+\overline{U^*}(s_0) &=& \min \set{ \min_{i=0}^{k-1} \pi \paren{s_{i+1}' \sachant s_i',\delta'(s_i') }, u^*_{p-k}(s_k) } \\
+&\leqslant& \min \set{ \min_{i=0}^{k-1} \pi \paren{s_{i+1}' \sachant s_i',\delta'(s_i') }, \overline{U^*}(s_k) } \\
+&=& \min \set{ \min_{i=0}^{k^{(1)}-1} \pi \paren{s_{i+1}' \sachant s_i',\delta'(s_i') }, u_{p^{(1)}-k^{(1)}}^*(s_{k^{(1)}}) } \\
+\hdots &\leqslant& \min \set{ \min_{i=0}^{p^*-1} \pi \paren{s_{i+1}' \sachant s_i',\delta'(s_i') }, \Psi(s_{p^*}) }.
+\end{eqnarray*} 
+The ``$\leqslant$'' signs are in fact ``$=$'' since otherwise we would 
+find a strategy such that $\overline{U}(s_0,(\delta'))>\overline{U^*}(s_0)$,
+while $\overline{U^*}(s_0)$ is the maximal value.
+Thus $(\delta^*)$ is optimal: $\overline{U^*}(s_0) = \min \set{ \min_{i=0}^{p^*-1} \pi \paren{s_{i+1}' \sachant s_i',\delta^*(s_i') }, \Psi(s_{p^*}) }$.
+\end{proof}
+
+\begin{Lemma} \label{diffstates}
+The process described in the previous proof 
+in order to construct a trajectory maximizing the criterion 
+with $(\delta^*)$ always selects different system states.
+\end{Lemma}
+\begin{proof}
+First, two equal states in the same selected trajectory $\tau^{(m)}$ 
+would contradict the hypothesis 
+that $p^{(m)}$ is the smallest integer 
+such that $u^*_{p^{(m)}}(s^{(m)}_0)=\overline{U^*}(s^{(m)}_0)$. 
+Indeed let $k$ and $l$ be such that $0 \leqslant k < l \leqslant p^{(m)}$ 
+and suppose that $s^{(m)}_k=s^{(m)}_l$. 
+For clarity in the next calculations, we omit ``$(m)$'': 
+$p=p^{(m)}$ and $\forall i \in \{ 0, \ldots, l \}$, 
+$s_i=s^{(m)}_i$. We can write 
+%As $s_k$ and $s_l$ are in the same trajectory,
+\[  u_{p-k}^*(s_k) 
+= \min \set{\min_{i=k}^{l-1} 
+\pi \paren{s_{i+1} \sachant s_i, \delta^{(s_0)}_i(s_i) }, u_{p-l}^*(s_l) } \leqslant u_{p-l}^*(s_l) = u_{p-l}^*(s_k), \]
+as $s_l=s_k$. 
+However $u_{p-k}^*(s_k) \geqslant u_{p-l}^*(s_k) $ 
+(non-decreasing sequence and $p-k>p-l$).  
+We finally get $u_{p-k}^*(s_k) = u_{p-l}^*(s_k)$, thus
+\begin{eqnarray*}
+\overline{U^*}(s_0) &=& \min \set{ \min_{i=0}^{k-1} \pi \paren{s_{i+1} \sachant s_i, \delta^{(s_0)}_i(s_i) }, u_{p-k}^*(s_k) } \\
+&=& \min \set{ \min_{i=0}^{k-1} \pi \paren{s_{i+1} \sachant s_i, \delta^{(s_0)}_i(s_i) }, u_{p-l}^*(s_l) } \\
+&=& \min \set{ \min_{i=0,\ldots,k-1,l,\ldots,p-1 } \pi \paren{s_{i+1} \sachant s_i, \delta^{(s_0)}_i(s_i) }, \Psi(s_{p}) }. 
+\end{eqnarray*}
+Consequently, a $(p^{(m)}-l+k)$-sized horizon 
+is good enough to reach the optimal value:
+ it is a contradiction. 
+Finally, if we suppose that a state $\overline{s}$ 
+appears two times in the sequence of selected states, 
+then this state belongs to two different selected trajectories 
+$\tau^{(m)}$ and $\tau^{(m')}$ (with $m<m'$). 
+Lemma \ref{stage1}, and the definition of $k^{(m)}$ 
+which implies that $\overline{U^*}(s^{(m+1)}_0)$ 
+is strictly greater than the criterion's 
+optimal values in each of the states $s^{(m)}_0,\ldots,s^{(m)}_{k^{(m)}-1}$,
+lead to the inequalities $\overline{U^*}(s_0^{(m')}) 
+\leqslant \overline{U^*}(\overline{s}) < \overline{U^*}(s^{(m+1)}_0)$,
+as $\overline{s}$ is in $\tau^{(m)}$ and in $\tau^{(m')}$. 
+It is a contradiction.
+Indeed, as $m<m'$, 
+the following inequality holds:
+$\overline{U^*}(s_0^{(m+1)}) \leqslant \overline{U^*}(s_0^{(m')})$. 
+\end{proof}

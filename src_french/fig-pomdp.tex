@@ -1,0 +1,74 @@
+\begin{tikzpicture}[transform shape,scale=0.92]
+%% vertex shape and color
+\tikzstyle{vertex}=[circle,fill=black!40,minimum size=30pt,inner sep=0pt,draw=black,thick]
+\tikzstyle{avertex}=[rectangle,fill=red!60,minimum size=25pt,inner sep=0pt,draw=black,thick]
+\tikzstyle{rvertex}=[fill=yellow!60,decision=3,inner sep=-1pt,minimum size=35pt,draw=black,thick]
+\definecolor{darkgreen}{rgb}{0.3,0.8,0.5}
+\tikzstyle{bvertex}=[circle,fill=darkgreen,minimum size=30pt,inner sep=0pt,draw=black,thick]
+\tikzstyle{overtex}=[circle,fill=blue!50,minimum size=30pt,inner sep=0pt,draw=black,thick]
+
+%% nodes
+% states
+\foreach \name/\x in {S_0/0,S_1/4,S_t/8, S_{t+1}/13}
+\node[vertex] (G-\name) at (\x,0) {$\name$};
+\node (G-end) at (16.5,0) {};
+% actions
+\foreach \name/\x in {a_0/0,a_{t-1}/4,a_t/9}
+\node[avertex] (G-\name) at (\x+2.3,-1.5) {$\name$};
+% rewards
+\node[rvertex] (R0) at (2,-3.5) {$r(s_0,a_0)$};
+\node[rvertex] (Rt-1) at (6,-3.5) {$r(s_{t-1},a_{t-1})$};
+\node[rvertex] (Rt) at (10.5,-3.5) {$r(s_t,a_t)$};
+% observations
+\foreach \name/\x in {O_1/4,O_t/8,O_{t+1}/13}
+\node[overtex] (G-\name) at (\x+3,2.5) {$\name$};
+% beliefs
+\foreach \name/\x in {B_0/0,B_1/4.7,B_t/8.7,B_{t+1}/13.7}
+\node[bvertex] (G-\name) at (\x,5) {$\name$};
+\node (G-B-end) at (16.5,5) {};
+
+%% arrows
+% states
+\foreach \from/\to in {S_0/S_1,S_t/S_{t+1}}
+\draw[->,>=latex,thick] (G-\from) -- (G-\to);
+\foreach \from/\to in {S_1/S_t,S_{t+1}/end}
+\draw[->,>=latex,dashed,thick] (G-\from) -- (G-\to);
+% actions
+\foreach \from/\to in {a_0/S_1,a_{t-1}/S_t,a_t/S_{t+1}}
+\draw[->,>=latex,thick] (G-\from) -- (G-\to);
+\foreach \from/\to in {a_0/R0,a_{t-1}/Rt-1,a_t/Rt}
+\draw[->,decorate,decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm},thick] (G-\from) -- (\to); 
+\foreach \from/\to in {a_0/O_1,a_{t-1}/O_t,a_t/O_{t+1}}
+\draw[->,>=latex,thick] (G-\from) to[bend right]  (G-\to);
+% rewards
+\draw[->,decorate,decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm},thick] (G-S_0) -- (R0); 
+\draw[->,dashed,thick] (G-S_1) -- (Rt-1); 
+\draw[->,decorate,decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm},thick] (G-S_t) -- (Rt); 
+% observations
+\foreach \from/\to in {S_1/O_1,S_t/O_t,S_{t+1}/O_{t+1}}
+\draw[->,>=latex,thick] (G-\from) -- (G-\to);
+% beliefs
+\foreach \from/\to in {B_0/B_1,B_t/B_{t+1}}
+\draw[->,>=latex,color=darkgreen,ultra thick,densely dotted] (G-\from) -- (G-\to);
+\foreach \from/\to in {B_1/B_t,B_{t+1}/B-end}
+\draw[->,>=latex,color=darkgreen,ultra thick,loosely dotted] (G-\from) to (G-\to);
+\foreach \from/\to in {O_1/B_1,O_t/B_t,O_{t+1}/B_{t+1}}
+\draw[->,>=latex,color=darkgreen,ultra thick,densely dotted] (G-\from) to (G-\to);
+
+\foreach \from/\to in {a_0/B_1,a_{t-1}/B_t,a_t/B_{t+1}}
+\draw[->,>=latex,color=darkgreen,ultra thick,densely dotted] (G-\from) to (G-\to);
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% probabilities
+% state transition
+\node (proba1) at (2.25,-0.3) {$\textbf{p} \paren{ s_{1} \sachant s_{0}, a_0}$};
+\node (probat) at (11.05,-0.3) {$\textbf{p} \paren{ s_{t+1} \sachant s_t, a_t}$};
+% observations
+\node (probo1) at (5.6,0.85) [rotate=40] {$\textbf{p} \paren{o_1 \sachant s_1,a_0}$};
+\node (probot) at (9.6,0.85) [rotate=40] {$\textbf{p} ( o_t \vert s_t,a_{t-1} )$};
+\node (probotp1) at (14.55,0.7) [rotate=45] {$\textbf{p} ( o_{t+1} \vert s_{t+1},a_{t})$};
+% bel
+\node (pbb) at (11,5.8) [color=darkgreen] {$B_{t+1} = u\Big(B_{t},a_t,O_{t+1}\Big)$};
+\node (pbb) at (0.9,3.8)  {$\mathbb{P} \paren{B_0 = b_0} = 1$};% \mathds{1}_{ \set{ b = b_0}}(b)$};
+\node (pbb) at (1.1,1.2) {$\mathbb{P}(S_0 = s_0) = b_0(s_0)$};
+\end{tikzpicture}

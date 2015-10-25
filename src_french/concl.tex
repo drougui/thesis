@@ -1,0 +1,588 @@
+%%%fisherman's wharf hostel + bike
+\chapter*{Conclusion}
+\addcontentsline{toc}{chapter}{Conclusion}
+Contributions of this thesis are
+mainly related to the preliminary works 
+of R\'egis Sabbadin \cite{Sabbadin:1999:pipomdp}.
+The latter proposes 
+a possibilistic counterpart 
+to the POMDPs 
+modeling uncertainty 
+with qualitative possibility distributions.
+%%% CONCL INTRO
+Hence, in our work, 
+qualitative possibilistic models 
+for planning under uncertainty
+are further developed and studied. 
+This study is meant to adress some issues 
+in probabilistic POMDPs 
+detailed in Introduction: 
+the probabilistic framework is also 
+formally introduced 
+in the first chapter.
+
+The major motivation of this study 
+is computational complexity reduction: 
+while the probabilistic belief space is infinite,
+the possibilistic one can be finite.
+The qualitative possibilistic framework 
+thus offers an appropriate 
+belief space discretization.
+Moreover, as the belief state 
+is a possibility distribution 
+over the system space in this framework, 
+total ignorance can be defined 
+by a possibility distribution 
+equal to $1$ on all states.
+If a given system state is perfectly known
+to be the actual one, 
+the belief state that assign $1$ to this state 
+and to $0$ to all other states 
+is an appropriate representation.
+
+Imprecision in the probability distributions
+are also naturally encoded 
+with the possibilistic formalism, 
+resulting in two criteria
+for the selection of the strategy:
+one is optimistic 
+and the other pessimistic.
+A more practical advantage is that 
+the qualitative possibilistic modeling 
+needs less information about the system
+than the probabilistic one:
+the plausibilities of events 
+are ``only'' classified 
+in the possibilistic scale $\mathcal{L}$ 
+but not quantified.
+Possibilistic models can be seen 
+as a tradeoff between \textit{non-deterministic} ones, 
+whose uncertainties are not at all quantified 
+yielding a very imprecise model, 
+and probabilistic ones, 
+where uncertainties are fully specified.
+Indeed, under the non-deterministic formalism,
+an elementary event is either ``possible'',
+or ``impossible'':
+no degree is available
+to differentiate a highly plausible event 
+from an unlikely one.
+
+In a nutshell, 
+this thesis consists of
+theoretical and practical contributions:
+on the one hand, theoretical contributions 
+are for instance 
+the proposed updates of the qualitative possibilistic processes
+-- mixed-observability and management of unbounded executions -- 
+or independence results on them, with associated proofs.
+On the other hand, 
+practical contributions
+are the demonstration of the accuracy 
+of qualitative possibilistic models
+to simplify computations or for modeling,
+via experimental results (e.g. IPPC 2014) 
+and modeling examples (e.g. chapter on human-machine interaction).
+Particular emphasis is being placed 
+on the motivations developed in Introduction
+besides complexity reduction and problem imprecisions:
+namely, robotic applications and belief management.
+For instance, target recognition missions 
+are studied in the second and third chapters 
+(e.g. \textit{Rocksample} problem, 
+or even the mission described in Figure \ref{robotgridfig});
+% robot chap2; robot reconnaissance chap navig/rocksampple PPUDD-IPPC-robotic system 
+IPPC 2014 contains also problems comparable to robotic systems 
+(e.g. \textit{Elevator} problem, or \textit{Tamarisk} problem, also used in 2014 RL competition). 
+Moreover, the fourth chapter shows good results 
+in estimating human assessment with qualitative possibility distributions
+(\textit{i.e.} belief states on the human assessment of the machine state).
+Finally, the hybrid probabilistic-possibilistic POMDP contribution 
+can be seen as a concluding work, taking into account
+potential issues when using purely possibilistic models 
+for planning under uncertainty.
+A more detailed review of the contributions follows.
+
+\subsection*{New features for the $\pi$-POMDPs
+and first strategy executions}
+%%%%%%%%%%%%%
+%%% chap2 %%%
+%%%%%%%%%%%%%
+%%THEORETICAL CONTRIBUTIONS
+The very first contribution 
+to the Qualitative possibilistic 
+POMDPs \cite{Sabbadin:1999:pipomdp} 
+concerns the qualitative aggregations 
+of the preferences over time:
+we first show that, 
+much like in the probabilistic framework,
+preference aggregation can be derived 
+from the properties of the framework 
+-- here the qualitative counterpart 
+of linearity
+for Sugeno integrals for instance --
+as proved in Annex \ref{theorem_intermpref_RETURN} 
+using the Theorem \ref{piPOMDPoptrewriting} 
+about belief-dependent value functions.
+The latter is also a contribution 
+as the first formal construction
+of the $\pi$-POMDP model.
+Different approaches between the pessimistic and the optimistic criterion
+are also presented: 
+note that the mixed optimistic-pessimistic criterion 
+(see Definition \ref{def_optpesscrit}) 
+is mainly used along our work 
+since it is equivalent to 
+a $\pi$-MDP with an optimistic criterion.
+As the optimistic criterion is compatible 
+with proposed algorithms for time-unbounded processes,
+and produces often better strategies 
+for the treated problems,
+this allows to take advantage of these points.
+The mixed optimistic-pessimistic criterion 
+is pessimistic according to the belief state:
+we observe that it produces a good tradeoff
+with the optimistic global criterion.
+
+We then adapted $\pi$-POMDPs 
+to mixed-observability \cite{OngShaoHsuWee-IJRR10},
+which is part of the theoretical contributions of our work:
+this contribution, called $\pi$-MOMDP, 
+dramatically reduces the size of the belief space 
+and thus allows the first computations of strategies from $\pi$-POMDPs. 
+Finally, another theoretical contribution 
+is the qualitative counterpart 
+to the value iteration algorithm,
+with the associated criterion 
+for time-unbounded executions. 
+As proved in Annex \ref{theorem_DPpiMOMDP_RETURN}
+(and our publication \cite{Drougard13}), 
+there exists an optimal strategy, 
+which is stationary 
+\textit{i.e.} which does not depend on the stage of the process $t$. 
+This strategy can be computed 
+by the proposed dynamic programming scheme: 
+it is also shown that 
+the number of iterations 
+to make the value function converge 
+is less than the size of the state space.
+The assumption of the existence of a ``stay'' action
+is not a constraint in practice
+as it is only selected 
+in some goal states.
+Note also that the target recognition missions 
+presented in this thesis 
+have typically unbounded durations.
+
+%%%PRACTICAL ONES
+As already pointed out,
+the experiments in the second chapter 
+use both previous theoretical contributions.
+Indeed, the mixed-observability property of the problem,
+makes computations feasible for our robotic example.
+The proposed criterion is also really useful: 
+it is convenient to allow 
+the computation of strategies 
+for robotic missions 
+with unbounded durations.
+For instance, in our example, 
+it allows to define the mission properly: 
+if the robot has not figured out 
+which target is right one,
+we want the mission to be continued.
+The first practical contributions of this thesis 
+is thus the computation of a strategy
+for this robotic mission and its execution.
+Indeed, we have shown 
+that the qualitative possibilistic approach 
+can outperform probabilistic POMDP ones 
+for a target recognition problem 
+where the agent's observations dynamics 
+is not accurately defined.
+Note that the only information used 
+to define system observation of the system,
+is that the more the robot is far from a target, 
+the more the observation is noisy:
+it already shows that the possibilistic framework
+may be useful in case of restricted knowledge 
+about the problem.
+
+
+%%%OBSERVATIONS
+Finally, the second chapter highlights 
+a very interesting behavior 
+of qualitative possibilistic belief states:
+under some conditions, 
+the possibilistic belief update, 
+which is defined from the counterpart of Bayes rule \cite{Dubois199023},
+increases the knowledge associated to the belief state.
+Indeed, in our example, 
+the belief state is responsible of the imprecision 
+as it only takes into account 
+more reliable observations,
+and may also change to the opposite belief
+if an observation contradicts the current one.
+%the next belief is either more skeptic 
+%about a state if its confirms the prior belief; 
+%or changes to the opposite belief if it contradicts it.
+On the contrary a probabilistic belief 
+is modified in most cases
+(there is a finite number of normalized eigenvectors for a given matrix). 
+Some conditions leading to this behavior 
+are then presented,
+and associated proofs are given 
+(see Annex \ref{theorem_specificity_belief_RETURN}).
+
+\subsection*{Graphical work on independence and factorization (PPUDD)}
+%%%%%%%%%%%%%
+%%% chap3 %%%
+%%%%%%%%%%%%%
+%%THEORETICAL CONTRIBUTIONS
+%%CHAP3
+The next theoretical contribution is 
+the introduction of the factored $\pi$-MOMDPs:
+indeed, we have considered processes
+whose state space is represented by $n$ 
+post-action independent variables,
+\textit{i.e.} processes whose 
+state variables of the same time step
+are independent (conditional on the past).
+The algorithm proposed to exactly solve 
+these factorized processes,
+called PPUDD, is another contribution:
+it is the symbolic version of 
+the dynamic programming scheme 
+proposed in the previous chapter.
+Inspired by SPUDD \cite{Hoey99spudd:stochastic}, 
+PPUDD means \emph{Possibilistic Planning Using Decision Diagrams}. 
+As SPUDD, it operates on ADDs 
+encoding value, preference and transition functions.
+Finally, the last theoretical contributions of the third chapter
+are the proofs of independence results,
+Theorem \ref{thmSHind} and Theorem \ref{thmVARind}:
+they relate to a proposed graphical model
+representing a particular factorization of the process
+\textit{i.e.} particular independence assumptions
+on the variables.
+Thus, we have shown that 
+these independence assumptions
+lead to a natural factorization 
+of the space of the belief states.
+The belief state variables of a $\pi$-MOMDP 
+satisfying these assumptions
+are post-action independent,
+and the associated problem 
+can be more easily solved by PPUDD. 
+The independence of sensors 
+and of corresponding hidden state variables 
+suffices to fulfill these conditions:
+for instance, the \textit{RockSample} problem, 
+well illustrates these conditions.
+
+%%%% PRACTICAL CONTRIB
+%% WEE!
+The motivation leading to the design of PPUDD,
+\textit{i.e.} the guess that the use of operators $\min$ and $\max$ 
+leads to smaller ADDs, and thus to faster computations,
+has been verified in practice:
+our experiments and the results 
+of the International Probabilistic Planning Competition (IPPC 2014\footnote{\url{https://cs.uwaterloo.ca/~mgrzes/IPPC_2014/}})
+show that this possibilistic approach
+can involve less computation time
+and produce better policies
+than its probabilistic counterparts
+when computation time is limited,
+or for high dimensional problems.
+For instance, 
+PPUDD performances have been compared 
+to the probabilistic MOMDP solver APPL \cite{Kurniawati-RSS08,OngShaoHsuWee-IJRR10}
+and the symbolic HSVI solver \cite{Sim:2008:SHS:1620163.1620241},
+in terms of computation time, 
+and using the average of 
+the total reward at execution. 
+PPUDD computes a strategy maximizing 
+exactly the possibilistic criterion 
+while APPL and symb. HSVI compute strategies
+which approximately maximize the expected sum of rewards.
+The experimental results on the Rocksample problem 
+show that using an exact algorithm 
+(PPUDD) for an approximate model ($\pi$-MOMDPs) 
+can run significantly faster 
+than reasoning about exact models, 
+while providing better policies 
+than approximate algorithms (APPL) 
+for exact models.
+Most of the cited contributions of this chapter
+have been published in \cite{DBLP:conf/aaai/DrougardTFD14},
+and an implementation of PPUDD 
+to reproduce experiments 
+can be found 
+at the repository \url{www.github.com/drougui/ppudd}.
+
+%% IPPC14
+Finally, in order to focus on the behavior 
+of the possibilistic qualitative approach 
+in a wide panel of probabilistic problems, 
+the next practical contribution 
+is the participation 
+in the fully observable track of IPPC 2014
+with adapted versions of PPUDD.
+The implementation of our solver for this competition 
+was performed with the \textit{CU Decision Diagram Package}
+for the ADDs computations. 
+Comparing only solvers using ADDs, 
+PPUDD and a probabilistic solver 
+called symbolic LRTDP \cite{symbLRTDP}
+(as a variant of \cite{Bonet03labeledrtdp}),
+our solver produces better strategies 
+than the probabilistic approach.
+
+\subsection*{Discussion about the current results}
+%% fin 3 lien CHAP4-5
+%% ??  after? critique
+Experiments concerning the Navigation problem
+is a good illustration of the optimistic and pessimistic criteria
+in the qualitative possibilistic framework: 
+a robot has to reach a goal as soon as possible,
+avoiding unsafe locations 
+(for instance, locations where there is a risk that it falls down and break).
+The strategy maximizing 
+the optimistic criterion 
+makes the robot 
+unfrequently reach the goal,
+but more quickly
+than the one from the pessimistic criterion
+which makes it however often reach the goal.  
+Proposed approaches involve then 
+the choice of a criterion.
+This feature of the possibilistic approach
+explains also the difficulties experienced
+with the ``Traffic'' domain
+of the competition: 
+the optimistic criterion can be too optimistic
+for the given problem, 
+although strategies from it are generally 
+more efficient than those from the pessimistic criterion
+(that is why the optimistic criterion has been used for the competition).
+
+Presented models 
+assume also that preference
+and uncertainty degrees
+share the same scale
+which makes it hard to
+set in practice.
+The fourth chapter about human-machine interaction
+is meant to show that,
+although qualitative possibilistic approach
+may raise questions concerning modeling,
+this approach can be very appropriate
+in some practical situations,
+as in our case, to produce diagnosis.
+
+We got really good results 
+with PPUDD in previous experiments 
+among symbolic algorithms (SPUDD, symbolic LRTDP):
+for instance, SPUDD provides good strategies, but 
+cannot solve big instances of the tested problem. 
+However, state space search algorithms
+(PROST \cite{DBLP:conf/aips/KellerE12} and GOURMAND \cite{DBLP:conf/aaai/KolobovMW12}) won IPPC 2014,
+and are yet far more efficient than ADD-based methods:
+MDP instances with a complex structure
+are encoded with ADDs big enough
+to disqualify these approaches.
+These observations and modeling considerations
+are the motivations of the last chapter,
+presenting the hybrid POMDP.
+
+
+%% chap HMI 4
+\subsection*{Estimating in a qualitative world (HMI)}
+%% TODO
+Obviously, although 
+qualitative possibilistic models 
+can lead to appropriate approximate strategies 
+for high dimensional problems, 
+they cannot lead to the best results
+for simple problems
+in purely frequentist worlds.
+On the contrary, 
+the fourth chapter focuses on
+the use of this framework
+in a purely qualitative world:
+indeed it proposes the study of
+human-machine interactions
+which only involve the deterministic 
+behavior of the machine
+and a qualitative expert knowledge
+about the human behavior. 
+
+This joint work with Sergio Pizziol 
+shows that the use of qualitative possibilistic processes
+is an appropriate choice
+when probabilities 
+cannot be defined in practice.
+Indeed, this framework produces
+useful error detections and diagnosis
+in real experiments 
+with pilots in a simulator.
+
+Finally, this work also provides 
+theoretical contributions.
+The first one is
+summed up in Theorem \ref{thmUpdate} 
+and Theorem \ref{estimHMI}.
+These theorems lead to the definition
+of the possibilistic estimation 
+of the human assessment
+within the framework of the qualitative possibilistic 
+Hidden Markov Processes ($\pi$-HMPs):
+this estimation is used to detect human attentional errors.
+Another contribution 
+is the diagnosis computation,
+using the \textit{leximin} operator.
+Finally, a toy example is also provided
+to explain the use, the meaning and the behavior 
+of these possibilistic tools in practice.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%
+%% CHAP5 %% TODO
+\subsection*{A possibilistic discretization of the belief space (hybrid POMDP}
+The work on the hybrid POMDP is motivated 
+by the proper discretization 
+provided by the use 
+of a qualitative possibilistic belief state.
+The possibilistic nature of these belief states 
+allows to define the reward attached to them 
+in a pessimistic way using the Choquet integral.
+This model is proposed as a way to compute
+strategies more easily since the hybrid POMDP
+is finally solved as a classical MDP.
+This approach may also lead to cautious behaviors
+as the reward definition on belief states is pessimistic
+with respect to the lack of knowledge.
+
+The computation of the transition function of the resulting MDP
+are given: it uses a \textit{possibility-probability transformation}
+called \textit{pignistic transformation} 
+to recover a probability distribution 
+from a possibilistic belief state, in a neutral way.
+
+We described also how a factored POMDP 
+leads to a factored and more tractable MDP:
+indeed, the final contribution shows how to take advantage from 
+a large class of common structures (at least among IPPC domains)
+to make the resulting MDP as simple as possible.
+Hence, efficient MDP solvers such as PROST or GOURMAND, 
+are able to solve the factored MDP 
+representing the hybrid POMDP.
+This model has been published in \cite{DBLP:conf/sum/DrougardDFT15}.
+%As ADDs are still efficient for preprocessing,
+%they can be easily used to translate any factored POMDP
+%model into a factored MDP representing the hybrid POMDP.
+
+%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%
+%%CONCL CONL
+Note finally that all the partially observable processes presented in this work
+(purely qualitative and hybrid)
+can be translated into MDP or $\pi$-MDP
+and are thus computable in finite time, 
+at most exponential in the description of the problem.
+\section*{Perspectives}
+%%%
+%%% PERSPECTIVES
+%%%
+The first perspective comes from an observation:
+the memory limitation plausibly reached with the \textit{Triangle tireworld} 
+problem of IPPC 2014 may be bypassed by a stronger discretization: 
+versions of PPUDD of IPPC 2014 used a precision of $10^{-3}$
+on the initial probabilistic model, leading to a big scale $\mathcal{L}$
+-- defined in practice as all the transformed probability values and normalized reward	 values
+present in the given MDP.
+In any case, it would be instructive to have an idea
+of the impact of the precision of the discretization
+on the performances of PPUDD applied to probabilistic problems. 
+More generally, more efforts 
+on the translation 
+from a probabilistic MDP into 
+its possibilistic approximation
+may significantly improve 
+the approach we proposed for IPPC 2014.
+
+We focused on the symbolic resolution of the $\pi$-MDPs (PPUDD).
+However alternative resolution methods could be studied:
+for instance, an heuristic-based strategy computation, 
+which is efficient for probabilistic problems \cite{DBLP:conf/aaai/Teichteil-KonigsbuchVI11},
+could be adapted to the possibilistic context.
+As regards reinforcement learning 
+in the qualitative possibilistic context,
+we can cite the following work \cite{DBLP:conf/fuzzIEEE/Sabbadin01}.
+
+The second chapter does not propose any algorithm
+to compute strategies 
+for missions with unbounded horizon
+according to the pessimistic criterion. 
+The algorithm is straightforward, 
+but the optimality of the resulting strategy 
+for this criterion
+seems hard to prove.
+However, an optimal strategy 
+in this sense,
+would be useful
+in order to manage 
+long-term unsafe problems. 
+
+The independence results given in the third chapter
+are also valid for probabilistic MOMDPs: 
+it would be interesting to determine if those results can have
+a positive impact on the optimal strategy computation.
+
+The work \cite{Bonet:2002:QMP:2073876.2073884} proposes an other framework
+for planning under uncertainty, also qualified as qualitative. 
+However, this work uses quantitative operations
+as sum and product, and may be seen as a discretization of the probabilistic framework \cite{Wilson:1995:OMC:2074158.2074221}.
+The authors remark however that Qualitative Possibility Theory leads to 
+criteria which have not enough information for discriminating
+among optimal decisions.
+
+Advances in Possibility Theory
+may lead to more refined possibilistic MDPs
+to improve modeling when needed.
+We can mention the \textit{leximin} operator \cite{lexirefin},
+used in the fourth chapter:
+it avoids the drowning effect
+of the operators $\min$ and $\max$.
+It may be used for preference aggregation
+or even to compute a refined possibility degree 
+of a trajectory. 
+It may be a useful improvement,
+but note that it eventually makes 
+the problem more complex.
+Another update which has still to be performed
+is the integration 
+of more discriminative criteria 
+\cite{LIP61723,conf/uai/GiangS01} 
+to the $\pi$-MDP framework.
+
+%CHAP4
+In the work on HMI, 
+the human operator is supposed to be certain 
+about the state of the machine 
+even if her/his only guess may be wrong.
+A future work could define 
+the human assessment in a more complex way:
+for instance as a possibility distribution:
+a possibilistic belief state of the human operator.
+
+%CHAP5
+
+Finally, the promising approach 
+presented under the name hybrid POMDP
+will be tested on the POMDPs 
+of the IPPC competition \cite{SannerIPPC1111} in a future work:
+indeed, the proposed problems
+are factored POMDPs
+as introduced in Section \ref{factorizationSection}.
