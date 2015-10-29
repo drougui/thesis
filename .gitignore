@@ -11,3 +11,5 @@
 *.mtc*
 *.out
 *.toc
+*.snm
+*.nav
