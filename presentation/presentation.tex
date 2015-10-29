@@ -82,18 +82,18 @@ under Uncertainty.}
 \section{Context}
 \begin{frame}
 \frametitle{\insertsection} 
-\framesubtitle{\footnotesize Partially Observable Markov Decision Process (POMDP)} 
+\framesubtitle{\footnotesize Partially Observable Markov Decision Processes (POMDPs)} 
 \normalsize
-\vspace{-0.9cm}
+\vspace{-0.5cm}
 \begin{tikzpicture}[scale=0.9,transform shape]
 \vspace{0.2cm}
 \visible<1->{
-\node (pomdp) at (3.5,5.9) {\textbf{POMDP:} model for sequential decision making under uncertainty};
+\node (pomdp) at (3.5,5.6) {\textbf{POMDP:} model for autonomous robotics};
 \node (rpomp) at (-1,4.7) {\includegraphics[scale=0.9]{robot_pompier}};
 \node (bli) at (0,6.5) {};
 }
 \visible<2->{
-\node (pomdp3) at (4.25,5.05) {\color{DodgerBlue!70}{$s \in \mathcal{S}$}: \color{black}{\textbf{system states}};};
+\node (pomdp3) at (4.15,5.05) {\color{DodgerBlue!70}{$s \in \mathcal{S}$}: \color{black}{\textbf{system state}};};
 \node (t1) at (2,5) {};
 \node (r1) at (-2.3,5.5) {};
 \node (r11) at (1,4.5) {};
@@ -101,7 +101,7 @@ under Uncertainty.}
 \draw[->,>=latex,color=DodgerBlue!60,thick] (t1) to[bend right] (r11);
 }
 \visible<3->{
-\node (pomdp4) at (3.85,4.45) {\color{MediumAquamarine}{$o \in \mathcal{O}$:} \color{black} \textbf{observations};};
+\node (pomdp4) at (4.85,4.45) {\color{MediumAquamarine}{$o \in \mathcal{O}$:} \color{black} \textbf{system observations};};
 \node (t2) at (2,4.4) {};
 \node (r2) at (-2.3,5.05) {};
 \draw[->,>=latex,color=MediumAquamarine,thick] (t2) to[bend left] (r2);
@@ -112,12 +112,12 @@ under Uncertainty.}
 \node (r3) at (-2,4.2) {};
 \draw[->,>=latex,color=MediumPurple,thick] (t3) to[bend left] (r3);
 }
-\visible<8->{
-\node (pomdp6) at (3.95,3.3) {\color{red}{$b$}: \color{black} \textbf{belief state}.};
+\visible<12->{
+\node (pomdp6) at (3.1,3.25) {\color{red}{$b$} \textbf{belief.}  \color{black}};
 }
 \end{tikzpicture}
-\vspace{-1cm}
-\begin{tikzpicture}[scale=0.78,transform shape]
+
+\begin{tikzpicture}[scale=0.8,transform shape]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %vis1: state
 %%%%%%%%%%%%%%
@@ -126,20 +126,40 @@ under Uncertainty.}
 \visible<5->{
 \tikzstyle{mvertex}=[circle,fill=black!60,minimum size=30pt,inner sep=0pt]
 \node[mvertex] (state1t) at (3,0) {$s_t$};
+}
+%vis2 action
+%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%
+\visible<6->{
 \node[fill=black!30] (action) at (6.3,-1.7) {$a_t$};
+}
+%vis3: next state
+%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%
+\visible<7->{
 \node[mvertex] (state2t) at (7.7,0) {$s_{t+1}$};
 \tikzstyle{bvertex}=[circle,fill=red!60,minimum size=30pt,inner sep=0pt]
 %1->2
 \draw[->,>=latex] (state1t) -- (state2t);
 \draw[->,>=latex] (action) -- (state2t);
 \node (pisasp) at (6,-0.3) {$\textbf{p} \hspace{-0.05cm} \paren{ \hspace{-0.05cm} s_{t+1} \hspace{-0.05cm} \sachant \hspace{-0.05cm} s_{t}, \hspace{-0.05cm} a_t \hspace{-0.05cm} }$};
+}
+
+%vis4: observation
+%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%
+\visible<8->{
 \node[fill=black!30] (hobserv2) at (10.2,-3.3) {$o_{t+1}$};
 \draw[->,>=latex] (state2t) to (hobserv2);
 \draw[->,>=latex] (action) to  (hobserv2);
 \node (pisvshaoh2) at (8.4,-2) [rotate=330] {$\textbf{p} \paren{ o_{t+1} \sachant s_{t+1},a_{t} }$};
+}
+
+%vis5: rewards:
+\visible<9->{
 \tikzstyle{rvertex}=[fill=yellow!60,minimum size=10pt,inner sep=0pt]
-\node[rvertex] (Rtbis) at (5.3,-4.3) {\textbf{reward}};
 \node[rvertex] (Rt) at (6.9,-4) {$r(s_t,a_t)$};
+\node[rvertex] (Rtbis) at (7.6,-4.4) {\textbf{reward}};
 \draw[->,decorate,decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}] (state1t) -- (Rt); 
 \draw[->,decorate,decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}] (action) -- (Rt); 
 }
@@ -147,7 +167,7 @@ under Uncertainty.}
 %visFIN:
 %%%%%%%%%%%%%%
 %%%%%%%%%%%%%%
-\visible<6->{
+\visible<10->{
 %s
 \node (state0) at (0,0) {};
 \node (state3) at (13,0) {};
@@ -178,7 +198,7 @@ under Uncertainty.}
 \draw[->,decorate,decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm}] (action0) -- (Rt3);
 }
 
-\visible<7->{
+\visible<11->{
 	\coordinate (A) at (0,-1); 
 	\coordinate (B) at (13,-1); 
 	\coordinate (C) at (13,-3.7);
@@ -189,12 +209,12 @@ under Uncertainty.}
 %visFINFIN belief
 %%%%%%%%%%%%%
 %%%%%%%%%%%%%
-\visible<8->{
+\visible<12->{
 \node (bel0) at (1,1) {};
 \node (bel3) at (13,1) {};
 \node[bvertex] (bel2) at (10.5,1) {$b_{t+1}$};
 \node[bvertex] (bel1) at (5.8,1) {$b_{t}$};
-\node (pbb) at (8.25,1.3) [color=red,thick] {$\textbf{p} \paren{ b_{t+1} \sachant b_t,a_{t} }$};
+\node (pbb) at (8.25,0.75) [color=red,thick] {$\textbf{p} \paren{ b_{t+1} \sachant b_t,a_{t} }$};
 \draw[->,>=latex,color=red,thick] (bel1) to (bel2);
 \draw[->,>=latex,color=red,dashed,thick] (bel0) to (bel1);
 
@@ -211,8 +231,20 @@ under Uncertainty.}
 \draw[->,>=latex,color=red,thick] (hobserv1) to[bend left] (bel1);
 \draw[->,>=latex,color=red,thick] (action0) to (bel1);
 }
+
 \end{tikzpicture}
+
 \end{frame}
+
+
+
+
+
+
+
+
+
+
 
 \begin{frame}
 \definecolor{bblue}{rgb}{0,0.4,0.75}
@@ -246,6 +278,18 @@ maximizing $ \displaystyle \mathbb{E}_{s_0 \sim b_0} \croch{ \sum_{t=0}^{+ \inft
 
 \end{frame}
 
+
+
+
+
+
+
+
+
+
+
+
+
 \begin{frame}
 \frametitle{Flaws of the POMDP model}
 \framesubtitle{\footnotesize POMDPs in practice}
@@ -271,6 +315,62 @@ maximizing $ \displaystyle \mathbb{E}_{s_0 \sim b_0} \croch{ \sum_{t=0}^{+ \inft
 %mission d'observation $+$ situation inconnue;\\
 %paramètres ``situation très peu probable''.
 \end{frame}
+
+
+
+
+
+
+\begin{frame}
+	\frametitle{\insertsection} 
+	\framesubtitle{\footnotesize practical issues: Complexity, Vision and Initial Belief.}
+
+\begin{itemize}
+\item \textbf{strategy computation $\geqslant$ PSPACE-complete:}
+\end{itemize}
+\visible<2->{
+$\rightarrow$ optimality for \enquote{small} ou \enquote{structured} POMDPs; \\
+$\rightarrow$ approximate computations (no optimality garantee).}
+\visible<3->{
+\begin{itemize}
+\item \textbf{Computer Vision}, statistical learning: 
+$\textbf{p} \paren{ o' \sachant s', a }$
+\end{itemize}
+}
+%probabilités $\textbf{p} \paren{ o' \sachant s', a }$
+\visible<4->{
+%$\rightarrow$ dépendante de l'ensemble des images d'entra\^inement; \\
+$\rightarrow$  wide picture variability? $\Rightarrow$ hard extraction of a classifier; \\
+$\rightarrow$ more observations? $\Rightarrow$ more complex POMDP.
+\vspace{-0.3cm}
+}
+\visible<3->{
+\vspace{-0.3cm}
+\includegraphics[scale=0.5]{fig2}
+}
+\visible<5->{
+\begin{itemize}
+\item \textbf{Initial belief} $b_0$ (\textit{prior} information on the system state). 
+\end{itemize}
+}
+\visible<6->{
+uniform $=$ subjectif, mix up with frequencies!\\
+}
+\visible<7->{
+\begin{block}{}
+\textbf{Qualitative Possibility Theory:}\\ 
+$\rightarrow$ simplification, ignorance and imprecision modeling.
+\end{block}
+}
+\end{frame}
+
+
+
+
+
+
+
+
 
 \begin{frame}
 \definecolor{bblue}{rgb}{0,0.4,0.75}
@@ -409,7 +509,7 @@ is less plausible than $e_2$}; \\
 \end{frame}
 
 
-\section{An hybrid POMDP}
+\section{An hybrid POMDP TODO ICI} %TODO comparison with ODAS until here
 \begin{frame}
 \definecolor{bblue}{rgb}{0,0.4,0.75}
 \frametitle{A possibilistic belief state}
