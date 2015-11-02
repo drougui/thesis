@@ -1,0 +1,12 @@
+set terminal postscript eps enhanced mono font 'Helvetica,30'
+set output 'traffic.eps'
+set key on inside top right
+set pointsize 2
+unset logscale y
+set xlabel "traffic instance"
+set ylabel "Total Reward" offset 1
+set datafile missing "-"
+set style data linespoints
+plot "traffic_inst_mdp.txt" using 2:34 title 'Random',\
+ "traffic_inst_mdp.txt" using 2:41 title 'symb LRTDP',\
+ "traffic_inst_mdp.txt" using 2:48 title 'PPUDD'

@@ -509,7 +509,773 @@ is less plausible than $e_2$}; \\
 \end{frame}
 
 
-\section{An hybrid POMDP TODO ICI} %TODO comparison with ODAS until here
+\section{Mixed-Observability and unbounded mission durations}
+\begin{frame}
+\frametitle{Possibilistic models: \\ $\pi$-MOMDPs}
+\vspace{-0.3cm}
+possibilistic POMDPs ($\pi$-POMDPs): \textit{Sabbadin UAI-98}.
+\begin{itemize}
+\item finite belief space \color{red} $\# \mathcal{B} = \# \mathcal{L}^{\# \mathcal{S}} - (\# \mathcal{L}-1)^{\# \mathcal{S}}$ \color{black} 
+\end{itemize}
+
+\visible<2->{
+\textbf{contribution (UAI13):}
+\vspace{-0.6cm}
+\begin{figure}\centering
+\begin{tikzpicture}[scale=0.8,transform shape]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% macro states
+\tikzstyle{mvertex}=[circle,fill=black!15,minimum size=75pt,inner sep=0pt]
+\node[mvertex] (state1) at (2.3,0) {};
+\node [font=\huge] (state1t) at (2.3,1) {$s_t$};
+\node[mvertex] (state2) at (8,0) {};
+\node [font=\huge] (state2t) at (8,1) {$s_{t+1}$};
+%0
+\node (state0) at (-0.4,0) {};
+%3
+\node (state3) at (10.7,0) {};
+\node (rien) at (-2,0) {};
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% possibilités
+\node (pisasp) at (5.3,0.3) {$\pi \paren{ s_{t+1} \sachant s_{t},a_t }$};
+\node (pisvshaoh1) at (4.1,-1.1) [rotate=350] {$\pi \paren{ o_{t} \sachant s_t,a_{t-1} }$};
+\node (pisvshaoh2) at (10,-1.1) [rotate=350] {$\pi \paren{ o_{t+1} \sachant s_{t+1},a_{t} }$};
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%vstates
+\tikzstyle{vertex}=[circle,fill=black!30,minimum size=28pt,inner sep=0pt]
+%1
+\node[vertex] (vstate1) at (2.3,0.3) {$s_{v,t}$};
+%2
+\node[vertex] (vstate2) at (8,0.3) {$s_{v,t+1}$};
+%\node [font=\huge] (state2t) at (8,0.9) {$s_{t+1}$};
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%hstates
+%1
+\tikzstyle{hvertex}=[circle,fill=black!60,minimum size=28pt,inner sep=0pt]
+\node[hvertex] (hstate1) at (2.3,-0.7) {$s_{h,t}$};
+%2
+\node[hvertex] (hstate2) at (8,-0.7) {$s_{h,t+1}$};
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%action
+\node[fill=black!30] (action) at (6.3,-0.9) {$a_t$};
+\node[fill=black!30] (action0) at (0.3,-0.9) {$a_{t-1}$};
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% observations
+%1
+\node[fill=black!30] (hobserv1) at (4.1,-1.9) {$o_{t}$};
+%2
+\node[fill=black!30] (hobserv2) at (9.9,-1.9) {$o_{t+1}$};
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%ARROWS
+
+%S
+%0->1
+\draw[->,>=latex,dashed] (state0) -- (state1);
+%2->3
+\draw[->,>=latex,dashed] (state2) -- (state3);
+%1->2
+\draw[->,>=latex] (state1) -- (state2);
+
+
+%SV
+
+% arrows sv->oh
+%1
+\draw[->,>=latex] (vstate1) to[bend left] (hobserv1);
+%2
+\draw[->,>=latex] (vstate2) to[bend left] (hobserv2);
+
+
+%SH
+
+% arrows sh->oh
+%1
+\draw[->,>=latex] (hstate1) to (hobserv1);
+%2
+\draw[->,>=latex] (hstate2) to (hobserv2);
+
+%A
+% a->s
+%1
+\draw[->,>=latex] (action) -- (vstate2);
+\draw[->,>=latex] (action) -- (hstate2);
+%0
+\draw[->,>=latex,dashed] (action0) -- (vstate1);
+\draw[->,>=latex,dashed] (action0) -- (hstate1);
+
+% a->oh
+%1
+\draw[->,>=latex] (action) to[bend right]  (hobserv2);
+%0
+\draw[->,>=latex] (action0) to[bend right]  (hobserv1);
+
+%\node (probao1) at (4,-2.2) [rotate=350] {$ \pi \paren{ o_{h,t} \sachant s_t, a_{t-1}}$};
+%\node (probao2) at (11,-2.5) [rotate=350] {$ \pi \paren{ o_{h,t+1} \sachant s_{t+1}, a_{t}}$};
+%\node (probas) at (8.9,0.5) [rotate=355] {$ \pi \paren{s_{t+1} \sachant s_t,a_{t}}$};
+
+\end{tikzpicture}
+\end{figure}
+\vspace{-0.5cm}
+\textbf{Mixed-Observability:} system state $s \in {\color{blue} \mathcal{S} = \mathcal{S}_v  \times \mathcal{S}_h} $ \\ 
+\textit{i.e.} state $s \hspace{0.05cm} = \hspace{0.05cm} $ visible component $s_v$ \hspace{0.05cm} $\&$ \hspace{0.05cm} hidden component $s_h$. \\ 
+}
+\visible<3->{
+\vspace{-0.2cm}
+\begin{itemize}
+\item beliefs are only over $\mathcal{S}_h$ (component $s_v$ observed), \\ 
+\item computations on $\mathcal{X} = \mathcal{S}_v \times \mathcal{B}_h$ whose size is \\ 
+\hspace{2cm} \color{red} $\# \mathcal{X} = \# \mathcal{S}_v \hspace{-0.05cm} \cdot \hspace{-0.05cm} (\hspace{-0.05cm} \# \mathcal{L}^{\# \mathcal{S}_h} \hspace{-0.1cm} - \hspace{-0.1cm} (\# \mathcal{L}-1)^{\# \mathcal{S}_h} ) \ll \# \mathcal{B}$. \color{black}
+\end{itemize}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{$\pi$-MOMDPs in practice}
+\vspace{0.1cm}
+\textbf{contribution (UAI13): Infinite Horizon}
+\begin{block}{Dynamic Programming scheme: $\#$ iterations $<\# \mathcal{X}$.}
+$\forall x \in \mathcal{X}$, $V_0(x) = \mu(x)$ \textbf{preference}, 
+\visible<2->{
+and, until convergence,
+$\bullet V_{i+1}(x) = \displaystyle \max_{a \in \mathcal{A}} \max_{x' \in \mathcal{X}} \min \set{ \pi \paren{ x' \sachant x , a} , V_i(x') }$,}
+\visible<3->{
+ \mbox{ and } \\
+$\mbox{if } V_{i+1}(x) \hspace{-0.1cm} > \hspace{-0.1cm} V_i(x), \delta(x) \hspace{-0.1cm} = \hspace{-0.1cm} \displaystyle \operatorname*{argmax}_{a \in \mathcal{A}} \hspace{-0.05cm} \max_{x' \in \mathcal{X}} \hspace{-0.05cm} \min \hspace{-0.1cm} \set{ \hspace{-0.1cm} \pi \paren{ x' \sachant x , a} , \hspace{-0.1cm} V_i(x') \hspace{-0.1cm} }$.}
+\end{block}
+\vspace{-0.3cm}
+\visible<4->{
+\begin{exampleblock}{Recognition mission: robot on a grid $g \times g$, $2$ targets $T1$, $T2$.}
+\begin{minipage}{0.35\linewidth}
+- \textbf{goal:} reach the\\ 
+object $A$ = $T1$ or $T2$; \\
+- noisy observations\\ 
+of the targets natures:
+$\textbf{p} \paren{ o' \sachant s',a }$.
+%The possibilistic belief update \ref{possBelUpdate}
+%only takes into account 
+%more reliable observations.
+%On the contrary a probabilistic belief is modified at each step. 
+\end{minipage}
+\hspace{-0.3cm}
+\begin{minipage}{0.45\linewidth}
+\includegraphics[width=.65\linewidth]{robotgrid.pdf} 
+\includegraphics[width=.85\linewidth]{courbe1.pdf}
+\end{minipage} \\
+Actually, misperception in the error zone is: 
+$P_{bad} > \frac{1}{2}$.
+\end{exampleblock}
+}
+\end{frame}
+
+\section{Factored $\pi$-MOMDP and computations with ADDs }
+\begin{frame}
+\frametitle{Factorization and symbolic solver}
+	\centering
+	\begin{exampleblock}{}
+	\textbf{contribution (AAAI14):} factored $\pi$-MOMDP \\ 
+$\Leftrightarrow$ state space $\mathcal{X} = \mathcal{S}_v \times \mathcal{B}_h =$ 
+Boolean variables ($X_1,\ldots,X_n$) \\ 
+	\hspace{1cm} $+$ independence assumptions $\Leftarrow$ graphical model.
+	\end{exampleblock}
+	\vspace{0.2cm}
+	\includegraphics[scale=1]{factMDPdid.pdf} \\
+	\visible<2->{
+	%\vspace{0.5cm}
+	\begin{alertblock}{}
+	\centering
+	\begin{minipage}{0.75\linewidth}
+	\begin{itemize}
+	\item transition functions $T_i^a = \pi \paren{X_i' \sachant parents(X_i'),a}$ \\ 
+	\textbf{represented by Algebraic Decision Diagrams (ADD)}. \\
+	(SPUDD -- \textit{Hoey et al., UAI-99}).
+	\end{itemize}
+	\end{minipage}
+	\hspace{0.2cm}
+	\begin{minipage}{0.2\linewidth}
+	\includegraphics[scale=0.55]{tabADD} \\
+	\scriptsize example of ADD
+	\end{minipage} 
+	\end{alertblock}
+	}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Solver $\pi$-MOMDP résultant: PPUDD}
+\centering
+\begin{block}{}
+\begin{itemize}
+\item probabilistic model: $+$ and $\times$ $\Rightarrow$ new values created, \\ 
+number of ADDs leaves \textbf{potentially huge}.
+\item possibilistic model: $\min$ and $\max$ $\Rightarrow$ values $\in \mathcal{L}$ finite, 
+number of leaves bounded, \textbf{ ADDs \textbf{smaller}}.
+\end{itemize}
+\end{block}
+\vspace{-0.6cm}
+\begin{figure}
+\begin{tikzpicture}
+		\visible<2->{
+	\node (PPUDD) at (2.5,15) {\textbf{PPUDD: Possibilistic Planning Using Decision Diagrams}};
+	
+	\node (algo) at (0,12.7) {\includegraphics[scale=0.75]{algo2.pdf}};
+}	
+	\visible<3->{	
+	\node (blabla1) at (5.7,14.2) {factorization};
+	\node (blabla12) at (5.7,13.6) {{\color{blue!80} $\Rightarrow$ dynamic programming}};
+	\draw[ultra thick,>=latex,->,blue!80] (3.7,13.8) to (-0.5,14.2);
+	}	
+	\visible<4->{
+	\node (blabla13) at (5.9,13.1) {{\color{orange} divided into $n$ stages}};
+	\node (blabla15) at (5.5,12) {{\color{red} used ADDs smaller}};
+	\node (blabla16) at (5.7,11.5) {{\color{red} $\rightarrow$ \textbf{faster computations.}}};
+	\draw[ultra thick,>=latex,->,orange] (3.6,13.1) to (0,12.9);	
+	\node (accolade) at (-2.35,12.5) {\resizebox{0.93cm}{!}{{ \color{orange} $\{$}}}; 
+}
+\end{tikzpicture}
+\end{figure}
+\visible<2->{
+\vspace{-0.4cm}
+computations on trees: \textit{CU Decision Diagram Package}.
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{Natural factorisation: belief independence.}
+\vspace{0.02cm}
+\textbf{contribution (AAAI14):} $\pi$-MOMDP following independence assumptions of the graphical model: \\ $\Rightarrow$ { \color{blue} $(s_v,\beta) = (s_{v,1}, \ldots, s_{v,m}, \beta_1, \ldots, \beta_{l})$}, $\beta_i$ belief over $s_{h,i}$. \\
+\visible<3->{
+\vspace{-0.2cm}
+\begin{alertblock}{}
+{ \color{red} assumptions:} independent captors, hidden states...
+\end{alertblock}
+}
+\begin{tikzpicture}
+\node at (-6.4cm,0cm) {};
+\node at (0cm,9.88) {\includegraphics[scale=1]{factMOMDPdid.pdf}};
+\visible<2->{
+\tikzstyle{bvertex}=[circle,fill=red!60,minimum size=30pt,inner sep=0pt]
+
+	\node[bvertex] (bel1) at (4.5,10.8) {\Large $\beta_1'$};
+	\node[bvertex] (bel2) at (3.6,9.8) {\Large $\beta_2'$};
+	\node (obs1) at (4.5,8.2) {};
+	\node (obs2) at (3.6,8.5) {};
+	\node (act) at (0.4,7.9) {};
+	\draw[color=red!60,ultra thick,>=latex,->] (obs1) to (bel1); 
+	\draw[color=red!60,ultra thick,>=latex,->] (obs2) to (bel2); 
+	\draw[color=red!60,ultra thick,>=latex,->] (act) to [bend left] (bel1); 
+	\draw[color=red!60,ultra thick,>=latex,->] (act) to [bend left] (bel2); 
+
+	\node[bvertex] (bel11) at (-0.1,10.8) {\Large $\beta_1$};
+	\node[bvertex] (bel21) at (-1,9.8) {\Large $\beta_2$};
+	\node (obs11) at (-0.1,8.1) {};
+	\node (obs21) at (-1,8.4) {};
+	\node (act1) at (-4.1,7.9) {};
+	\draw[color=red!60,ultra thick,>=latex,->] (obs11) to (bel11); 
+	\draw[color=red!60,ultra thick,>=latex,->] (obs21) to (bel21); 
+	\draw[color=red!60,ultra thick,>=latex,->] (act1) to [bend left] (bel11); 
+	\draw[color=red!60,ultra thick,>=latex,->] (act1) to [bend left] (bel21); 
+
+	\draw[color=red!60,ultra thick,>=latex,->] (bel11) to (bel1); 
+	\draw[color=red!60,ultra thick,>=latex,->] (bel21) to (bel2); 
+
+
+	\node (bel12) at (-5,10.8) {};
+	\node (bel22) at (-5,9.8) {};
+    	\draw[color=red!60,ultra thick,>=latex,->,dashed] (bel12) to (bel11); 
+	\draw[color=red!60,ultra thick,>=latex,->,dashed] (bel22) to (bel21); 
+}
+\end{tikzpicture}
+\end{frame}
+
+\nico{
+\begin{frame}
+\frametitle{Factorisation naturelle: Indépendance des Croyances.}
+\vspace{0.18cm}
+\begin{itemize} 
+		\item $s_{h,i}$, $s_{h,j}$ \textbf{$d$-separés} par l'évidence $h_t$ (historique) 
+	\end{itemize}
+\vspace{0.18cm}
+	\visible<7->
+	{
+		 $\rightarrow$ variables cachées $s_{h,i}$ indépendantes sachant $h_t$ \mbox{ i.e. } ${ \color{blue} \beta_t(s_h) } = \pi \paren{ s_h \sachant h_t} = \displaystyle \min_i \pi \paren{s_{h,i} \sachant h_t} = { \color{blue} \displaystyle \min_i \beta_{t,i}(s_{h,i}) } $
+		\vspace{-0.4cm}
+	}
+\vspace{0.1cm}
+\begin{figure}[b]\centering
+\begin{tikzpicture}
+	\visible<2->
+	{
+	\draw[ultra thick,green!50] (-5,12.7) -- (3,12.7) -- (3,10.7) -- (-3.2,10.7) ;
+	\draw[ultra thick,green!50] (-3.2,8.8) -- (4.8,8.8) -- (4.8,7.4) -- (-5, 7.4) ;
+	\draw[ultra thick,green!50,dashed] (-3.2,8.8) -- (-5,8.8);
+	\draw[ultra thick,green!50,dashed] (-3.2,10.7) -- (-5, 10.7);
+	\draw[ultra thick,green!50,dashed] (-6.5,12.7) -- (-5,12.7);
+	\draw[ultra thick,green!50,dashed] (-6.5,7.4) -- (-5,7.4);
+	\node[green!60] (ev) at (-5.5,12.4) {evidence:};
+	\node[green!60] (ev2) at (-5.5,11.9) {\textbf{history} $h_t$};
+		
+	\draw[ultra thick,red!60] (2.305,10.06) circle (0.375cm);
+	\draw[ultra thick,red!60] (2.305,9.26) circle (0.375cm);
+	
+	}
+	\visible<3-3>
+	{
+		\draw[ultra thick,>=latex,->,red!60] (2,10.2) -- (-2,12);
+		\draw[ultra thick,>=latex,->,red!60] (2,10.15) -- (-2,11.25);	
+		\node[red!70] at (-1.45,12.4) { \scriptsize blocked};
+		\draw[very thick,red!60] (-2.8,12.6) -- (-2,12.6) -- (-2,10.9) -- (-2.8,10.9) -- (-2.8,12.6) ;
+	}
+	\visible<3->
+	{
+		\node (check) at (1.4,10.5) {\includegraphics[scale=0.022]{crossCheck.png}};	
+		\node (check) at (1,10.45) {\includegraphics[scale=0.022]{crossCheck.png}};	
+	}
+	
+	\visible<4-4>
+	{
+		\draw[ultra thick,>=latex,->,red!60] (2,10.07) -- (-2,10.07);
+
+			\draw[ultra thick,>=latex,->,red!60] (-2.5,10.07) -- (-5,10.07);
+			\draw[ultra thick,>=latex,->,red!60] (-2.45,10.1) -- (-4.85,11.45);
+			\draw[ultra thick,>=latex,->,red!60] (-2.42,10.1) -- (-4.32,11.85);
+			\node[red!70] at (-5,11) { \scriptsize blocked};	
+	}
+	\visible<4->
+	{
+		%\draw[ultra thick,>=latex,->,red!60] (2,11.97) -- (-2,9.5);
+		%\draw[ultra thick,>=latex,->,red!60] (2,11.22) -- (-2,9.43);
+		\node (check) at (1.25,10.08) {\includegraphics[scale=0.022]{crossCheck.png}};	
+	}
+	\visible<5-5>
+	{
+		\draw[ultra thick,>=latex,->,red!60] (2.2,9.95) -- (0.7,8.1);
+		\node[red!70] at (0.1,8.5) { \scriptsize blocked};
+		\draw[very thick,red!60] (0.17,7.6) -- (0.83,7.6) -- (0.83,8.15) -- (0.19,8.15) -- (0.19,7.6) ;
+	}
+	\visible<5->
+	{
+		\node (check) at (1.4,9) {\includegraphics[scale=0.022]{crossCheck.png}};	
+	}
+	\visible<6-6>
+	{
+		\draw[ultra thick,>=latex,->,red!60] (2.4,9.98) -- (4,8.38);
+		%\draw[ultra thick,>=latex,->,red!60] (2,11.35) -- (-2,11.35);	
+		%\draw[ultra thick,>=latex,->,red!60] (2,12.1) -- (-2,11.45);
+		\draw[ultra thick,>=latex,->,red!60] (4,8.05) -- (0.7,7.88);
+		\node[red!70] at (0.1,8.5) { \scriptsize blocked};
+		\draw[very thick,red!60] (0.17,7.6) -- (0.83,7.6) -- (0.83,8.15) -- (0.19,8.15) -- (0.19,7.6) ;
+	}
+	\visible<6->
+	{
+		\node (check) at (2.9,9.5) {\includegraphics[scale=0.022]{crossCheck.png}};	
+	}
+	\node (factMOMDP) at (0,9.88) {\includegraphics[scale=1]{factMOMDPdid.pdf}};
+\end{tikzpicture}
+\end{figure}
+\end{frame}
+}
+
+
+% observations
+
+
+\begin{frame}
+\frametitle{Experiments: Navigation problem -- agent $=$ robot.}
+\vspace{-0.2cm}
+\centering
+\begin{exampleblock}{}
+PPUDD vs SPUDD (\textit{Hoey et al.}) \\ 
+{ \color{red!70} Navigation benchmark}: reach a goal; spots with accident risk. \\ 
+$2$ possibilistic translations: M1 (optimistic) et M2 (cautious). 	
+\end{exampleblock}
+\visible<2->{
+\textbf{ Performances, function of the instance size}  \\
+\vspace{0.2cm}
+\begin{minipage}{0.45\linewidth}
+\centering
+{\color{orange} reached goal frequency} \\
+\includegraphics[scale=0.4]{courbePerfMDP.pdf} 
+\end{minipage}
+\begin{minipage}{0.45\linewidth}
+\hspace{0.5cm}{\color{orange} time to reach the goal} \\
+\includegraphics[scale=0.4]{courbePerfMDP2.pdf} 
+\end{minipage} 
+}
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Experiments: Navigation problem -- agent $=$ robot.}
+\begin{minipage}{0.45\linewidth}
+\centering
+{\color{orange} computation time} \\
+\includegraphics[scale=0.4]{courbeTime.pdf} 
+\end{minipage}
+\hspace{0.13cm}
+\begin{minipage}{0.45\linewidth}
+{\hspace{0.5cm} \color{orange} max size of ADDs} \\
+\includegraphics[scale=0.4]{courbeADD.pdf}  
+\end{minipage}
+\begin{alertblock}{}
+\centering
+\begin{itemize}
+\item PPUDD + M2 (pessimistic translation)\\ 
+\textbf{faster and same performances} as SPUDD;
+\item SPUDD only solves the $5$ first instances;
+\item verified intuition: ADDs are smaller.
+\end{itemize}
+\end{alertblock}
+\end{frame}
+
+\begin{frame}
+\frametitle{Experiments: RockSample problem -- agent $=$ robot.}
+\vspace{-0.1cm}
+	\begin{exampleblock}{}
+	PPUDD vs APPL (\textit{Kurniawati et al.}, solver MOMDP); \\
+ 	\hspace{1cm} symbolic HSVI (\textit{Sim et al., solver POMDP}). \\
+	{ \color{red!70} RockSample benchmark}: recognize and sample ``good'' rocks;
+	\end{exampleblock}
+	\visible<2->{
+\vspace{-0.05cm}
+	\begin{minipage}{0.55\linewidth}
+	\centering	
+	{\color{orange} computation time:}\\ 
+	probabilistic solvers, \hspace{-0.2cm} prec. \hspace{-0.3cm} $1$; \\ 
+	PPUDD, exact resolution. \\
+	\vspace{-0.2cm}
+	\includegraphics[scale=0.4]{RockSampleCompTime.pdf}
+	\end{minipage}
+	\hfill
+	\begin{minipage}{0.43\linewidth}
+	\centering
+	{\color{orange} average of rewards} \\ APPL stopped when \\ PPUDD ends. \\
+		\vspace{-0.2cm}
+	\includegraphics[scale=0.4]{courbePerfTime.pdf} 
+	\end{minipage}
+
+\vspace{-0.1cm}
+\begin{alertblock}{}
+\begin{itemize}
+\item \textbf{approximate model} $+$ \textbf{exact resolution solver} \\
+$\rightarrow$ can improve of computation time and performances.
+\end{itemize}
+\end{alertblock}
+}
+\end{frame}
+
+\begin{frame}
+\frametitle{IPPC 2014 -- MDP track. ADDs-based approaches:\\ 
+PPUDD vs symbolic LRTDP (\textit{Bonet et al.})}
+\vspace{-0.4cm}
+PPUDD $+$ BDD mask over reachable states. \\
+\vspace{-0.6cm}
+\begin{figure}
+\includegraphics[scale=0.3]{IPPC2014_results/academic_advising.pdf}
+\includegraphics[scale=0.3]{IPPC2014_results/crossing_traffic.pdf} 
+\includegraphics[scale=0.3]{IPPC2014_results/elevator.pdf} \\
+\vspace{0.5cm}
+\includegraphics[scale=0.3]{IPPC2014_results/skill_teaching.pdf} 
+\includegraphics[scale=0.3]{IPPC2014_results/tamarisk.pdf}
+\includegraphics[scale=0.3]{IPPC2014_results/triangle_tireworld.pdf} 
+\caption{{\color{orange} mean of rewards over simulations.}}
+\end{figure}
+\end{frame}
+
+\section{Belief factorization}
+\begin{frame}
+
+\frametitle{Independent beliefs}
+\vspace{-0.85cm}
+\hspace{5cm} \textit{A $\pi$-MOMDP fulfilling assumptions of the Dynamic Bayesian Network below has a} \textbf{natural factorization}: \\ { \color{blue} $(s_v,\beta) = (s_{v,1}, \ldots, s_{v,m}, \beta_1, \ldots, \beta_{l})$}, with $\beta_i$ belief about $s_{h,i}$. \\
+\visible<2->{
+\vspace{-0.2cm}
+\begin{alertblock}{}
+{ \color{red} some assumptions:} one observation variable for each hidden state variable, hidden state variables independent on other hidden state variables ...
+\end{alertblock}
+\vspace{-0.2cm}
+}
+\begin{center}
+\hspace{1.35cm}
+\includegraphics[scale=1]{factMOMDPdid.pdf}
+\end{center}
+\end{frame}
+
+\begin{frame}
+	\textit{beginning of the proof}:
+\begin{itemize} 
+		\item $\forall 1 \leqslant i < j \leqslant l$, $s_{h,i}$ and $s_{h,j}$ are \textbf{$d$-separated} by evidence $h_t$ (history) 
+	\end{itemize}
+	\visible<13->
+	{
+		 $\rightarrow$ for each time $t$,  hidden state variables $s_{h,i}$ are independent given $h_t$
+		\[ \mbox{ i.e. } { \color{blue} \beta_t(s_h) } = \pi \paren{ s_h \sachant h_t} = \displaystyle \min_i \pi \paren{s_{h,i} \sachant h_t} = { \color{blue} \displaystyle \min_i \beta_{t,i}(s_{h,i}) } \]
+		\vspace{-0.3cm}
+	}
+\begin{figure}[b]\centering
+\begin{tikzpicture}
+	\visible<2->
+	{
+	\draw[ultra thick,green!50] (-5,12.7) -- (3,12.7) -- (3,10.7) -- (-3.2,10.7) ;
+	\draw[ultra thick,green!50] (-3.2,8.8) -- (4.8,8.8) -- (4.8,7.4) -- (-5, 7.4) ;
+	\draw[ultra thick,green!50,dashed] (-3.2,8.8) -- (-5,8.8);
+	\draw[ultra thick,green!50,dashed] (-3.2,10.7) -- (-5, 10.7);
+	\draw[ultra thick,green!50,dashed] (-6.5,12.7) -- (-5,12.7);
+	\draw[ultra thick,green!50,dashed] (-6.5,7.4) -- (-5,7.4);
+	\node[green!60] (ev) at (-5.5,12.4) {evidence:};
+	\node[green!60] (ev2) at (-5.5,11.9) {\textbf{history} $h_t$};
+		
+	\draw[ultra thick,red!60] (2.305,10.06) circle (0.375cm);
+	\draw[ultra thick,red!60] (2.305,9.26) circle (0.375cm);
+	
+	}
+	\visible<3-4>
+	{
+		\draw[ultra thick,>=latex,->,red!60] (2,10.2) -- (-2,12);
+		\draw[ultra thick,>=latex,->,red!60] (2,10.15) -- (-2,11.25);	
+		\node[red!70] at (-1.45,12.4) { \scriptsize blocked};
+		\draw[very thick,red!60] (-2.8,12.6) -- (-2,12.6) -- (-2,10.9) -- (-2.8,10.9) -- (-2.8,12.6) ;
+	}
+	\visible<4->
+	{
+		\node (check) at (1.4,10.5) {\includegraphics[scale=0.022]{crossCheck.png}};	
+		\node (check) at (1,10.45) {\includegraphics[scale=0.022]{crossCheck.png}};	
+	}
+	
+	\visible<5-7>
+	{
+		\draw[ultra thick,>=latex,->,red!60] (2,10.07) -- (-2,10.07);
+	}
+\nico{
+	\visible<6-9>
+	{
+		\draw[ultra thick,>=latex,->,red!60] (-2.1,10.2) -- (2,12.03);
+		%\draw[ultra thick,>=latex,->,red!60] (-2.1,10.15) -- (2,11.27);
+	}
+
+	\visible<7-9>
+	{
+		\draw[ultra thick,>=latex,->,red!60] (2,12.17) -- (-2,12.17);
+		%\draw[ultra thick,>=latex,->,red!60] (2,11.35) -- (-2,11.35);	
+		\draw[ultra thick,>=latex,->,red!60] (2,12.1) -- (-2,11.45);
+		%\draw[ultra thick,>=latex,->,red!60] (2,11.42) -- (-2,12.1);	
+		\node[red!70] at (-1.45,12.4) { \scriptsize blocked};
+		\draw[very thick,red!60] (-2.8,12.6) -- (-2,12.6) -- (-2,10.9) -- (-2.8,10.9) -- (-2.8,12.6) ;
+	}
+}
+	\visible<6-7>
+	{
+			\draw[ultra thick,>=latex,->,red!60] (-2.5,10.07) -- (-5,10.07);
+			\draw[ultra thick,>=latex,->,red!60] (-2.45,10.1) -- (-4.85,11.45);
+			\draw[ultra thick,>=latex,->,red!60] (-2.42,10.1) -- (-4.32,11.85);
+			\node[red!70] at (-5,11) { \scriptsize blocked};	
+	}
+	
+	\visible<7->
+	{
+		%\draw[ultra thick,>=latex,->,red!60] (2,11.97) -- (-2,9.5);
+		%\draw[ultra thick,>=latex,->,red!60] (2,11.22) -- (-2,9.43);
+		\node (check) at (1.25,10.08) {\includegraphics[scale=0.022]{crossCheck.png}};	
+	}
+	\visible<8-9>
+	{
+		\draw[ultra thick,>=latex,->,red!60] (2.2,9.95) -- (0.7,8.1);
+		\node[red!70] at (0.1,8.5) { \scriptsize blocked};
+		\draw[very thick,red!60] (0.17,7.6) -- (0.83,7.6) -- (0.83,8.15) -- (0.19,8.15) -- (0.19,7.6) ;
+	}
+	\visible<9->
+	{
+		\node (check) at (1.4,9) {\includegraphics[scale=0.022]{crossCheck.png}};	
+	}
+	\visible<10-12>
+	{
+		\draw[ultra thick,>=latex,->,red!60] (2.4,9.98) -- (4,8.38);
+		%\draw[ultra thick,>=latex,->,red!60] (2,11.35) -- (-2,11.35);	
+		%\draw[ultra thick,>=latex,->,red!60] (2,12.1) -- (-2,11.45);
+	}
+	\visible<11-12>
+	{
+		\draw[ultra thick,>=latex,->,red!60] (4,8.05) -- (0.7,7.88);
+		\node[red!70] at (0.1,8.5) { \scriptsize blocked};
+		\draw[very thick,red!60] (0.17,7.6) -- (0.83,7.6) -- (0.83,8.15) -- (0.19,8.15) -- (0.19,7.6) ;
+	}
+	\visible<12->
+	{
+		\node (check) at (2.9,9.5) {\includegraphics[scale=0.022]{crossCheck.png}};	
+	}
+	\node (factMOMDP) at (0,9.88) {\includegraphics[scale=1]{factMOMDPdid.pdf}};
+\end{tikzpicture}
+\end{figure}
+\end{frame}
+
+
+%\section{Conclusions/Perspectives}
+\begin{frame}
+\frametitle{\insertsection} 
+\framesubtitle{\footnotesize towards a hybrid POMDP}
+\begin{block}{Possibility Theory:}
+\begin{itemize}
+\item \textbf{granulated} belief space representation (discretization),\\ 
+%\hspace{2.03cm} 
+\item efficient problem \textbf{simplification} (PPUDD $2 \times$ better \\
+\hspace{5cm} than LRTDP with ADDs);
+\item \textbf{ignorance and imprecision} modeling.
+\end{itemize}
+\end{block}
+\visible<2->{
+\begin{alertblock}{}
+\begin{itemize} 
+\item ADD methods $\prec$ state space search methods: \\
+winners of IPPC 2014, (PROST $\&$ GOURMAND, \\ 
+\hspace{4cm} $2 \times$ better than PPUDD).\\
+\item choice of the qualitative criterion (optimistic/pessimistic);
+\item non additive utility degrees, from the same scale as possibility degrees.
+\end{itemize}
+\end{alertblock}
+}
+\end{frame}
+
+
+\section{Human-machine interaction}
+\begin{frame}
+\frametitle{Processus $\pi$-MOMDPs, outils de diagnostic pour l'Intéraction Homme-Machine (avec Sergio Pizziol)}
+\vspace{-0.6cm}
+\begin{alertblock}{}
+\begin{itemize}
+\item \textbf{occurrences:} états de la machine et actions humaines;
+\item \textbf{évaluation humaine} (de l'état de la machine);
+\item \textbf{effets:} transitions, classées par degrés de possibilité.
+\end{itemize}
+\end{alertblock}
+\begin{tikzpicture}[scale=0.8,transform shape]
+
+%TIME
+%\node [font=\huge] (statet) at (3.8,1) {$t$};
+%\node [font=\huge] (statetplus1) at (8.9,1) {$t+1$};
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%states
+\tikzstyle{vertex}=[circle,fill=black!20,minimum size=20pt,inner sep=0pt]
+\node (Oc) at (0.8,3.4) {occurrences};
+\node (V) at (1.1,3) {(observables) \huge $\{$};
+%\node (V) at (1.5,1) {effects \huge $\{$};
+\node (H) at (1.2,0) {évaluations \huge $\{$};
+\node (H1) at (1,-0.5) {humaines};
+
+\node (E) at (1.7,1.5) {effets \huge $\{$};
+
+%1
+\node[vertex] (state1) at (3,3) {$v_0$};
+%\node[vertex] (state11) at (2.5,1) {$e_0$};
+\node[vertex] (state111) at (3,0) {$h_0$};
+%2
+\node[vertex] (state2) at (4.5,3) {$v_1$};
+%\node[vertex] (state22) at (4,1) {$e_1$};
+\node[vertex] (state222) at (4.5,0) {$h_1$};
+
+\node[vertex] (state3) at (6.5,3) {$v_t$};
+%\node[vertex] (state33) at (6,1) {$e_t$};
+\node[vertex] (state333) at (6.5,0) {$h_t$};
+
+\node (T) at (8.1,0.3) {$T_{t+1} \paren{h_t,h_{t+1}}$};
+\node (H) at (7.8,1.7) [rotate=46] {$O \paren{h_t,v_{t+1}}$};
+
+\node[vertex] (state4) at (9.5,3) {$v_{t+1}$};
+%\node[vertex] (state44) at (8,1) {$e_{t+1}$};
+\node[vertex] (state444) at (9.5,0) {$h_{t+1}$};
+
+
+\node (state23) at (10.5,3) {$\hdots$};
+
+%3
+\node (state5) at (10.8,2) {};
+\node (state55) at (10.8,1) {};
+\node (state555) at (10.8,0) {};
+
+\node (e0) at (2.9,1.6) [color=black!70] {\huge $e_0$};
+\node (e1) at (4.2,1.6) [color=black!70] {\huge $e_1$};
+\node (et) at (8.9,1.6) [color=black!70] {\huge $e_{t+1}$};
+
+%SV
+% arrows sv->sv
+%1->2
+\draw[->,>=latex] (state1) -- (state111);
+\draw[->,>=latex] (state111) -- (state2);
+\draw[->,>=latex] (state111) -- (state222);
+%\draw[->,>=latex] (state111) -- (state11);
+%\draw[->,>=latex] (state1) -- (state11);
+
+
+\draw[->,>=latex] (state2) -- (state222);
+\draw[->,>=latex,dashed] (state222) -- (state3);
+\draw[->,>=latex,dashed] (state222) -- (state333);
+%\draw[->,>=latex] (state2) -- (state22);
+%\draw[->,>=latex] (state222) -- (state22);
+%\draw[->,>=latex] (state111) -- (state22);
+
+\draw[->,>=latex] (state3) -- (state333);
+\draw[->,>=latex] (state333) -- (state444);
+\draw[->,>=latex] (state333) -- (state4);
+
+%\draw[->,>=latex] (state333) -- (state33);
+%\draw[->,>=latex] (state3) -- (state33);
+%\draw[->,>=latex,dashed] (state222) -- (state33);
+\draw[->,>=latex] (state333) -- (state444);
+\draw[->,>=latex] (state4) -- (state444);
+\draw[->,>=latex,dashed] (state444) -- (state555);
+
+%\draw[->,>=latex] (state444) -- (state44);
+%\draw[->,>=latex] (state4) -- (state44);
+%\draw[->,>=latex] (state333) -- (state44);
+
+\draw [scale=0.7,xscale=1.4,ball color=green,opacity=0.2,xshift=40,yshift=35,thick=5pt]
+ (9,2.5)..controls +(0,2) and +(1.3,2) ..(7,2.5) % angle haut
+ ..controls +(-1.3,-2) and +(1.3,2) ..(5.2,-0.2) % ligne gauche inclinee
+ ..controls +(-1.3,-2) and +(-1,0).. (6,-2) % angle inferieur gauche
+ ..controls +(-1,0) and +(1,0).. (8,-2)
+ ..controls +(1,0) and +(0,-2).. (9,0.5) % angle inferieur droit
+ ..controls +(0,1) and +(0,-1).. (9,2.5); % arc 4
+
+\draw [scale=0.7,xscale=0.8,ball color=green,opacity=0.2,xshift=-5,yshift=35,thick=5pt]
+ (9,2.5)..controls +(0,2) and +(1.3,2) ..(7,2.5) % angle haut
+ ..controls +(-1.3,-2) and +(1.3,2) ..(5.2,-0.2) % ligne gauche inclinee
+ ..controls +(-1.3,-2) and +(-1,0).. (6,-2) % angle inferieur gauche
+ ..controls +(-1,0) and +(1,0).. (8,-2)
+ ..controls +(1,0) and +(0,-2).. (9,0.5) % angle inferieur droit
+ ..controls +(0,1) and +(0,-1).. (9,2.5); % arc 4
+
+
+\draw [scale=0.7,xscale=0.8,yscale=0.95,ball color=green,opacity=0.2,xshift=-67,yshift=58,thick=5pt]
+ (8.5,2.5)..controls +(0,1) and +(0,1) ..(7,2.5) % angle haut
+ ..controls +(0,1) and +(0,-1) ..(7,-2) 
+ ..controls +(0,-1) and +(0,-1).. (8.5,-2) % angle inferieur droit
+ ..controls +(0,1) and +(0,-1).. (8.5,2.5); % arc 4
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TRANSITION FUNCTIONS
+%\node (T1) at (7.1,2.05) {$T^{a,1}$};
+%\node (T2) at (7,1.45) {$T^{a,2}$};
+\end{tikzpicture}
+\visible<2->{
+\begin{itemize}
+\item \textbf{estimation} de l'état selon l'opérateur humain;
+\item \textbf{détection} des erreurs humaines d'évaluation de l'état; 
+\item causes plausibles de ces erreurs (\textbf{diagnostique}).
+\end{itemize}
+}
+\end{frame}
+
+
+
+\section{An hybrid POMDP} %TODO comparison with ODAS until here
 \begin{frame}
 \definecolor{bblue}{rgb}{0,0.4,0.75}
 \frametitle{A possibilistic belief state}
