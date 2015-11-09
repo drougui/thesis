@@ -1,11 +1,8 @@
 \documentclass[sommairechap,stylejchiquet]{these_gi}
- 
+
 % TODO: 30sept manuscrit/ french/ inscription ISAE 24sept/ 
 % remerciements / CV adum / CADO: SUM15+MANUSCRIT/ DATE SOUTENANCE VALERIE
 % 
-
-
-
 % ============================================================
 % Front page
 
@@ -17,7 +14,7 @@ pour la D\'ecision S\'equentielle dans l'Incertain}
 %Integration of Imprecise Information Sources\\
 %and Sequential Decision Making under Uncertainty}
 \author{Nicolas Drougard}
-\lab{Onera -- The French Aerospace Lab, DCSD division, CD unit}
+\lab{Onera -- The French Aerospace Lab, département DCSD, unité CD}
 \nboss{3}
 \makesomeone{boss}{3}{Jean-Loup Farges}{ONERA - DCSD}{}
 \makesomeone{boss}{2}{Florent Teichteil-K\"onigsbuch}{ONERA - DCSD}{}
@@ -143,8 +140,6 @@ pour la D\'ecision S\'equentielle dans l'Incertain}
     urlcolor=black
 }
 
-
-
 \begin{document}
 
 %\dominitoc
@@ -204,15 +199,16 @@ pour la D\'ecision S\'equentielle dans l'Incertain}
  
 % ==================================================================
 % CONTENU GÉNÉRAL
-\chapter{State of the Art}
+\chapter{\'Etat de l'Art}
 \label{chap_SOTA}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\input{src_french/stateoftheart}
 %\input{src_french/stateoftheart2}
 
-\chapter{Updates and Practical Study of the Qualitative Possibilistic Partially Observable Markov Decision Processes}
+\chapter{Mises à Jour et \'Etude Pratique des Processus D\'ecisionels de Markov Partiellement Observables Possibilistes Qualitatifs}
 \label{chap_Updates}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
@@ -221,7 +217,7 @@ pour la D\'ecision S\'equentielle dans l'Incertain}
 
 % ============================================================
 % 
-\chapter{Development of Symbolic Algorithms to Solve $\pi$-POMDPs}
+\chapter{D\'eveloppement d'Algorithmes pour la r\'esolution des $\pi$-POMDPs}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -230,7 +226,7 @@ pour la D\'ecision S\'equentielle dans l'Incertain}
 
 % ============================================================
 % 
-\chapter{Application of Qualitative Possibilistic Hidden Markov Processes for Diagnosis in Human-Machine Interaction}
+\chapter{Application des Processus de Markov Cachés pour le Diagnostic dans l'Int\'eraction Homme-Machine}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -239,8 +235,8 @@ pour la D\'ecision S\'equentielle dans l'Incertain}
 
 % ============================================================
 % 
-\chapter{A Hybrid Model: Planning in Partially Observable Domains
-with Fuzzy Epistemic States and Probabilistic Dynamics}
+\chapter{Un Mod\`ele Hybride: Planifier dans des Domaines Partiellement Observable 
+avec des \'Etats \'Epist\'emiques Flous et une Dynamique Probabiliste}
 \label{chap_hybrid}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
@@ -256,27 +252,31 @@ with Fuzzy Epistemic States and Probabilistic Dynamics}
  
 % ==================================================================
 % ANNEXES
+
 \appendix
-\chapter*{Annex}\addcontentsline{toc}{chapter}{Annex}
+
+\chapter*{Annexe}\addcontentsline{toc}{chapter}{Annexe}
 \renewcommand{\thesection}{\Alph{section}}
 \newpage
-\section{Proofs of Chapter \ref{chap_SOTA}}
+\section{Preuves du chapitre \ref{chap_SOTA}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\input{src_french/annexe}
 \newpage
-\section{Proofs of Chapter \ref{chap_Updates}}
+\section{Preuves du chapitre \ref{chap_Updates}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\input{src_french/annexe_chap1}
 \newpage
-\section{Proofs of Chapter \ref{chap_symb}}
+\section{Preuves du chapitre \ref{chap_symb}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\input{src_french/annexe_chap2}
+
+\cite{Dubois95possibilitytheory}
 
 % ==================================================================
 % BIBLIOGRAPHIE
@@ -284,11 +284,11 @@ with Fuzzy Epistemic States and Probabilistic Dynamics}
 % References
 \bibliographystyle{plain}
 \bibliography{biblio}
- 
 
 % ==================================================================
 % NOTATIONS
 \include{nota}
+
 
 % ==================================================================
 % RELATED RESEARCH MATERIAL
@@ -307,6 +307,7 @@ with Fuzzy Epistemic States and Probabilistic Dynamics}
   \par
   \vfill
 \includepdf[pages=-]{TITLE_ABSTRACT_KEYWORDS/TAK.pdf}\AtBeginShipout\AtBeginShipoutDiscard
+
 \end{document}
 %%% Local Variables:
 %%% mode: latex
