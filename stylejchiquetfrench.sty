@@ -36,9 +36,9 @@
 % Mise en forme des algorithmes
 %\RequirePackage[french,ruled,vlined]{algorithm2e}
 % Gestion améliorée de la bibliographie
-\RequirePackage{natbib}
-\bibliographystyle{plainnatfrench}
-\bibpunct{(}{)}{,}{a}{}{;}
+%\RequirePackage{natbib}
+%\bibliographystyle{plainnatfrench}
+%\bibpunct{(}{)}{,}{a}{}{;}
 % Gestion des référence selon le format de sortie
 \RequirePackage{ifpdf}
 \ifpdf
@@ -98,7 +98,6 @@
 
 \renewcommand{\titlepage}{%
   \ifdefinitif
-  
   \begin{center}    
     \Large\textsc{\@universite} \\
     \textsc{\@laboratoire} \\ \bigskip
@@ -289,15 +288,15 @@
 }
 
 \RequirePackage[hyperpageref]{backref}
-%\backreffrench
+\backreffrench
 \renewcommand*{\backref}[1]{}  % Disable standard
 \renewcommand*{\backrefalt}[4]{% Detailed backref
   \ifcase #1 %
   \relax%(Not cited.)%
   \or
-  (Quoted on page~#2.)%
+  (Cit\'e page~#2.)%
   \else
-  (Quoted on pages~#2.) 
+  (Cit\'e pages~#2.) 
   \fi}
 
 % Page blanche après chapitre si nécessaire
