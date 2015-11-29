@@ -51,7 +51,7 @@ the value of $S_t$ and on the time step $t \geqslant 0$
 (see Figure \ref{fig_markov_chain}).
 \end{Def}
 Figure \ref{fig_markov_chain} describes 
-the Bayesian Network \cite{Pearl:1988:PRI:52121,pearl85bayesian} of a Markov Chain.
+the Bayesian Network \cite{Pearl1988PRI52121,pearl85bayesian} of a Markov Chain.
 In a Bayesian Network, or directed acyclic graphical model, 
 the variables are represented by nodes. 
 The absence of an arrow between two random variables (nodes) 
@@ -1134,6 +1134,8 @@ here, each function of the sequence can be summed up
 with a finite set of alpha vectors,
 which makes computations possible in practice.
 
+
+\nico{
 \begin{figure} 
 \center
 \begin{tikzpicture}[
@@ -1220,6 +1222,8 @@ Value function PWLC at a given iteration when the state space is $\mathcal{S} = 
 and $z$-axis represents $V(b)$. As $\# \mathcal{S} = 3$, $b(s_C) = 1 - b(s_A) - b(s_B)$. $V(b)$ is the maximum of a set of hyperplans.}  
 \label{alphavectors_POMDP3D}  
 \end{figure}
+
+}
 
 Given a number of iterations $N$ 
 for a specified error bound $\varepsilon>0$ 
@@ -1433,6 +1437,7 @@ Thus, using the previous interpolation trick, an upper bound of $V^*$ is availab
 Other methods to compute bounds for $V^*$ are available for instance in \cite{conf/aaai/Hauskrecht97}.
 Figure \ref{bounds_POMDP} illustrates the described bounds.
 
+\nico{
 \begin{figure} 
 \center
 \begin{tikzpicture}[
@@ -1499,6 +1504,7 @@ and dominated ones are represented by dotted green lines.
 The upper bound $\overline{V^*}$ is represented by the piecewise linear dashed orange line: 
 the squares represent the belief-value mappings. }  \label{bounds_POMDP} 
 \end{figure}
+}
 
 \subsection{POMDP solvers}
 Some recent POMDP solvers are said to be \textit{point-based} as they maintain

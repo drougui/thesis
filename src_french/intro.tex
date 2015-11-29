@@ -1,113 +1,135 @@
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
 
-\section*{Context}
+\section*{Contexte}
 %%% CONTEXT
-\malettrine{P}{roviding} decisional autonomy to a robot 
-requires among other things to compute a function which returns
-the symbols of the actions to be triggered
-at a given moment, considering the data from its sensors.
-The features of interest of the robot 
-and its  surroundings form a \textit{system}.
-In general, for a given sequence of actions performed by the robot, 
-the evolution of this system 
-is not fixed for sure, 
-but its behavior may be known 
-by performing tests on the robot
-or using information from expert knowledge.
-As well, the raw or processed data from the robot sensors
-are not generally a deterministic outcome
-of the state of the system or of the taken actions:
-nevertheless, these data, 
-called also \textit{observations} of the system, 
-depend on the robot's actions and system states. 
-Relations between observations, system states and actions 
-may be known through tests of the sensors
-in various situations, 
-or by taking into account the description of the sensors, 
-data processing, or any related expert information.
-For instance, in the case of a robot using Computer Vision (CV),
-the output of the image processing algorithm employed
-is considered as an observation of the system
-since it is the result of processed sensor data
-and the input of the decision model:
-here data are images from camera.
-For a given camera, and a given vision algorithm,
-the behavior of the observation
-is related to the action and to the system state
-during the process of taking images. 
+\malettrine{L'}{autonomie} décisionnelle d'un robot provient, 
+entre autre, 
+du calcul d'une fonction 
+appelée \textit{stratégie} ou \textit{politique}: 
+celle-ci retourne 
+le symbole de l'action à exécuter
+en fonction de l'historique 
+des données des capteurs du robot.
+Les caractéristiques d'intérêt du robot
+et de son environnement 
+forment un \textit{système}.
+En général, 
+pour une séquence donnée 
+d'actions exécutées par le robot,
+l'évolution de ce système n'est pas déterministe, 
+mais son comportement peut être étudié 
+en effectuant de nombreux tests 
+sur le système robotique, 
+ou en utilisant les connaissances d'un expert.
+De même, 
+les données provenant des capteurs, 
+brutes ou traitées,
+sont généralement 
+des éléments incertains:
+cependant, 
+le comportement de ces données,
+appelées aussi \textit{observations} du système, 
+dépend des actions du robot 
+et des états successifs du système.
+Les relations entre les observations, 
+les états du système et les actions 
+peuvent aussi être obtenues 
+à l'aide de tests des capteurs 
+dans de nombreuses situations, 
+ou en utilisant la description de ces même capteurs,
+du traitement des données, 
+ou n'importe quelle information experte.
+Par exemple, 
+dans le cas d'un robot 
+utilisant une vision artificielle,
+la sortie de l'algorithme 
+de traitement d'image utilisé
+est considérée 
+comme une observation du système
+puisque résultat 
+d'un traitement des données des capteurs,
+et entrée du modèle de décision:
+ici, les données sont les images provenant de la camera.
+Pour une camera données, et un algorithme de vision donné,
+le comportement de l'observation
+est lié à l'action
+et à l'état du système
+lors du processus de prise des images.
 
-Thus, in order to make a robot 
-autonomously fulfill a chosen \textit{mission}, 
-we are  looking for a function returning actions 
-conditioned on the sequence of system observations,
-and taking into account uncertainty 
-about the system evolution 
-and its observation.
-Such functions may be called \textit{strategies}.
-The research domain associated to this kind of problem,
-\textit{i.e.} strategy computation,
-is not restricted to robotics and
-is called \textit{sequential decision making under uncertainty}:
-in the general case,
-the entity which has to act is called the \textit{agent}.
-In this thesis, although provided results are mostly theoretical
-and general enough to tackle much more various applications,
-the problem of strategy computation 
-is studied in the context of autonomous robotics,
-and the agent is the decisional part of the robot.
-Computing a strategy for a given robotic mission needs a proper framework:
-the best known model describes the state and observation behaviors
-using Probability Theory.
+Ainsi, dans le but de rendre un robot autonome
+pour une \textit{mission} donnée, %%%%%%
+nous cherchons une stratégie, \textit{i.e.} 
+une fonction précisant les actions à exécuter
+conditionnellement à la séquence d'observations du système,
+tenant compte de l'incertitude à propos
+de l'évolution du système et de ses observations. 
+Le domaine de recherche associé 
+à ce type de problème,
+\textit{i.e.} le calcul de stratégies,
+n'est pas restreint à la robotique
+et est appelé \textit{décision séquentielle dans l'incertain}:
+dans le cas général, l'entité qui doit effectuer l'action est appelée
+\textit{l'agent}.
+Dans cette thèse, bien que les résultats fournis sont principalement théoriques
+et assez généraux pour concerner des applications plus variées,
+le problème du calcul de stratégie
+est étudié ici dans le contexte de la robotique autonome,
+et l'agent est la partie décisionnelle du robot.
+Calculer une stratégie pour une mission robotique donnée
+nécessite un cadre adapté:
+le modèle le plus connu décrit le comportement de l'état du système 
+et des observations en utilisant la théorie de probabilités.
 
-\subsection*{A probabilistic model for strategy computation}
+\subsection*{Un modèle probabiliste pour le calcul de stratégies}
 
-Markov Decision Processes (MDPs) 
-define a useful formalism 
-to express sequential decision problems 
-under probabilistic uncertainty \cite{Bel}.
-It is a framework well suited to compute strategies 
-if the actual system state is known by the agent
-at each point in time.
-In the robotic context,
-this assumption means that
-the considered mission allows us to assume 
-that the robot has full knowledge 
-of the features of interest via its sensors.
-In this model,
-a system state is denoted by the letter $s$,
-and the finite set of all the possible states is $\mathcal{S}$.
-The finite set $\mathcal{A}$ consists
-of all possible actions $a \in \mathcal{A}$ 
-available to the agent. 
-The time is discretized into integers $t \in \mathbb{N}$
-which represent time steps of the action sequence.
+Les processus décisionnels de Markov (PDMs)
+expriment aisément les problèmes de décision séquentielle
+sous incertitude probabiliste \cite{Bel}.
+Ils sont adaptés au calcul des stratégies
+si l'état du système est connu par l'agent 
+à chaque moment de la mission.
+Dans le contexte robotique,
+cette hypothèse signifie
+que la mission considérée
+nous permet de faire l'hypothèse
+que le robot a une connaissance parfaite
+des caractéristiques d'intérêt via ses capteurs.
+Dans ce modèle,
+l'état du système est noté $s$,
+et l'ensemble fini de tous les états possibles du système 
+est $\mathcal{S}$.
+L'ensemble fini $\mathcal{A}$
+est l'ensemble de toutes les actions disponibles pour l'agent.
+Le temps est discrétisé en étapes de décision
+représentées par les entiers $t \in \mathbb{N}$.
 
-The state dynamics is assumed to be \textit{Markovian}:
-at each time step $t$,
-the next system state $s_{t+1} \in \mathcal{S}$,  
-only depends on the current one $s_t \in \mathcal{S}$
-and the chosen action $a_t \in \mathcal{A}$.
-This relation is described by a transition function 
-$\textbf{p} \paren{ s_{t+1} \sachant s_t, a_t}$
-which is defined as the probability distribution %%%% TODO TODO TODO TODO
-on the next system states $s_{t+1}$ conditioned on each action: 
-if the action $a_t \in \mathcal{A}$ is selected by the agent, 
-and the current system state is $s_t \in \mathcal{S}$, 
-the next state $s_{t+1} \in \mathcal{S}$
-is reached with probability $\textbf{p} \paren{ s_{t+1} \sachant s_t, a_t }$. 
+Il est supposé que la dynamique de l'état du système
+est \textit{Markovienne}:
+à chaque étape de temps $t$,
+l'état suivant $s_{t+1} \in \mathcal{S}$,  
+ne dépend que de l'état courant $s_t \in \mathcal{S}$
+et de l'action choisie $a_t \in \mathcal{A}$.
+Cette relation est décrite par la fonction de transition
+$\textbf{p} \paren{ s_{t+1} \sachant s_t, a_t}$,
+définie comme la distribution de probabilité
+sur l'état suivant $s_{t+1}$ 
+conditionnellement à l'état courant $s_t \in \mathcal{S}$ 
+lors de l'exécution de l'action $a_t \in \mathcal{A}$.
 
-The mission of the agent is described in terms of rewards:
-a reward function $r: (s,a) \mapsto r(s,a) \in \mathbb{R}$ 
-is defined for each action $a \in \mathcal{A}$
-and system state $s \in \mathcal{S}$,
-and models the goal of the agent.
-Each reward value $r(s,a) \in \mathbb{R}$
-is a local incentive for the agent.
-The more rewards are gathered during one execution of the process, the better:
-a realization of a sequence of system states
-and actions is considered as well fulfilling the desired mission 
-if encountered rewards $r(s_t,a_t)$ are high.
+La mission de l'agent est décrite en terme de \textit{récompenses}:
+une fonction de récompense $r: (s,a) \mapsto r(s,a) \in \mathbb{R}$ 
+est définie pour chaque action $a \in \mathcal{A}$
+et chaque état du système $s \in \mathcal{S}$.
+Elle modélise le but de l'agent.
+Chaque valeur de récompense $r(s,a) \in \mathbb{R}$
+est une motivation locale pour l'agent.
+En effet, plus l'agent récupère de récompenses pendant l'exécution du processus,
+mieux il a réalisé sa mission:
+une mission est considéré bien remplie
+si la séquence d'états du système $s_t \in \mathcal{S}$ rencontrés
+et d'actions $a_t \in \mathcal{A}$ selectionnées
+mènent à des récompenses $r(s_t,a_t)$ grandes.
 Solving an infinite horizon MDP
 consists in computing an optimal strategy, 
 \textit{i.e.} a function prescribing actions $a \in \mathcal{A}$
@@ -127,24 +149,25 @@ and with values in $\mathcal{A}$.
 \begin{tikzpicture}
 \node (rpomp) at (-1,4.7) {\includegraphics[scale=0.9]{robot_pompier}};
 \node (bli) at (0,6.5) {};
-\node (pomdp3) at (3.9,6) {\color{orange}{$s \in \mathcal{S}$}: \color{black}{\textbf{system state}}};
+\node (pomdp3) at (3.9,6) {\color{orange}{$s \in \mathcal{S}$}: \color{black}{\textbf{état du système}}};
 \node (t1) at (2,6) {};
 \node (r1) at (-2.3,5.5) {};
 \node (r11) at (1,4.5) {};
 \draw[->,>=latex,color=orange!60,line width=1mm] (t1) to (r1);
 \draw[->,>=latex,color=orange!60,line width=1mm] (t1) to (r11);
-\node (pomdp4) at (5.8,4.45) {\color{blue!60}{$o \in \mathcal{O}$:} \color{black} \textbf{system observation}};
+\node (pomdp4) at (5.8,4.45) {\color{blue!60}{$o \in \mathcal{O}$:} \color{black} \textbf{observations du système}};
 \node (t2) at (3.3,4.4) {};
 \node (r2) at (-2.3,5.05) {};
 \draw[->,>=latex,color=blue!40,line width=1mm] (t2) to[bend left] (r2);
-\node (pomdp5) at (1.8,3) {\color{red}{$a \in \mathcal{A}$:} \color{black} \textbf{agent's action}};
+\node (pomdp5) at (1.8,3) {\color{red}{$a \in \mathcal{A}$:} \color{black} \textbf{actions de l'agent}};
 \node (t3) at (-0.3,3) {};
 \node (r3) at (-2,4.2) {};
 \draw[->,>=latex,color=red!50,line width=1mm] (t3) to (r3);
-\node (pomdp6) at (-5.5,5.5) {\color{ggreen}{$b \in \mathbb{P}^{\mathcal{S}}$:} \color{black} \textbf{belief state} }; %%% ORANGE?
+\node (pomdp6) at (-5.5,5.5) {\color{ggreen}{$b \in \mathbb{P}^{\mathcal{S}}$:} \color{black} }; %%% ORANGE?
+\node (pomdp7) at (-5,5) {\color{black} \textbf{état de croyance} }; %%% ORANGE?
 \node (pomdp6) at (-3.5,6) {\color{ggreen}{\Huge \textbf{?}}}; %%% ORANGE?
 \end{tikzpicture}
-\caption[Use of a POMDP for the firefighter robot mission modeling]{
+\caption[Utilisation d'un PDMPO pour la modélisation du robot pompier]{
 Use of a POMDP for the firefighter robot mission modeling:
 in this toy example, the mission of the robot is fire prevention.
 The \textbf{states of the system} $s \in \mathcal{S}$ encode for instance the robot location, 
@@ -313,7 +336,7 @@ as illustrated by the Bayesian Network in Figure \ref{BayesNetPOMDP}.
 \draw[->,>=latex, thick] (action) -- (state2);
 \draw[->,>=latex, thick] (action) -- (obs);
 \end{tikzpicture}
-\caption[Bayesian Network illustrating the belief update.]{Bayesian Network illustrating the belief update: the states are the gray circular nodes, 
+\caption[Réseau Bayesien illustrant la mise à jour de l'état de croyance]{Bayesian Network illustrating the belief update: the states are the gray circular nodes, 
 the action is the red square node, and the observation is the blue circular node.
 The random variable $S_{t+1}$ representing the next state $s_{t+1}$ 
 depends on the current one $s_t$ and on the current action $a_t$.
@@ -344,6 +367,7 @@ such that successive $d_t = d(b_t) \in \mathcal{A}$
 maximize the expected reward (\ref{criterion}):
 the agent decisions are then based on the belief state.
 
+
 %
 % POMDP ROBOTICS
 %
@@ -352,7 +376,7 @@ as illustrated by the firefighter example, see Figure \ref{robot_pompier}:
 it allows to describe all the robotic and surrounding system,
 as well as the robot's mission,
 and it is commonly used in robotics 
-\cite{conf/isrr/PineauG05,OngShaoHsuWee-IJRR10,DBLP:conf/rss/Marthi12,DBLP:conf/ecai/ChanelTL12,DBLP:conf/aaai/ChanelTL13}.
+\cite{PineauG05,OngShaoHsuWee-IJRR10,Marthi12,ChanelTL12,ChanelTL13}.
 It takes into account that the robot receives data
 from its sensors only,
 and thus has to figure out the actual system state 
@@ -364,15 +388,15 @@ in particular in the robotic context.
 %
 % HIGH COMPLEXITY
 %
-\section*{Practical issues of the POMDP framework}
-\subsection*{Complexity}
+\section*{Problèmes pratiques des PDMPO}
+\subsection*{Complexité}
 Solving a POMDP \textit{i.e.} computing an optimal strategy, 
-is PSPACE-hard in finite horizon \cite{Papadimitriou:1987} 
+is PSPACE-hard in finite horizon \cite{Papadimitriou1987} 
 and even
-undecidable in infinite horizon \cite{Madani:1999:UPP:315149.315395}.
+undecidable in infinite horizon \cite{Madani1999UPP315149.315395}.
 Moreover a space exponential in the problem description may be required 
 for an explicit specification of such a strategy.
-See \cite{Mundhenk:2000:CPP:867838} 
+See \cite{Mundhenk2000CPP867838} 
 for a more detailed complexity analysis of POMDPs.
 
 This high complexity is well-known by POMDP practitioners:
@@ -385,7 +409,7 @@ and linear programming techniques \cite{Cassandra97incrementalpruning}.
 Otherwise, only approximate solutions can be computed,
 and thus the strategy has no optimality guaranty.
 For instance, popular approaches such as point-based methods 
-\cite{Pineau_2003_4826,Kurniawati-RSS08,Smith:2004:HSV:1036843.1036906}, 
+\cite{Pineau_2003_4826,Kurniawati-RSS08,Smith2004HSV1036843.1036906}, 
 grid-based ones \cite{Geffner98solvinglarge,Brafman97aheuristic,Bonet_newgrid-based}
 or Monte Carlo approaches \cite{NIPS2010_4031},
 use approximate computations.
@@ -398,7 +422,7 @@ without referring to the belief states.
 It may be an interesting approach to simplify computations \cite{1383528},
 but only few works address this problem.
 This approach is more motivated by research in learning 
-\cite{singh:icml03,DBLP:journals/corr/BootsGG13}.
+\cite{singhicml03,BootsGG13}.
 %and is not meant to handle parameter imprecision.
 Moreover, it does not tackle the next POMDP's practical issues 
 that will be highlighted, 
@@ -410,7 +434,7 @@ these issues are easily illustrated via robotic situations.
 %
 \begin{figure} \centering
 \includegraphics[scale=0.75]{fig2}
-\caption[Example of an observation method in a robotic context]{
+\caption[Exemple d'une méthode d'observation dans le contexte robotique]{
 Example of an observation method in a robotic context:
 the robot, here a drone, is equipped with a camera
 and uses a classifier computed from a image dataset
@@ -431,7 +455,7 @@ Here, observations are thus generated by computer vision means.}
 %
 % COMPUTER VISION
 %
-\subsection*{Parameter imprecision and computer vision}
+\subsection*{Imprécision des Paramètres et Vision Artificielle}
 Consider now robots using visual perception, 
 and whose observations 
 come from computer vision algorithms based on statistical learning
@@ -502,7 +526,7 @@ NORB dataset: \color{blue} $(\mbox{image}_i,\mbox{label}_i)_{i=1}^N$
 	}
 
 \end{tikzpicture}
-\caption[Example of image dataset for computer vision.]{Example of image dataset for computer vision: 
+\caption[Exemple de base de donnée pour la vision artificielle]{Example of image dataset for computer vision: 
 the labeled image dataset NORB \cite{LeCun.2004}. The size of NORB is higher than $3.10^5$,
 and images from this dataset represents objects among the $5$ classes: 
 ``animal'', ``car'', ``human'', ``nothing'', ``plane'' and ``truck''.
@@ -600,487 +624,6 @@ which is hard to perform:
 there are limited data to learn the model
 in practice.
 
-%%
-%% ConvNets
-%%
-\begin{figure} \centering
-\begin{tikzpicture} 
-\label{bipyr}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% TIKZ
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\node (car) at (-1,-1) {\includegraphics[scale=0.52]{NORB_car.png}};
-
-	% input image 
-	\coordinate (A1) at (0cm,0cm); 
-	\coordinate (A2) at (0cm,-2cm); 
-	\coordinate (A3) at (-2cm,0cm);
-	\coordinate (A4) at (-2cm,-2cm); 
-	\draw[thick] (A1) -- (A3);
-	\draw[thick] (A3) -- (A4);
-	\draw[thick] (A4) -- (A2);
-	\draw[thick] (A2) -- (A4);
-
-	\node at (barycentric cs:A1=1,A3=1,A2=-0.15) {\tiny $m$};
-	\node at (barycentric cs:A3=1,A4=1,A1=-0.2) {\tiny $m$};
-
-	% output feature
-	\coordinate (A6) at (7cm,-4cm);
-	\coordinate (A7) at (9cm,-0.7cm);
-	\coordinate (A8) at (9.1cm,-0.7cm);
-	\coordinate (A9) at (7.1cm,-4cm);
-	\draw[thick] (A6) -- (A9);
-	\draw[thick] (A7) -- (A8);
-	\draw[thick] (A8) -- (A9);
-
-	\node at (barycentric cs:A7=1,A8=1,A6=-0.1) {\tiny $1$};
-	\node at (barycentric cs:A8=1,A9=1,A1=-0.05) {\tiny $n$};
-
-	%% draw faces
-	%\fill[gray!50,opacity=0.7] (A1) -- (A6) -- (A7) -- cycle;
-	%\fill[gray!50,opacity=0] (A1) -- (A2) -- (A7) -- cycle; 
-	%\fill[gray!50,opacity=0.7] (A2) -- (A1) -- (A6) -- cycle;
-	\draw[thick,dashed] (A1) -- (A7);
-	\draw[thick,dashed] (A2) -- (A7);
-
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-	%% INTERMEDIATE FEATURE MAPS DRAWING %%
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LINE1
-
-	% base points (of right and left images)
-	\coordinate (im111) at (2.77cm,-0.08cm); 
-	\coordinate (im112) at (2.77cm,-1.85cm); 
-	\coordinate (im113) at (1cm,-0.08cm);
-	\coordinate (im114) at (1cm,-1.85cm); 
-
-	\coordinate (im131) at (2.45cm,-0.4cm); 
-	\coordinate (im132) at (2.45cm,-2.17cm); 
-	\coordinate (im133) at (0.68cm,-0.4cm);
-	\coordinate (im134) at (0.68cm,-2.17cm); 
-
-
-	% images plans
-	% beginning
-	\draw[thick] (im111) -- (im113);
-	\draw[thick] (im113) -- (im114);
-	\draw[thick] (im114) -- (im112);
-	\draw[thick] (im112) -- (im111);
-	\fill[gray!00,opacity=0.7] (im111) -- (im112) -- (im114) -- (im113) -- cycle;
-
-
-	% intermediate plans
-	\coordinate (im121) at (2.62cm,-0.24cm); 
-	\coordinate (im122) at (2.62cm,-2.01cm); 
-	\coordinate (im123) at (0.85cm,-0.24cm);
-	\coordinate (im124) at (0.85cm,-2.01cm); 
-	\draw[thick] (im121) -- (im123);
-	\draw[thick] (im123) -- (im124);
-	\draw[thick] (im124) -- (im122);
-	\draw[thick] (im122) -- (im121);
-	\fill[gray!00,opacity=0.7] (im121) -- (im122) -- (im124) -- (im123) -- cycle;
-
-	%% end
-	\draw[thick] (im131) -- (im133);
-	\draw[thick] (im133) -- (im134);
-	\draw[thick] (im134) -- (im132);
-	\draw[thick] (im132) -- (im131);
-	\fill[gray!00,opacity=0.7] (im131) -- (im132) -- (im134) -- (im133) -- cycle;
-
-
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LINE2
-	
-	% base points (of right and left images)
-	\coordinate (im211) at (4.5cm,-2cm); 
-	\coordinate (im212) at (4.5cm,-3cm); 
-	\coordinate (im213) at (3.5cm,-2cm);
-	\coordinate (im214) at (3.5cm,-3cm); 
-
-	\coordinate (im291) at (5.5cm,-0.35cm); 
-	\coordinate (im292) at (5.5cm,-1.35cm); 
-	\coordinate (im293) at (4.5cm,-0.35cm);
-	\coordinate (im294) at (4.5cm,-1.35cm); 
-
-	% images plans
-	% beginning
-	\draw[thick] (im291) -- (im293);
-	\draw[thick] (im293) -- (im294);
-	\draw[thick] (im294) -- (im292);
-	\draw[thick] (im292) -- (im291);
-	\fill[gray!00,opacity=0.7] (im291) -- (im292) -- (im294) -- (im293) -- cycle;
-
-	% intermediate plans
-	\foreach \y in {0.1,0.2,...,1} {
-		\coordinate (ii1) at (barycentric cs:im211= \y,im291=1-\y);
-		\coordinate (ii2) at (barycentric cs:im212= \y,im292=1-\y);
-		\coordinate (ii3) at (barycentric cs:im213= \y,im293=1-\y);
-		\coordinate (ii4) at (barycentric cs:im214= \y,im294=1-\y);
-
-		\draw[thick] (ii1) -- (ii3);
-		\draw[thick] (ii3) -- (ii4);
-		\draw[thick] (ii4) -- (ii2);
-		\draw[thick] (ii2) -- (ii1);
-		\fill[gray!00,opacity=0.7] (ii1) -- (ii2) -- (ii4) -- (ii3) -- cycle;
-	}
-
-	% end
-	\draw[thick] (im211) -- (im213);
-	\draw[thick] (im213) -- (im214);
-	\draw[thick] (im214) -- (im212);
-	\draw[thick] (im212) -- (im211);
-	\fill[gray!00,opacity=0.7] (im211) -- (im212) -- (im214) -- (im213) -- cycle;
-
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LINE3
-
-	% base points (of right and left images)
-	\coordinate (im311) at (5.75cm,-3cm); 
-	\coordinate (im312) at (5.75cm,-3.5cm); 
-	\coordinate (im313) at (5.25cm,-3cm);
-	\coordinate (im314) at (5.25cm,-3.5cm); 
-
-	\coordinate (im391) at (7.2cm,-0.53cm); 
-	\coordinate (im392) at (7.2cm,-1.03cm); 
-	\coordinate (im393) at (6.7cm,-0.53cm);
-	\coordinate (im394) at (6.7cm,-1.03cm); 
-
-	% images plans
-	% beginning
-	\draw[thick] (im391) -- (im393);
-	\draw[thick] (im393) -- (im394);
-	\draw[thick] (im394) -- (im392);
-	\draw[thick] (im392) -- (im391);
-	\fill[gray!00,opacity=0.7] (im391) -- (im392) -- (im394) -- (im393) -- cycle;
-
-	% intermediate plans
-	\foreach \y in {0.05,0.1,...,1} {
-		\coordinate (ii1) at (barycentric cs:im311= \y,im391=1-\y);
-		\coordinate (ii2) at (barycentric cs:im312= \y,im392=1-\y);
-		\coordinate (ii3) at (barycentric cs:im313= \y,im393=1-\y);
-		\coordinate (ii4) at (barycentric cs:im314= \y,im394=1-\y);
-
-		\draw[thick] (ii1) -- (ii3);
-		\draw[thick] (ii3) -- (ii4);
-		\draw[thick] (ii4) -- (ii2);
-		\draw[thick] (ii2) -- (ii1);
-		\fill[gray!00,opacity=0.7] (ii1) -- (ii2) -- (ii4) -- (ii3) -- cycle;
-	}
-
-	% end
-	\draw[thick] (im311) -- (im313);
-	\draw[thick] (im313) -- (im314);
-	\draw[thick] (im314) -- (im312);
-	\draw[thick] (im312) -- (im311);
-	\fill[gray!00,opacity=0.7] (im311) -- (im312) -- (im314) -- (im313) -- cycle;
-
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LINE4
-	
-	% base points (of right and left images)
-	\coordinate (im411) at (6.35cm,-3.5cm); 
-	\coordinate (im412) at (6.35cm,-3.75cm); 
-	\coordinate (im413) at (6.1cm,-3.5cm);
-	\coordinate (im414) at (6.1cm,-3.75cm); 
-
-	\coordinate (im491) at (8.12cm,-0.61cm); 
-	\coordinate (im492) at (8.12cm,-0.86cm); 
-	\coordinate (im493) at (7.87cm,-0.61cm);
-	\coordinate (im494) at (7.87cm,-0.86cm); 
-
-	% images plans
-	% beginning
-	\draw[thick] (im491) -- (im493);
-	\draw[thick] (im493) -- (im494);
-	\draw[thick] (im494) -- (im492);
-	\draw[thick] (im492) -- (im491);
-	\fill[gray!00,opacity=0.8] (im491) -- (im492) -- (im494) -- (im493) -- cycle;
-
-	% intermediate plans
-	\foreach \y in {0.04,0.08,...,1} {
-		\coordinate (ii1) at (barycentric cs:im411= \y,im491=1-\y);
-		\coordinate (ii2) at (barycentric cs:im412= \y,im492=1-\y);
-		\coordinate (ii3) at (barycentric cs:im413= \y,im493=1-\y);
-		\coordinate (ii4) at (barycentric cs:im414= \y,im494=1-\y);
-
-		\draw[thick] (ii1) -- (ii3);
-		\draw[thick] (ii3) -- (ii4);
-		\draw[thick] (ii4) -- (ii2);
-		\draw[thick] (ii2) -- (ii1);
-		\fill[gray!00,opacity=0.7] (ii1) -- (ii2) -- (ii4) -- (ii3) -- cycle;
-	}
-
-	% end
-	\draw[thick] (im411) -- (im413);
-	\draw[thick] (im413) -- (im414);
-	\draw[thick] (im414) -- (im412);
-	\draw[thick] (im412) -- (im411);
-	\fill[gray!00,opacity=0.8] (im411) -- (im412) -- (im414) -- (im413) -- cycle;
-
-
-	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LINE5
-
-	% base points (of right and left images)
-	\coordinate (im511) at (6.75cm,-3.8cm); 
-	\coordinate (im512) at (6.75cm,-3.9cm); 
-	\coordinate (im513) at (6.65cm,-3.8cm);
-	\coordinate (im514) at (6.65cm,-3.9cm); 
-
-	\coordinate (im591) at (8.65cm,-0.67cm); 
-	\coordinate (im592) at (8.65cm,-0.77cm); 
-	\coordinate (im593) at (8.55cm,-0.67cm);
-	\coordinate (im594) at (8.55cm,-0.77cm); 
-
-	% images plans
-	% beginning
-	\draw[thick] (im591) -- (im593);
-	\draw[thick] (im593) -- (im594);
-	\draw[thick] (im594) -- (im592);
-	\draw[thick] (im592) -- (im591);
-	\fill[gray!00,opacity=0.8] (im591) -- (im592) -- (im594) -- (im593) -- cycle;
-
-	% intermediate plans
-	\foreach \y in {0.025,0.05,...,1} {
-		\coordinate (ii1) at (barycentric cs:im511= \y,im591=1-\y);
-		\coordinate (ii2) at (barycentric cs:im512= \y,im592=1-\y);
-		\coordinate (ii3) at (barycentric cs:im513= \y,im593=1-\y);
-		\coordinate (ii4) at (barycentric cs:im514= \y,im594=1-\y);
-
-		\draw[thick] (ii1) -- (ii3);
-		\draw[thick] (ii3) -- (ii4);
-		\draw[thick] (ii4) -- (ii2);
-		\draw[thick] (ii2) -- (ii1);
-		\fill[gray!00,opacity=0.7] (ii1) -- (ii2) -- (ii4) -- (ii3) -- cycle;
-	}
-
-	% end
-	\draw[thick] (im511) -- (im513);
-	\draw[thick] (im513) -- (im514);
-	\draw[thick] (im514) -- (im512);
-	\draw[thick] (im512) -- (im511);
-	\fill[gray!00,opacity=0.8] (im511) -- (im512) -- (im514) -- (im513) -- cycle;
-
-
-	%%%%%%%%%%%%%%%%%%%%%%	
-	%% END FEATURE MAPS %%
-	%%%%%%%%%%%%%%%%%%%%%%
-
-	\draw[thick,dashed] (A2) -- (A6);
-	\draw[thick] (A7) -- (A6);
-	\draw[thick,dashed] (A1) -- (A6);
-	\draw[thick] (A1) -- (A2);
-	
-	% draw points
-	\foreach \i in {1,2,3,4,6,7,8,9}
-	{
-	  \draw[fill=black] (A\i) circle (0.01em);
-	}
-
-	% draw arrows
-	\coordinate (F1) at (-0.5,-2.2cm);
-	\coordinate (F2) at (0.7,-2.5cm);
-	\coordinate (F3) at (1.7,-2.8cm);
-	\coordinate (F4) at (3.2,-3.1cm);
-	\coordinate (F5) at (4,-3.4cm);
-	\coordinate (F6) at (5,-3.7cm);
-	\node (Fdots) at (5.6,-3.9cm) [rotate=345] {$\ldots$};
-	\coordinate (F7) at (6.6,-4.05cm);
-	\coordinate (F8) at (7,-4.1cm);
-	\coordinate (F9) at (7.3,-4.1cm);
-	\coordinate (F10) at (8.7,-3.2cm);
-
-	\draw[->,>=latex,thick, color=blue!60] (F1) to[bend right] (F2);
-	\draw[->,>=latex,thick, color=blue!60] (F3) to[bend right] (F4);
-	\draw[->,>=latex,thick, color=blue!60] (F5) to[bend right] (F6);
-	\draw[->,>=latex,thick, color=blue!60] (F7) to[bend right] (F8);
-	\draw[->,>=latex,thick, color=blue!60] (F9) to[bend right] (F10);
-
-	\coordinate (A10) at (8.7cm,-3cm);
-	\coordinate (A11) at (9.55cm,-1.7cm);
-	\coordinate (A12) at (9.65cm,-1.7cm);
-	\coordinate (A13) at (8.8cm,-3cm);
-	\draw[thick] (A10) -- (A11);
-	\draw[thick] (A11) -- (A12);
-	\draw[thick] (A12) -- (A13);
-	\draw[thick] (A13) -- (A10);
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%****************************************************************%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-	\node at (-0.3,0.8) {Given $i \in \set{1,\ldots,N}$,};
-	\node at (barycentric cs:A2=1,A4=1,A1=-0.4) {\color{blue} $\mbox{picture}_i$};
-
-
-	\draw[thick,dashed] (A9) -- (A10);
-	\draw[thick,dashed] (A8) -- (A11);
-	\node (etiq2) at (barycentric cs:A12=1,A13=1,A1=-0.2) {$\mbox{vector}_{\color{black}i}^{\color{red}W}$};
-
-	\node (w0) at (0.3cm, -3cm) {{\color{red} $w_0$ }};
-	\node (w1) at (2.2cm, -3.5cm) {{\color{red} $w_1$ }};
-	\node (w2) at (4cm, -3.9cm) {{\color{red} $w_2$ }};
-	\node (wm) at (9cm, -4cm) {{\color{red} $w_m$ }};
-
-	\node  at (12cm,0cm) {\color{blue} $\mbox{label}_i$};
-	\node (etiq) at (12cm,-0.7cm) {e.g. ``car''};
-
-
-\tikzstyle{grisEncadre}=[thick, fill=gray!20];
-\draw [grisEncadre] (6.8,-4.65) rectangle (13.2,-5.9);
-
-	\node (perte) at (11.3cm, -4.7cm) {};	
-	\node (perte1) at (10cm, -4.9cm) { \textit{gradient-based} \textit{ minimization} of};
-	\node (perte2) at (10cm, -5.5cm) {  $loss\Big( (\mbox{vector}_{\color{black}i}^{\color{red}W})_{i=1}^N, ({\color{blue} \mbox{label}_i})_{i=1}^N \Big)$ in {\color{red} W}};
-	
-
-	\draw[->,>=latex,thick, color=blue!60,line width=1mm] (etiq) to (perte);
-	\draw[->,>=latex,thick, color=blue!60,line width=1mm] (etiq2) to (perte);
-	
-
-	\node (Wpictures) at (-0.1cm,-4cm) {{\color{red} $W$:}};
-
-	\node (Wpictures2) at (2.55cm,-4.5cm) {};
-	\node (classifieur) at (1.1cm,-4.5cm) {};
-
-	\node (perte3) at (6.92cm, -5.2cm) {};
-
-	\node (lesweights) at (5cm, -5.4cm) { { \color{red} $\left . \begin{array}{ccccc}
-	\\
-	\\
-	\\
-	\\
-	\\
-	\end{array} \right \}$}};
-	\node (w) at (5.4cm, -5.2cm) {};
-	\draw[->,>=latex,thick, color=red!60, line width=1mm] (perte3) to (w);
-
-% to rename files in a directory in a correct way:
-% compteur=0
-% for file in *.png; do compteur=$((compteur+1)); echo $compteur; mv $file $compteur.png; done
-%%%% WARNING!!! IT REMOVE SOME FILES!
-
-
-	\setcounter{moncompteur}{171}
-
-	\coordinate (ligne01) at (0cm,-4.4cm); 
-	\coordinate (ligne02) at (5cm,-4.4cm); 
-	\foreach \y in {0.05,0.1,...,1} {
-		\coordinate (weight) at (barycentric cs:ligne01= \y,ligne02=1-\y);
-		\def\reptemp{weights/} %define string
-		\appto\reptemp{\themoncompteur} %access the string of a counter
-		\appto\reptemp{.png} % concatenate two trings
-		\node (image) at (weight) {\includegraphics{\reptemp}};
-		\addtocounter{moncompteur}{1}
-	}	
-
-
-	\coordinate (ligne11) at (0cm,-4.65cm); 
-	\coordinate (ligne12) at (5cm,-4.65cm); 
-	\foreach \y in {0.05,0.1,...,1} {
-		\coordinate (weight) at (barycentric cs:ligne11= \y,ligne12=1-\y);
-		\def\reptemp{weights/} %define string
-		\appto\reptemp{\themoncompteur} %access the string of a counter
-		\appto\reptemp{.png} % concatenate two trings
-		\node (image) at (weight) {\includegraphics{\reptemp}};
-		\addtocounter{moncompteur}{1}
-	}
-
-	
-	\coordinate (ligne21) at (0cm,-4.9cm); 
-	\coordinate (ligne22) at (5cm,-4.9cm); 
-	\foreach \y in {0.05,0.1,...,1} {
-		\coordinate (weight) at (barycentric cs:ligne21= \y,ligne22=1-\y);
-		\def\reptemp{weights/} %define string
-		\appto\reptemp{\themoncompteur} %access the string of a counter
-		\appto\reptemp{.png} % concatenate two trings
-		\node (image) at (weight) {\includegraphics{\reptemp}};
-		\addtocounter{moncompteur}{1}
-	}
-
-	\coordinate (ligne31) at (0cm,-5.15cm); 
-	\coordinate (ligne32) at (5cm,-5.15cm); 
-	\foreach \y in {0.05,0.1,...,1} {
-		\coordinate (weight) at (barycentric cs:ligne31= \y,ligne32=1-\y);
-		\def\reptemp{weights/} %define string
-		\appto\reptemp{\themoncompteur} %access the string of a counter
-		\appto\reptemp{.png} % concatenate two trings
-		\node (image) at (weight) {\includegraphics{\reptemp}};
-		\addtocounter{moncompteur}{1}
-	}
-
-	\coordinate (ligne41) at (0cm,-5.4cm); 
-	\coordinate (ligne42) at (5cm,-5.4cm); 
-	\foreach \y in {0.05,0.1,...,1} {
-		\coordinate (weight) at (barycentric cs:ligne41= \y,ligne42=1-\y);
-		\def\reptemp{weights/} %define string
-		\appto\reptemp{\themoncompteur} %access the string of a counter
-		\appto\reptemp{.png} % concatenate two trings
-		\node (image) at (weight) {\includegraphics{\reptemp}};
-		\addtocounter{moncompteur}{1}
-	}
-
-	\coordinate (ligne51) at (0cm,-5.65cm); 
-	\coordinate (ligne52) at (5cm,-5.65cm); 
-	\foreach \y in {0.05,0.1,...,1} {
-		\coordinate (weight) at (barycentric cs:ligne51= \y,ligne52=1-\y);
-		\def\reptemp{weights/} %define string
-		\appto\reptemp{\themoncompteur} %access the string of a counter
-		\appto\reptemp{.png} % concatenate two trings
-		\node (image) at (weight) {\includegraphics{\reptemp}};
-		\addtocounter{moncompteur}{1}
-	}
-
-	\coordinate (ligne61) at (0cm,-5.9cm); 
-	\coordinate (ligne62) at (5cm,-5.9cm); 
-	\foreach \y in {0.05,0.1,...,1} {
-		\coordinate (weight) at (barycentric cs:ligne61= \y,ligne62=1-\y);
-		\def\reptemp{weights/} %define string
-		\appto\reptemp{\themoncompteur} %access the string of a counter
-		\appto\reptemp{.png} % concatenate two trings
-		\node (image) at (weight) {\includegraphics{\reptemp}};
-		\addtocounter{moncompteur}{1}
-	}
-
-	\coordinate (ligne71) at (0cm,-6.15cm); 
-	\coordinate (ligne72) at (5cm,-6.15cm); 
-	\foreach \y in {0.05,0.1,...,1} {
-		\coordinate (weight) at (barycentric cs:ligne71= \y,ligne72=1-\y);
-		\def\reptemp{weights/} %define string
-		\appto\reptemp{\themoncompteur} %access the string of a counter
-		\appto\reptemp{.png} % concatenate two trings
-		\node (image) at (weight) {\includegraphics{\reptemp}};
-		\addtocounter{moncompteur}{1}
-	}
-
-	\coordinate (ligne81) at (0cm,-6.4cm); 
-	\coordinate (ligne82) at (5cm,-6.4cm); 
-	\foreach \y in {0.05,0.1,...,1} {
-		\coordinate (weight) at (barycentric cs:ligne81= \y,ligne82=1-\y);
-		\def\reptemp{weights/} %define string
-		\appto\reptemp{\themoncompteur} %access the string of a counter
-		\appto\reptemp{.png} % concatenate two trings
-		\node (image) at (weight) {\includegraphics{\reptemp}};
-		\addtocounter{moncompteur}{1}
-	}
-\end{tikzpicture}
-\caption[Example of classifier training for computer vision]{Example of classifier training for computer vision:
-the labeled image dataset NORB, see Figure \ref{NORB},
-is used to train and test a classifier.
-The learning algorithm is based on Convolutional Networks \cite{Lecun98gradient-basedlearning,DBLP:journals/jfr/SermanetHSGBECML09}
-using gradient methods \cite{bottou-91c,lecun-98x,bottou-tricks-2012}.
-The weights $W=(w_0,\ldots,w_m)$ are the parameters of a particular transformation 
-(see the ``bi-pyramid'' of successive transformation stages) 
-from the image to a vector representing a label among $\set{animal,car,human,nothing,plane,truck}$. 
-These weights are learned in order to minimize a given loss function
-\textit{i.e.} a proper criterion representing the error of the classifier over the dataset.
-A classical loss function is the Mean Squared Error (MSE). 
-The environment Torch7 (based on lua and C languages, \cite{Collobert_NIPSWORKSHOP_2011})
-has been used to compute the displayed weights.
- }
-\label{CV_algoConvNet}
-\end{figure}
-%%
-%% CONVNETS END
-%%
 
 \begin{figure}[b!] \centering
 \begin{tabular}{c|c|c|c|c|c!{\vrule width 2pt}c!{\vrule width 2pt}c}%!{\vrule width 2pt}}
@@ -1092,7 +635,7 @@ $95$ & $1$ & $44$ & $4073$ & $514$ & $133$ & truck & $83.807\%$  \\  \specialrul
 $129$ & $3$ & $130$ & $1283$ & $3283$ & $32$ &  car & $67.551\%$ \\  \specialrule{.05em}{.0em}{.0em}  
 $154$ & $283$ & $36$ & $63$ & $61$ & $4263$ & nothing & $87.716\%$  \\ %\specialrule{.2em}{.0em}{.0em}  
 \end{tabular}
-\caption[Example of confusion Matrix for multiclass classification]{
+\caption[Exemple de matrice de confusion illustrant les performances d'un classifieur multi-classes]{
 Example of confusion matrix for multiclass classification:
 this matrix is computed with a testing dataset of images, different from the training dataset.
 Each row only considers the images of a given object,
@@ -1113,7 +656,7 @@ Some variations of the POMDP framework
 have been built in order to take into account 
 the imprecision about the probability distributions of the model, 
 also called \textit{parameter imprecision}.
-\subsubsection{Works handling parameter imprecision}
+\subsubsection{Travaux Tenant Compte de l'Imprécision des Paramètres}
 Here, transition and observation functions,
 namely $\textbf{p} \paren{ s' \sachant s,a }$ 
 and $\textbf{p} \paren{ o' \sachant s',a }$,
@@ -1203,10 +746,10 @@ considering the best case.
 A more recent approach deals 
 with the cautious point of view,
 and is thus named 
-\textit{robust POMDP} \cite{DBLP:conf/icml/Osogami15}.
+\textit{robust POMDP} \cite{Osogami15}.
 Inspired by the corresponding work 
 in the fully observable case 
-(called \textit{uncertain MDP} \cite{NE:05}),
+(called \textit{uncertain MDP} \cite{NE05}),
 this work uses the well-known \textit{maximin},
 or \textit{worst case} criterion,
 which comes from \textit{Game Theory}: 
@@ -1248,7 +791,7 @@ thus using a framework leading to more complex computations
 does not seem to be a good approach. 
 Moreover, with this framework, 
 some restrictive assumptions are commonly needed
-such as the convexity of credal sets \cite{NE:05,DBLP:conf/icml/Osogami15}.
+such as the convexity of credal sets \cite{Osogami15}.
 %and optimization may require linear programs 
 %As discussed during this thesis 
 %(for instance see Section \ref{section_expe_PPUDD} of Chapter \ref{chap_symb}),
@@ -1259,7 +802,7 @@ It may be a better approach to start with a simpler model
 which can be solved more easily in practice. 
 
 Finally, while there are fascinating questions about algorithms in this area,
-this thesis does not deal with Reinforcement Learning (RL) \cite{NIPS2009_3780,Ross:2011:BAL:1953048.2021055}.
+this thesis does not deal with Reinforcement Learning (RL) \cite{NIPS2009_3780,Ross2011BAL1953048.2021055}.
 We are interested in robotic applications 
 whose very first executions have to proceed efficiently and safely:
 the basic reason is that robotic systems and their operations may be expensive,
@@ -1293,7 +836,7 @@ using all the previous executions.
 \node (bluelegend) at (-5,9) {particular};
 \node (bluelegend) at (-5,8.5) {case of};
 \end{tikzpicture}
-\caption[Most known uncertainty theories and their relations]{Most known uncertainty theories and their relations. 
+\caption[Théories de l'incertain les plus connues, et leurs relations]{Most known uncertainty theories and their relations. 
 Imprecise Probability Theory (IPT) 
 considers sets of probability measures
 defined on the universe $\Omega$ 
@@ -1352,7 +895,7 @@ how agent knowledge is represented.
 %%
 %%  FULL IGNORANCE/ KNOWLEDGE OF THE AGENT
 %%
-\subsection*{Agent ignorance modeling}
+\subsection*{Modéliser l'Ignorance de l'Agent}
 The initial belief state $b_0$, 
 or \textit{prior} probability distribution 
 over the system states, 
@@ -1432,7 +975,7 @@ this knowledge during the execution of the considered process.
 Some works inspired by the research in \textit{Active Perception}, 
 have been focusing on the information gathered
 by the agent in the POMDP framework
-\cite{conf/stairs/ChanelFTI10,oatao11449}.
+\cite{ChanelFTI10,oatao11449}.
 In these works, 
 the \textit{entropy} of the belief state
 is taken into account in the criterion, 
@@ -1480,7 +1023,7 @@ makes the agent estimate faster its real state,
 which is really useful in some practical problems.
 Other models have been introduced, making the reward function dependent
 on the belief state 
-\cite{conf/nips/Araya-LopezBTC10,oatao11437}:
+\cite{Araya-LopezBTC10,oatao11437}:
 this enables to make the agent behavior vary with respect to
 the probabilistic representation of its knowledge.
 
@@ -1501,7 +1044,7 @@ the probabilistic representation of its knowledge.
 %
 % WHAT WE WOULD LIKE TO DO
 %
-\section*{General problem}
+\section*{Problème Général}
 Previous sections presented some issues encountered in practice 
 when using the POMDP framework to compute strategies, 
 especially in the robotic context. 
@@ -1598,7 +1141,7 @@ the imprecision of the model,
 and the management 
 of the knowledge of the agent.
 
-\subsection*{Alternative uncertainty theories}
+\subsection*{Théorie Alternatives de l'Incertitude}
 Although the use of a more expressive framework 
 may increase the complexity of strategy computations, 
 previous discussions on the issues 
@@ -1611,7 +1154,7 @@ may bring useful properties
 to deal with our problems.
 As presented above, the Imprecise Probability Theory (IPT) 
 has been already explored to improve the POMDP framework
-\cite{Itoh2007453,NiYaLiaZhi,DBLP:conf/icml/Osogami15}.  
+\cite{Osogami15}.  
 However, the proper use of the credal sets defining the problem
 makes the computations harder.
 
@@ -1867,7 +1410,7 @@ formulated in \cite{formalrepres}.
 
 \node at (0,-1) {};
 \end{tikzpicture}
-\caption[Focal sets of a probability measure and a possibility measure]
+\caption[Ensembles focaux d'une mesure de probabilité et d'une mesure de possibilité]
 {The focal sets of a mass function $m:2^{\Omega} \rightarrow [0,1]$ 
 are the subsets $A \subseteq \Omega$ of the universe 
 $\Omega = \set{ \omega_1,\ldots,\omega_7}$
@@ -1891,7 +1434,7 @@ denoted by $F_3 \subset F_2 \subset F_1 = \Omega$.}
 
 %%%%%%%%%%%%
 % POSS QUAL
-\subsection*{Possibility Theory}
+\subsection*{Théorie des Possibilités}
 A possibility measure has been defined 
 as the plausibility measure 
 of a mass function $m$
@@ -2098,7 +1641,7 @@ $\forall A \subseteq \Omega$,
 
 Note that we can differentiate 
 Quantitative Possibility Theory \cite{Du2006.7}
-from Qualitative Possibility Theory \cite{DBLP:journals/eor/DuboisPS01}.
+from Qualitative Possibility Theory \cite{DuboisPS01}.
 The former uses the product 
 when combining possibility distributions
 in order to compute joint distributions
@@ -2158,17 +1701,17 @@ and Quantitative Possibility Theory
 leads to the semiring $([0,1]\max,\times)$.
 These algebraic structures are
 close to the well known 
-tropical semirings \cite{pin:hal-00113779},
+tropical semirings \cite{pinhal-00113779},
 as the \textit{max-plus} semiring 
 $(\mathbb{R} \cup \set{-\infty} \max,+)$ 
 and the \textit{min-plus} one 
 $(\mathbb{R} \cup \set{+\infty}, \min,+)$.
 
 %%% PIPOMDP
-\subsection*{Qualitative Possibilistic POMDPs}
+\subsection*{PDMPO Qualitatifs Possibilistes}
 A qualitative possibilistic counterpart 
 of the POMDP framework
-has been proposed in \cite{Sabbadin:1999:pipomdp}:
+has been proposed in \cite{Sabbadin1999pipomdp}:
 this model is called Qualitative Possibilistic POMDP 
 and denoted by $\pi$-POMDP. 
 A $\pi$-POMDP is simply a POMDP
@@ -2197,7 +1740,7 @@ This imprecision results in the measures
 presented above: possibility and necessity measures. 
 As detailed in Section \ref{subsection_qualcrit},
 two qualitative criteria have been proposed 
-in \cite{DBLP:journals/ijar/SabbadinFL98},
+in \cite{SabbadinFL98},
 counterparts of the probabilistic criterion (\ref{criterion}): 
 a pessimistic one, which is a
 qualitative counterpart of the maximin 
@@ -2241,13 +1784,13 @@ as explained in Section \ref{section_piPOMDP} of Chapter \ref{chap_SOTA},
 any $\pi$-POMDP reduces to a $\pi$-MDP whose system space is
 the qualitative possibilistic belief space, and
 whose size is exponential in the number of states.
-In works \cite{DBLP:journals/corr/abs-1202-3718,Garcia20081018,Sabbadin:1999:pipomdp}, 
+In works \cite{abs-1202-3718,Garcia20081018,Sabbadin1999pipomdp}, 
 complexity of $\pi$-MDP 
 appears to be lower than complexity of MDP, 
-which is polynomial \cite{Papadimitriou:1987}:
+which is polynomial \cite{Papadimitriou1987}:
 complexity of $\pi$-POMDP is then
 at worst exponential in the problem description,
-whereas POMDP solving may be undecidable \cite{Madani:1999:UPP:315149.315395}.
+whereas POMDP solving may be undecidable \cite{Madani1999UPP315149.315395}.
 %The approach of using a $\pi$-POMDP 
 %instead of a probabilistic POMDP
 %in order to simplify the resolution, 
@@ -2320,7 +1863,7 @@ of the agent's lack of knowledge.
 
 %%CORRESPONDS TO OUR ISSUES 
 The use of the Qualitative Possibility Theory 
-\cite{DBLP:journals/eor/DuboisPS01}
+\cite{DuboisPS01}
 is thus studied in this work,
 as it appears to be able
 to both simplify a POMDP, 
@@ -2340,16 +1883,16 @@ frequentist information encoding.
 To the best of our knowledge,
 a rather limited study of the $\pi$-POMDP model
 exists in the literature up to now:
-in fact, the work \cite{Sabbadin:1999:pipomdp}
+in fact, the work \cite{Sabbadin1999pipomdp}
 seems to be the only one proposing 
 both a definition of $\pi$-POMDPs
 and a toy example to illustrate this model.
 The fully observable version ($\pi$-MDP)
 has generated some more interest
 in the research community
-\cite{Sabbadin2001287,conf/ecai/Sabbadi00,LIP61498}.
+\cite{Sabbadin2001287,Sabbadi00,LIP61498}.
 
-\section*{Description of our Study}
+\section*{Description de notre étude}
 % Le sujet de la thèse
 This thesis contributes to determine
 to which extend Qualitative Possibility Theory 
@@ -2365,7 +1908,7 @@ for planning under uncertainty
 and knowledge representation,
 with an almost systematic use of 
 graphical models 
-\cite{Koller:2009:PGM:1795555,Be2002.7,Borgelt02graphicalmodels}.
+\cite{Koller2009PGM1795555,Be2002.7,Borgelt02graphicalmodels}.
 
 The end of this introduction describes how this thesis is structured.
 Indeed, each of the following sections 
@@ -2373,7 +1916,7 @@ corresponds to a chapter of our work
 and details its contents.
 
 %%%% SOTA
-\subsection*{State of the art}
+\subsection*{\'Etat de l'Art}
 As probabilistic POMDPs and qualitative possibilistic ones 
 are the central objects of this thesis,
 the \emph{first chapter} presents these models
@@ -2429,9 +1972,9 @@ the probabilistic and the qualitative possibilistic models
 is meant to highlight their common structure.
 
 %%% CHAP1
-\subsection*{Natural updates of the possibilistic model}
+\subsection*{Mises \`a jour naturelles du modèle possibiliste qualitatif}
 The \emph{second chapter} proposes several extensions 
-of the work \cite{Sabbadin:1999:pipomdp}.
+of the work \cite{Sabbadin1999pipomdp}.
 It begins with the presentation of some variants 
 of the qualitative criteria presented in the first chapter:
 the latter are related to the aggregations of the preferences over time,
@@ -2486,7 +2029,7 @@ the orientation of the next chapter
 stems from this observation.
 
 %%% CHAP2
-\subsection*{Factorized models and symbolic algorithms}
+\subsection*{Modèles factorisés et algorithmes symboliques}
 
 %% INTRO
 The size of the robotic problem dealt with 
@@ -2508,7 +2051,7 @@ as defined in the first chapter.
 Large planning problems satisfying these assumptions 
 can be solved more easily:
 building upon the probabilistic 
-SPUDD algorithm \cite{Hoey99spudd:stochastic},
+SPUDD algorithm \cite{Hoey99spuddstochastic},
 we conceived a possibilistic algorithm named PPUDD 
 for solving factorized $\pi$-MOMDPs
 using \textit{Algebraic Decision Diagrams} (ADD).
@@ -2567,7 +2110,7 @@ probabilistic planning problems.
 
 Some contributions of this chapter 
 have been published in 
-\cite{DBLP:conf/aaai/DrougardTFD14}.
+\cite{DrougardTFD14}.
 The various planning problems
 of the competition also highlight 
 some issues of our algorithm
@@ -2591,7 +2134,7 @@ when loading ADDs encoding some
 high dimensional planning problems:
 memory issues are also observed in practice.
 MDP algorithms using state space search
-\cite{DBLP:conf/aips/KellerE12,DBLP:conf/aaai/KolobovMW12} 
+\cite{KellerE12,KolobovMW12} 
 do not face these issues due to ADD-encoding of MDP instances.
 %%%%%%%%% TODO TODO
 They can be used to solve
@@ -2604,7 +2147,7 @@ technically resulting in a
 classical probabilistic MDP.
 
 %%% CHAP3
-\subsection*{A qualitative possibilistic process for human-machine interaction modeling}
+\subsection*{Un processus qualitatif possibiliste pour la modélisation de l'intéraction homme-machine}
 %%% why? qualitative info only
 The \emph{fourth chapter} deals with
 situations where probability distributions
@@ -2650,7 +2193,7 @@ human assessment errors,
 and produce a diagnosis for them.
 
 %%% CHAP4
-\subsection*{Probabilistic-possibilistic approach: a hybrid perspective}
+\subsection*{Approche probabiliste et possibiliste: une perspective hybride}
 The last chapter of this thesis
 persists to show the possible 
 improvement of the POMDP framework
@@ -2678,9 +2221,9 @@ leading to an MDP whose state space
 is a finite set of epistemic states.
 
 Additional simplifications of the computations
-are described for \textit{factored POMDPs} \cite{Sim:2008:SHS:1620163.1620241,Williams05factoredpartially,
-Veiga14aaai,DBLP:journals/corr/abs-1301-6719}, \textit{i.e.}
+are described for \textit{factored POMDPs} \cite{Sim2008SHS1620163.1620241,Williams05factoredpartially,
+Veiga14aaai,abs-1301-6719}, \textit{i.e.}
 POMDPs with a particular independence 
 structure.
 These last contributions have been published in
-\cite{DBLP:conf/sum/DrougardDFT15}.
+\cite{DrougardDFT15}.
