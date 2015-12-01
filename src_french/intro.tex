@@ -222,99 +222,103 @@ lors de l'exécution.}
 
 Il a été montré que de telles stratégies markoviennes sont optimales
 pour certain critères
-tels que celui basé sur la somme des récompenses décomptées.
-like the one based on 
-accumulated discounted rewards:
-indeed, a well-known criterion 
-measuring the accuracy of strategy $d$ 
-is the (infinite horizon) expected discounted total reward: 
+tels que celui basé sur la somme des récompenses décomptées:
+en effet, un critère bien connu mesurant 
+les performances d'une stratégie $d$
+est l'espérance de la somme actualisée des récompenses: 
 \begin{equation}
 \label{criterion}
 \mathbb{E} \croch{ \sum_{t=0}^{+ \infty} \gamma^t r(s_t,d_t) },
 \end{equation}
-where $d_t=d(s_t) \in \mathcal{A}$ 
-and $0<\gamma<1$ is a discount factor 
-ensuring the convergence of the sum.
+où $d_t=d(s_t) \in \mathcal{A}$ 
+et $0<\gamma<1$ est un facteur d'actualisation
+assurant la convergence de la somme.
 
-The assumption that the agent has a perfect 
-knowledge of the system state
-is quite strong:
-in particular, in the case of robots realizing tasks with conventional captors,
-the latter are usually unable to provide to the robot
-all the features of interest for the mission.
-Thus, a more flexible model has been built, 
-taking into account \textit{partial observability}
-of the system state by the agent.
+L'hypothèse que l'agent a une connaissance parfaite de l'état du système
+est assez forte:
+en particulier, dans le cas des robots réalisant des taches avec des capteurs conventionnels,
+ces derniers sont souvent incapable de fournir au robot
+toutes les caractéristiques d'intérêt pour la mission.
+Ainsi, un modèle plus flexible, 
+\textit{i.e.} qui tient compte de \textit{l'observation partielle} du système par l'agent, a été construit.
 %%% ROBOT POMPIER FIN
 
 %%% POMDP
-Indeed a Partially Observable MDP (POMDP) \cite{Smallwood_Sondik} 
-makes a step further into modeling flexibility, 
-handling situations in which the agent 
-does not know directly
-the current state of the system: 
-it more finely models 
-an agent acting 
-under uncertainty 
-in a partially hidden environment.
+En effet, les MDP Partiellement Observables 
+(PDMPO) \cite{Smallwood_Sondik} 
+ont une puissance de modélisation plus importante,
+car ils peuvent représenter des situations 
+dans lesquelles l'agent
+ne connaît pas directement l'état courant du système:
+ils modélisent de manière plus fine 
+un agent exécutant des actions 
+sous incertitude dans un environnement
+partiellement observable. 
 
-The set of system states $\mathcal{S}$, 
-the set of actions $\mathcal{A}$, 
-the transition function $\textbf{p} \paren{ s_{t+1} \sachant s_t,a_t}$ 
-and the reward function $r(s,a)$ 
-remain the same as for the MDP definition. 
-In this model, since the current system state $s \in \mathcal{S}$ 
-cannot be used as available information for the agent, 
-the agent knowledge about the actual system state 
-comes from observations $o \in \mathcal{O}$, 
-where $\mathcal{O}$ is a finite set. 
+L'ensemble des états du système $\mathcal{S}$,
+l'ensemble des actions $\mathcal{A}$, 
+la fonction de transition $\textbf{p} \paren{ s_{t+1} \sachant s_t,a_t}$ 
+et la fonction de récompense $r(s,a)$ 
+restent les même que pour la définition des PDM.
+Dans ce modèle, puisque l'état courant du système
+$s \in \mathcal{S}$ 
+ne peut pas être considéré comme une information accessible pour l'agent,
+la connaissance de l'agent à propos de l'état du système 
+provient des observations $o \in \mathcal{O}$, 
+où $\mathcal{O}$ est un ensemble fini. 
 %A full definition of this process 
 %includes as well the set of 
 %possible observations of the system, 
 %$o \in \mathcal{O}$. 
-The observation function $\textbf{p} \paren{ o_{t+1} \sachant s_{t+1},a_t }$
-gives for each action $a_t \in \mathcal{A}$ and reached system state $s_{t+1} \in \mathcal{S}$, 
-the probability over possible observations $o_{t+1} \in \mathcal{O}$. 
-Finally, the \textit{initial belief state} $b_0(s)$ 
-defines the \textit{prior} probability distribution 
-over the system state space $\mathcal{S}$. 
-An example of usage of a POMDP is presented in Figure \ref{robot_pompier}.
+La fonction d'observation 
+$\textbf{p} \paren{ o_{t+1} \sachant s_{t+1},a_t }$
+donne pour chaque action $a_t \in \mathcal{A}$
+et état atteint $s_{t+1} \in \mathcal{S}$, 
+la probabilité sur les observations possibles $o_{t+1} \in \mathcal{O}$. 
+Enfin, \textit{l'état de croyance initial} $b_0(s)$
+définit la distribution de probabilité \textit{a priori}  
+sur l'état du système.
+Un exemple d'usage des PDMPO est illustré 
+dans la figure \ref{robot_pompier}.
 
-Solving a POMDP consists in computing 
-a strategy 
-which returns a proper action at each process step, 
-according to all received observations and selected actions  
-\textit{i.e.} all of the data available to the agent:
-a criterion for the strategy may be also the
-expected discounted sum of rewards (\ref{criterion}).
+Résoudre un POMDP consiste à calculer une stratégie 
+qui renvoie une action adéquate à chaque étape du processus, 
+et dépendente des observations reçues et des actions sélectionnées
+\textit{i.e.} de toutes les données disponibles pour l'agent:
+un critère pour la stratégie peut aussi être
+l'espérance de la somme actualisée des récompenses (\ref{criterion}).
 
 %
 % belief
 %
-Most POMDP algorithms reason about the \textit{belief state}, 
-defined as the probability of the actual system state knowing
-all the system observations and agent actions from the beginning.
-This belief is updated at each time step using the Bayes
-rule and the new observation. 
-At a given time step $t \in \mathbb{N}$, 
-the belief state $b_t(s)$ is defined 
-as the probability that the $t^{th}$ state is $s \in \mathcal{S}$
-conditioned on all past actions and observations, 
-and with prior $b_0$:
-it estimates the actual system state using the available data,
-as the latter is not directly observable.
+La plupart des algorithmes raisonnent sur \textit{l'état de croyance},
+défini comme la distribution de probabilité sur l'état du système
+conditionnellement à toutes les observations du système 
+et les actions choisies par l'agent depuis le début du processus.
+Cet état de croyance est mis à jour à chaque étape de temps en utilisant la règle de Bayes,
+l'action courante,
+et la nouvelle observation.
+\`A une étape donnée $t \in \mathbb{N}$, 
+$b_t(s)$ est défini
+comme la probabilité que le $t^{ième}$ état du système soit 
+$s \in \mathcal{S}$, connaissant les observations et actions précédentes,
+ainsi que l'état de croyance initial $b_0$:
+c'est une estimation de l'état du système
+qui utilise uniquement les données disponibles
+puisque l'état n'est pas directement observable.
 
-It can be easily recursively computed using Bayes rule: 
-at time step $t$, 
-if the belief state is $b_t$, 
-chosen action $a_t \in \mathcal{A}$ and new observation 
+Il peut être facilement calculé de manière récursive avec la règle de Bayes: 
+à l'étape de temps $t$, 
+si l'état de croyance est $b_t$, 
+l'action choisie $a_t \in \mathcal{A}$ 
+et la nouvelle observation 
 $o_{t+1} \in \mathcal{O}$, 
-next belief is
+l'état de croyance suivant
 \begin{eqnarray}
 \label{probBayesRule}
 b_{t+1}(s')  \propto \textbf{p} \paren{ o_{t+1} \sachant s', a_t } \cdot \sum_{s \in \mathcal{S}} \textbf{p} \paren{s' \sachant s,a_t} \cdot b_t(s).
 \end{eqnarray}
-as illustrated by the Bayesian Network in Figure \ref{BayesNetPOMDP}.
+comme illustré par le réseau Bayesien de la figure \ref{BayesNetPOMDP}.
 %
 % BAYESNET
 %
@@ -344,21 +348,26 @@ as illustrated by the Bayesian Network in Figure \ref{BayesNetPOMDP}.
 \draw[->,>=latex, thick] (action) -- (state2);
 \draw[->,>=latex, thick] (action) -- (obs);
 \end{tikzpicture}
-\caption[Réseau Bayesien illustrant la mise à jour de l'état de croyance]{Bayesian Network illustrating the belief update: the states are the gray circular nodes, 
-the action is the red square node, and the observation is the blue circular node.
-The random variable $S_{t+1}$ representing the next state $s_{t+1}$ 
-depends on the current one $s_t$ and on the current action $a_t$.
-The random variable $O_{t+1}$ representing the next observation $o_{t+1}$ 
-depends on the next state $s_{t+1}$ 
-and on the current action $a_t$ too.
-The belief state $b_{t}$ (resp. $b_{t+1}$)
-is the probabilistic estimation of the current (resp. next) system state $s_t$ (resp. $s_{t+1}$).}
+\caption[Réseau Bayesien illustrant la mise à jour de l'état de croyance]{Réseau Bayesien illustrant la mise à jour de l'état de croyance: 
+les états sont représentés par des ronds gris, 
+l'action est représentées par le losange rouge,
+et l'observation par le rond bleu.
+La variable aléatoire $S_{t+1}$
+représentant l'état suivant $s_{t+1}$ 
+dépend de l'état courant $s_t$ 
+et de l'action courante $a_t$.
+La variable aléatoire $O_{t+1}$ 
+réprésentant l'observation suivante $o_{t+1}$ 
+dépend de l'état suivant $s_{t+1}$
+et de l'action courante $a_t$.
+L'état de croyance $b_{t}$ (resp. $b_{t+1}$)
+est l'estimation probabiliste du l'état courant (resp. suivant) du système, 
+$s_t$ (resp. $s_{t+1}$).}
 \label{BayesNetPOMDP}
 \end{figure}%
 
-As successive beliefs are computed 
-with the observations perceived by the agent,
-they are considered as visible by the agent. 
+Puisque les états de croyance successifs sont calculés avec les observations perçues par l'agent,
+ils sont considérés visible par l'agent. 
 %Moreover, it can be easily shown that
 %the expected total reward can be rewritten 
 %\begin{equation}
@@ -366,76 +375,62 @@ they are considered as visible by the agent.
 %\mathbb{E} \croch{ \sum_{t=0}^{+ \infty} \gamma^t r(s_t,d_t) } = \mathbb{E} \croch{ \sum_{t=0}^{+ \infty} \gamma^t r(b_t,d_t) }, 
 %\end{equation}
 %defining $r(b_t,a) = \sum_s r(s,a) \cdot b_t(s)$ as the reward of belief $b_t$.
-Let us denote by $\mathbb{P}^{\mathcal{S}}$ 
-the infinite set of probability distributions 
-over $\mathcal{S}$.
-An optimal strategy can be looked for 
-as a function $d$ defined on $\mathbb{P}^{\mathcal{S}}$ 
-such that successive $d_t = d(b_t) \in \mathcal{A}$ 
-maximize the expected reward (\ref{criterion}):
-the agent decisions are then based on the belief state.
-
+Notons $\mathbb{P}^{\mathcal{S}}$ 
+l'ensemble continu des distributions de probabilité
+sur $\mathcal{S}$.
+Une stratégie optimale peut être cherchée parmi
+les fonction $d$ définies sur $\mathbb{P}^{\mathcal{S}}$ 
+telles que les $d_t = d(b_t) \in \mathcal{A}$ successifs 
+maximisent l'espérance des récompenses (\ref{criterion}):
+les décisions de l'agent sont basées sur l'état de croyance.
 
 %
 % POMDP ROBOTICS
 %
-The POMDP framework is a flexible model for autonomous robotics,
-as illustrated by the firefighter example, see Figure \ref{robot_pompier}:
-it allows to describe all the robotic and surrounding system,
-as well as the robot's mission,
-and it is commonly used in robotics 
+Les PDMPO fournissent un cadre flexible pour la robotique autonome,
+comme illustré par l'exemple du robot pompier, \textit{cf.} figure \ref{robot_pompier}:
+ils permettent de décrire le système regroupant le robot et son environnement,
+ainsi que la mission du robot.
+Ils sont fréquemment utilisés en robotique
 \cite{PineauG05,OngShaoHsuWee-IJRR10,Marthi12,ChanelTL12,ChanelTL13}.
-It takes into account that the robot receives data
-from its sensors only,
-and thus has to figure out the actual system state 
-using these data, named observations,
-in order to fulfill the mission.
-However the POMDP model raises some issues,
-in particular in the robotic context.
+En effet, ils prennent en compte le fait que le robot ne reçoit que les données des capteurs,
+et doit estimer l'état du système, qui lui est caché,
+en utilisant ces données, appelées alors observations,
+afin de réaliser sa mission.
+Cependant, le modèle PDMPO soulève quelques problèmes,
+en particulier dans le contexte robotique.
 
 %
 % HIGH COMPLEXITY
 %
 \section*{Problèmes pratiques des PDMPO}
 \subsection*{Complexité}
-Solving a POMDP \textit{i.e.} computing an optimal strategy, 
-is PSPACE-hard in finite horizon \cite{Papadimitriou1987} 
-and even
-undecidable in infinite horizon \cite{Madani1999UPP315149.315395}.
-Moreover a space exponential in the problem description may be required 
-for an explicit specification of such a strategy.
-See \cite{Mundhenk2000CPP867838} 
-for a more detailed complexity analysis of POMDPs.
+Résoudre un PDMPO \textit{i.e.} 
+calculer une stratégie optimale,
+est PSPACE-hard en horizon fini \cite{Papadimitriou1987} 
+et même indécidable en horizon infini \cite{Madani1999UPP315149.315395}.
+De plus, un espace exponentiel en la description du problème peut être requis
+pour une spécification explicite d'une telle stratégie.
+Le travail \cite{Mundhenk2000CPP867838} 
+est un bon résumé des l'analyses de complexité
+des PDMPO.
 
-This high complexity is well-known by POMDP practitioners:
-optimality can only be reached 
-for tiny problems, 
-or highly structured ones.
-Classical approaches try to solve this problem
-using Dynamic Programming 
-and linear programming techniques \cite{Cassandra97incrementalpruning}.
-Otherwise, only approximate solutions can be computed,
-and thus the strategy has no optimality guaranty.
-For instance, popular approaches such as point-based methods 
+Cette forte complexité
+est très bien connue des utilisateurs des PDMPO:
+l'optimalité ne peut être atteinte que pour des petits problèmes,
+ou bien des problèmes très structurés.
+Les approches classiques essaient de résoudre ce problème
+en utilisant la programmation dynamique
+et des techniques de programmation linéaire
+\cite{Cassandra97incrementalpruning}.
+Sinon, seules des solutions approchées peuvent être calculées,
+et donc la stratégie n'a pas de garantie d'optimalité.
+Par exemple, les approches populaire
+telles que les méthodes basées sur les points,
 \cite{Pineau_2003_4826,Kurniawati-RSS08,Smith2004HSV1036843.1036906}, 
-grid-based ones \cite{Geffner98solvinglarge,Brafman97aheuristic,Bonet_newgrid-based}
-or Monte Carlo approaches \cite{NIPS2010_4031},
-use approximate computations.
-
-The \textit{Predictive State Representation} 
-approach \cite{Littman01predictiverepresentations},
-reasons directly at the level 
-of the sequences of observations and actions,
-without referring to the belief states.
-It may be an interesting approach to simplify computations \cite{1383528},
-but only few works address this problem.
-This approach is more motivated by research in learning 
-\cite{singhicml03,BootsGG13}.
-%and is not meant to handle parameter imprecision.
-Moreover, it does not tackle the next POMDP's practical issues 
-that will be highlighted, 
-concerning modeling flaws appearing when using this framework:
-these issues are easily illustrated via robotic situations.
+celles basées sur des grilles \cite{Geffner98solvinglarge,Brafman97aheuristic,Bonet_newgrid-based}
+ou bien les approches de Monte Carlo approaches \cite{NIPS2010_4031},
+utilisent des calculs approchés.
 
 %
 % VISION IN ROBOTICS
@@ -443,15 +438,17 @@ these issues are easily illustrated via robotic situations.
 \begin{figure} \centering
 \includegraphics[scale=0.75]{fig2}
 \caption[Exemple d'une méthode d'observation dans le contexte robotique]{
-Example of an observation method in a robotic context:
-the robot, here a drone, is equipped with a camera
-and uses a classifier computed from a image dataset
-(as NORB, see Figure \ref{NORB}).
-The classifier is generated before the mission (off-line)
-with a image dataset (see the right part of the illustration),
-and the classifier output is used during the mission (online) 
-as an observation, for the agent (see the left part).
-Here, observations are thus generated by computer vision means.}
+Exemple d'une méthode d'observation dans le contexte robotique:
+le robot, ici un drone, est équippé d'une caméra
+et utilise un classifieur calculé à partir d'une base de données d'images
+(comme NORB, \textit{cf.} figure \ref{NORB}).
+Le classifieur est généré avant la mission (off-line)
+avec une base de données d'images
+(\textit{cf.} partie droite de l'illustration), 
+et la sortie du classifieur 
+est utilisée lors de la mission (online) 
+comme une observation pour l'agent (\textit{cf.} la partie gauche).
+Ici, les observations sont donc générées par un algorithme de vision artificielle.}
 \label{observation_robot}
 \end{figure}
 %
@@ -463,28 +460,33 @@ Here, observations are thus generated by computer vision means.}
 % COMPUTER VISION
 %
 \subsection*{Imprécision des Paramètres et Vision Artificielle}
-Consider now robots using visual perception, 
-and whose observations 
-come from computer vision algorithms based on statistical learning
-(see, for instance, Figure \ref{observation_robot}).
-In this situation, the robot uses a \textit{classifier}
-to recognize objects in images: 
-the classifier is supposed to return the name of 
-the object actually in the image, 
-and makes some mistakes 
-with a low probability 
-(see confusion matrix of Figure \ref{confusion_matrix}).
+Considérons maintenant des robots utilisant la perception visuelle,
+et dont les observation proviennent d'algorithmes de vision
+basé sur de l'apprentissage statistique.
+(\textit{cf.} figure \ref{observation_robot}).
+Dans cette situation, le robot utilise un \textit{classifieur}
+pour reconnaître les objects dans les images:
+le classifieur est censé renvoyer le nom de l'objet
+qui se trouve dans l'image,
+et fait quelquefois des erreurs avec une faible probabilité.
+(\textit{i.e.} matrice de confusion de la figure \ref{confusion_matrix}).
 
-The classifier is computed using a \textit{training dataset} of images
-(as NORB, see Figure \ref{NORB}, authors made it available at \url{http://www.cs.nyu.edu/~ylclab/data/norb-v1.0/}).
-A powerful gradient-based learning algorithm meant to compute classifiers using image datasets
-can be is called Convolutional Nextwork \cite{Lecun98gradient-basedlearning}.
-Figures (\ref{NORB}), (\ref{confusion_matrix})
-illustrate the example of a classifier computed for a UAV mission where features of interests
-(system states of the problem) 
-are related with the presence (or absence) of animals, cars, humans, planes or trucks:
-the statistical problem of computing a classifier recognizing such objects in images 
-is called \textit{multiclass classification}.
+Le classifieur est calculé en utilisant une \textit{base de donnée d'entraînement} 
+(comme NORB, \textit{cf.} figure \ref{NORB}, 
+mis en ligne par les auteurs à l'adresse \url{http://www.cs.nyu.edu/~ylclab/data/norb-v1.0/}).
+Un algorithme utilisant des descentes de gradient 
+utilisé pour calculer le classifieur
+en utilisant la base de données d'images
+est appelé Réseau Convolutionnel \cite{Lecun98gradient-basedlearning}.
+Les figures (\ref{NORB}) et (\ref{confusion_matrix})
+illustrent l'exemple d'un classifieur calculé pour une mission dronique
+dans laquelle les caractéristiques d'intérêt
+(les état du système)
+sont liées à la présence (ou l'abscence)
+d'animaux, voitures, humains, avions ou camions: 
+le problème statistique du calcul d'un classifieur 
+permettant de reconnaitre de tels objets dans les images
+est appelé \textit{classification multi-classes}.
 
 %%%
 %%% NORB DATA SET
@@ -533,17 +535,19 @@ NORB dataset: \color{blue} $(\mbox{image}_i,\mbox{label}_i)_{i=1}^N$
 	}
 
 \end{tikzpicture}
-\caption[Exemple de base de donnée pour la vision artificielle]{Example of image dataset for computer vision: 
-the labeled image dataset NORB \cite{LeCun.2004}. The size of NORB is higher than $3.10^5$,
-and images from this dataset represents objects among the $5$ classes: 
-``animal'', ``car'', ``human'', ``nothing'', ``plane'' and ``truck''.
-Each element of a labeled image dataset is composed of a image (e.g. a image showing a car)
-and a label corresponding to the class of the object represented by the image 
-(in the previous example, the label is ``car'').
-This dataset can be used for supervised learning to compute a classifier.
-In order to be able to discern locations of targets, 
-a image is labeled with the name of centered object 
-(``nothing'' if there is nothing in the image center).}
+\caption[Exemple de base de donnée pour la vision artificielle]{Exemple de base de donnée pour la vision artificielle: 
+la base de données d'images étiquetées NORB \cite{LeCun.2004},
+destinée à l'apprentissage statistique.
+La taille de NORB est supérieure à $3.10^5$,
+et les images de cette base de données représentent des objets de ces $5$ classes:
+``animal'', ``car'', ``human'', ``nothing'', ``plane'' et ``truck''.
+Chaque élément d'une base de donnée d'images est composé d'une image (par exemple une image montrant une voiture)
+et une étiquette correspondant à la classe de l'objet représenté par l'image 
+(dans l'exemple précédent, l'étiquette est ``car'').
+Cette base de données peut être utilisée afin de calculer un classifieur par apprentissage supervisé.
+Dans le but de discerner les positions des cibles,
+une image est étiquetée avec le nom de l'objet qui est au centre
+(``nothing'' si il n'y a rien au centre de l'image).}
 \label{NORB}
 \end{figure}
 %%%%%
@@ -553,28 +557,32 @@ a image is labeled with the name of centered object
 %
 % IMPRECISION OBSERVATION
 %
-As the classifier is learned based on a image dataset,
-its behavior, and thus its performances 
-(\textit{i.e.} how well it predicts objects in images) 
-are inevitably dependent on the dataset.
-It is a problem if the image variability in the dataset
-is too low:
-in this case, the probabilistic behavior of the classifier 
-will be dependent on these particular images, 
-and the robotic system will have poor observation
-capabilities when the considered mission involves 
-images too different from the ones in the dataset. 
+Puisque le classifieur est appris à partir d'une base de données d'images,
+son comportement, et donc ses performances,
+(\textit{i.e.} sa fréquence de bonne prédictions) 
+est inévitablement dépendent de la base de données.
+C'est un problème si la variabilité de la base de donnée
+est trop faible:
+dans ce cas, le comportement probabiliste du classifieur
+sera dépendent de ces images en particulier
+et le système robotique aura des mauvaises capacités d'observations
+lorsque la mission implique des images trop différentes de celles présentes
+dans la base de données.
 
-Some large image datasets with a high image variability exist 
-(e.g. NORB, Figure \ref{NORB}, although variability could be ideally higher):
-note however that with such datasets, the vision performances are reduced,
-or good performances are, at least, harder to reach.
+Certaines bases de données à grande variabilité existent
+(par exemple NORB, figure \ref{NORB}, bien que la variabilité pourrait être idéalement supérieure):
+notons cependant qu'avec ces bases de données,
+la performace de vision est réduite,
+ou bien, au moins, de bonne performances
+sont difficilement atteignables
 
-A confusion matrix can be computed (see Figure \ref{confusion_matrix})
-using such a labeled image dataset,
-not used for the training, and called \textit{testing dataset}: 
-observation frequencies can be deduced from this matrix,
-normalizing rows into probabilities.
+Une matrice de confusion peut être calculée (\textit{cf.} figure \ref{confusion_matrix})
+en utilisant une telle base de données étiquetées,
+qui n'est pas utilisée pour l'entraînement,
+et qui est appelée \textit{base de données de test}:
+la fréquence des observations peut être déduit de cette matrice,
+en normalisant les lignes en distributions de probabilité.
+Une ligne correspond à un objet de la scène
 A row corresponds to an object in the scene,
 and probabilities in this row are observation probabilities,
 \textit{i.e.} each probability value is the frequency with which 
