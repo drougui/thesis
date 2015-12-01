@@ -128,20 +128,23 @@ En effet, plus l'agent récupère de récompenses pendant l'exécution du processus,
 mieux il a réalisé sa mission:
 une mission est considéré bien remplie
 si la séquence d'états du système $s_t \in \mathcal{S}$ rencontrés
-et d'actions $a_t \in \mathcal{A}$ selectionnées
+et d'actions $a_t \in \mathcal{A}$ sélectionnées
 mènent à des récompenses $r(s_t,a_t)$ grandes.
-Solving an infinite horizon MDP
-consists in computing an optimal strategy, 
-\textit{i.e.} a function prescribing actions $a \in \mathcal{A}$
-to be taken over time,
-and maximizing the mean
-of the sum of rewards gathered during one execution:
-this mean is computed with respect to the probabilistic behavior of the system state
-encoded by transition functions $\textbf{p} \paren{s_{t+1} \sachant s_t,a_t}$.
-For instance, a preferred strategy 
-may be a function $d$ defined on $\mathcal{S}$,
-as the current state is available to the agent, 
-and with values in $\mathcal{A}$.
+La résolution d'un PDM correspond au calcul
+d'une stratégie optimale,
+\textit{i.e.} d'une fonction prescrivant les actions $a \in \mathcal{A}$
+qu'il faut exécuter au cours du temps 
+afin de maximiser la moyenne
+de la somme des récompenses obtenues durant une exécution:
+cette moyenne est calculée 
+en prenant compte le comportement probabiliste des états du système
+décrit par les fonctions de transition
+$\textbf{p} \paren{s_{t+1} \sachant s_t,a_t}$.
+Par exemple, une bonne stratégie
+peut être une fonction $d$ définie sur $\mathcal{S}$
+et à valeurs dans $\mathcal{A}$, 
+puisque l'on suppose ici que l'agent connaît l'état du système
+durant le processus.
 
 %%% ROBOT POMPIER
 \begin{figure} \centering
@@ -168,53 +171,58 @@ and with values in $\mathcal{A}$.
 \node (pomdp6) at (-3.5,6) {\color{ggreen}{\Huge \textbf{?}}}; %%% ORANGE?
 \end{tikzpicture}
 \caption[Utilisation d'un PDMPO pour la modélisation du robot pompier]{
-Use of a POMDP for the firefighter robot mission modeling:
-in this toy example, the mission of the robot is fire prevention.
-The \textbf{states of the system} $s \in \mathcal{S}$ encode for instance the robot location, 
-the water jet orientation, the amount of water used,
-the fire location and its level on a scale between ``minor fire'' and  ``severe fire'', etc.
-Using vision and heat sensors, 
-the robot gets \textbf{observations} $o \in \mathcal{O}$ 
-which are the raw or processed values from the sensors:
-the output of a classifier
-whose input is a image of the scene
-(see Figure \ref{observation_robot} 
-and \ref{CV_algoConvNet}), 
-and which returns the fire level or location
-may be encoded in an observation.
-Finally, the \textbf{actions of the robot} $a \in \mathcal{A}$ 
-are for instance the rotor activations 
-impacting the rotation of the robot's wheels, the water pumping,
-the orientation of the water jet or sensors etc.
+Utilisation d'un PDMPO pour la modélisation du robot pompier:
+dans cet exemple, la mission du robot est la prévention des incendies.
+L'état du système $s \in \mathcal{S}$ décrit par exemple la position du robot, 
+l'orientation du jet d'eau, la quantité d'eau utilisée,
+la position du feu et son niveau sur une échelle ``petit feu'' et ``feu important'', etc.
+En utilisant une vision artificielle et des capteurs de chaleur,
+le robot reçoit des \textbf{observations} $o \in \mathcal{O}$
+qui sont les données brutes ou traitées provenant des capteurs:
+la sortie d'un classifieur dont l'entrée est une image de la scène
+(\textit{cf.} Figure \ref{observation_robot}), 
+et qui renvoie le niveau ou la position du feu,
+peut être modélisé par une observation.
+Finallement, les \textbf{actions du robot} $a \in \mathcal{A}$ 
+sont par exemple la mise en marche des moteurs
+impactant la rotation des roues du robot, 
+le débit de pompage,
+l'orientation du jet d'eau ou des capteurs, etc.
 %Uncertainty dynamics is described by conditional probability distributions:
-The \textbf{reward function} $r(s,a)$ decreases with the fire level state,
-and is decreased by a cost proportional to the amount of water used:
-as an optimal strategy maximizes the mean of the sum of the rewards, 
-the goal of the robot is thus to attack fires without wasting water.
-This mean can be computed knowing the probabilities describing the uncertain dynamic of the system.
-The robot actions $a \in \mathcal{A}$ have a probabilistic effect on the system,
-as described by the \textbf{transition function} $\textbf{p} \paren{s' \sachant s,a}$: 
-for instance, the activation of wheel rotors modifies the location of the robot,
-and the probability of each possible next locations, given the current system state, 
-takes part in the definition of the POMDP.
-An other example is the action modifying the water jet orientation, 
-which redefines the probability of the next fire level given the current system state.
-The robot actions $a \in \mathcal{A}$ and next states $s' \in \mathcal{S}$ 
-may also impact the observations from the sensors, 
-as defined by the \textbf{observation function} $\textbf{p} \paren{o' \sachant s',a}$: 
-for instance, the orientation of the vision sensor may modify 
-the probability of fire detection or fire level evaluation, 
-which are parts of the observations $o' \in \mathcal{O}$. 
-Finally, the \textbf{belief state} is the conditional probability distribution 
-of the current system state
-conditioned on all observations and actions up to the current time step: 
-as observations and actions are the only data available to the robot,
-the belief state can be seen as the robot's guess.}
+La \textbf{fonction de récompense} $r(s,a)$
+décroît avec le niveau de l'incendie.
+Afin de ne pas gaspiller d'eau,
+un coût proportionnel à la quantité d'eau
+est soustrait à cette récompense:
+puisque une stratégie optimale maximise la moyenne de la somme des récompenses,
+le but du robot est donc d'attaquer les incendies sans gaspiller d'eau.
+Cette moyenne peut-être calculée à l'aide des probabilités décrivant la dynamique stochastique du système.
+Les actions du robot $a \in \mathcal{A}$ ont un effet probabiliste sur le système,
+décrit par la \textbf{fonction de transition} $\textbf{p} \paren{s' \sachant s,a}$: 
+par exemple, l'activation des roues du moteur modifie la position du robot,
+et la probabilité sur chacune des positions suivantes possibles,
+étant donné la position courante,
+prend part à la définition du PDMPO.
+Un autre exemple est l'action modifiant l'orientation du jet d'eau,
+qui redéfinit la probabilité du nouveau niveau de feu étant donné l'état actuel du système.
+Les actions du robot $a \in \mathcal{A}$
+et les états suivants $s' \in \mathcal{S}$ 
+peuvent aussi impacter les observations des capteurs:
+cette influence est définie par la \textbf{fonction d'observation} $\textbf{p} \paren{o' \sachant s',a}$: 
+par exemple, l'orientation du capteur de vision peut modifier
+la probabilité de détection du feu, 
+ou de l'évaluation de son intensité, 
+qui font partie des observations $o' \in \mathcal{O}$. 
+Finalement, l'état de croyance est la distribution de probabilité sur l'état courant du système 
+conditionnellement à l'ensemble des observations et actions successives depuis le début du processus:
+c'est la meilleure estimation possible puisque le robot n'a accès qu'aux actions et observations
+lors de l'exécution.}
 \label{robot_pompier}
 \end{figure}
 
-Such markovian strategies are proven to be optimal 
-for some criteria 
+Il a été montré que de telles stratégies markoviennes sont optimales
+pour certain critères
+tels que celui basé sur la somme des récompenses décomptées.
 like the one based on 
 accumulated discounted rewards:
 indeed, a well-known criterion 
@@ -438,8 +446,7 @@ these issues are easily illustrated via robotic situations.
 Example of an observation method in a robotic context:
 the robot, here a drone, is equipped with a camera
 and uses a classifier computed from a image dataset
-(as NORB, see Figure \ref{NORB}): 
-such a classifier is described in Figure \ref{CV_algoConvNet}.
+(as NORB, see Figure \ref{NORB}).
 The classifier is generated before the mission (off-line)
 with a image dataset (see the right part of the illustration),
 and the classifier output is used during the mission (online) 
@@ -471,8 +478,8 @@ with a low probability
 The classifier is computed using a \textit{training dataset} of images
 (as NORB, see Figure \ref{NORB}, authors made it available at \url{http://www.cs.nyu.edu/~ylclab/data/norb-v1.0/}).
 A powerful gradient-based learning algorithm meant to compute classifiers using image datasets
-is described in Figure \ref{CV_algoConvNet}: the associated framework is called Convolutional Nextwork \cite{Lecun98gradient-basedlearning}.
-Figures (\ref{NORB}), (\ref{CV_algoConvNet}) and (\ref{confusion_matrix})
+can be is called Convolutional Nextwork \cite{Lecun98gradient-basedlearning}.
+Figures (\ref{NORB}), (\ref{confusion_matrix})
 illustrate the example of a classifier computed for a UAV mission where features of interests
 (system states of the problem) 
 are related with the presence (or absence) of animals, cars, humans, planes or trucks:
@@ -533,7 +540,7 @@ and images from this dataset represents objects among the $5$ classes:
 Each element of a labeled image dataset is composed of a image (e.g. a image showing a car)
 and a label corresponding to the class of the object represented by the image 
 (in the previous example, the label is ``car'').
-This dataset can be used for supervised learning to compute a classifier (see Figure \ref{CV_algoConvNet}).
+This dataset can be used for supervised learning to compute a classifier.
 In order to be able to discern locations of targets, 
 a image is labeled with the name of centered object 
 (``nothing'' if there is nothing in the image center).}
@@ -546,8 +553,7 @@ a image is labeled with the name of centered object
 %
 % IMPRECISION OBSERVATION
 %
-As the classifier is learned based on a image dataset 
-(see weights learned in Figure \ref{CV_algoConvNet}),
+As the classifier is learned based on a image dataset,
 its behavior, and thus its performances 
 (\textit{i.e.} how well it predicts objects in images) 
 are inevitably dependent on the dataset.
@@ -587,8 +593,7 @@ observation probability distributions.
 More generally, observations of the agent 
 may be outputs of image processing algorithms 
 whose semantics (image correlation, object matching, class inference, 
-preprocessing followed by classifiers such as the one computed 
-in Figure \ref{CV_algoConvNet} etc.) 
+preprocessing followed by classifiers etc.) 
 are so complex that probabilities of 
 occurrence are hard to rigorously extract.
 
@@ -1316,7 +1321,6 @@ The BFT counterpart of this object should be
 a mass function describing 
 the uncertainty about the observations.
 The way of defining this mass function from a given classifier 
-(for instance as the one described in Figure \ref{CV_algoConvNet})
 and a given testing dataset of images (as NORB, see Figure \ref{NORB})
 is not obvious.
 Indeed the imprecision of the probabilistic behavior
