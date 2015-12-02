@@ -494,8 +494,8 @@ est appelé \textit{classification multi-classes}.
 \newcounter{moncompteur} %define counter
 \begin{figure} \centering
 \begin{tikzpicture}
-\node (notes) at (1cm,7cm) { 
-NORB dataset: \color{blue} $(\mbox{image}_i,\mbox{label}_i)_{i=1}^N$
+\node (notes) at (2.5cm,7cm) { 
+base de données d'images NORB: \color{blue} $(\mbox{image}_i,\mbox{étiquette}_i)_{i=1}^N$
 };
 
 \def\names{{"bla","human","car","truck","truck","nothing","nothing","nothing","truck"}}%
@@ -597,7 +597,7 @@ cependant, comme montré par l'équation (\ref{probBayesRule})
 la mise à jour de l'état de croyance nécessite la connaissance parfaite
 de la fonction d'observation.
 
-Finallement, si les bases de données considérée sont étiquetées plus précisément,
+Finalement, si les bases de données considérée sont étiquetées plus précisément,
 (comme NORB, qui inclut des informations telles que la luminosité, ou l'échelle de l'objet),
 nous pouvons imaginer que les probabilités d'observation calculées (à partir de la matrice de confusion)
 serait plus fiable, ou la performance de vision améliorée
@@ -651,7 +651,7 @@ Quelques variations du cadre PDMPO
 a été constuit dans le but de prendre en compte
 l'imprécision sur les distributions de probabilité du modèle,
 aussi appelé \textit{l'imprécision des paramètres}.
-\subsubsection{Travaux Tenant Compte de l'Imprécision des Paramètres} %% TODO
+\subsubsection{Travaux Tenant Compte de l'Imprécision des Paramètres} 
 Ici, les fonctions de transition et d'observation,
 \textit{i.e.} $\textbf{p} \paren{ s' \sachant s,a }$ 
 et $\textbf{p} \paren{ o' \sachant s',a }$,
@@ -739,136 +739,72 @@ la connaissance de l'agent est représentée.
 %%  FULL IGNORANCE/ KNOWLEDGE OF THE AGENT
 %%
 \subsection*{Modéliser l'Ignorance de l'Agent}
-The initial belief state $b_0$, 
-or \textit{prior} probability distribution 
-over the system states, 
-takes part in the definition of the POMDP problem.
-Given a system state $s \in \mathcal{S}$, 
-$b_0(s)$ is the frequency 
-of the event ``the initial state is $s$''. 
-This quantity may be hard to properly compute,
-especially when the amount of available past experiments 
-is limited: this reason has been already invoked above,
-leading to the imprecision of the transition and observation 
-functions.
+L'état de croyance initial $b_0$, 
+ou distribution de probabilité \textit{a priori} 
+sur l'état du système, prends part dans la définition
+du PDMPO. 
+\'Etant donné un état du système $s \in \mathcal{S}$, 
+$b_0(s)$ est la fréquence de l'évènement ``l'état initial est $s$''.
+Cette quantité peut être dure à calculer rigoureusement,
+surtout lorsque le nombre d'expériences passées est limité: 
+cette raison a déjà été invoquée au-dessus, 
+menant à l'imprécision des fonctions de transition et d'observation.
 
-As an example, consider a robot that is for the first time in a room
-with an unknown exit location (initial belief state) 
-and has to find the exit and 
-reach it. 
-In practice, no experience can be repeated 
-in order to extract a frequency of the location of
-the exit. 
-In this kind of situation,
-uncertainty is not due to a random fact, 
-but to a lack of knowledge: 
-no frequentist initial belief state can be used to define the model.
+Considérons l'exemple d'un robot qui est pour la première fois dans une salle
+dont la position de la sortie est inconnue 
+(état de croyance initial)
+et qui doit trouver la sortie et l'atteindre.
+En pratique, aucune expérience ne peut être
+répétée dans le but d'extraire une fréquence de position
+pour cette sortie.
+Dans ce genre de situation, l'incertitude n'est pas due
+à un événement aléatoire, mais à un manque de connaissance:
+aucun état de croyance initial fréquentiste ne peut être utilisé pour définir le modèle.
 
-In other cases, 
-the agent may strongly believe 
-that the exit is located 
-in a wall as in the vast majority of rooms, 
-but it still grants a very small probability $p_{\epsilon}$ 
-to the fact that the exit may be a staircase 
-in the middle of the room. 
-Even if this is very unlikely to be the case,
-this second option must be taken into account in the belief state, 
-otherwise Bayes rule (see Equation \ref{probBayesRule}) 
-cannot correctly update it 
-if the exit is actually in the middle of the room. 
-Eliciting $p_{\epsilon}$ without past experience 
-is not obvious at all 
-and does not rely on any rational reasons, 
-yet it dramatically impacts the agent's strategy. 
+L'agent peut aussi croire fortement
+que la sortie est positionnée dans un mur,
+comme dans la plupart des salles,
+mais il attribue quand-même une très petite probabilité $p_{\epsilon}$ 
+au fait que la sortie peut être un escalier au plein milieu de la salle.
+Même si il est très peu probable que ce soit le cas,
+cette seconde option doit être prise en compte
+dans l'état de croyance,
+sinon la règle de Bayes (\textit{cf.} équation \ref{probBayesRule}) 
+ne peut pas être le mettre à jour correctement
+si la sortie est vraiment au centre de la pièce.
+Quantifier $p_{\epsilon}$ sans expérience passée
+n'est pas une chose facile du tout,
+et ne se repose sur aucune justification rationnelle,
+mais peut impacter fortement la stratégie de l'agent.
 
-The initial system state 
-may be deliberately stated as unknown by the agent 
-with absolutely no probabilistic information:
-consider robotic missions 
-for which a part of the system state,
-describing something that the robot
-is supposed to infer by itself, 
-is initially fully unknown.
-In a robotic exploration context, 
-the location or the nature of a target, 
-or even the initial location of the robot
-may be defined as absent from the knowledge of the agent.
-Classical approaches initialize the belief state as 
-a uniform probability distribution
-(\textit{e.g.} over all robot/target possible locations, 
-or over possible target natures), 
-but it is a subjectivist answer \cite{de1974theory,Dubois96representingpartial}.
-Indeed, all probabilities are the same
-because no event is more plausible than another:
-it corresponds to equal betting rates.
-However following belief updates (see Equation \ref{probBayesRule}) 
-will eventually mix up frequentist probability distributions,
-given by transition and observation functions, 
-with this initial belief which is a subjective probability distribution:
-it does not always make sense
-and it is questionable in many cases. 
-Thus, the use of POMDPs in these contexts, 
-faces the difficulty to encode agent ignorance.
- 
-Since the knowledge of the agent 
-about given features of the system 
-may be initially partial (or even absent),
-it makes sense to pay attention to the evolution of 
-this knowledge during the execution of the considered process.
-Some works inspired by the research in \textit{Active Perception}, 
-have been focusing on the information gathered
-by the agent in the POMDP framework
-\cite{ChanelFTI10,oatao11449}.
-In these works, 
-the \textit{entropy} of the belief state
-is taken into account in the criterion, 
-ensuring the computed strategy 
-to make the process 
-reach belief states that have a lower entropy
-(\textit{i.e.} are closer to a deterministic probability distribution)
-while always satisfying the requirement of an high expected total reward.
-This approach leads to really interesting results
-in practice.
+L'état initial du système peut être délibérément
+défini comme étant inconnu, avec strictement aucune
+information probabiliste:
+considérons une mission robotique
+pour laquelle une partie de l'état du système,
+décrivant un fait que le robot est censé
+découvrir par lui-même, est
+initialement complètement inconnu.
+Dans un contexte d'exploration robotique,
+la position ou la nature d'une cible,
+ou encore la position initiale du robot,
+peut être défini comme étant absent de la connaissance de l'agent.
+Les approches classiques initialisent l'état de croyance
+par une distribution de probabilité uniforme.
+(\textit{i.e.} sur toutes les position possible du robot/cible, 
+ou sur toutes les natures de cible possibles), 
+mais cette réponse provient de l'interprétation subjective
+des probabilités \cite{de1974theory,Dubois96representingpartial}.
+En effet, les probabilités sont les même
+puisque aucun événement n'est plus plausible qu'un autre:
+cela correspond à des paris égaux.
+Cependant, les mises à jour de l'état de croyance (\textit{cf.} équation \ref{probBayesRule}) 
+mène fatalement à un mélange de probabilités fréquentistes, \textit{i.e.}
+les fonction de transition et observation,
+avec cet état de croyance initial qui est une distribution de probabilité subjective:
+cela n'a pas toujours de sens, et dans tous les cas cette approche est douteuse.
+Ainsi, l'utilisation des PDMPO dans ces contextes fait face à la difficulté de représenter l'ignorance de l'agent.
 
-Nevertheless, a tradeoff parameter is introduced
-making the entropy part 
-of the criterion more or less important: 
-tuning the latter may
-add additional computations.
-Moreover this approach
-does not distinguish
-between the actual frequentist behavior of the system state, 
-and the lack of knowledge about the actual belief state
-(as a probability distribution)
-due to the imprecision of the initial belief state,
-or even of the transition and observation function:
-it just tends to make the belief as deterministic as
-possible, even if it is not possible due to the actual
-probability distributions of the model 
-(e.g. if the transition probability distribution 
-$\textbf{p} \paren{s_{t+1} \sachant s_t,a_t}$ 
-has an high entropy for each action $a_t \in \mathcal{A}$),
-and even if it is not needed 
-(e.g. if each system state $s \in \mathcal{S}$ such that the belief state $b_t$
-is not zero, $b_t(s)>0$, leads to an high reward).
-%In other words, the POMDP framework 
-%defines the successive belief states
-%as probability distributions
-%instead of sets of possible ones:
-%measure of knowledge about the actual system state 
-%(in a frequentist point of view)
-%is mixed up with the measure of knowledge about the model.
-
-However, it has been shown that 
-the proposed criterion 
-(including the entropy of the belief state) 
-makes the agent estimate faster its real state,
-which is really useful in some practical problems.
-Other models have been introduced, making the reward function dependent
-on the belief state 
-\cite{Araya-LopezBTC10,oatao11437}:
-this enables to make the agent behavior vary with respect to
-the probabilistic representation of its knowledge.
 
 %it may make the  actually the real  the POMDP is in practice, a belief state may have an high entropy
 %not because of the imprecision of the parameters, 
@@ -888,227 +824,156 @@ the probabilistic representation of its knowledge.
 % WHAT WE WOULD LIKE TO DO
 %
 \section*{Problème Général}
-Previous sections presented some issues encountered in practice 
-when using the POMDP framework to compute strategies, 
-especially in the robotic context. 
-The really high complexity of the problem 
-of computing an optimal strategy 
-is a first issue: 
-robotic missions often result in high dimensional problems,
-preventing any algorithm 
-to computed a
-sufficiently near optimal strategy,
-because of the prohibitive computation time 
-or memory needed for this task.
-Second we highlighted 
-the difficulty of defining 
-the probability distributions
-describing the problem:
-for instance the observation function 
-can be hard to define
-when the observations come from 
-complex computer vision algorithms.
-Finally the problem of managing 
-the knowledge 
-and the ignorance
-of the agent 
-has been discussed:
-there is no clear answer
-concerning the way to
-represent the initial 
-lack of knowledge 
-about the actual world
-for the agent.
-Also, how to handle 
-and take into account 
-the current agent knowledge
-is still open to question: 
-the difficulty comes 
-from the classical POMDP definition
-which only allows 
-the use of frequentist probability distributions,
-while more expressive mathematical tools seem necessary.
+Les sections précédentes ont présenté certain problèmes rencontrés en pratique
+lors de l'utilisation des PDMPO pour calculer des stratégies,
+en particulier dans le cadre robotique.
+La très grande complexité
+du calcul d'une stratégie optimale
+est un premier problème:
+les missions robotiques 
+sont souvent des problèmes à grandes dimensions,
+dont le calcul d'une stratégie suffisamment proche de l'optimal
+est impossible, 
+du fait d'un trop grand temps de calcul
+ou d'un manque de mémoire.
+Ensuite, il a été mis en évidence
+que les distributions de probabilité
+définissant le PDMPO 
+ne sont pas toujours connues précisément:
+par exemple, la fonction d'observation
+peut être difficile à définir 
+lorsque les observations proviennent
+d'un algorithme de vision artificielle complexe.
+Enfin, le problème de la gestion de la connaissance et de l'ignorance de l'agent
+a été discuté: il n'y a pas de réponse formelle
+concernant la manière de représenter 
+le manque de connaissance initial de l'agent
+à propos du monde dans lequel il évolue.
+La difficulté vient du fait que
+les PDMPO classiques (probabilistes)
+autorisent uniquement l'usage de distribution de probabilité fréquentiste,
+alors qu'un autre outil mathématique semble nécessaire.
 
-These problems are the starting points of our work.
-Indeed, the latter consists in contributing 
-to the problem
-of computing appropriate strategies 
-for partially observable domains.
-The computed strategies 
-have to make the robot 
-fulfill the mission
-as well as possible,
-from the very first execution,
-\textit{i.e.} strategy computations are performed 
-before any real execution of the mission.
-In order to make the robot more powerful
-in the long term, 
-RL algorithms may improve
-the prior strategies 
-that we propose 
-to compute in this work,
-taking into account each past execution 
-of the robotic mission.
-However this idea 
-is not considered 
-here since we focus 
-on fulfilling the robotic mission 
-as well as possible, 
-especially for 
-the first executions 
-of the process:
-RL algorithms are useless
-in this context
-since the dataset of recorded missions 
-is not sufficiently large
-during the first mission executions.
-%and thus without the knowledge 
-%to efficiently use RL.
-%to this purpose, a criterion
-%(e.g the discounted expected total reward of Equation \ref{criterion})
-%is maximized.
+Ces problèmes forment le point de départ de ce travail.
+En effet, ce dernier consiste à contribuer
+au problème du calcul d'une stratégie
+pour des domaines partiellement observables.
+Les stratégies calculées
+doivent permettre au robot
+de remplir sa mission
+aussi bien que possible,
+dès la première exécution
+\textit{i.e.} le calcul de stratégie 
+est opéré avant toute réelle exécution
+de la mission. 
 
-The general challenge guiding this work 
-is to proceed with strategy computations 
-only using data and knowledge %about the problem 
-really available in practice,
-possibly making the strategy computation easier,
-instead of using the highly complex 
-and hard to define POMDP framework.
-In other words, it consists in paying 
-particular attention 
-to the issues pointed out above:
-namely, the complexity 
-of the strategy computation,
-the imprecision of the model, 
-and the management 
-of the knowledge of the agent.
-
+Le chalenge général guidant ce travail
+est de procéder aux calculs de stratégies
+en utilisant seulement les données et les connaissances
+vraiment disponibles en pratique,
+au lieu d'utiliser les PDMPO classiques,
+très complexes et difficiles à définir.
+En d'autre mots, cela revient à prêter attention
+aux problèmes soulevés au-dessus:
+la complexité de calcul, l'imprécision du modèle,
+et la gestion de la méconnaissance de l'agent. 
+Comme expliqué par la suite, la théorie des possibilités qualitatives \cite{Dubois95possibilitytheory}
+semble répondre aux problèmes soulevés.
 
 \section*{Une Théorie Qualitative}
-Finally, in the qualitative framework, 
-the possibility values 
-assigned to each of the elementary events 
-are not really taken into account
-in terms of real numbers
-since only qualitative comparisons 
-are performed via the use of 
-$\max$ and $\min$ operators.
-Hence, Qualitative Possibility Theory
-is classically defined 
-with the introduction of
-a qualitative scale $\mathcal{L}$,
-which may be defined as $\set{l_1,l_2,\ldots,0 }$,
-or as any other totally ordered set indifferently.
-As they are qualitative data, 
-we use the term \textit{possibility degrees} 
-instead of possibility values.
-The next section clarifies why 
-the use of a qualitative framework
-is beneficial in terms of complexity
-and modeling to our study.
+Cette théorie est généralement
+introduite en définissant une
+échelle qualitative $\mathcal{L}$,
+qui peut être définie par 
+$\set{0,\frac{1}{k}, \frac{2}{k}, \ldots,1 }$, avec $k>1$,
+ou tout autre ensemble fini totalement ordonné.
+Les valeurs de cette échelle
+ne sont pas importantes 
+car elle servent seulement 
+à matérialiser un ordre:
+nous utilisons donc
+le terme de \textit{degré de possibilité}
+afin d'expliciter cette remarque.
+Le plus petit élément de l'échelle qualitative est noté $0$,
+et le plus grand, $1$.
+La section suivante clarifie pourquoi
+l'utilisation de ce cadre qualitatif 
+est bénéfique en terme de complexité
+et de modélisation.
 
-Note the similarities between 
-Possibility and Probability Theories, 
-replacing $\max$ by $+$, and $\min$ by $\times$
-(in the qualitative case). 
-Note also that Qualitative 
-Possibility Theory defines
-the semiring $(\mathcal{L},\max,\min)$,
-and Quantitative Possibility Theory
-leads to the semiring $([0,1]\max,\times)$.
-These algebraic structures are
-close to the well known 
-tropical semirings \cite{pinhal-00113779},
-as the \textit{max-plus} semiring 
-$(\mathbb{R} \cup \set{-\infty} \max,+)$ 
-and the \textit{min-plus} one 
-$(\mathbb{R} \cup \set{+\infty}, \min,+)$.
+Notons tout d'abord les similarités entre
+la théorie des probabilités et des possibilités:
+une distribution de possibilité sur $\mathcal{S}$ 
+est une fonction $\pi: \mathcal{S} \rightarrow \mathcal{L}$
+telle que $\max_{s \in \mathcal{S}} \pi(s) = 1$.
+De plus, l'opérateur $\min$ est utilisé pour calculer 
+une distribution de possibilité jointe 
+$\pi(s,o)$, $\forall (s,o) \in \mathcal{S} \times \mathcal{O}$
+à partir d'une distribution marginale $\pi(s)$, $\forall s \in \mathcal{S}$
+et d'une distribution conditionnelle $\pi \paren{ o \sachant s }$, $\forall (o,s) \in \mathcal{S} \times \mathcal{O}$:
+$\pi(s,o) = \min \set{ \pi (s), \pi \paren{ o \sachant s }  }$.
+Ainsi, la théorie des possibilités peut donc s'apprivoiser 
+en remplaçant l'opérateur $+$ de la théorie des probabilités
+par l'opérateur $\max$, et l'opérateur $\times$ par $\min$.
 
 %%% PIPOMDP
 \subsection*{PDMPO Qualitatifs Possibilistes}
-A qualitative possibilistic counterpart 
-of the POMDP framework
-has been proposed in \cite{Sabbadin1999pipomdp}:
-this model is called Qualitative Possibilistic POMDP 
-and denoted by $\pi$-POMDP. 
-A $\pi$-POMDP is simply a POMDP
-with qualitative possibility distributions as parameters,
-instead of probability distributions.
-As the $\pi$-POMDP framework is qualitative,
-the counterpart of the reward function,
-called \textit{preference function},
-is a qualitative function: 
-indeed the preference function returns values 
-from the finite qualitative scale $\mathcal{L}$,
-and thus is non-additive.
+Une alternative possibiliste qualitative du modèle PDMPO 
+a été proposé dans \cite{Sabbadin1999pipomdp}:
+ce modèle s'appelle PDMPO qualitatif possibiliste,
+et est noté $\pi$-PDMPO. 
+Un $\pi$-PDMPO est simplement un PDMPO
+avec des distributions possibilistes qualitatives comme paramètres,
+au lieu de distributions de probabilités.
+Comme les $\pi$-PDMPO sont qualitatifs,
+l'homogue de la fonction de récompense,
+appelée \textit{fonction de préférence},
+est aussi qualitative:
+en effet, la fonction de préférence 
+est à valeurs dans l'échelle possibiliste qualitative finie $\mathcal{L}$,
+et donc n'est pas additive.
 
-%%IMPRECISION CRITERES
-As a particular case of BFT
-and \textit{a fortiori} of IPT,
-Possibility Theory expresses 
-a partial knowledge
-of the actual probability distribution,
-as presented above.
-A qualitative possibility distribution
-is even more imprecise
-since only qualitative information
-is given by such a distribution.
-This imprecision results in the measures
-presented above: possibility and necessity measures. 
-As detailed in Section \ref{subsection_qualcrit},
-two qualitative criteria have been proposed 
-in \cite{SabbadinFL98},
-counterparts of the probabilistic criterion (\ref{criterion}): 
-a pessimistic one, which is a
-qualitative counterpart of the maximin 
-(worst-case) criterion in IPT.
-The other criterion is qualified as optimistic, 
-as a qualitative counterpart of 
-the best case criterion in IPT.
-
-%%%% COMPLEXITY 
-One of the most interesting property
-of $\pi$-POMDPs is
-the simplification of the strategy computation.
-Indeed, algorithms proposed 
-for solving classical (probabilistic) POMDPs
-are often based on the set of the belief states
-called \textit{belief space}.
-The belief space is infinite in the general case: 
-each time step leads eventually 
-to a finite number of new belief states,
-which makes this set countable. 
-In order to get useful properties
-and means
-for the strategy computation,
-the set of all probability distributions
-over the system space $\mathcal{S}$ is considered, 
-\textit{i.e.} the continuous simplex
+%%%% COMPLEXITY
+L'une des propriétés les plus intéressantes
+des $\pi$-PDMPO est la simplification du calcul de la stratégie.
+En effet, les algorithmes proposés
+pour résoudre les PDMPO probabilistes 
+sont souvent basés sur l'ensemble des états de croyance
+appelé \textit{espace des croyances}.
+L'espace des croyances est infini dans le cas général:
+chaque étape de temps mène à une nombre fini d'états de croyance suivants,
+donc cet espace est dénombrable.
+Dans le but d'obtenir des propriétés utiles
+et des moyens de calculer un stratégie,
+l'ensemble de toutes les distributions de probabilité
+sur l'espace d'état $\mathcal{S}$ est souvent considéré, 
+\textit{i.e.} le simplex continu
 $\mathbb{P}^{\mathcal{S}} 
 = \set{ \textbf{p}:\mathcal{S} \rightarrow [0,1] \sachant \sum_{s \in \mathcal{S}} \textbf{p}(s) 
 = 1, \mbox{ and } \textbf{p}(s)\geqslant 0, \forall s \in \mathcal{S} }$.
-The infinite size of the belief space 
-partly explains why probabilistic POMDPs
-are very hard to resolve.
-On the contrary, $\pi$-POMDPs have a finite belief space.
-Indeed, the number of qualitative possibility distributions
-over the system space $\mathcal{S}$
-is lower than $\mathcal{L}^{\# \mathcal{L}}$,
-as the qualitative scale $\mathcal{L}$ is finite.
-The fully observable version 
-of the $\pi$-POMDP model is called $\pi$-MDP:
-as explained in Section \ref{section_piPOMDP} of Chapter \ref{chap_SOTA}, 
-any $\pi$-POMDP reduces to a $\pi$-MDP whose system space is
-the qualitative possibilistic belief space, and
-whose size is exponential in the number of states.
-In works \cite{abs-1202-3718,Garcia20081018,Sabbadin1999pipomdp}, 
-complexity of $\pi$-MDP 
-appears to be lower than complexity of MDP, 
-which is polynomial \cite{Papadimitriou1987}:
-complexity of $\pi$-POMDP is then
-at worst exponential in the problem description,
-whereas POMDP solving may be undecidable \cite{Madani1999UPP315149.315395}.
+La taille infinie de l'espace des croyances
+explique en partie
+pourquoi les PDMPO probabilistes
+sont vraiment difficiles à résoudre.
+Au contraire, les $\pi$-PDMPO ont un espace de croyances fini.
+En effet, le nombre de distributions de possibilités qualitatives
+sur les états du système $\mathcal{S}$
+est inférieur à $\mathcal{L}^{\# \mathcal{L}}$,
+puisque l'échelle qualitative $\mathcal{L}$ est finie.
+La version complètement observable
+d'un $\pi$-PDMPO est appelé $\pi$-PDM:
+comme expliqué dans la section \ref{section_piPOMDP} du chapitre \ref{chap_SOTA}, 
+tout $\pi$-PDMPO se réduit à un $\pi$-MDP 
+dont l'espace d'état est l'ensemble des états de croyance possibilistes qualitatifs,
+et dont la taille est exponentielle en fonction du nombre d'états du système.
+Dans les travaux \cite{abs-1202-3718,Garcia20081018,Sabbadin1999pipomdp}, 
+il est montré que
+la complexité d'un $\pi$-PDM
+est plus faible que la complexité d'un MDP probabiliste, 
+qui est polynomiale \cite{Papadimitriou1987}:
+la complexité d'un $\pi$-PDMPO est akirs
+au pire exponentiel en la description du problème,
+tandis qu'un PDMPO probabiliste peut être indécidable \cite{Madani1999UPP315149.315395}.
 %The approach of using a $\pi$-POMDP 
 %instead of a probabilistic POMDP
 %in order to simplify the resolution, 
@@ -1116,432 +981,292 @@ whereas POMDP solving may be undecidable \cite{Madani1999UPP315149.315395}.
 
 
 %%% IMPRECISION MODELISATION
-In addition to simplifying the computations,
-the $\pi$-POMDP framework may be very interesting 
-to our use case.
-Indeed, when we considered 
-a robot using computer vision algorithms
-to get observations
-(see Figure \ref{observation_robot}),
-we previously highlighted the difficulty
-of properly defining
-the probabilistic observation function:
-probability values of the answers
-of the vision algorithms
-in the context of the robotic mission
-are imprecisely known 
-and hard to define in practice.
-Finding qualitative estimates 
-of their recognition performance is easier: 
-the $\pi$-POMDP model 
-only requires qualitative data, 
-thus it allows to build the model 
-without the use of information 
-other than the one really available. 
-For instance, 
-the confusion matrix 
-in Figure \ref{confusion_matrix}
-may lead to a qualitative possibilistic 
-observation function 
-which only takes into account
-how answer frequencies are sorted:
-in the presence of a human (see second line),
-the most frequent answer is ``human'',
-the second one is ``nothing'',
-the third one is ``car'', etc.
-Thus, the corresponding possibility distribution
-is such that, 
-conditioned on the presence of a human,
-the possibility degree 
-of the answer ``human''
-is higher than the possibility degree 
-of the answer ``nothing'',
-which is higher than the possibility degree 
-of the answer ``car'', etc.
-Instead of assigning frequencies 
-which are not really reliable in practice, 
-the qualitative possibilistic model
-naturally expresses imprecisions
-about the problem.
+En plus de la simplification des calculs,
+le $\pi$-PDMPO peut être vraiment intéressant
+pour nos problèmes de modélisation. 
+En effet, dans le cas d'un robot 
+utilisant un algorithme de vision artificielle
+(\textit{cf.} figure \ref{observation_robot}),
+nous avons précédemment mis en évidence la difficulté
+pour définir rigoureusement 
+les fonction d'observation probabilistes:
+les probabilités 
+des réponses
+des algorithmes de vision
+dans le contexte d'une mission robotique
+sont mal connus et difficiles à définir en pratique.
+Trouver des estimations qualitatives
+de ses performances de reconnaissance
+est plus facile:
+le modèle $\pi$-PDMPO
+ne requiert que des données qualitatives, 
+donc il permet de construire un modèle
+sans l'utilisation d'informations 
+différentes 
+de celles vraiment disponibles.
+Par exemple, la matrice de confusion 
+de la figure \ref{confusion_matrix}
+peut mener à une fonction d'observation
+qualitative possibiliste
+qui ne tient compte uniquement 
+de la manière dont les fréquences
+de réponses sont classées:
+en présence d'un humain (\textit{i.e.} deuxième ligne),
+la réponse la plus fréquente est ``human'',
+la deuxième réponse est ``nothing'',
+la troisième est ``car'', etc.
+Donc, la distribution de possibilité correspondante
+est telle que,
+conditionnellement à la présence d'un humain, 
+le degré de possibilité de la réponse ``human''
+est plus grand que le degré de possibilité de la réponse ``nothing'',
+qui est plus grand que le degré de possibilité
+de la réponse ``car'', etc.
+Au lieu d'attribuer des fréquences
+qui ne sont pas vraiment
+fiable en pratique,
+le modèle possibiliste qualitatif
+exprime naturellement ces imprécisions
+à propos du problem.
 
 %%%IGNORANCE
-Finally, let us recall that 
-the constant possibility distribution
-whose possibility degrees are all equal to $1$ 
-(maximal element of $\mathcal{L}$),
-represents total ignorance: 
-this distribution can be used 
-to define the initial belief state
-when it has to represent 
-an agent which initially ignores
-a given situation.
-Thus, the $\pi$-POMDP framework 
-allows for a formal modeling 
-of the agent's lack of knowledge.
+Enfin, notons que la distribution de possibilité 
+constante, dont les degrés sont tous égaux à $1$
+(élément maximal de $\mathcal{L}$),
+représente l'ignorance totale:
+cette distribution peut être utilisé 
+pour définir l'état de croyance initial
+lorsqu'il doit représenter
+un agent qui ignore initialement
+une situation donnée.
+Donc, le modèle $\pi$-PDMPO
+permet une modélisation formelle du manque de connaissance de l'agent. 
 
 %%CORRESPONDS TO OUR ISSUES 
-The use of the Qualitative Possibility Theory 
-\cite{DuboisPS01}
-is thus studied in this work,
-as it appears to be able
-to both simplify a POMDP, 
-and to model parameter imprecision 
-and ignorance
-related to robotic missions.
-This framework indeed simplifies computations,
-is able to encode the problem with only available data
-and formally models the lack of knowledge:
-thus this theory offers solutions to
-the three issues highlighted previously.
-However we note that, as a qualitative framework, 
-it does not allow for 
-frequentist information encoding.
+L'utilisation de la théorie de possibilités qualitatives \cite{DuboisPS01}
+est donc étudié dans ce travail,
+puisqu'il semble être capable
+d'à la fois simplifier un PDMPO,
+et de modéliser l'imprécision des paramètres
+et l'ignorance associées aux missions robotiques.
+Ce cadre, en effet, simplifie les calculs,
+est capable de représenter le problème avec seulement les données disponibles,
+et modélise le manque de connaissance:
+donc cette théorie offre ses solutions aux
+trois problèmes mis en évidence précédemment.
+Cependent, notons qu'un cadre qualitatif
+ne permet pas de manipuler de l'information fréquentiste.
 
 %%%NOT WIDELY STUDIED
-To the best of our knowledge,
-a rather limited study of the $\pi$-POMDP model
-exists in the literature up to now:
-in fact, the work \cite{Sabbadin1999pipomdp}
-seems to be the only one proposing 
-both a definition of $\pi$-POMDPs
-and a toy example to illustrate this model.
-The fully observable version ($\pi$-MDP)
-has generated some more interest
-in the research community
-\cite{Sabbadin2001287,Sabbadi00,LIP61498}.
+A notre connaissance,
+une étude plutôt limitée du modèle $\pi$-PDMPO existe dans la littérature jusqu'à aujourd'hui:
+en fait, le travail \cite{Sabbadin1999pipomdp}
+semble être le seul, proposant
+à la fois une définition des $\pi$-PDMPO 
+et un exemple jouet pour illustrer ce modèle.
+La version complètement observable ($\pi$-PDM)
+a généré plus de travaux \cite{Sabbadin2001287,Sabbadi00,LIP61498}.
 
 \section*{Description de notre étude}
 % Le sujet de la thèse
-This thesis contributes to determine
-to which extend Qualitative Possibility Theory 
-can contribute to \textit{planning under uncertainty
-in partially observable domains}, 
-and more generally to 
-\textit{sequential uncertainty management}, 
-in terms of computation simplification 
-and modeling. 
-It presents recent contributions 
-in the use of this theory
-for planning under uncertainty 
-and knowledge representation,
-with an almost systematic use of 
-graphical models 
+Cette thèse contribue à déterminer
+dans quelle mesure la thérie de possibilités qualitatives
+peut contribuer à la \textit{planification dans l'incertain dans des domaines partiellement observables}, 
+et plus généralement à la gestion séquentielle de l'incertitude, 
+en termes de simplification des calculs et de modélisation. 
+Elle présente de récentes contributions
+dans l'utilisation de cette théorie pour la planification dans l'incertain
+et la représentation des connaissances,
+avec une utilisation quasi systématique des modèles graphiques 
 \cite{Koller2009PGM1795555,Be2002.7,Borgelt02graphicalmodels}.
 
-The end of this introduction describes how this thesis is structured.
-Indeed, each of the following sections 
-corresponds to a chapter of our work
-and details its contents.
+La fin de cette introduction 
+décrit la structure de cette cette thèse.
+En effet, chacune des sections suivantes
+correspond à un chapitre de notre travaille,
+et détaille son contenu.
 
 %%%% SOTA
 \subsection*{\'Etat de l'Art}
-As probabilistic POMDPs and qualitative possibilistic ones 
-are the central objects of this thesis,
-the \emph{first chapter} presents these models
-starting from low level definitions.
-Most of the classical results presented 
-are accompanied by proofs
-making this thesis self-contained:
-this work is thus accessible 
-to all researchers 
-and students
-with basic mathematical competences, 
-even if they are not familiar 
-with alternative uncertainty theories,
-nor member of the \textit{planning under uncertainty} community.
-
-The first part of this chapter focuses on
-the classical (probabilistic) POMDP:
-it begins with the presentation of the less complex 
-fully observable case, called MDP.
-The well-know POMDP is then set up, 
-giving some formal results and proofs 
-that are sometimes hard to find in the literature. 
-This part ends with a review 
-about some of the most
-successful POMDP algorithms
-including the ones used in the next chapters. 
-
-The second part is naturally devoted to
-the qualitative possibilistic counterpart of the POMDP.
-It begins with a presentation of the Possibility Theory,
-with a specific focus on the qualitative version.
-It includes the qualitative counterparts of conditioning,
-and averaging.
-Finally, as all the needed theoretical tools have been presented,
-the fully observable model ($\pi$-MDP) can be defined,
-followed by the partially observable one ($\pi$-POMDP).
-As noted above, to the best of our knowledge,
-only one ten-paged paper has already dealt with
-the $\pi$-POMDPs: 
-the second part of this chapter is thus the first work 
-formally detailing the construction of this model.
-
-Note that the notations and the terminology 
-set up in this initial chapter,
-and thus used throughout this thesis,
-are those classically used in the POMDP framework:
-it should make our work more readable to the POMDP community 
-or more generally to the probabilistic community.
-Moreover, dedicating 
-this first chapter 
-to a formal presentation of 
-the probabilistic and the qualitative possibilistic models
-is meant to highlight their common structure.
+Les PDMPO qualitatifs et possibilistes 
+constituent l'objet central de cette thèse:
+le \emph{premier chapitre} est consacré à ce modèle.
+Une présentation rapide de la théorie des possibilités qualitatives
+est suivie de la présentation du modèle entièrement observable ($\pi$-PDM),
+puis du modèle partiellement observable ($\pi$-PDMPO).
+Comme noté précédemment, à notre connaissance,
+seulement un article de dix pages a déjà traité des $\pi$-POMDPs.
 
 %%% CHAP1
 \subsection*{Mises \`a jour naturelles du modèle possibiliste qualitatif}
-The \emph{second chapter} proposes several extensions 
-of the work \cite{Sabbadin1999pipomdp}.
-It begins with the presentation of some variants 
-of the qualitative criteria presented in the first chapter:
-the latter are related to the aggregations of the preferences over time,
-and to the chosen approach \textit{i.e.} pessimistic or optimistic.
+Le \emph{deuxième chapitre} propose quelques extensions
+au travail \cite{Sabbadin1999pipomdp}.
+Tout d'abord, est construite une version possibiliste qualitative
+des PDM à observabilité mixte \cite{OngShaoHsuWee-IJRR10,AraThoBufCha-ICTAI10}
+dans lesquels quelques variables d'état sont complètement observables. 
+Elle est appelée $\pi$-PDMMO et généralise à la fois les $\pi$-PDM et les $\pi$-PDMPO.
+Cette contribution réduit considérablement 
+la complexité de résolution des $\pi$-POMDPs, 
+en manipulant de manière plus fine l'information des environnements
+dont certaines variables sont complètement observables.
+Par exemple, le niveau de batterie d'un robot peut être considéré comme
+une information directement observable
+pour la prise de décision, menant à des calculs plus simples.
+Plus généralement, l'existence de variables visibles est très courant 
+en robotique \cite{OngShaoHsuWee-IJRR10}.
 
-A qualitative possibilistic version of the
-Mixed-Observable MDPs 
-\cite{OngShaoHsuWee-IJRR10,AraThoBufCha-ICTAI10},
-where some state variables are fully observable, 
-is then built.
-It is named $\pi$-MOMDP and generalizes both $\pi$-MDP and $\pi$-POMDP.
-This contribution reduces dramatically 
-the complexity of solving $\pi$-POMDPs, 
-while catching finer information about the environment
-some state variables of which are fully observable. 
-For instance, the battery level of a robot
-may be considered as directly observable information
-for decision making, leading to easier computations.
-More generally, the existence of visible variables 
-is common in robotics \cite{OngShaoHsuWee-IJRR10}.
+Ensuite, un critère qualitatif est proposé
+pour pouvoir traiter des missions 
+dont la durée n'est pas connue à l'avance:
+l'algorithme faisant le calcul de la stratégie optimale 
+associée est alors présenté.
+Cet algorithme est utilisé pour calculer une stratégie
+pour une mission de reconnaissance de cible:
+les résultats experimentaux comparent
+les exécutions utilisant cette stratégie
+à celles utilisant la stratégie d'un algorithme pour PDMPO probabiliste,
+dans des situations où la dynamique probabiliste des observations
+n'est en fait mal définie.
 
-Next, a qualitative criterion
-for missions with unbounded durations
-is proposed, along with
-an algorithm for computing the associated
-optimal strategy.
-This algorithm is used to
-compute a strategy 
-for a target recognition mission:
-experimental results compare 
-executions using this strategy to
-those using the strategy from a probabilistic algorithm, 
-in situations where the probabilistic dynamic of the observations 
-is actually not properly defined.
+Notons que ces résultats expérimentaux 
+constituent, à notre connaissance, 
+la première utilisation du cadre $\pi$-PDMPO.
+Ils mettent aussi en évidence que l'état de croyance possibiliste qualitatif
+a un comportement intéressant, 
+dans certaines situations détaillées par la suite.
+Les principale contributions de ce chapitre
+ont été publiés dans \cite{Drougard13}.
+Il est souligné que les résultats expérimentaux
+n'auraient pas pu être effectués
+sans les deux premières contributions,
+qui permettent de ne pas fixer un horizon arbitraire
+et d'alléger les calculs.
 
-Note that this experiment is the first practical use
-of the $\pi$-POMDP framework
-to the best of our knowledge.
-It also highlights interesting behaviors
-of the qualitative possibilistic belief state:
-they are then clarified theoretically 
-in the end of the chapter.
-
-The main contributions of this chapter 
-have been published in \cite{Drougard13}.
-The experiments illustrate that 
-these contributions are necessary in practice.
-However they are not sufficient
-to reach a competitive computation time
-or to deal with realistic robotic problems:
-the orientation of the next chapter
-stems from this observation.
+Cependant, ces contributions ne sont pas suffisantes
+pour atteindre un temps de calcul compétitif,
+ou pour pouvoir traiter des problèmes robotiques réels:
+l'orientation du second chapitre est dictée par cette remarque.
 
 %%% CHAP2
 \subsection*{Modèles factorisés et algorithmes symboliques}
 
 %% INTRO
-The size of the robotic problem dealt with 
-in the previous chapter
-is small enough to allow the proposed algorithm 
-to compute a strategy within a reasonable amount of time.
-The contributions of the \emph{third chapter}
-are meant to make computations possible 
-for larger structured planning problems. 
+Les problèmes robotiques traités dans le chapitre précédent
+sont assez petits pour permettre à l'algorithme proposé
+de calculer une stratégie
+en un temps raisonnable.
+Les contributions du \emph{troisième chapitre}
+permettent la résolution de problèmes structurés de planification
+plus importants.
 
 %% PPUDD and factored models
-The first part of this chapter 
-proposes a definition 
-for the \textit{factored $\pi$-MOMDPs}:
-additional independence assumptions 
-are provided to these processes --
-in a qualitative possibilistic sense,
-as defined in the first chapter.
-Large planning problems satisfying these assumptions 
-can be solved more easily:
-building upon the probabilistic 
-SPUDD algorithm \cite{Hoey99spuddstochastic},
-we conceived a possibilistic algorithm named PPUDD 
-for solving factorized $\pi$-MOMDPs
-using \textit{Algebraic Decision Diagrams} (ADD).
-The guess motivating this contribution 
-is that computations between ADDs 
-is less time and memory consuming
-when performed in the possibilistic framework 
-than in the probabilistic one:
-qualitative operations
-should lead to smaller ADDs
-when sum and product
-are replaced with $\min$ and $\max$ operators
-because the formers
-produce ADDs with potentially
-more leaves.
+La première partie de ce chapitre
+se propose d'introduire
+les \textit{$\pi$-PDMOM} factorisés:
+il sont définis par des hypothèses d'indépendance supplémentaires.
+Les grands problèmes de planification 
+satisfaisant ces hypothèses 
+peuvent être résolus plus facilement:
+inspiré par l'algorithme pour PDM probabilistes, 
+SPUDD \cite{Hoey99spuddstochastic},
+nous avons conçu un algorithme nommé PPUDD
+pour résoudre les $\pi$-PDMOMs factorisés 
+en utilisant des \textit{arbres de décision algébriques} (ADD).
+L'intuition motivant cette contribution,
+est que le calcul entre ADDs 
+est moins coûteux en temps et en mémoire
+dans le cadre qualitatif possibiliste %%%
+que dans le cadre probabiliste:
+les opérations qualitatives
+devraient mener à des ADDs plus petits
+puisque la somme et le produit
+sont remplacés par les opérateurs $\min$ et $\max$.
+Ces derniers produisent des ADDs
+avec potentiellement moins de feuilles,
+car ils ne créent pas de nouvelles valeurs.
 
 %% belief factorization
-Independence assumptions defining 
-a factored $\pi$-MOMDP 
-concern the variables encoding 
-successive belief states.
-Moreover variables defining a factored $\pi$-MOMDP
-are those representing 
-successive system states and observations.
-That is why, the following section
-of this chapter exhibits sufficient conditions 
-on the system state and observation variables
-leading to the desired independence 
-between belief state variables.
-A robotic example is used as an illustration
-of these conditions.
-As proofs use the graphical concept 
-called \textit{$d$-Separation} \cite{pearl88},
-these conditions also lead to the
-belief variable independence 
-in the probabilistic MOMDP framework.
+Les hypothèses d'indépendance définissant
+le modèle $\pi$-PDMOM factorisé 
+concerne les variables 
+représentant les croyances successives.
+De plus, les variables définissant un
+$\pi$-PDMOM sont celles représentant
+les états du système et les observations.
+C'est pourquoi la section qui suit dans ce chapitre
+propose des conditions suffisantes
+sur les variables d'état et d'observation
+menant aux indépendances désirées
+entre les variables de croyances.
+Un exemple robotique est utilisé en guise
+d'illustration de ces conditions.
+Puisque les preuves utilisent le concept
+graphique appelé \textit{$d$-Séparation} \cite{pearl88},
+ces conditions mènent aussi à l'indépendance des 
+variables de croyance dans le cadre des
+PDMOM probabilistes.
  
 %% first tests, larger robotic missions  
-Performances of our solver PPUDD 
-are next compared to
-those of its probabilistic counterparts, 
-in terms of computation time, 
-and with quality criteria measuring 
-some mission achievement metrics. 
-Finally, the last part of this chapter
-describes the results of PPUDD 
-at the 2014 International Probabilistic 
-Planning Competition\footnote{\url{https://cs.uwaterloo.ca/~mgrzes/IPPC_2014/}}.
-We participated in the competition
-in order to test the performances
-of our algorithm
-against probabilistic ones,
-in terms of expected reward gathering,
-with various
-probabilistic planning problems. 
+Les performances de notre solver PPUDD
+sont ensuite comparées à ceux des homologues probabilistes,
+en termes de temps de calcul
+et avec quelques critères mesurant 
+la réussite de la mission.
+Enfin, la dernière partie de ce chapitre
+décrit les résultats de PPUDD
+lors de la compétition internationale
+de planification probabiliste\footnote{\url{https://cs.uwaterloo.ca/~mgrzes/IPPC_2014/}}.
+Nous avons participé à la compétition
+dans le but de tester les performances de l'algorithme
+contre celles des algorithmes probabilistes,
+en terme d'espérances de la somme des récompenses,
+sur de nombreux problèmes de planification.
 
-Some contributions of this chapter 
-have been published in 
-\cite{DrougardTFD14}.
-The various planning problems
-of the competition also highlight 
-some issues of our algorithm
-when used to find an approximate strategy
-for a probabilistic problem
-in order to
-benefit from qualitative computations
-which are simpler.
-Although modeling points are part of these issues,
-the next chapter shows that 
-a possibilistic approach
-is very useful 
-where only qualitative
-data are available.
-The approach proposed in the final chapter 
-takes into account 
-the highlighted modeling issues.
-Moreover, time can be entirely consumed 
-before actual computations of PPUDD begin,
-when loading ADDs encoding some 
-high dimensional planning problems:
-memory issues are also observed in practice.
-MDP algorithms using state space search
-\cite{KellerE12,KolobovMW12} 
-do not face these issues due to ADD-encoding of MDP instances.
-%%%%%%%%% 
-They can be used to solve
-the problem resulting from 
-the last chapter.
-The latter focuses on 
-the belief state management,
-and proposes a hybrid POMDP
-technically resulting in a
-classical probabilistic MDP.
-
-%%% CHAP3
-\subsection*{Un processus qualitatif possibiliste pour la modélisation de l'intéraction homme-machine}
-%%% why? qualitative info only
-The \emph{fourth chapter} deals with
-situations where probability distributions
-are clearly not available:
-the managed problem comes from the work
-\cite{SERGIOTHESIS} and is a joint work with the author,
-Sergio Pizziol, working in the field of 
-\textit{Human-Machine Interactions} (HMI).
-In systems representing human behavior 
-in certain situations,
-for instance interacting with a control panel
-of an aerial vehicle,
-a sufficient amount of statistical data is lacking,
-especially concerning the human operator's state of mind:
-only expert knowledge can be used in practice
-as no frequentist information about the problem
-is available.
-
-%% like with previous processes
-In this chapter, used processes 
-are similar to those
-studied in the previous chapters:
-the only difference is that actions 
-are not chosen anymore, but used as observations
-to infer the state of the human-machine system.
-This process is called \textit{qualitative possibilistic Hidden Markov Process}
-($\pi$-HMP).
-
-This process is used as a tool
-to produce diagnosis for
-HMI systems: machine state 
-and human actions are called \textit{occurrences},
-and the possible transitions of the system
-are called \textit{effects}.
-After the model construction 
-describing the problem in terms
-of occurrences and effects
-from expert qualitative data
-and the machine model,
-the human assessment of the situation can be estimated.
-The proposed model can also detect
-human assessment errors, 
-and produce a diagnosis for them.
+Certaines contributions de ce chapitre
+ont été publiées dans \cite{DrougardTFD14}.
+Les nombreux problèmes de planification de la compétition
+mettent aussi en évidence 
+quelques problèmes liés à notre algorithme,
+lorsqu'il est utilisé pour approximer
+le calcul d'une stratégie
+pour un problème probabiliste
+dans le but de bénéficier de
+calculs qualitatifs
+qui sont plus simples.
+De plus, bien que notre algorithme est meilleur que certains
+algorithmes utilisant des ADDs (notamment sont homologue direct, SPUDD),
+les algorithmes de la compétition utilisant des recherches dans l'espace d'état
+\cite{KellerE12,KolobovMW12} obtiennent de meilleurs résultats.
+L'approche proposée dans le dernier chapitre
+prend en compte ces problèmes. 
 
 %%% CHAP4
 \subsection*{Approche probabiliste et possibiliste: une perspective hybride}
-The last chapter of this thesis
-persists to show the possible 
-improvement of the POMDP framework
-using the qualitative possibility theory,
-especially for the belief state management.
-It also takes into account the issues
-highlighted in the third chapter.
+Le dernier chapitre de cette thèse
+persiste à montrer les possibles améliorations
+du cadre PDMPO, avec l'usage de la théorie de possibilités,
+en particulier pour la gestion de l'état de croyance.
+Il prend aussi en compte les problèmes soulevés dans le chapitre précédent.
 
-Indeed, the \emph{fifth chapter} 
-argues for a hydrid POMDP 
-with both probabilistic 
-and possibilistic settings
-coherently mixed up. 
-A new translation from POMDPs
-into Fully Observable MDPs is described here. 
-Unlike the classical translation
-presented in the first chapter, 
-the resulting problem state space is finite, 
-making probabilistic MDP solvers able to solve
-this simplified version 
-of the initial partially observable problem.
-Indeed, this approach encodes agent beliefs 
-with possibility distributions over states,
-leading to an MDP whose state space 
-is a finite set of epistemic states.
+En effet, le \emph{quatrième chapitre}
+propose un PDMPO hybride
+avec des données probabilistes et possibilistes 
+regroupées de manière cohérente.
+Une nouvelle manière de traduire un PDMPO en
+PDM entièrement observable est décrite ici.
+Contrairement à la traduction classique,
+l'espace d'état résultant est fini,
+permettant aux algorithmes de résolution des PDM
+de résoudre cette version simplifiée
+du problème partiellement observable initial.
+En effet, cette approche représente les états de croyance de l'agent
+avec des distributions de possibilité sur les états,
+menant à un PDM dont l'espace d'état
+est un ensemble fini d'états épistémiques.
 
-Additional simplifications of the computations
-are described for \textit{factored POMDPs} \cite{Sim2008SHS1620163.1620241,Williams05factoredpartially,
-Veiga14aaai,abs-1301-6719}, \textit{i.e.}
-POMDPs with a particular independence 
-structure.
-These last contributions have been published in
+Quelques simplifications des calculs
+sont enfin décrites pour les \textit{PDMPO factorisés} \cite{Sim2008SHS1620163.1620241,Williams05factoredpartially,
+Veiga14aaai,abs-1301-6719}, 
+\textit{i.e.} les PDMPO avec des structures d'indépendance particulières. 
+Ces dernières contributions ont été publiées dans
 \cite{DrougardDFT15}.
