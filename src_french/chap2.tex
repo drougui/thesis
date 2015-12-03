@@ -307,73 +307,83 @@ nous permettent de calculer la distribution de possibilité jointe:
 $\pi \paren{s_v',\beta_h' \sachant s_v,\beta_h,a} = \pi \paren{ X' \sachant X,a } = \min_{i=1}^{n} \pi \paren{ X_i' \sachant parents(X_i'),a}$,
 où, étant donné l'étape de temps $t$,
 les variables primées sont les variables concernant l'étape de temps $t+1$
-(next variables), and non-primed variables are current variables 
-(at time step $t$): for instance, 
-$X_i'$ is the notation for $X^i_{t+1}$,
-and $X_i$ the one for $X_t^i$.
-Thus, a factored $\pi$-MOMDP can be defined 
-with transition functions $T^i_a= \pi \paren{X_i' \sachant parents(X_i'),a }$ 
-for each action $a$ and variable $X_i'$
-(if transitions are assumed stationary).
+(variables suivantes), 
+et les variables non-primées sont les 
+variables courantes
+(à l'étape de temps $t$): 
+par exemple, 
+$X_i'$ est la notation pour $X^i_{t+1}$,
+et $X_i$ celle pour $X_t^i$.
+Ainsi, un $\pi$-PDMOM factorisé peut être défini
+par des fonctions de transitions 
+$T^i_a= \pi \paren{X_i' \sachant parents(X_i'),a }$ 
+pour chaque action $a$
+et chaque variable $X_i'$
+(si les transitions sont stationnaires).
 % such that $T^{a,i}(parents(X_i'),a,X_i') = \pi \paren{\mathbb{X}_i' \sachant parents(\mathbb{X}_i'),a }$.
 
-Each transition function can be compactly encoded in an Algebraic Decision
-Diagram (ADD) \cite{Bahar:1997:ADD}. 
-An ADD, as illustrated in Figure \ref{fig_ADDtransition}, 
-is a directed acyclic graph which compactly represents a
-real-valued function of binary variables, whose identical sub-graphs are
-merged and zero-valued leaves are not memorized. 
-The following notations are used to make it 
-explicit that we are working with symbolic functions encoded as ADDs:
+Chaque fonction de transition
+peut être représentée par un arbre de décision algébrique 
+(ADD) \cite{Bahar:1997:ADD}. 
+Un ADD, comme illustré dans la figure \ref{fig_ADDtransition}, 
+est un arbre représentant de manière compacte
+une fonction réelle de variables binaires, 
+dont les sous-graphes identiques sont confondus
+et les feuilles valant zéro ne sont pas mémorisées.
+Les notations suivantes
+sont utilisées pour rendre explicite
+le fait que nous travaillons avec des fonctions symboliques
+représentées par des ADDs:
 \begin{itemize}
-\item $\ovalbox{$\min$} \set{f,g}$ where $f$ and $g$ are 2 ADDs;
+\item $\ovalbox{$\min$} \set{f,g}$ où $f$ et $g$ sont deux ADDs;
 \item $\ovalbox{$\max$}_{X_i} f$ = $\ovalbox{$\max$} \set{ f^{X_i=0},f^{X_i=1} }$, 
 \end{itemize}
-which can be easily computed because ADDs are constructed on the basis of the 
-Shannon expansion: $f = \overline{X_i} \cdot f^{X_i=0} + X_i \cdot f^{X_i=1}$ 
-where $f^{X_i=1}$ and $f^{X_i=0}$ are sub-ADDs representing the positive and 
-negative Shannon cofactors (see Fig. \ref{fig_ADDtransition}). 
+qui peut être facilement calculé car les ADDs
+sont construit sur la base
+de l'expension de Shanon: $f = \overline{X_i} \cdot f^{X_i=0} + X_i \cdot f^{X_i=1}$ 
+où $f^{X_i=1}$ et $f^{X_i=0}$ 
+sont les sous graphes représentant
+les cofacteurs de Shanon positifs et négatifs 
+(\textit{cf.} figure \ref{fig_ADDtransition}). 
 
-The optimistic possibilistic update of dynamic programming, 
-\emph{i.e.} line \ref{VIupdate_OptAlgo} 
-of the Value Iteration Algorithm \ref{algorithmIVPIMDP} 
-in the previous chapter,
-(or line \ref{piMOMDP_VIupdate} of the VI Algorithm \ref{algorithmpiMOMDP} for $\pi$-MOMDPs)
+Le schéma de programmation dynamique, 
+\emph{i.e.} la ligne \ref{VIupdate_OptAlgo} 
+de l'algorithme d'itération sur les valeurs \ref{algorithmIVPIMDP} 
+du chapitre précédent,
 %equation of Line \ref{alg_piMDP_DP} of Algorithm \ref{algorithmIVPIMDP}
-can be rewritten in a symbolic form, so that states are
-now globally updated at once instead of individually: 
-denoting by $X=(X_1,\ldots,X_n)$ the current variable
-and $X'=(X_1',\ldots,X_n')$ the next one,
-the possibilistic Q-value of an action $a \in \mathcal{A}$
+peut être réécrite sous forme symbolique, 
+de telle sorte que les états soient
+globalement mis à jour en un coup,
+plutôt qu'individuellement:
+en notant $X=(X_1,\ldots,X_n)$ 
+la variable d'état courante
+et $X'=(X_1',\ldots,X_n')$ la suivante,
+la Q-valeur pour une action $a \in \mathcal{A}$
 %in a state $x \in \mathcal{X}$,
-is $\overline{q^a} = \overline{q^a}(X)= \ovalbox{$\max$}_{X'} \ovalbox{$\min$} \set{ \pi \paren{ X' \sachant X,a }, \overline{U^*}(X') }$.
-The computation of this ADD ($\overline{q^a}$) can be decomposed into independent computations 
-using the following proposition:
-\begin{Property}[Possibilistic regression of the Value Function]
+est $\overline{q^a} = \overline{q^a}(X)= \ovalbox{$\max$}_{X'} \ovalbox{$\min$} \set{ \pi \paren{ X' \sachant X,a }, \overline{U^*}(X') }$.
+Le calcul de cet ADD ($\overline{q^a}$) 
+peut être décomposé en plusieurs calculs 
+en utilisant la proposition suivante:
+\begin{Property}[Régression possibiliste de la fonction valeur]
 \label{propositionRegression}
-Consider the current value function
+Considérons la fonction valeur courante
  $\overline{U^*}: \set{\top,\bot}^n \rightarrow \mathcal{L}$. 
-For a given action $a \in \mathcal{A}$, let us define:
+Pour une action donnée $a \in \mathcal{A}$, 
+définissons :
 \begin{itemize}
 \item $\overline{q^a_0} = \overline{U^*}(X'_1,\cdots,X'_n)$, 
 \item $\overline{q^a_i} = \max_{X'_i \in \set{\top,\bot}} \min \Big\{ \pi \paren{X_i' \sachant parents(X_i'),a} , \overline{q^a_{i-1}} \Big\}$.
 \end{itemize}
-Then, the possibilistic Q-value of action $a$ is: $\overline{q^a} = \overline{q^a_n}$,
-which depends on variables $X_1,\ldots,X_n$,
-and the next value function is $\overline{U^*}(X_1,\ldots,X_n) = \max_{a \in \mathcal{A}} \overline{q^a_n}(X_1,\ldots,X_n)$.
+Alors, la  Q-valeur possibiliste d'une action $a$ est: 
+$\overline{q^a} = \overline{q^a_n}$,
+qui dépend des variables $X_1,\ldots,X_n$,
+et de la fonction valeur suivante, est $\overline{U^*}(X_1,\ldots,X_n) = \max_{a \in \mathcal{A}} \overline{q^a_n}(X_1,\ldots,X_n)$.
 \end{Property}
-The proof is given in Annex \ref{propositionRegression_RETURN}.
-Note that the same trick can be used to compute 
-pessimistic value functions,
-using the equation (\ref{equationmaxmin4}) of Property \ref{property_minmax}: 
-\begin{itemize}
-\item $\underline{q^a_0} = \underline{U^*}(X'_1,\cdots,X'_n)$, 
-\item $\underline{q^a_i} = \min_{X'_i \in \set{\top,\bot}} \max \Big\{ 1 - \pi \paren{X_i' \sachant parents(X_i'),a} , \underline{q^a_{i-1}} \Big\}$,
-\end{itemize}
-and next value function is $\underline{U^*}(X_1,\ldots,X_n) = \max_{a \in \mathcal{A}} \underline{q^a_n}(X_1,\ldots,X_n)$.
 
-The Q-value of action $a$, represented as an ADD, can be then 
-iteratively regressed over successive post-action state variables $X'_i ,
+La Q-valeur de l'action $a$, 
+représentée par un ADD,
+peut être alors calculée en plusieurs étapes,
+une pour chaque variable d'état suivante $X'_i,
 1 \leqslant i \leqslant n$. 
 \begin{figure}
 \centering
@@ -484,19 +494,20 @@ iteratively regressed over successive post-action state variables $X'_i ,
 \draw [dashed] (rrpX2) -- (rrL2);
 
 \end{tikzpicture}
-\caption{Symbolic regression of the current Q-value ADD combined with the transition ADD of Figure \ref{fig_ADDtransition}\\}
+\caption{Calcul symbolique de la Q-valeur courante sous forme d'un ADD: 
+elle est combiné à la fonction de transition
+représentée en ADD dans la figure \ref{fig_ADDtransition}\\}
 \label{fig_ADDregression}
 \end{subfigure}
-\caption{Algebraic Decision Diagrams for PPUDD}
+\caption{Arbre de décision algébrique pour PPUDD}
 \label{fig_ADD}
 \end{figure}	
-Figure \ref{fig_ADDregression} illustrates the possibilistic regression of the
-Q-value of an action for the first state variable $X_1$ and leads to the intuition that ADDs should be far 
-smaller in practice under possibilistic settings, since their leaves lie in $\mathcal{L}$ instead
-of $\mathbb{R}$, thus yielding more sub-graph simplifications.
+La figure \ref{fig_ADDregression}
+illustre les calculs possibilistes 
+effectués entre les arbres de décision algébriques (ADDs)
+pour calculer la Q-valeur d'une action.
 
-
-\begin{algorithm} \caption{PPUDD (infinite horizon resolution)} \label{PPUDD} 
+\begin{algorithm} \caption{PPUDD (calcul pour un horizon indéterminé)} \label{PPUDD} 
  $\overline{U^*} \gets 0$ ;
  $\overline{U^c} \gets \Psi$ ;
  $\overline{\delta} \gets \widehat{a}$ \;
@@ -516,54 +527,61 @@ of $\mathbb{R}$, thus yielding more sub-graph simplifications.
 \Return $\overline{U^*}$, $\overline{\delta^*}$ \;
 \end{algorithm}
 
-Algorithm \ref{PPUDD} is a symbolic version of the $\pi$-MOMDP Value Iteration Algorithm (Algorithm \ref{algorithmpiMOMDP} in the previous chapter),
-which relies on the regression scheme defined in Proposition
-\ref{propositionRegression}. Inspired by SPUDD \cite{Hoey99spudd:stochastic},
-PPUDD means \emph{Possibilistic Planning Using Decision Diagrams}. As for SPUDD,
-it needs to swap unprimed state variables to primed ones in the ADD encoding the
-current value function before computing the Q-value of an action $a$ (see Line
-\ref{ppuddSwap} of Algorithm \ref{PPUDD} and Figure \ref{fig_ADDregression}). This operation is required to
-differentiate the next state represented by primed variables from the
-current one when operating on ADDs. Lines \ref{ppuddBeginQ}-\ref{ppuddEndQ} apply
-Proposition \ref{propositionRegression} and correspond to Line
-\ref{VIupdate_OptAlgo} of Algorithm \ref{algorithmIVPIMDP}.
+L'algorithme \ref{PPUDD}
+est une version symbolique
+de l'algorithme d'itération sur les valeurs
+pour $\pi$-PDM \ref{algorithmIVPIMDP} dans le chapitre précédent),
+qui utilise le schéma de régression défini
+dans la proposition \ref{propositionRegression}. 
+Inspiré de SPUDD \cite{Hoey99spuddstochastic},
+PPUDD signifie \emph{Possibilistic Planning Using Decision Diagrams}. 
+Comme pour SPUDD,
+l'action de transformer les variables non primées
+en variables primées est nécessaire à chaque itération
+(\textit{cf.} ligne \ref{ppuddSwap} de l'algorithme \ref{PPUDD} 
+et figure \ref{fig_ADDregression}). 
+Cette opération sert à différentier les états suivants des états courants
+lors des opérations entre les ADDs. 
+Les lignes \ref{ppuddBeginQ}-\ref{ppuddEndQ} 
+appliquent la proposition \ref{propositionRegression} 
+et correspond à la ligne
+\ref{VIupdate_OptAlgo} de l'algorithme \ref{algorithmIVPIMDP}.
 
-We mentioned at the beginning of this section 
-that belief state space $\Pi^{\mathcal{S}_h}_{\mathcal{L}}$
-could be described by $\lceil \log_2 K \rceil$ binary variables where $K=\#
+Nous avons mentionné au début de la section
+que l'espace de états de croyance $\Pi^{\mathcal{S}_h}_{\mathcal{L}}$
+pourrait être décrit par $\lceil \log_2 K \rceil$ 
+variables binaires où $K=\#
 \mathcal{L}^{\#\mathcal{S}_h} - (\# \mathcal{L}-1)^{\# \mathcal{S}_h}$. 
-However, this $K$ can be
-very large so we propose 
-in the next section a method to exploit the
-factorization of $\mathcal{S}_h$ and $\mathcal{O}_h$ 
-in order to factorize $\Pi^{\mathcal{S}_h}_{\mathcal{L}}$
-itself into small belief subvariables, which will decompose the possibilistic
-transition ADD into an aggregation of smaller ADDs.
-Note that PPUDD can solve $\pi$-MOMDPs even if this belief factorization is not 
-feasible, but it will manipulate larger ADDs.
+Cependant, ce $K$ peut être très grand,
+ainsi nous proposons
+dans la section qui suit,
+une méthode pour exploiter la factorisation
+de $\mathcal{S}_h$ et $\mathcal{O}_h$
+dans le but de factoriser $\Pi^{\mathcal{S}_h}_{\mathcal{L}}$
+en plusieur variables, 
+ce qui décomposera les ADDs de transition
+en plus petits ADDs facilement manipulables.
+Notons que PPUDD peut résoudre les $\pi$-PDMOM
+même si cette factorisation de la croyance n'est pas
+possible, mais les ADDs manipulés sont plus gros dans ce cas.
 
-The previous chapter highlight that 
-a pre-treatment is required to translate
-a $\pi$-MOMDP into a $\pi$-MDP whose state space is $\mathcal{X}$.
-We can then reason on the state space accessible to the agent 
-$\mathcal{X} = S_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}}$ and
-solve the $\pi$-MOMDP as a $\pi$-MDP.
-Next section links the structured properties of a $\pi$-MOMDP,
-concerning dependencies of original variables (visible, hidden and observation ones), 
-to the factorization of the treated problem \textit{i.e.} of the resulting $\pi$-MDP 
-on $S_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}}$ (concerning dependencies of visible and belief variables).
-
-Finally, we note that we could have used \emph{complete action diagrams} (CADs)
-introduced in \cite{St-aubin00apricodd:approximate}, 
-which directly encode the
-transition matrix of each action as a single ADD.
-On one hand, CADs are simpler
-to manipulate than a set of transition ADDs for each state variable, 
-and can deal with correlated action effects. On the other hand,
-they require operating larger ADDs while preventing intermediate simplifications that are yet
-offered by reasoning about separate state variables as we do (Lines
-\ref{ppuddBeginQ}-\ref{ppuddEndQ} of Algorithm \ref{PPUDD}) or SPUDD does
-\cite{Hoey99spudd:stochastic}.
+Le chapitre précédent met en évidence qu'un prétraitement
+est nécessaire
+pour traduire un
+$\pi$-PDMOM en un $\pi$-PDM dont l'espace d'état est $\mathcal{X}$.
+Nous pouvons alors raisonner sur l'espace d'état
+entièrement observable pour
+l'agent $\mathcal{X} = S_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}}$
+et résoudre le $\pi$-PDMOM en tant que $\pi$-MDP.
+La section suivante fait le lien entre les propriétés structurelles
+d'un $\pi$-PDMOM,
+concernant les dépendences des variables originales 
+(visibles, cachées et d'observation), 
+à la factorisation du problème traité 
+\textit{i.e.} du $\pi$-PDM
+résultant, défini sur l'espace d'état $S_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}}$:
+la factorisation résultante concerne alors 
+les dépendances des variables visibles et des variables de croyance).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -574,105 +592,129 @@ offered by reasoning about separate state variables as we do (Lines
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Factorisation de la variable de croyance d'un $\pi$-PDMOM}
-%\subsection{Possibilistic Bayesian Networks and Independences}
-%\subsection{The $\pi$-MOMDP case}
-Factorizing the belief variable requires three structural assumptions on the 
-$\pi$-MOMDP's DBN, which are illustrated by the Rocksample benchmark 
-\cite{Smith:2004:HSV:1036843.1036906}.
+
+La factorisation de la variable de croyance 
+requiert trois hypothèse d'indépendance
+sur les variables du $\pi$-PDMOM, 
+qui sont illustrées à travers le problème classique \textit{Rocksample} 
+\cite{Smith:2004HSV1036843.1036906}.
 \subsection{Exemple de motivation}
 \label{section_RS_motivatingEx}
-A rover navigating in a $g \times g$ grid has to collect scientific samples from 
-interesting (``good'') rocks among $R$ ones and then to reach the exit.
+Un robot se déplaçant sur une grille $g \times g$ 
+doit collecter des échantillons scientifiques 
+à partir de pierres dites intéressantes (``bonne'') pierres
+parmi $R$ pierres, et enfin d'atteindre la sortie de la grille.
 % It is 
 %equipped with a noisy long-range sensor that can be used to determine if a rock 
 %is ``good'' or not.
-It knows the locations of the $R$ rocks $(x_i,y_i)_{i=1}^R$ 
-but not which ones are actually of interest (called ``good'' rocks). 
-However, sampling a rock is expensive: 
-the rover is equipped with a noisy long-range sensor that can be used to determine 
-if a rock is ``good'' or not (``bad''). 
-When a rock is sampled, 
-it becomes (or stays) ``bad'' (no more interesting). 
-At the end of the mission, the rover has to reach the exit location at the right side of the grid:
-\begin{itemize}
-\item $\mathcal{S}_{v}$ consists of all the possible locations of the rover %$(x_r,y_r)$ 
-in addition to the exit ($\# \mathcal{S}_v = g^2 +1$);
-\item $\mathcal{S}_h$ consists of all the possible natures of the rocks:
+Il connait les positions des $R$ pierres $(x_i,y_i)_{i=1}^R$
+mais pas lequelles sont intéressantes 
+(appelées les ``bonnes'' pierres).
+Cependant, échantillonner une pierre coûte cher:
+le robot est donc équipé d'un capteur 
+qu'il peut utiliser that can be used to déterminer 
+si une pierre est ``bonne'' ou non (``mauvaise''). 
+Lorsqu'une pierre est échantillonnée,
+elle devient (ou reste) ``mauvaise'' 
+(plus intéressante scientifiquement). 
+A la fin de la mission, le robot doit atteindre la position de sortie de la grille 
+à droite de la grille:
+\begin{itemize} 
+\item $\mathcal{S}_{v}$ représente l'ensemble des positions possibles du robot %$(x_r,y_r)$
+en plus de la sortie ($\# \mathcal{S}_v = g^2 +1$);
+\item $\mathcal{S}_h$ représente l'ensemble des natures possibles de chacune des pierres:
 $\mathcal{S}_h = \mathcal{S}^1_h \times \ldots \times \mathcal{S}^R_h$,
-with $\forall 1 \leqslant i \leqslant R$, $\mathcal{S}^i_h=\set{ good,bad }$;
-\item $\mathcal{A}$ contains the (deterministic) moves in the $4$ directions ($a_{north},a_{east},a_{south},a_{west}$)
-, checking rock $i$, ($a_{check_i}$) 
+avec $\forall 1 \leqslant i \leqslant R$, $\mathcal{S}^i_h=\set{ bonne,mauvaise }$;
+\item $\mathcal{A}$ contient les déplacements (déterministes) dans les $4$ directions ($a_{north},a_{east},a_{south},a_{west}$),  
+tester la pierre numéro $i$, ($a_{check_i}$) 
 $\forall 1 \leqslant i \leqslant R $, 
-and sampling the current rock, ($a_{sample}$);
-\item $\mathcal{O} = \set{ o_{good},o_{bad} }$ are the possible sensor's answers for the current rock. 
+et échantillonner la pierre courante, ($a_{sample}$);
+\item $\mathcal{O} = \set{ o_{good},o_{bad} }$ sont les différentes réponses
+possibles des capteurs pour la pierre testée. 
 % $\mathcal{O}_{1} \times \ldots \times \mathcal{O}_{R}$ where $\forall 1 \leqslant i \leqslant R$, $\mathcal{O}_{i}=\set{ o_{good},o_{bad} }$ are observations concerning the $i^{th}$ rock. \\
 \end{itemize}
 
-The rationale behind observation dynamics is the following: 
-the more the rover is close to
-the checked rock, the better it observes its nature. 
-In the original
-probabilistic model, 
-the probability of a correct observation equals
-$\frac{1}{2}\paren{ 1 + e^{-c \sqrt{(x_r-x_i)^2 + (y_r-y_i)^2} }} $ with $c>0$.
- a constant (the smaller is $c$, the more effective is the sensor). 
-The rover gets the reward $+10$ (resp. $-10$) for each good (resp. bad) sampled rock, % $-10$ for each bad rock sampled,
-and $+10$ when it reaches the exit. 
+La dynamique des observations est la suivante: 
+plus le robot est proche de la pierre testée, 
+mieux il observe sa nature.
+Dans le problème probabiliste original,
+la probabilité d'une observation correcte
+est égale à
+$\frac{1}{2}\paren{ 1 + e^{-c \sqrt{(x_r-x_i)^2 + (y_r-y_i)^2} }} $ avec $c>0$,
+une constante (plus $c$ est petit, plus le capteur est efficace). 
+Le robot reçoit la récompense $+10$ (resp. $-10$) 
+pour chaque bonne (resp. mauvaise) pierre échantillonnée, % $-10$ for each bad rock sampled,
+et $+10$ lorsqu'il atteint la sortie de la grille. 
 
-In the possibilistic model, the observation function is approximated using a
-critical distance $d>0$ beyond which checking a rock is uninformative: $\pi
-\paren{ o_i' \sachant s_i',a,s_v } = 1$ $ \forall o_i' \in \mathcal{O}_{i} $.
+Dans cadre possibiliste, 
+la fonction d'observation
+est approximée en utilisant
+une distance critique au-delà 
+de laquelle tester une pierre n'est pas informatif:
+$\pi \paren{ o_i' \sachant s_i',a,s_v } = 1$ $ \forall o_i' \in \mathcal{O}_{i} $.
 %If the
 %rover is distant from the rock less than $d$, 
-The possibility degree of
-erroneous observation becomes zero if the robot stands at
-the checked rock, and least non zero possibility degree otherwise. Finally, 
-as possibilistic semantics does not allow sums of
-rewards, an additional visible state variable $s^2_v \in
-\set{ 1, \ldots, R }$ which counts the number of checked rocks is introduced. 
-The qualitative dislike of sampling is modeled as $\Psi(s)=\frac{R+2-s_{v}^{2}}{R+2}$
-if the location is terminal and zero otherwise. 
-%Preference $\Psi(s)$ equals qualitative dislike of sampling $\frac{R+2-s_{v,2}}{R+2}$ 
-%if all rocks are bad and location is terminal, zero otherwise.
-The location of the rover is finally denoted by $s^1_v \in \mathcal{S}^1_v$ and the visible state is then
+Le degré de possibilité d'une observation erronée
+devient zéro lorsque le robot se trouve sur
+la pierre testée, 
+et le plus petit degré de possibilité 
+non nul sinon. 
+Enfin, puisque la sémantique possibiliste ne permet
+pas de sommer les récompenses,
+une variable additionnelle
+$s^2_v \in
+\set{ 1, \ldots, R }$
+ est introduite:
+elle compte le nombre de pierres testées.
+L'aversion qualitative de l'échantillonage
+est défini par $\Psi(s)=\frac{R+2-s_{v}^{2}}{R+2} \in \mathcal{L}$
+si la position est la sortie,
+et zéro sinon.
+Enfin, la position du robot
+est notée $s^1_v \in \mathcal{S}^1_v$ 
+et donc la variable d'état visible 
+est finalement
 $s_v=(s^1_v,s^2_v) \in \mathcal{S}^1_v \times \mathcal{S}^2_v = \mathcal{S}_v$. 
 
-Observations $\set{ o_{good},o_{bad} }$ for the current rock can be equivalently 
-modeled as a Cartesian product of observations $\set{ o_{good_1},o_{bad_1} } \times \cdots \times \set{ o_{good_R},o_{bad_R} }$ 
-for each rock. By using this equivalent modeling, state and observation spaces 
-are both respectively factorized as 
-$\mathcal{S}^1_v \times \ldots \times \mathcal{S}^m_v \times \mathcal{S}^1_h \times \ldots \times \mathcal{S}^l_h $
- and $\mathcal{O} = \mathcal{O}^1 \times \ldots \times \mathcal{O}^l$, and we can now map each observation variable 
-$O^j \in \mathcal{O}^j$ to its hidden state variable $S^j_h \in \mathcal{S}^j_h$. 
-It allows us to reason 
-about the DBN of Figure \ref{fig_piMOMDPFact}, 
-which expresses three important assumptions 
-that will help us factorize the belief state itself:
+Les observations $\set{ o_{good},o_{bad} }$
+pour la pierre testée peuvent être modélisées de manière équivalente
+comme le produit cartésien des observations 
+$\set{ o_{good_1},o_{bad_1} } \times \cdots \times \set{ o_{good_R},o_{bad_R} }$ 
+pour chaque pierre.
+En utilisant cette modélisation,
+les espaces d'états et d'observations
+sont respectivement factorisés de la manière suivante,
+$\mathcal{S}^1_v \times \ldots \times \mathcal{S}^m_v \times \mathcal{S}^1_h \times \ldots \times \mathcal{S}^l_h $,
+et $\mathcal{O} = \mathcal{O}^1 \times \ldots \times \mathcal{O}^l$, 
+et nous pouvons maintenant associer une variable d'observation 
+$O^j \in \mathcal{O}^j$ à la variable d'état cachée correspondante $S^j_h \in \mathcal{S}^j_h$. 
+Cela permet de raisonner
+sur le DBN de la figure \ref{fig_piMOMDPFact}, 
+qui exprime trois hypothèses importantes
+qui nous permettrons de factoriser l'état de croyance: 
 \begin{enumerate}
-\item all state variables $S^1_v,S^2_v,\ldots,S^m_v,S^1_h,S^2_h,\ldots,S^l_h$ are post-action independent 
-variables, and the next visible variables do not depend on current hidden ones.
-Thus, there is no arrow between two state variables at the same time step, as $S^2_{v,t}$ and $S^1_{h,t}$,
-nor arrow from a current hidden variable to a next visible one, as $S^1_{h,t}$ and $S^1_{v,t+1}$;
-\item a hidden variable does not depend on previous other hidden variables: the nature of a rock is 
-independent from the previous nature of other rocks. 
-For instance, there is no arrow from $S^1_{h,t}$ to $S^2_{h,t+1}$;
-\item an observation variable is available for each hidden state variable,
-and depends on it. 
-It does not depend on other 
-hidden state variables 
-nor current visible ones, 
-but on previous visible state variables and action:
-for instance, there is no arrow between $S^1_{h,t+1}$ and $O^2_{t+1}$, 
-nor between $S^1_{v,t+1}$ and $O^1_{t+1}$. 
+\item toutes les variables d'état $S^1_v,S^2_v,\ldots,S^m_v,S^1_h,S^2_h,\ldots,S^l_h$ 
+sont indépendantes post-action, 
+et la variable d'état suivante ne dépend par des variables d'état cachées courantes.
+\item une variable cachée ne dépend pas d'autres variables d'état cachées précédentes: 
+la nature d'une pierre est indépendante de la nature 
+des autres pierres.
+\item une variable d'observation est disponible pour chaque variable d'état cachée,
+et dépend de cet état.
+Il ne dépend pas d'autres
+variables d'état cachées,
+où des variables visibles courantes,
+mais des variables visibles précédentes et de l'action choisie:
 \end{enumerate}
-Each observation 
-variable is indeed only related 
-to the nature of the corresponding rock. 
-The observation quality yet depends on the rover's location 
-\emph{i.e.} a current visible state variable, 
-not allowed by the DBN: 
-fortunately, as moves are deterministic, 
-we avoid this issue considering observations depend on previous location and action.
+Chaque variable d'observation
+est en effet seulement associée
+à la nature de la pierre correspondante.
+La qualité de l'observation dépend de la position du robot 
+\emph{i.e.} une variable d'état visible courante, 
+ce qui n'est pas autorisé par le DBN: 
+heureusement, puisque les déplacements sont déterministes,
+nous contournons le problème en considérant que cette qualité
+dépend de la position précédente et de l'action choisie.
 
 
 \begin{figure}[b!]\centering
@@ -850,297 +892,231 @@ we avoid this issue considering observations depend on previous location and act
 %\node (probas) at (8.9,0.5) [rotate=355] {$ \pi \paren{s_{t+1} \sachant s_t,a_{t}}$};
 
 \end{tikzpicture}
-\caption[DBN of a factored belief-independent $\pi$-MOMDP]{
-DBN summing up independence assumptions of a $\pi$-MOMDP
-leading to marginal beliefs and a $\pi$-MDP with 
-a factored transition function \textit{i.e.} a factored belief $\pi$-MDP.
-Parents of a visible state variable are the previous visible state variables.
-Parents of a hidden state variable are the previous visible state variables 
-and the corresponding previous hidden state variable. 
-Finally,
-parents of an observation variable are the previous visible state variables,
-and the corresponding current hidden state variable.
+\caption[DBN d'un $\pi$-PDMOM dont les variables de croyances peuvent être factorisées]{
+DBN résumant les hypothèse d'indépendance d'un $\pi$-PDMOM
+menant à des variables de croyances marginales 
+et un $\pi$-PDM avec
+une fonction de transition factorisée.
+Les parents d'une variable d'état visible sont les variables d'état visibles précédentes.
+Les parents d'une variable d'état cachée sont les variables d'état visibles précédentes
+et la variable d'état cachée précédente correspondante. 
+Enfin, les parents d'une variable d'observation
+sont les variables d'état visible précédentes,
+et la variables d'état cachée courante correspondante.
 }
 \label{fig_piMOMDPFact}
 \end{figure}
 
 \subsection{Conséquences des hypothèses de factorisation}
 \label{section_factoAssumptions}
-In this section, we formally demonstrate how the three previous independence assumptions can be
-used to factorize $\Pi^{\mathcal{S}_h}_{\mathcal{L}}$ 
-as the Cartesian product $\displaystyle \bigtimes_{j=1}^{l} \Pi^{\mathcal{S}^j_h}_{\mathcal{L}}$:
-indeed, the belief state $\beta_h$ about the hidden states $s_h \in \mathcal{S}_h$ 
-can be represented with marginal belief states $\beta^j_h \in \Pi^{\mathcal{S}^j_h}_{\mathcal{L}}$
-about hidden states $s^j \in \mathcal{S}^j_h$, $\forall j \in \set{1,\ldots,l}$.
+Dans cette section,
+nous présentons le résultat formel
+provenant des trois précédentes hypothèse:
+ce résultat est la factorisation de $\Pi^{\mathcal{S}_h}_{\mathcal{L}}$ 
+en le produit cartésien $\displaystyle \bigtimes_{j=1}^{l} \Pi^{\mathcal{S}^j_h}_{\mathcal{L}}$.
+En effet, l'état de croyance $\beta_h$
+à propos de l'état caché du système $s_h \in \mathcal{S}_h$ 
+peut être représenté des croyances marginales $\beta^j_h \in \Pi^{\mathcal{S}^j_h}_{\mathcal{L}}$
+sur les états cachés $s^j \in \mathcal{S}^j_h$, $\forall j \in \set{1,\ldots,l}$.
 
-To this end, we will use the \textit{d-Separation criterion} \cite{pearl88} 
-in order to show some independence between variables from the DBN.
-As explained in Section \ref{section_PPUDD}, 
-a DBN can be drawn from independence relations.
-Let us denote by $X \perp\!\!\!\perp Y \ \vert \ Z$
-the assertion ``$X$ is independent from $Y$ conditional on $Z$'':
-recall that for a given definition of the used independence relation,
-e.g. probabilistic, non interactivity (NI), or minimum based (M, causal) independence,
-the DBN is drawn such that for each node (variable) $X$,
+Le \textit{critère de d-Separation} \cite{pearl88}
+qui permet de montrer graphiquement des résultats d'indépendance
+à partir du DBN, se cache derrière les résultats fournis. 
+Comme expliqué en section \ref{section_PPUDD}, 
+un DBN peut être construit à partir de relations d'indépendances.
+Notons $X \perp\!\!\!\perp Y \ \vert \ Z$
+l'assertion ``$X$ est indépendant de $Y$ 
+conditionnellement à $Z$'':
+rappelons que pour une définition donnée de la relation d'indépendance 
+par exemple probabiliste, ou possibiliste causale,
+le DBN est construit de telle sorte que pour chaque variable $X$,
 $X \perp\!\!\!\perp nondescend(X) \ \vert \ parents(X)$.
-If the used independence relation obeys the \textit{semi-graphoids} axioms \cite{Pearl:1988:PRI:52121,DBLP:journals/corr/abs-1304-2379},
-the graphical criterion called d-Separation 
-can be used to identify some independences between variables of the DBN.
+Si l'indépendance utilisée obéit aux axiomes des  \textit{semi-graphoids} 
+\cite{Pearl1988PRI52121,DBLPjournals/corr/abs-1304-2379},
+le critère graphique appelé d-Separation 
+peut être utilisé pour identifier certaines indépendances sur le DBN.
+Ce critère est utilisé, par exemple, dans le cadre des probabilités dans le travail \cite{Witwicki13icaps}.
 
-This criterion is for instance used in probabilistic settings in \cite{Witwicki13icaps}.
-Recall that the M-independence is not symetric (see Section \ref{qualitative_indep}),
-and thus does not obey the axioms of semi-graphoids.
-However, the NI-independence leads to a semi-graphoid,
-as proved in \cite{delafonk}.
-
-Let us recall that M-independence implies NI-independence
-(see Theorem \ref{theorem_NIequivalence} of Section \ref{qualitative_indep}).
-The DBN of Figure \ref{fig_piMOMDPFact}
-represents M-independences between variables:
-thus the DBN representing NI-independences (which is not drawn in this work) 
-has potentially less arrows,
-\textit{i.e.} assumes potentially more independences 
-than the DBN representing the M-independences.
-Assuming that the DBN of Figure \ref{fig_piMOMDPFact} 
-represents NI-independences is a relaxation
-\textit{i.e.} we potentially forget some NI-independence assumptions
-by doing this assumption.
-However, all NI-independences proved using d-Separation criterion
-on the DBN are true.
-
-First of all, the DBN of Figure \ref{fig_piMOMDPFact} representing the M-independence assumptions,
-some probability distributions can be defined from the fact that each node is M-independent from its non-descendants
-conditional on its parents: given a time step $t \geqslant0$, an action $a_t \in \mathcal{A}$,
-and a current state $s = (s_{v,t},s_{h,t}) = (s^1_{v,t},\ldots, s^m_{v,t}, s^1_{h,t}, \ldots, s^l_{h,t}) \in \mathcal{S}$,
-\begin{itemize}
-\item $\forall i \in \set{ 1,\ldots,m }$, 
-the transition possibility distribution over the $i^{th}$ visible state variable $s^i_{v,t+1} \in \mathcal{S}^i_v$: 
+Tout d'abord, 
+le DBN de la figure \ref{fig_piMOMDPFact} 
+représentant des hypothèses d'indépendance causale
+la distribution de possibilité sur la variable d'état visible numéro $i$
+$s^i_{v,t+1} \in \mathcal{S}^i_v$ peut s'écrire: 
 \begin{equation}
 \label{EQ_possV}
 \pi \paren{ s^i_{v,t+1} \sachant s_{v,t}, a_t } = \Pi \paren{ S^i_{v,t+1} = s^i_{v,t+1} \sachant S_{v,t} = s_{v,t}, a_t   };
 \end{equation}
-\item $\forall j \in \set{ 1,\ldots,l }$, 
-the transition possibility distribution over the $j^{th}$ hidden state variable $s^j_{h,t+1} \in \mathcal{S}^i_h$: 
-\begin{equation}
-\label{EQ_possH}
-\pi \paren{ s^j_{h,t+1} \sachant s_{v,t}, s_{h,t}, a_t } = \Pi \paren{ S^i_{h,t+1} = s^i_{h,t+1} \sachant S_{h,t} = s_{h,t}, a_t   } ;
-\end{equation}
-\item $\forall j \in \set{ 1,\ldots,l }$, 
-the observation possibility distribution over the $j^{th}$ observation variable $o^j \in \mathcal{O}^i$: 
-\begin{equation}
-\label{EQ_possO}
-\pi \paren{ o^j_{t+1} \sachant s_{v,t}, s_{h,t+1}, a_t } = \Pi \paren{ O^j_{t+1} = o^j_{t+1} \sachant S_{v,t} = s_{v,t}, S_{h,t+1} = s_{h,t+1}, a_t }.
-\end{equation}
-\end{itemize}
-With these distributions, the dynamics of the process of a $\pi$-MOMDP
-respecting the assumptions of Figure \ref{fig_piMOMDPFact}
-is entirely defined.
 
-
-Let us define the information $i_t$ known by the agent at time step $t \geqslant 1$
-when the model is a ($\pi$-)MOMDP:
+Définissons l'information $i_t$
+connue par l'agent à l'étape de temps $t \geqslant 1$
+lorsque le modèle est un ($\pi$-)PDMOM:
  % of a $\pi$-MOMDP as: 
-$i_0 = \set{ s_{v,0} }$, and
-for each time step $t \geqslant 1$, 
+$i_0 = \set{ s_{v,0} }$, et
+pour chaque étape de temps $t \geqslant 1$, 
 $i_t = \set{ o_t,s_{v,t},a_{t-1},i_{t-1} }$:
-the corresponding variable is denoted by $I_t$.
-The next theorem shows that the current belief can be decomposed into 
-marginal belief states dependent on the current information $i_t$.
-\begin{theorem}[Independence of hidden state variables and marginal belief states]
+la variable correspondante est notée $I_t$.
+Le théorème suivant assure que l'état de croyance
+courant peut être décomposé
+en états de croyance marginaux
+dépendant de l'information courante.
+\begin{theorem}[Indépendance des variables d'état cachées sachant $i_t$]
 \label{thmSHind} 
-Consider a $\pi$-MOMDP described by the DBN of Figure \ref{fig_piMOMDPFact}.
-If initial hidden variables $S^1_{h,0}, \ldots,S^l_{h,0}$ are NI-independent, then at each time step $t>0$ 
-the belief over hidden states can be written as 
+Considérons un $\pi$-PDMOM décrit par le DBN de la figure \ref{fig_piMOMDPFact}.
+Si les variables d'état cachées initialesv$S^1_{h,0}, \ldots,S^l_{h,0}$ 
+sont indépendantes, alors à chaque étape de temps $t>0$
+l'état de croyance sur les états cachés
+peut s'écrire 
 \[ \beta_{h,t} = \displaystyle \min_{j=1}^{l} \beta^j_{h,t}\]
-with $\forall s \in \mathcal{S}^j_h$, $\beta^j_{h,t}(s) = \Pi \paren{ S^j_{h,t} = s \sachant I_t = i_t }$ the belief state 
-concerning hidden states of the set $\mathcal{S}^j_h$.
+avec $\forall s \in \mathcal{S}^j_h$, $\beta^j_{h,t}(s) = \Pi \paren{ S^j_{h,t} = s \sachant I_t = i_t }$ l'état de croyance marginal
+concernant les états cachés du système de l'ensemble $\mathcal{S}^j_h$.
 \end{theorem}
-The proof is given in Annex \ref{thmSHind_RETURN}.
 
-Thanks to the previous theorem, the state space accessible to the agent can now be rewritten as 
+Grâce au théorème précédent, 
+l'espace d'état visible
+par l'agent peut se réécrire 
 $\mathcal{S}^1_v \times \ldots \times
 \mathcal{S}^m_v \times \Pi^{\mathcal{S}^1_h}_{\mathcal{L}} \times \cdots \times \Pi^{\mathcal{S}^l_h}_{\mathcal{L}}$ 
-with $\Pi^{\mathcal{S}^j_h}_{\mathcal{L}}
+avec $\Pi^{\mathcal{S}^j_h}_{\mathcal{L}}
 \subsetneq \mathcal{L}^{\mathcal{S}^j_h}$. 
-The size of $\Pi^{\mathcal{S}^j_h}_{\mathcal{L}}$
-is $\#\mathcal{L}^{\#\mathcal{S}^j_h} - (\#\mathcal{L}-1)^{\#\mathcal{S}^j_h}$
-(see Equation \ref{equation_numberOfPossDistrib}). 
-If all state variables are binary,
-$\# \Pi^{\mathcal{S}^j_h}_{\mathcal{L}} = 2 \#\mathcal{L} - 1$ for all $1 \leqslant j \leqslant l$, so that 
+La taille de $\Pi^{\mathcal{S}^j_h}_{\mathcal{L}}$
+est $\#\mathcal{L}^{\#\mathcal{S}^j_h} - (\#\mathcal{L}-1)^{\#\mathcal{S}^j_h}$
+(s\textit{cf.} équation \ref{equation_numberOfPossDistrib}). 
+Si toutes les variables d'état sont binaires,
+$\# \Pi^{\mathcal{S}^j_h}_{\mathcal{L}} = 2 \#\mathcal{L} - 1$ pour tout $1 \leqslant j \leqslant l$, 
+de telle sorte que 
 $\# \mathcal{S}_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}} = 2^m (2
-\#\mathcal{L} - 1)^l$: contrary to probabilistic settings, {\bf hidden state variables
-and visible ones have a similar impact on the solving complexity}, i.e. both
-singly-exponential in the number of state variables. 
-In the general case, by noting 
+\#\mathcal{L} - 1)^l$: 
+contrairement au cadre probabiliste,
+{\bf les états cachés et les états visibles ont un impact
+similaire sur la complexité de résolution}, 
+\textit{i.e.} tous les deux simplement exponentiels 
+end le nombre de variables d'état. 
+Dans le cas général, en notant 
 $\kappa = \max\{\max_{1 \leqslant i \leqslant m} \# S_{v,i} , \max_{1 \leqslant j \leqslant l} \# S_{h,j}\}$, 
-there are $\mathcal{O}(\kappa^m (\# \mathcal{L})^{(\kappa - 1) l})$ 
-flattened belief states, which is indeed exponential in the
-arity of state variables too. 
+il y a $\mathcal{O}(\kappa^m (\# \mathcal{L})^{(\kappa - 1) l})$ 
+états de croyances, ce qui exponentiel en l'arité des variables d'état. 
 
-In Section \ref{section_piPOMDP} about $\pi$-POMDP, 
-the belief state variable 
-at time step $t \geqslant 0$ 
-is denoted by $B^{\pi}_{t}$,
-and its possible values are $\beta \in \Pi^{\mathcal{S}}_{\mathcal{L}}$.
-Now that $\Pi^{\mathcal{S}_h}_{\mathcal{L}}$ has been factorized,
-we can consider the \textit{marginal belief state variables}
-$B^{\pi,j}_{h,t}$, $\forall j \in \set{1,\ldots,l}$, 
-whose possible values are $\beta_h^j \in \Pi^{\mathcal{S}^j_h}_{\mathcal{L}}$,
-\textit{i.e.} belief states concerning hidden states $s^j \in \mathcal{S}^j_h$.
-We now want to show that successive variables 
-$S^1_{v,t},\ldots,S^m_{v,t},B^{\pi,1}_{h,t},\ldots,B^{\pi,l}_{h,t}$
-respect the assumptions of the DBN of
-Figure \ref{fig_piMDPFact},
-\textit{i.e.} are independent post-action variables,
-as successive variables $X^1_t, \ldots, X^n_t$.
-This result is based on Lemma
-\ref{lemBEL}, which shows how marginal belief state are actually updated. 
-
-\begin{Lemma}[Update of the marginal belief states]
-\label{lemBEL}
-At time $t \geqslant 0$, 
-if the system is in the visible state $s_{v,t} = (s^1_{v,t},\ldots,s^m_{v,t}) \in \mathcal{S}_v$,
-in the belief state over the $j^{th}$ hidden state $\beta^j_{h,t} \in \Pi^{\mathcal{S}^j_h}_{\mathcal{L}}$, 
-and if the agent selects action $a_t \in \mathcal{A}$ 
-and then gets observation $o^j_{t+1} \in \mathcal{O}^j$, 
-the update of the belief state about hidden system states $s^j \in \mathcal{S}^j_h$ is:
-\begin{equation} 
-\label{beliefUpdateJ} 
-\beta^j_{h,t+1}(s^j_{t+1}) = \left \{ 
-\begin{array}{cc} 
-\displaystyle 1 & \hspace{-1cm}  \mbox{ if }  \pi \paren{o^j_{t+1},s^j_{h,t+1} \sachant s_{v,t}, \beta^j_{h,t},a_t } = \pi \paren{o^j_{t+1} \sachant s_{v,t}, \beta^j_{h,t}, a_t } \\
- \pi \paren{o^j_{t+1},s^j_{h,t+1} \sachant s_{v,t}, \beta^j_{h,t}, a_t} & \mbox{ otherwise}. 
-\end{array} \right. 
-\end{equation}
-where $\pi \paren{ o^j_{t+1}, s^j_{h,t+1} \sachant s_v, \beta^j_h, a } $ is the notation for
-\[ \max_{s^j \in \mathcal{S}^j_h} \min \set{ \pi \paren{ o^j_{t+1} \sachant s_v, s^j_{t+1}, a} , \pi \paren{ s^j_{t+1} \sachant s_v, s^j, a}, \beta^j_h(s^j) }, \]
-using distributions (\ref{EQ_possH}) and (\ref{EQ_possO}),
-and \[ \pi \paren{ o^j_{t+1} \sachant s_v, \beta^j_h, a  } = \max_{s^j_{t+1} \in \mathcal{S}^j_h} \pi \paren{ o^j_{t+1}, s^j_{t+1} \sachant s_v, \beta^j_h, a }.\]
-\end{Lemma}
-The proof is given in Annex \ref{lemBEL_RETURN}.
-The associated \textbf{belief update function} is $\nu^j$:
+La \textbf{fonction de mise à jour de l'état de croyance marginal} est $\nu^j$:
 \[ \beta^j_{h,t+1} = \nu^j(s_{v,t},\beta^j_{h,t},a_t,o^j_{t+1}), \]
-which can be denoted by 
+Cette mise à jour peut se noter 
 \[ \beta^j_{h,t+1}(s^j_{h,t+1}) \propto^{\pi} \pi \paren{o^j_{t+1},s^j_{h,t+1} \sachant s_{v,t}, \beta^j_{h,t}, a_t} \]
-as it consists of the possibilistic normalization 
-of the joint possibility distribution over the $j^{th}$ hidden state variable
-and the $j^{th}$ observation.
+puisqu'elle normalise au sens possibiliste la distribution de possibilité jointe
+sur la variable d'état cachée et la variable d'observation qui ont le numéro $j$.
 
-Hence, the possibility degree that the marginal belief state variables $B^{\pi,j}_{h,t+1}$ is $\beta^j_{h,t+1} \in \Pi^{\mathcal{S}^j_h}_{\mathcal{L}}$
-conditional on $B^{\pi,j}_{h,t} = \beta^j_{h,t}$ and the action $a_t \in \mathcal{A}$, 
-can be computed:
+Ainsi, le degré de possibilité
+que la variable de croyance marginale  
+$B^{\pi,j}_{h,t+1}$ soit égale à $\beta^j_{h,t+1} \in \Pi^{\mathcal{S}^j_h}_{\mathcal{L}}$
+conditionnellement à $B^{\pi,j}_{h,t} = \beta^j_{h,t}$ 
+et l'action $a_t \in \mathcal{A}$, 
+peut se calculer:
 \begin{equation}
 \label{trans_marg_belief}
  \Pi \paren{ B^{\pi,j}_{h,t+1} = \beta^j_{h,t+1} \sachant S_{v,t} = s_{v,t}, B^{\pi,j}_{h,t} = \beta^j_{h,t}, a_t } = \max_{\substack{ o^j \in \mathcal{O}^j \mbox{ \tiny s.t. } \\ \nu^j(s_{v,t},\beta^j_{h,t},a_t,o^j) = \beta^j_{h,t+1}}} \pi \paren{ o^j \sachant s_{v,t}, \beta^j_{h,t}, a_t  }
 \end{equation}
-defining the transition possibility distribution of marginal belief states
+définissat la distribution de possibilité de transition
+des états de croyance marginaux
 $\pi \paren{ \beta^j_{h,t+1} \sachant s_{v,t}, \beta^j_{h,t}, a_t }$.
 
-Finally, Theorem \ref{thmVARind} relies on Lemma \ref{lemBEL} to ensure
-independence of all post-action variables of the belief $\pi$-MDP resulting from the factorization,
-conditional on the current state:
-this allows us to write the possibilistic transition function of the 
-belief-state $\pi$-MDP in a factorized form:
-\begin{theorem}[Factored expression of the transition possibility distribution]
+Enfin, le théorème \ref{thmVARind} nous assure que
+les variables du $\pi$-PDM résultant d'un tel $\pi$-PDMOM %% TODO
+indépendantes post-action conditionnellement à l'état courant du système:
+cela permet alors d'écrire
+la fonction de transition
+de ce $\pi$-PDM sous forme factorisée:
+\begin{theorem}[Expression factorisée de la distribution de possibilité de transition]
 \label{thmVARind}
-If independence assumptions of a $\pi$-MOMDP are described by the DBN of Figure \ref{fig_piMOMDPFact},
-then
+Si les hypothèses d'indépendance d'un $\pi$-PDMOM
+sont décrites par par le DBN de la figure \ref{fig_piMOMDPFact},
+alors
 $\forall \beta_{h,t}=(\beta^1_{h,t},\ldots,\beta^l_{h,t}) \in \Pi^{\mathcal{S}_h}_{\mathcal{L}}, 
 \beta_{h,t+1} = (\beta^1_{h,t+1},\ldots,\beta^l_{h,t+1}) \in  \Pi^{\mathcal{S}_h}_{\mathcal{L}}$, 
 $\forall (s_{v,t},s_{v,t+1}) \in (\mathcal{S}_v)^2$, 
 $\forall a_t \in \mathcal{A}$, \\
 $\pi \paren{ s_{v,t+1}, \beta_{h,t+1} \sachant s_{v,t}, \beta_{h,t}, a }$ 
 \[  = \displaystyle  \min \set{ \min_{i=1}^{m} \pi \paren{ s^i_{v,t+1} \sachant s_{v,t}, a_t } ,  \min_{j=1}^{l} \pi \paren{ \beta^j_{h,t+1} \sachant s_{v,t}, \beta^j_{h,t}, a_t  } }, \]
-where the transition possibility distributions of visible state variables is given in the equation (\ref{EQ_possV})
-and the one of marginal belief state variables in the equation (\ref{trans_marg_belief}).
+où la distribution de possibilité de transition
+des variables d'état visibles
+est donné par l'équation (\ref{EQ_possV})
+et celle des variables de croyance marginales
+par l'équation (\ref{trans_marg_belief}).
 \end{theorem}
-The proof is given in Annex \ref{thmVARind_RETURN}.
-Using this result, such a factorized expression of the transition possibility distribution
-allows to compute the value function with $n=m+l$ stages, 
-as described in the previous section:
-the $\pi$-MOMDP is indeed a factored $\pi$-MDP
-since variables $(S^1_v,\ldots,S^m_v,B^{\pi,1}_h,\ldots,B^{\pi,l}_h)$,
-can play the role of variables $X_1,\ldots,X_n$
-in Algorithm \ref{PPUDD}.	
+En utilisant ce résultat, 
+une telle expression factorisée
+de la distribution de possibilité de transition
+permet le calcul d'une fonction valeur avec $n=m+l$ étapes,
+comme décrit dans la section précédente:
+le $\pi$-PDMPO est en effet un $\pi$-PDM factorisé
+puisque les variables $(S^1_v,\ldots,S^m_v,B^{\pi,1}_h,\ldots,B^{\pi,l}_h)$,
+peuvent jouer le rôle des variables $X_1,\ldots,X_n$
+dans l'algorithme \ref{PPUDD}.	
 
-Note that Probability Theory does not make any difference between 
-causal independence (M-independence in Possibility Theory, see Definition \ref{def_mcond}) 
-and decompositional independence (NI-independence in Possibility Theory, see Definition \ref{def_NIindep}).
-Moreover, probabilistic independence relation obey the axioms of semi-graphoids:
-so previous independence results due to d-Separation are also true in probabilistic settings. 
-If independence assumptions between variables of a probabilistic MOMDP \cite{OngShaoHsuWee-IJRR10,AraThoBufCha-ICTAI10} are described 
-by the DBN of Figure \ref{fig_piMOMDPFact},
-then a similar factorization result can be deduced.
-The MDP built from such a probabilistic MOMDP is thus a factored MDP,
-with infinite state space.
+Notons que la relation d'indépendance probabiliste 
+satisfait les axiomes des semi-graphoids:
+ainsi, les résultats d'indépendance
+due à la d-Separation sont aussi vrai pour le cadre probabiliste.
+Si les hypothèse d'indépendance d'un PDMOM probabiliste \cite{OngShaoHsuWee-IJRR10,AraThoBufCha-ICTAI10} 
+sont décrit par le DBN de la figure \ref{fig_piMOMDPFact},
+alors une factorisation similaire en est déduite.
+Le PDM construit à partir d'un tel PDMOM probabiliste
+est donc un PDM factorisé, 
+dont l'espace d'état est infini.
 
-Previous theorems allow to express the transition distribution
-of the ($\pi$-)MDP resulting from a ($\pi$-)MOMDP
-with distributions which concern less variables.
-The value function update is then divided
-into $n=m+l$ stages in the possibilistic case, 
-as depicted by the \textit{for} loop of Algorithm \ref{PPUDD}.
-Qualitative possibilistic MOMDPs
-can however also be solved using ADDs
-even if the independence assumptions do not hold:
-in this case, one global transition distribution, 
-encoded as a big ADD concerning all variables $(S^1_v,\ldots,S^m_v,B^{\pi}_h)$ 
-is used, and the number of potential values $\beta_h \in \Pi^{\mathcal{S}_h}_{\mathcal{L}}$
-of the global belief state variable $B^{\pi}_h$
-increases exponentially with the number of hidden states: 
-$\# \Pi^{\mathcal{S}_h}_{\mathcal{L}} = \paren{\# \mathcal{L}}^{\# \mathcal{S}_h} - \paren{\# \mathcal{L} -1}^{\# \mathcal{S}_h}$
-(see Equation \ref{equation_numberOfPossDistrib}).
-Nevertheless, if the factorization of the transition distribution
-is possible,
-handled ADDs have less nodes
-and computations should be faster.
-These results are used in the next section to compute more efficiently
-optimal strategies of $\pi$-MOMDPs.
+Les théorèmes précédent permettent
+d'écrire la fonction de transition
+d'un ($\pi$-)PDM résultant d'un ($\pi$-)PDMOM
+avec des distributions qui concernent
+moins de variables.
+La fonction valeur 
+La mise à jour de la fonction valeur
+durant la programmation dynamique
+est alors divisée
+en $n=m+l$ étapes dans le cas possibiliste,
+comme décrit par la boucle \textit{for} de l'algorithme \ref{PPUDD}.
+Cette boucle permet de manipuler des ADDs
+qui ont moins de n½uds
+ce qui rend les calculs plus rapides en général.
+Ces résultats sont utilisés dans la section suivante
+afin de calculer de manière plus efficace
+les stratégies optimales d'un $\pi$-PDMOM structuré.
 
 \section{Résultats expérimentaux}
 \label{section_expe_PPUDD}
-The main expected advantages of using factored
-$\pi$-(MO)MDPs over their probabilistic counterparts are: 
-\begin{enumerate}
-\item values of ADDs are
-in the finite scale $\mathcal{L}$ rather than $\mathbb{R}$, so that the number of
-their leaves is at most $\#\mathcal{L} \ll 2^n$ (probabilistic models' ADDs can have
-up to $2^n$ leaves, where $n$ is the number of variables involved in the ADD);
-%available to the agent,
-%\textit{i.e.} visible state variables and variables representing belief states concerning the hidden ones; 
-\item $\pi$-MOMDPs boil down to factored \emph{finite}-state
-belief $\pi$-MDPs that can be solved by PPUDD assuming some independence
-assumptions on the underlying DBNs; 
-\item $\pi$-MOMDPs are in the same
-complexity class as $\pi$-MDPs \textit{if all hidden state variables are binary}
-(in probabilistic models, partially-observable problems are always in a higher
-complexity class). 
-\end{enumerate}
-Of course, we have to pay a price: namely, possibilistic models can be seen as approximations 
-of probabilistic ones 
-(except if probabilities in the model are not precisely known
-and uncertainty of the problem is better described in a qualitative form). 
-Yet, many state-of-the-art probabilistic
-algorithms are approximate, 
-e.g. MDP solver PROST \cite{DBLP:conf/aips/KellerE12} (based on UCT algorithm \cite{Kocsis:2006:BBM:2091602.2091633})
-and POMDP solvers described in Section \ref{section_SAalgo}.
-Our PPUDD algorithm, however, is exact.
-
-
+Les calculs sont beaucoup plus simples dans le cadre possibiliste,
+mais il fait évidemment en payer le prix:
+les modèles possibilistes peuvent être considérés
+comme des approximations
+de modèles probabilistes.
+Comme montré dans cette section,
+une approximation possibiliste en utilisant PPUDD
+peut mener à de meilleures stratégies,
+au sens probabiliste,
+que celles calculées par certain 
+algorithmes probabilistes
+lorsque la dimension du problème considéré
+rend les calculs insurmontables.
 
 \subsection{Missions Robotiques}
 
-We compared PPUDD on the \textit{Rocksample problem} (RS),
-described in Section \ref{section_RS_motivatingEx}, 
-against a recent probabilistic MOMDP planner, 
-APPL \cite{OngShaoHsuWee-IJRR10}, and a POMDP
-planner using ADDs, symbolic HSVI \cite{Sim2008SHS1620163.1620241}. Both
-algorithms are approximate and anytime, so we  decided to stop them when they
-reached a precision of $1$. 
-Figure \ref{figureRS1}, where problem instances
-increase with grid size and number of rocks, shows that APPL runs out of memory
-at the $8^{th}$ problem instance, symbolic HSVI at the $7^{th}$ one, while PPUDD
-outperforms them by many orders of magnitude. 
+Nous avons comparé PPUDD sur le problème \textit{Rocksample} (RS),
+décrit en section \ref{section_RS_motivatingEx}, 
+contre un récent planificateur probabiliste pour PDMOM, 
+APPL \cite{OngShaoHsuWee-IJRR10}, 
+et un planificateur pour PDMPO utilisant des ADDs, 
+symbolic HSVI \cite{Sim2008SHS1620163.1620241}.
+Ces deux algorithmes peuvent être arrêtés à n'importe quel moment, 
+et plus les calculs durent, 
+plus la stratégie calculée est performante:
+ainsi nous avons décidé d'arrêter 
+les calculs lorsque l'erreur d'approximation
+passe en-dessous de $1$.
+La figure \ref{figureRS1},
+où l'instance du problème 
+augmente avec la complexité du problème,
+montre que APPL déborde en mémoire à l'instance numéro $8$, 
+et symbolic HSVI à l'instance numéro $7$,
+tandis que PPUDD
+peut calculer une stratégie pour
+des instances beaucoup plus compliquées. 
 \begin{figure}\centering
 \begin{subfigure}[c]{.48\linewidth}
 \includegraphics[width=\linewidth]{RockSampleCompTime.pdf}
@@ -1153,63 +1129,57 @@ outperforms them by many orders of magnitude.
 \label{figureRS2}
 \end{subfigure}
 \vspace{0.5cm}
-\caption[PPUDD vs. APPL and symb-HSVI, RockSample problem]{PPUDD vs. APPL and symb HSVI on the RockSample problem: the $x$-axis represents indexes of problem instances, increasing with the problem sizes.}
+\caption[PPUDD vs. APPL and symb-HSVI, RockSample problem]{PPUDD vs. APPL and symb HSVI sur le problème RockSample: 
+l'axe des abscisse représente l'indice de l'instance du problème, 
+croissant avec la complexité de instance du problème.}
 \end{figure}
-Instead of precision, computation
-time of APPL can be fixed at PPUDD's computation time in order to compare their
-expected total rewards (using probabilistic model's rewards) 
-after they consumed the same CPU time. 
+Nous pouvons aussi fixer une durée de calcul
+aux algorithmes probabilistes utilisés:
+le temps de calcul d'APPL est alors fixé au temps de calcul de PPUDD,
+et les performances de leurs stratégies respectives
+sont comparées
+en terme d'espérance de la somme des récompenses 
+(et en utilisant les récompenses du modèle probabiliste). 
 %For PPUDD, we
 %simply evaluated with the probabilistic model the policy that was computed
 % under
 %possibilistic settings.
-Surprisingly, Figure \ref{figureRS2} shows that rewards gathered are higher with
-PPUDD than with APPL. The reason is that APPL is in fact an approximate
-probabilistic planner, which shows that our approach consisting in exactly
-solving an approximate model can outperform algorithms that approximately solve
-an exact model. 
-Moreover, exact POMDP planners are
-unable to scale to problems of the size of the RockSample ones.
-Finally, it is worth noting that probabilities of the
-observation model, which represent uncertainties of sensor outputs, may be
-difficult to precisely know in practice, in which case possibilistic models may
-be more physically accurate. 
-In fact for this example the policy produced by
-PPUDD is the best to get all possible rewards: this is essentially because the
-rover can be sure of a rock's nature checking 
-when it is on it.
+\'Etonnamment, la figure \ref{figureRS2} 
+montre que les récompenses récupérées 
+sont en moyenne plus grandes avec PPUDD
+qu'avec APPL.
+La raison est que APPL est en fait un planificateur 
+probabiliste qui cherche à raffiner une approximation durant le temps de calcul, 
+ce qui montre qui notre approche consistant à résoudre exactement
+un modèle approximé peut mieux fonctionner que de résoudre de manière approchée
+un modèle exact.
+Enfin, nous pouvons noter que les probabilités du modèle d'observation, 
+qui représente les incertitudes concernant les réponses des capteurs, 
+peut être difficile à connaître précisément en pratique,
+auquel cas les modèles possibilistes
+peuvent plus physiquement rigoureux.
 
-These results assured us that it was not unreasonable to present PPUDD
-in the International Probabilistic Planning Competition 2014,
-even though the computation of strategies for probabilistic problems 
-is not the initial vocation of this solver.
-The next section describes the competition context
-as well as the presented versions of PPUDD,
-and discusses the results of the different competitor solvers.
+Ces résultats nous ont permis de juger pertinent
+la participation de PPUDD
+à la compétition internationale de planification probabiliste 2014,
+même si le calcul de stratégie pour les modèles probabilistes
+n'est pas la vocation initiale de ce planificateur.
+La section suivante discute des résultats des différents solvers.
 
 \subsection{Compétition de planification probabiliste internationale 2014}
-% TODO TODO TODO TODO 
-% presentation de la compet 1
-% presentation des competiteurs
-% presentation de nos versions
-% MASK, ATPPUDD, description 
-% description des domains et en parallele, les resultats et commentaires
-% + citer depot \\
-
-%puis les 2 chaps suivants \\
-%puis intro/concl \\
-
-
-The fully observable track 
-of the International Probabilistic Planning Competition (IPPC) 
-allows to fairly compare performances of MDP solvers.
-The competitors' solvers have to compute 
-strategies for some problems 
-which are not known in advance.
-Given one of these problems, 
-solvers have a limited amount of time 
-to send actions to the competition server 
-which simulates the evolution of the system state:
+La session entièrement observable
+de la compétition internationale de planification probabiliste
+permet de comparer des planificateurs de PDM
+en garantissant les même ressources en terme de puissance de calcul
+et de temps de calcul
+à chacun des algorithmes participants.
+Les planificateurs compétiteurs doivent calculer
+des stratégies pour certains problèmes
+qui ne sont pas connus à l'avance. 
+\'Etant donné un de ces problèmes,
+les planificateurs ont un temps limité
+pour envoyer des actions à un serveur de la compétition
+qui simule l'évolution de l'état du système: %% TODO
 successive states are sampled by the competition server
 using the transition probability 
 distributions of the MDP defining the problem, 
@@ -1578,7 +1548,7 @@ Results of the International Probabilistic Planning Competition -- Fully Observa
 Finally, the two last domains, whose results are described in Figure \ref{figure_IPPC_TRI_WIL},
 are called \textit{Triangle Tireworld} and \textit{Wildfire}.
 Firt, ATPPUDD faces an unexplained bug for each instance of the \textit{Triangle Tireworld} domain:
-no trial is performed from the $5^{th}$ instance, and maximum $2$ trials are performed for other instances
+no trial is performed from numéro $5$ instance, and maximum $2$ trials are performed for other instances
 (which explains the poor score for each instance).
 As already mentioned for the \textit{Tamarisk} domain, 
 ADD instantiation takes too long for the last instances,
@@ -1588,17 +1558,6 @@ The last domain, called \textit{Wildfire}, leads to highly frequentist problems:
 it involves random fire starts. 
 That is why PPUDD and ATPPUDD strategies are not really efficient, 
 but not too distant from Symbolic LRTDP solver's results.
-
-%%%% TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-%%%% TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-%%%% TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-%%%% TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-%\section{Practical Implementation of the Algorithms using ADDs}
-%CUDD library
-%%%% TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-%%%% TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-%%%% TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
-%%%% TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
 
 
 \section{Conclusion} 
