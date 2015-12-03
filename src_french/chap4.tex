@@ -2,8 +2,8 @@
 JOHN:
 \textbf{Conclusion :}
 \begin{itemize}
-\item On a dÃ©veloppÃ© un modÃ¨le hybride
-\item On veut le tester sur un cas rÃ©el de robotique mobile avec vision artificielle
+\item On a développé un modèle hybride
+\item On veut le tester sur un cas réel de robotique mobile avec vision artificielle
 \end{itemize}
 ME:
 %\subsection{Cr\'eation d'un mod\`ele POMDP hybride}
@@ -24,15 +24,15 @@ POUR CELA:
 \textit{afin d'illustrer les performances de cet algorithme}
 \end{itemize}
 
-\subsection{POUR CHAP4 Consistance, PrÃ©servation de la prÃ©fÃ©rence et Transformations} \label{transf} 
+\subsection{POUR CHAP4 Consistance, Préservation de la préférence et Transformations} \label{transf} 
 POUR CHAPITRE 4: transfos!\\
 
-Cette vision donne une idÃ©e [trouver rÃ©fÃ©rences] de simulation (probabiliste) d'Ã©vÃ¨nements dont l'incertitude est modÃ©lisÃ©e en terme de possibilitÃ©s:
+Cette vision donne une idée [trouver références] de simulation (probabiliste) d'évènements dont l'incertitude est modélisée en terme de possibilités:
 \begin{itemize}
 \item[$\bullet$] Simuler $\alpha$ de loi uniforme sur $[0,1]$,
-\item[$\bullet$] Tirer uniformÃ©ment $\omega$ dans $\set{\omega \sachant \Pi(\omega) \geqslant \alpha}$
+\item[$\bullet$] Tirer uniformément $\omega$ dans $\set{\omega \sachant \Pi(\omega) \geqslant \alpha}$
 \end{itemize}
-Ainsi, la probabilitÃ© que l'Ã©vÃ¨nement $\omega$ se produise est
+Ainsi, la probabilité que l'évènement $\omega$ se produise est
 \begin{eqnarray}
 \nonumber \mathbf{p}(\omega) & = & \int_0^1 \mathbf{p} \paren{ \omega,\alpha} d \alpha \\
 \nonumber & =  & \int_0^1 \mathbf{p} \paren{ \omega \sachant\alpha} d \alpha \\
@@ -40,14 +40,14 @@ Ainsi, la probabilitÃ© que l'Ã©vÃ¨nement $\omega$ se produise est
 \nonumber & = & \sum_{i=1}^n \int_{\alpha_{i+1}}^{\alpha_i} \dfrac{\mathds{1}_{\paren{ \Pi(\omega) \geqslant \alpha_i}}}{ \# \set{ \omega' \in \Omega \sachant \Pi(\omega')\geqslant \alpha_i }} d \alpha \\
 \label{transf_simu} & = & \sum_{i=i_0 \vert \Pi(\omega)=\alpha_{i_0} }^n  \dfrac{\alpha_i-\alpha_{i+1}}{ \# A_i }
 \end{eqnarray}
-Nous retrouverons cette idÃ©e avec la transformation rÃ©versible $\Pi \leftrightarrow \mathbf{p}$ dans la section qui suit.
+Nous retrouverons cette idée avec la transformation réversible $\Pi \leftrightarrow \mathbf{p}$ dans la section qui suit.
 
 
-Il est essentiel de bien saisir que probabilitÃ©s et possibilitÃ©s ne modÃ©lisent pas la mÃªme facette de l'incertitude: une distribution de probabilitÃ© pourra bien exprimer l'alÃ©a, voire l'indÃ©cision (probabilitÃ© uniforme), et la thÃ©orie des possibilitÃ©s est idÃ©ale pour reprÃ©senter l'ignorance. Cela nous amÃ¨ne Ã  affirmer qu'une distribution de possibilitÃ© contient moins d'information qu'une distribution de probabilitÃ©. \\
+Il est essentiel de bien saisir que probabilités et possibilités ne modélisent pas la même facette de l'incertitude: une distribution de probabilité pourra bien exprimer l'aléa, voire l'indécision (probabilité uniforme), et la théorie des possibilités est idéale pour représenter l'ignorance. Cela nous amène à affirmer qu'une distribution de possibilité contient moins d'information qu'une distribution de probabilité. \\
 
-Cependant, ces mesures restent des Ã©valuations de l'incertitude, qui est un mÃ©lange des diffÃ©rentes facettes dont nous avons parlÃ©es. Nous remarquons aussi qu'elles coÃ¯ncident lors de la connaissance totale (1 pour l'Ã©vÃ¨nement certain, 0 pour les autres). Ces quelques Ã©lÃ©ments nous laissent penser que les deux mesures sont corrÃ©lÃ©es lorsqu'elles Ã©valuent le mÃªme phÃ©nomÃ¨ne. Sous cet angle de vue, nous souhaitons dÃ©finir des \textit{transformations} entre possibilitÃ©s et probabilitÃ©s qui prennent en compte ces dites corrÃ©lations. \\
-Des principes Ã  respecter permettent aux transformations $\mathbf{p} \leftrightarrow \Pi$ de garder un sens.\\
-Formellement, une mesure de possibilitÃ©  $\Pi$ sur $\Omega$ est Ã©quivalente Ã  la famille de mesures de probabilitÃ© $\mathcal{P}(\Pi)=\set{\mathbf{p} \in \Delta \Omega \sachant \forall A \subset \Omega, \ \mathbf{p}(A) \leqslant \Pi(A) }$ comme expliquÃ© dans \cite{DuPr1988.4}. Il paraÃ®t alors naturel de chercher des transformations respectant le principe de consistance.
+Cependant, ces mesures restent des évaluations de l'incertitude, qui est un mélange des différentes facettes dont nous avons parlées. Nous remarquons aussi qu'elles coïncident lors de la connaissance totale (1 pour l'évènement certain, 0 pour les autres). Ces quelques éléments nous laissent penser que les deux mesures sont corrélées lorsqu'elles évaluent le même phénomène. Sous cet angle de vue, nous souhaitons définir des \textit{transformations} entre possibilités et probabilités qui prennent en compte ces dites corrélations. \\
+Des principes à respecter permettent aux transformations $\mathbf{p} \leftrightarrow \Pi$ de garder un sens.\\
+Formellement, une mesure de possibilité  $\Pi$ sur $\Omega$ est équivalente à la famille de mesures de probabilité $\mathcal{P}(\Pi)=\set{\mathbf{p} \in \Delta \Omega \sachant \forall A \subset \Omega, \ \mathbf{p}(A) \leqslant \Pi(A) }$ comme expliqué dans \cite{DuPr1988.4}. Il paraît alors naturel de chercher des transformations respectant le principe de consistance.
 
 \begin{Def}[Principe de consistance]
 \label{consist}
@@ -62,8 +62,8 @@ Notons que
 \end{eqnarray*}
 et donc $\forall A \subset \Omega $, $\mathcal{N}(A) \leqslant \mathbf{p}(A)$. \\
 
-Le principe suivant parait encore plus Ã©vident: un Ã©vÃ¨nement est plus probable qu'un autre si et seulement si il est plus possible qu'un autre. L'ordre de prÃ©fÃ©rence induit par une distribution de possibilitÃ© est en fait la signification principale de cette distribution.
-\begin{Def}[Principe de la conservation de prÃ©fÃ©rence] 
+Le principe suivant parait encore plus évident: un évènement est plus probable qu'un autre si et seulement si il est plus possible qu'un autre. L'ordre de préférence induit par une distribution de possibilité est en fait la signification principale de cette distribution.
+\begin{Def}[Principe de la conservation de préférence] 
 \label{conserv_pref}
 \begin{equation*}
 \forall \omega_1, \omega_2 \in \Omega^2,   \hspace{1cm}  \mathbf{p}(\omega_1) > \mathbf{p}(\omega_2) \Leftrightarrow \Pi(\omega_1) > \Pi(\omega_2)
@@ -71,43 +71,43 @@ Le principe suivant parait encore plus Ã©vident: un Ã©vÃ¨nement est plus probabl
 \end{Def}
 Ces deux principes nous guideront dans la construction de la transformation que nous recherchons. \\
 \\
-\textbf{Une transformation naÃ¯ve} peut facilement nous venir Ã  l'esprit: \\
-nous rappelons que la normalisation utilisÃ©e en thÃ©orie des possibilitÃ©s est $\max_{\omega \in \Omega} \Pi(\omega) = 1$. Compte tenu des normalisations dans les deux thÃ©ories, une transformation pourrait Ãªtre: \\
+\textbf{Une transformation naïve} peut facilement nous venir à l'esprit: \\
+nous rappelons que la normalisation utilisée en théorie des possibilités est $\max_{\omega \in \Omega} \Pi(\omega) = 1$. Compte tenu des normalisations dans les deux théories, une transformation pourrait être: \\
 \begin{eqnarray*}
 \forall \omega \in \Omega, &  \Pi(\omega) = \dfrac{ \mathbf{p}(\omega) }{ \displaystyle \max_{\omega' \in \Omega} \mathbf{p}(\omega')}  \\
 & \mathbf{p}(\omega) = \dfrac{\Pi(\omega)}{\displaystyle \sum_{\omega' \in \Omega}\Pi(\omega')}  
 \end{eqnarray*}
-Il est Ã©vident que cette transformation respecte le principe de la conservation de prÃ©fÃ©rence \ref{conserv_pref}. Cependant, le contre-exemple suivant nous assure que le principe de consistance \ref{consist} n'est pas respectÃ© en gÃ©nÃ©ral: considÃ©rons 3 Ã©vÃ¨nements, ($\# \Omega=3$) et la distribution de probabilitÃ© $ \mathbf{p}(\omega_1)=0.9, \\  \mathbf{p}(\omega_2)= \mathbf{p}(\omega_3) =0.05$. \\
-Cette probabilitÃ© devient, par la transformation naÃ¯ve, la distribution de possibilitÃ© $ \Pi(\omega_1)=1, \Pi(\omega_2)=\Pi(\omega_3)=\frac{1}{18} $. \\
+Il est évident que cette transformation respecte le principe de la conservation de préférence \ref{conserv_pref}. Cependant, le contre-exemple suivant nous assure que le principe de consistance \ref{consist} n'est pas respecté en général: considérons 3 évènements, ($\# \Omega=3$) et la distribution de probabilité $ \mathbf{p}(\omega_1)=0.9, \\  \mathbf{p}(\omega_2)= \mathbf{p}(\omega_3) =0.05$. \\
+Cette probabilité devient, par la transformation naïve, la distribution de possibilité $ \Pi(\omega_1)=1, \Pi(\omega_2)=\Pi(\omega_3)=\frac{1}{18} $. \\
 Ainsi, \[ \Pi(\{ \omega_2 , \omega_3 \}) = \max(\Pi(\omega_2),\Pi(\omega_3)) = \frac{1}{18} < 0.1 = \mathbf{p}(\{ \omega_1,\omega_2  \})  \]
 donc cette transformation ne respecte pas le principe de consistance.
 \\
 
-Reprenons le calcul de \ref{transf_simu} qui est une transformation $\Pi \rightarrow \mathbf{p}$. Cette \textbf{transformation rÃ©versible} nous satisfera: elle est proposÃ©e dans ~\cite{ DuPr1983.2} et respecte les principes de consistance  \ref{consist} et de conservation de la prÃ©fÃ©rence \ref{conserv_pref}.\\
-Supposons que $\Omega = \{ \omega_1,\ldots,\omega_m \}$ avec $\Pi(\omega_1) \geqslant \Pi(\omega_2) \geqslant \ldots \geqslant \Pi(\omega_m)$. Nous rappelons que $\alpha_1,\ldots,\alpha_n$ sont les diffÃ©rentes valeurs prÃ©sentes dans la distribution de possibilitÃ©, triÃ©es par ordre dÃ©croissant. Nous rappelons aussi que $A_i=\set{\omega \in \Omega \sachant \Pi(\omega) \geqslant \alpha_i }$. Ainsi, pour $k \in \{1,\ldots,m\}$
+Reprenons le calcul de \ref{transf_simu} qui est une transformation $\Pi \rightarrow \mathbf{p}$. Cette \textbf{transformation réversible} nous satisfera: elle est proposée dans ~\cite{ DuPr1983.2} et respecte les principes de consistance  \ref{consist} et de conservation de la préférence \ref{conserv_pref}.\\
+Supposons que $\Omega = \{ \omega_1,\ldots,\omega_m \}$ avec $\Pi(\omega_1) \geqslant \Pi(\omega_2) \geqslant \ldots \geqslant \Pi(\omega_m)$. Nous rappelons que $\alpha_1,\ldots,\alpha_n$ sont les différentes valeurs présentes dans la distribution de possibilité, triées par ordre décroissant. Nous rappelons aussi que $A_i=\set{\omega \in \Omega \sachant \Pi(\omega) \geqslant \alpha_i }$. Ainsi, pour $k \in \{1,\ldots,m\}$
 \begin{eqnarray*}
 \mathbf{p}(\omega_k) & = & \sum_{i=i_0 \vert \Pi(\omega_k)=\alpha_{i_0} }^n  \dfrac{\alpha_i-\alpha_{i+1}}{ \# A_i } \\
 & = & \sum_{i=k}^m \dfrac{\Pi(\omega_i) - \Pi(\omega_{i+1})}{i}
 \end{eqnarray*}
-En effet, $\dfrac{\Pi(\omega_i) - \Pi(\omega_{i+1})}{i}$ est nul lorsque $\omega_i$ et $\omega_{i+1}$ ont la mÃªme possibilitÃ©. Les seuls termes de la derniÃ¨re somme qui sont non nuls sont ceux tels que $\Pi(\omega_i)-\Pi(\omega_{i+1})>0$, soit ceux du type $\dfrac{\Pi(\omega_{\#(A_i)})-\Pi(\omega_{\#(A_i)+1})}{\#(A_i)}$ pour $i \in \{1,\ldots,n \}$,  car $\omega_{\#(A_i)} \in A_i$ et $\omega_{\#(A_i)+1} \notin A_i$.
+En effet, $\dfrac{\Pi(\omega_i) - \Pi(\omega_{i+1})}{i}$ est nul lorsque $\omega_i$ et $\omega_{i+1}$ ont la même possibilité. Les seuls termes de la dernière somme qui sont non nuls sont ceux tels que $\Pi(\omega_i)-\Pi(\omega_{i+1})>0$, soit ceux du type $\dfrac{\Pi(\omega_{\#(A_i)})-\Pi(\omega_{\#(A_i)+1})}{\#(A_i)}$ pour $i \in \{1,\ldots,n \}$,  car $\omega_{\#(A_i)} \in A_i$ et $\omega_{\#(A_i)+1} \notin A_i$.
 \\
 
-Explicitons la transformation proposÃ©e:
+Explicitons la transformation proposée:
 Nous notons $\Omega= \set{\omega_1,\ldots,\omega_m}$, avec
 $\mathbf{p}(\omega_1) \geqslant \mathbf{p}(\omega_2) \geqslant \ldots \geqslant \mathbf{p}(\omega_m)$. \\
-Nous pouvons alors Ã©crire la transformation $\mathbf{p} \rightarrow \Pi$ comme suit:
+Nous pouvons alors écrire la transformation $\mathbf{p} \rightarrow \Pi$ comme suit:
 \begin{eqnarray}
 \label{transf_rev1} & \forall i \in \{1,\ldots,m-1 \} &  \Pi(\omega_i) = i.\mathbf{p}(\omega_i) + \sum_{j=i+1}^m \mathbf{p}(\omega_j)   \\
 \nonumber & & \mbox{ avec  } \Pi(\omega_m)=m.\mathbf{p}(\omega_m) 
 \end{eqnarray}
-De mÃªme si les $\omega \in \Omega$ sont tels que $\Pi(\omega_1) \geqslant \Pi(\omega_2) \geqslant \ldots \geqslant \Pi(\omega_m)$, la transformation rÃ©ciproque $\Pi \rightarrow \mathbf{p}$, Ã©quivalente Ã  \ref{transf_simu}, est alors:
+De même si les $\omega \in \Omega$ sont tels que $\Pi(\omega_1) \geqslant \Pi(\omega_2) \geqslant \ldots \geqslant \Pi(\omega_m)$, la transformation réciproque $\Pi \rightarrow \mathbf{p}$, équivalente à \ref{transf_simu}, est alors:
 \begin{eqnarray}
 \label{transf_rec} \forall i \in \set{1,\ldots,m} & \mathbf{p}(\omega_i) =\displaystyle \sum_{j=i}^m \dfrac{\Pi(\omega_j)-\Pi(\omega_{j+1})}{j} \\
 \nonumber \mbox{ avec la notation } &  \Pi(\omega_{m+1}) =0
 \end{eqnarray}
-VÃ©rifions que les deux formules sont Ã©quivalentes, puis montrons que les principes exposÃ©s prÃ©cÃ©demment sont bien vÃ©rifiÃ©s.
+Vérifions que les deux formules sont équivalentes, puis montrons que les principes exposés précédemment sont bien vérifiés.
 \begin{proof}
-Montrons que la premiÃ¨re formule implique la seconde. Tout d'abord, nous avons
+Montrons que la première formule implique la seconde. Tout d'abord, nous avons
  $\mathbf{p}(\omega_m) = \dfrac{\Pi(\omega_m)}{m} $ par la seconde ligne de \ref{transf_rev1}, et ainsi
 \begin{eqnarray*}
  \Pi(\omega_{m-1}) & = & (m-1) \mathbf{p}(\omega_{m-1}) + \mathbf{p}(\omega_m)  \\
@@ -116,7 +116,7 @@ Montrons que la premiÃ¨re formule implique la seconde. Tout d'abord, nous avons
  & = & \dfrac{\Pi(\omega_{m-1}) - \pi(\omega_m)}{m-1} + \dfrac{\Pi(\omega_m)}{m}
 \end{eqnarray*}
 
-Maintenant, supposons que pour $i_0 \in \set{2,\ldots,m-1}$ \ref{transf_rec} est vrai et montrons l'Ã©galitÃ© au rang $i_0-1$:
+Maintenant, supposons que pour $i_0 \in \set{2,\ldots,m-1}$ \ref{transf_rec} est vrai et montrons l'égalité au rang $i_0-1$:
 \begin{eqnarray}
 \nonumber \Pi(\omega_{i_0-1}) - \Pi(\omega_{i_0}) & = & (i_0-1). \mathbf{p}(\omega_{i_0-1}) + \sum_{j=i_{0}-1}^{m} \mathbf{p}(\omega_{j}) - i_0.\mathbf{p}(\omega_{i_0}) - \sum_{j=i_0}^m \mathbf{p}(\omega_j) \\
 \nonumber & = & (i_0-1). \mathbf{p}(\omega_{i_0-1}) - i_0.\mathbf{p}(\omega_{i_0}) + \mathbf{p}(\omega_{i_0-1}) \\
@@ -124,7 +124,7 @@ Maintenant, supposons que pour $i_0 \in \set{2,\ldots,m-1}$ \ref{transf_rec} est
 \label{cons_pref_poss_prob}  \Rightarrow  \mathbf{p}(\omega_{i_0-1}) & = & \mathbf{p}(\omega_{i_0}) + \dfrac{\Pi(\omega_{i_0-1}) - \Pi(\omega_{i_0})}{i_0 -1} \\
 \nonumber & = & \displaystyle \sum_{j=i_0-1}^m \dfrac{\Pi(\omega_j)-\Pi(\omega_{j+1})}{j} 
 \end{eqnarray}
-Montrons maintenant l'implication rÃ©ciproque: la seconde formule pour $i=m$ nous donne directement la seconde ligne de \ref{transf_rev1}. Puis,
+Montrons maintenant l'implication réciproque: la seconde formule pour $i=m$ nous donne directement la seconde ligne de \ref{transf_rev1}. Puis,
 \begin{eqnarray*}
 \mathbf{p}(\omega_{m-1}) & = & \sum_{j=m-1}^m \dfrac{\Pi(\omega_j) - \Pi(\omega_{j-1})}{j} \\
 & = & \dfrac{\Pi(\omega_{m-1}) - \Pi(\omega_{m})}{m-1} + \mathbf{p}(\omega_m) \\
@@ -133,32 +133,32 @@ Montrons maintenant l'implication rÃ©ciproque: la seconde formule pour $i=m$ nou
 & = & m\mathbf{p}(\omega_m) + (m-1) (\mathbf{p}(\omega_{m-1}) -\mathbf{p}(\omega_m)) \\
 & = & (m-1) \mathbf{p}(\omega_{m-1}) - \mathbf{p}(\omega_m)
 \end{eqnarray*}
-Maintenant, supposons que la premiÃ¨re formule (\ref{transf_rev1}) est vraie pour $i_0 \in \{ 2 , \ldots, m-1  \}$, et montrons qu'elle est vraie au rang $i_0-1$.
+Maintenant, supposons que la première formule (\ref{transf_rev1}) est vraie pour $i_0 \in \{ 2 , \ldots, m-1  \}$, et montrons qu'elle est vraie au rang $i_0-1$.
 \begin{eqnarray*}
 \mathbf{p}(\omega_{i_0-1}) - \mathbf{p}(\omega_{i_0}) & = & \dfrac{\Pi(\omega_{i_0-1}) - \Pi(\omega_{i_0})}{i_0-1} \\
 \Rightarrow \Pi(\omega_{i_0-1}) & = & \Pi(\omega_{i_0}) +  (i_0-1)(\mathbf{p}(\omega_{i_0-1}) - \mathbf{p}(\omega_{i_0})) \\
 & = &  i_0.\mathbf{p}(\omega_{i_0}) + \sum_{j=i_0+1}^m \mathbf{p}(\omega_j) +  (i_0-1)(\mathbf{p}(\omega_{i_0-1}) - \mathbf{p}(\omega_{i_0})) \\
 & = & \sum_{j=i_0}^m \mathbf{p}(\omega_j) +  (i_0-1)\mathbf{p}(\omega_{i_0-1})
 \end{eqnarray*}
-Les deux formules sont donc Ã©quivalentes.\\
+Les deux formules sont donc équivalentes.\\
 
-Montrons que le principe de consistance \ref{consist} est respectÃ©: \\
+Montrons que le principe de consistance \ref{consist} est respecté: \\
 Soit $A \in \Omega$, et $j_0 = \min \set{ j \sachant \omega_j \in A  }$. \\
 \begin{eqnarray*}
 \Pi(A)  = & \max_{\omega \in A}(\Pi(\omega)) & \\
 = &  j_0. \mathbf{p}(\omega_{j_0}) + \displaystyle  \sum_{j=j_{0} +1}^m \mathbf{p}(\omega_j) & \geqslant  \sum_{j=j_0}^m \mathbf{p}(\omega_j) \\ 
  &  & \geqslant  \sum_{\omega \in A} \mathbf{p}(\omega) = \mathbf{p}(A)  
 \end{eqnarray*}
-par dÃ©finition de $j_0$. La consistance est donc assurÃ©e. \\
+par définition de $j_0$. La consistance est donc assurée. \\
 
-Le principe de conservation de la prÃ©fÃ©rence \ref{conserv_pref} se voit bien avec la deuxiÃ¨me formule: \\
+Le principe de conservation de la préférence \ref{conserv_pref} se voit bien avec la deuxième formule: \\
 \begin{eqnarray*}
 \mathbf{p}(x_i) - \mathbf{p}(x_{i+1}) & = & \displaystyle \sum_{k=i}^{i} \dfrac{\Pi(\omega_j)-\Pi(\omega_{j+1})}{j} \\
 & = & \displaystyle \dfrac{\Pi(\omega_j)-\Pi(\omega_{j+1})}{j} 
 \end{eqnarray*}
 $\mathbf{p}(x_i) - \mathbf{p}(x_{i+1})>0 \Leftrightarrow \Pi(\omega_j)-\Pi(\omega_{j+1})>0$.
 \end{proof}
-Bien d'autres transformations existent \cite{1993.1}, cependant, pour les travaux que nous allons prÃ©senter, cette transformation rÃ©versible est suffisante.
+Bien d'autres transformations existent \cite{1993.1}, cependant, pour les travaux que nous allons présenter, cette transformation réversible est suffisante.
 }
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

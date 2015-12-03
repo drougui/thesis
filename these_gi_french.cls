@@ -7,7 +7,7 @@
 % plus le fichier de style pour les pages administratives
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesClass{these_gi}[2005/09/21 Classe pour ma thèse]
+\ProvidesClass{these_gi_french}[2005/09/21 Classe pour ma thèse]
 
 %% Les differents styles 
 \newif\if@stylejchiquetfrench \@stylejchiquetfrenchfalse
