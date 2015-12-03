@@ -1,173 +1,3 @@
-\vide{
-JOHN:
-\textbf{Conclusion :}
-\begin{itemize}
-\item On a développé un modèle hybride
-\item On veut le tester sur un cas réel de robotique mobile avec vision artificielle
-\end{itemize}
-ME:
-%\subsection{Cr\'eation d'un mod\`ele POMDP hybride}
-\textbf{OBJ:} cr\'eation d'un mod\`ele hybride, 
-regroupant les qualit\'es des processus probabilistes et possibilistes:
-discr\'etisation formelle des croyances, conservation des r\'ecompenses quantitatives, dynamique probabiliste (traduction en MDP classique) \\
-POUR CELA:
-\begin{itemize}
-\item \'etude des solvers MDP de recherche dans l'espace d'\'etat (PROST, facto, d\'eterminism, RDDL, ...) \\
-\textit{afin de r\'esumer les qualit\'ees requises par notre traduction}
-\item mise en place d'une traduction d'un POMDP en POMDP hybride (MDP)
-\begin{enumerate}
-\item probabilit\'e pignistique 
-\item int\'egrale de Choquet, 
-\end{enumerate}
-\item factorisation des croyances \`a hypoth\`eses simples 
-\item on teste sur IPPC track PO \\
-\textit{afin d'illustrer les performances de cet algorithme}
-\end{itemize}
-
-\subsection{POUR CHAP4 Consistance, Préservation de la préférence et Transformations} \label{transf} 
-POUR CHAPITRE 4: transfos!\\
-
-Cette vision donne une idée [trouver références] de simulation (probabiliste) d'évènements dont l'incertitude est modélisée en terme de possibilités:
-\begin{itemize}
-\item[$\bullet$] Simuler $\alpha$ de loi uniforme sur $[0,1]$,
-\item[$\bullet$] Tirer uniformément $\omega$ dans $\set{\omega \sachant \Pi(\omega) \geqslant \alpha}$
-\end{itemize}
-Ainsi, la probabilité que l'évènement $\omega$ se produise est
-\begin{eqnarray}
-\nonumber \mathbf{p}(\omega) & = & \int_0^1 \mathbf{p} \paren{ \omega,\alpha} d \alpha \\
-\nonumber & =  & \int_0^1 \mathbf{p} \paren{ \omega \sachant\alpha} d \alpha \\
-\nonumber & = & \int_0^1 \dfrac{\mathds{1}_{\paren{ \Pi(\omega) \geqslant \alpha}}}{ \# \set{ \omega' \in \Omega \sachant \Pi(\omega')\geqslant \alpha }} d \alpha \\
-\nonumber & = & \sum_{i=1}^n \int_{\alpha_{i+1}}^{\alpha_i} \dfrac{\mathds{1}_{\paren{ \Pi(\omega) \geqslant \alpha_i}}}{ \# \set{ \omega' \in \Omega \sachant \Pi(\omega')\geqslant \alpha_i }} d \alpha \\
-\label{transf_simu} & = & \sum_{i=i_0 \vert \Pi(\omega)=\alpha_{i_0} }^n  \dfrac{\alpha_i-\alpha_{i+1}}{ \# A_i }
-\end{eqnarray}
-Nous retrouverons cette idée avec la transformation réversible $\Pi \leftrightarrow \mathbf{p}$ dans la section qui suit.
-
-
-Il est essentiel de bien saisir que probabilités et possibilités ne modélisent pas la même facette de l'incertitude: une distribution de probabilité pourra bien exprimer l'aléa, voire l'indécision (probabilité uniforme), et la théorie des possibilités est idéale pour représenter l'ignorance. Cela nous amène à affirmer qu'une distribution de possibilité contient moins d'information qu'une distribution de probabilité. \\
-
-Cependant, ces mesures restent des évaluations de l'incertitude, qui est un mélange des différentes facettes dont nous avons parlées. Nous remarquons aussi qu'elles coïncident lors de la connaissance totale (1 pour l'évènement certain, 0 pour les autres). Ces quelques éléments nous laissent penser que les deux mesures sont corrélées lorsqu'elles évaluent le même phénomène. Sous cet angle de vue, nous souhaitons définir des \textit{transformations} entre possibilités et probabilités qui prennent en compte ces dites corrélations. \\
-Des principes à respecter permettent aux transformations $\mathbf{p} \leftrightarrow \Pi$ de garder un sens.\\
-Formellement, une mesure de possibilité  $\Pi$ sur $\Omega$ est équivalente à la famille de mesures de probabilité $\mathcal{P}(\Pi)=\set{\mathbf{p} \in \Delta \Omega \sachant \forall A \subset \Omega, \ \mathbf{p}(A) \leqslant \Pi(A) }$ comme expliqué dans \cite{DuPr1988.4}. Il paraît alors naturel de chercher des transformations respectant le principe de consistance.
-
-\begin{Def}[Principe de consistance]
-\label{consist}
-\begin{equation*}
-\forall A \subset \Omega,  \hspace{1cm} \Pi(A) \geqslant \mathbf{p}(A)
-\end{equation*}
-\end{Def}
-Notons que
-\begin{eqnarray*}
-\Rightarrow \forall A \subset \Omega, & 1-\mathcal{N}(A^c) \geqslant 1-\mathbf{p}(A^c) \\
-\Rightarrow \forall A \subset \Omega, & \mathcal{N}(A^c) \leqslant \mathbf{p}(A^c) \\
-\end{eqnarray*}
-et donc $\forall A \subset \Omega $, $\mathcal{N}(A) \leqslant \mathbf{p}(A)$. \\
-
-Le principe suivant parait encore plus évident: un évènement est plus probable qu'un autre si et seulement si il est plus possible qu'un autre. L'ordre de préférence induit par une distribution de possibilité est en fait la signification principale de cette distribution.
-\begin{Def}[Principe de la conservation de préférence] 
-\label{conserv_pref}
-\begin{equation*}
-\forall \omega_1, \omega_2 \in \Omega^2,   \hspace{1cm}  \mathbf{p}(\omega_1) > \mathbf{p}(\omega_2) \Leftrightarrow \Pi(\omega_1) > \Pi(\omega_2)
-\end{equation*}
-\end{Def}
-Ces deux principes nous guideront dans la construction de la transformation que nous recherchons. \\
-\\
-\textbf{Une transformation naïve} peut facilement nous venir à l'esprit: \\
-nous rappelons que la normalisation utilisée en théorie des possibilités est $\max_{\omega \in \Omega} \Pi(\omega) = 1$. Compte tenu des normalisations dans les deux théories, une transformation pourrait être: \\
-\begin{eqnarray*}
-\forall \omega \in \Omega, &  \Pi(\omega) = \dfrac{ \mathbf{p}(\omega) }{ \displaystyle \max_{\omega' \in \Omega} \mathbf{p}(\omega')}  \\
-& \mathbf{p}(\omega) = \dfrac{\Pi(\omega)}{\displaystyle \sum_{\omega' \in \Omega}\Pi(\omega')}  
-\end{eqnarray*}
-Il est évident que cette transformation respecte le principe de la conservation de préférence \ref{conserv_pref}. Cependant, le contre-exemple suivant nous assure que le principe de consistance \ref{consist} n'est pas respecté en général: considérons 3 évènements, ($\# \Omega=3$) et la distribution de probabilité $ \mathbf{p}(\omega_1)=0.9, \\  \mathbf{p}(\omega_2)= \mathbf{p}(\omega_3) =0.05$. \\
-Cette probabilité devient, par la transformation naïve, la distribution de possibilité $ \Pi(\omega_1)=1, \Pi(\omega_2)=\Pi(\omega_3)=\frac{1}{18} $. \\
-Ainsi, \[ \Pi(\{ \omega_2 , \omega_3 \}) = \max(\Pi(\omega_2),\Pi(\omega_3)) = \frac{1}{18} < 0.1 = \mathbf{p}(\{ \omega_1,\omega_2  \})  \]
-donc cette transformation ne respecte pas le principe de consistance.
-\\
-
-Reprenons le calcul de \ref{transf_simu} qui est une transformation $\Pi \rightarrow \mathbf{p}$. Cette \textbf{transformation réversible} nous satisfera: elle est proposée dans ~\cite{ DuPr1983.2} et respecte les principes de consistance  \ref{consist} et de conservation de la préférence \ref{conserv_pref}.\\
-Supposons que $\Omega = \{ \omega_1,\ldots,\omega_m \}$ avec $\Pi(\omega_1) \geqslant \Pi(\omega_2) \geqslant \ldots \geqslant \Pi(\omega_m)$. Nous rappelons que $\alpha_1,\ldots,\alpha_n$ sont les différentes valeurs présentes dans la distribution de possibilité, triées par ordre décroissant. Nous rappelons aussi que $A_i=\set{\omega \in \Omega \sachant \Pi(\omega) \geqslant \alpha_i }$. Ainsi, pour $k \in \{1,\ldots,m\}$
-\begin{eqnarray*}
-\mathbf{p}(\omega_k) & = & \sum_{i=i_0 \vert \Pi(\omega_k)=\alpha_{i_0} }^n  \dfrac{\alpha_i-\alpha_{i+1}}{ \# A_i } \\
-& = & \sum_{i=k}^m \dfrac{\Pi(\omega_i) - \Pi(\omega_{i+1})}{i}
-\end{eqnarray*}
-En effet, $\dfrac{\Pi(\omega_i) - \Pi(\omega_{i+1})}{i}$ est nul lorsque $\omega_i$ et $\omega_{i+1}$ ont la même possibilité. Les seuls termes de la dernière somme qui sont non nuls sont ceux tels que $\Pi(\omega_i)-\Pi(\omega_{i+1})>0$, soit ceux du type $\dfrac{\Pi(\omega_{\#(A_i)})-\Pi(\omega_{\#(A_i)+1})}{\#(A_i)}$ pour $i \in \{1,\ldots,n \}$,  car $\omega_{\#(A_i)} \in A_i$ et $\omega_{\#(A_i)+1} \notin A_i$.
-\\
-
-Explicitons la transformation proposée:
-Nous notons $\Omega= \set{\omega_1,\ldots,\omega_m}$, avec
-$\mathbf{p}(\omega_1) \geqslant \mathbf{p}(\omega_2) \geqslant \ldots \geqslant \mathbf{p}(\omega_m)$. \\
-Nous pouvons alors écrire la transformation $\mathbf{p} \rightarrow \Pi$ comme suit:
-\begin{eqnarray}
-\label{transf_rev1} & \forall i \in \{1,\ldots,m-1 \} &  \Pi(\omega_i) = i.\mathbf{p}(\omega_i) + \sum_{j=i+1}^m \mathbf{p}(\omega_j)   \\
-\nonumber & & \mbox{ avec  } \Pi(\omega_m)=m.\mathbf{p}(\omega_m) 
-\end{eqnarray}
-De même si les $\omega \in \Omega$ sont tels que $\Pi(\omega_1) \geqslant \Pi(\omega_2) \geqslant \ldots \geqslant \Pi(\omega_m)$, la transformation réciproque $\Pi \rightarrow \mathbf{p}$, équivalente à \ref{transf_simu}, est alors:
-\begin{eqnarray}
-\label{transf_rec} \forall i \in \set{1,\ldots,m} & \mathbf{p}(\omega_i) =\displaystyle \sum_{j=i}^m \dfrac{\Pi(\omega_j)-\Pi(\omega_{j+1})}{j} \\
-\nonumber \mbox{ avec la notation } &  \Pi(\omega_{m+1}) =0
-\end{eqnarray}
-Vérifions que les deux formules sont équivalentes, puis montrons que les principes exposés précédemment sont bien vérifiés.
-\begin{proof}
-Montrons que la première formule implique la seconde. Tout d'abord, nous avons
- $\mathbf{p}(\omega_m) = \dfrac{\Pi(\omega_m)}{m} $ par la seconde ligne de \ref{transf_rev1}, et ainsi
-\begin{eqnarray*}
- \Pi(\omega_{m-1}) & = & (m-1) \mathbf{p}(\omega_{m-1}) + \mathbf{p}(\omega_m)  \\
-& \Downarrow & \\ 
-\mathbf{p}(\omega_{m-1}) & = & \dfrac{\Pi(\omega_{m-1})}{m-1} - \dfrac{\Pi(\omega_m)}{m(m-1)} \\
- & = & \dfrac{\Pi(\omega_{m-1}) - \pi(\omega_m)}{m-1} + \dfrac{\Pi(\omega_m)}{m}
-\end{eqnarray*}
-
-Maintenant, supposons que pour $i_0 \in \set{2,\ldots,m-1}$ \ref{transf_rec} est vrai et montrons l'égalité au rang $i_0-1$:
-\begin{eqnarray}
-\nonumber \Pi(\omega_{i_0-1}) - \Pi(\omega_{i_0}) & = & (i_0-1). \mathbf{p}(\omega_{i_0-1}) + \sum_{j=i_{0}-1}^{m} \mathbf{p}(\omega_{j}) - i_0.\mathbf{p}(\omega_{i_0}) - \sum_{j=i_0}^m \mathbf{p}(\omega_j) \\
-\nonumber & = & (i_0-1). \mathbf{p}(\omega_{i_0-1}) - i_0.\mathbf{p}(\omega_{i_0}) + \mathbf{p}(\omega_{i_0-1}) \\
-\nonumber & = & (i_0-1)(\mathbf{p}(\omega_{i_0-1})-\mathbf{p}(\omega_{i_0})) \\
-\label{cons_pref_poss_prob}  \Rightarrow  \mathbf{p}(\omega_{i_0-1}) & = & \mathbf{p}(\omega_{i_0}) + \dfrac{\Pi(\omega_{i_0-1}) - \Pi(\omega_{i_0})}{i_0 -1} \\
-\nonumber & = & \displaystyle \sum_{j=i_0-1}^m \dfrac{\Pi(\omega_j)-\Pi(\omega_{j+1})}{j} 
-\end{eqnarray}
-Montrons maintenant l'implication réciproque: la seconde formule pour $i=m$ nous donne directement la seconde ligne de \ref{transf_rev1}. Puis,
-\begin{eqnarray*}
-\mathbf{p}(\omega_{m-1}) & = & \sum_{j=m-1}^m \dfrac{\Pi(\omega_j) - \Pi(\omega_{j-1})}{j} \\
-& = & \dfrac{\Pi(\omega_{m-1}) - \Pi(\omega_{m})}{m-1} + \mathbf{p}(\omega_m) \\
-& & \Downarrow  \\
-\Pi(\omega_{m-1}) & = & \Pi(\omega_m) + (m-1) (\mathbf{p}(\omega_{m-1}) -\mathbf{p}(\omega_m)) \\
-& = & m\mathbf{p}(\omega_m) + (m-1) (\mathbf{p}(\omega_{m-1}) -\mathbf{p}(\omega_m)) \\
-& = & (m-1) \mathbf{p}(\omega_{m-1}) - \mathbf{p}(\omega_m)
-\end{eqnarray*}
-Maintenant, supposons que la première formule (\ref{transf_rev1}) est vraie pour $i_0 \in \{ 2 , \ldots, m-1  \}$, et montrons qu'elle est vraie au rang $i_0-1$.
-\begin{eqnarray*}
-\mathbf{p}(\omega_{i_0-1}) - \mathbf{p}(\omega_{i_0}) & = & \dfrac{\Pi(\omega_{i_0-1}) - \Pi(\omega_{i_0})}{i_0-1} \\
-\Rightarrow \Pi(\omega_{i_0-1}) & = & \Pi(\omega_{i_0}) +  (i_0-1)(\mathbf{p}(\omega_{i_0-1}) - \mathbf{p}(\omega_{i_0})) \\
-& = &  i_0.\mathbf{p}(\omega_{i_0}) + \sum_{j=i_0+1}^m \mathbf{p}(\omega_j) +  (i_0-1)(\mathbf{p}(\omega_{i_0-1}) - \mathbf{p}(\omega_{i_0})) \\
-& = & \sum_{j=i_0}^m \mathbf{p}(\omega_j) +  (i_0-1)\mathbf{p}(\omega_{i_0-1})
-\end{eqnarray*}
-Les deux formules sont donc équivalentes.\\
-
-Montrons que le principe de consistance \ref{consist} est respecté: \\
-Soit $A \in \Omega$, et $j_0 = \min \set{ j \sachant \omega_j \in A  }$. \\
-\begin{eqnarray*}
-\Pi(A)  = & \max_{\omega \in A}(\Pi(\omega)) & \\
-= &  j_0. \mathbf{p}(\omega_{j_0}) + \displaystyle  \sum_{j=j_{0} +1}^m \mathbf{p}(\omega_j) & \geqslant  \sum_{j=j_0}^m \mathbf{p}(\omega_j) \\ 
- &  & \geqslant  \sum_{\omega \in A} \mathbf{p}(\omega) = \mathbf{p}(A)  
-\end{eqnarray*}
-par définition de $j_0$. La consistance est donc assurée. \\
-
-Le principe de conservation de la préférence \ref{conserv_pref} se voit bien avec la deuxième formule: \\
-\begin{eqnarray*}
-\mathbf{p}(x_i) - \mathbf{p}(x_{i+1}) & = & \displaystyle \sum_{k=i}^{i} \dfrac{\Pi(\omega_j)-\Pi(\omega_{j+1})}{j} \\
-& = & \displaystyle \dfrac{\Pi(\omega_j)-\Pi(\omega_{j+1})}{j} 
-\end{eqnarray*}
-$\mathbf{p}(x_i) - \mathbf{p}(x_{i+1})>0 \Leftrightarrow \Pi(\omega_j)-\Pi(\omega_{j+1})>0$.
-\end{proof}
-Bien d'autres transformations existent \cite{1993.1}, cependant, pour les travaux que nous allons présenter, cette transformation réversible est suffisante.
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 While the previous chapters dealt with purely qualitative possibilistic models,
 this one proposes to use the strength of both probabilistic and possibilistic approaches,
 in order to solve fully defined factored POMDPs, or partially defined ones.
@@ -194,25 +24,8 @@ size reduction and structure.
 Finally size reduction and tractability of the resulting MDP is 
 illustrated on a simple POMDP problem.
 
-%
-% Introduction
-% + SUM15
 
 \section{Introduction}
-%Partially Observable Markov Decision Processes (POMDPs) \cite{Smallwood_Sondik} can
-%finely model an agent acting under uncertainty in a partially hidden environment.
-%However, solving a POMDP, \textit{i.e.} computing an optimal strategy for the agent, is a
-%really difficult task: the problem of deciding if there exists a strategy 
-%leading to an expected reward greater than a given threshold
-%for a finite horizon POMDP, is a
-%%PSPACE-complete problem \cite{Papadimitriou:1987:CMD:35577.35581}. 
-%Classical approaches try to solve this problem
-%using Dynamic Programming \cite{Cassandra97incrementalpruning:}, or
-%via approximate computation: for instance via point-based methods 
-%\cite{Pineau_2003_4826}, \cite{Kurniawati-RSS08}, 
-%heuristics \cite{Smith:2004:HSV:1036843.1036906}, or 
-%Monte Carlo approach \cite{NIPS2010_4031}.
-
 The approach proposed here simplifies the belief space of a POMDP problem before solving it.
 The transformation described leads to a fully observable MDP on a finite
 number of epistemic states, \textit{i.e.} a problem 
@@ -222,59 +35,13 @@ MDP problem is P-complete \cite{Papadimitriou:1987}
 this transformation qualifies as a simplification, and any MDP solver 
 can return a policy for this translated POMDP.
 
-
-%Most of the POMDP algorithms reason about the \textit{agent belief} during
-%the process, defined as the probability of the actual system state knowing
-%all the system observations and agent actions from the beginning.
-%This belief is updated at each time step using the Bayes
-%rule and the new observation. The initial belief, or \textit{a priori}
-%probability distribution over the system states, takes part in
-%the definition of the POMDP problem. However in practice, the initial system
-%state can be unknown with absolutely no probabilistic information: 
-%for instance, in a robotic exploration context, 
-%the initial location of the agent, or the presence of an entity in the scene. 
-%Defining the process with a uniform probability distribution as initial belief
-%(\textit{e.g.} over all locations or over entity presence) is a subjectivist
-%answer \cite{de1974theory}, \textit{i.e.} all probabilities are the same
-%because no event is more plausible than another:
-%it corresponds to equal betting rates. However following belief
-%updates will eventually mix frequentist probability distributions 
-%defining the POMDP problem with this initial belief which is a subjective probability, 
-%and it does not always make sense. 
-
 More than only a simplification of the initial POMDP problem,
 the theoretical framework used here for belief states representation
 formally models an agent's knowledge about the system state.
 Indeed the proposed translation defines the belief states as possibility distributions
 over system states $s \in \mathcal{S}$
-% these kinds of distributions are denoted by $\pi$
-%(the counterpart of probability notation $\textbf{p}$) and 
 which represents the fuzzy set of possible system states, 
 as done with $\pi$-POMDP models.
-
-
-
-%the indicator (chararacteristic) function of this set.
-%Unlike classical sets, values of a fuzzy set indicator function $\pi$
-%are not only in $\set{0,1}$. Recall that the indicator function of
-%a classical set $A \subseteq \mathcal{S}$ is $\mathds{1}_{A}(s) = 1$ 
-%if $s \in A$ and $0$ otherwise.
-%Values of a fuzzy set indicator function are chosen in a totally ordered scale 
-%$\mathcal{L} = \set{ 1=l_1, l_2, \ldots, 0}$ with $l_1>l_2>\ldots>0$: 
-%%$\pi: \mathcal{S} \rightarrow \mathcal{L}$. If $s \in \mathcal{S}$ is such that
-%$\pi(s)=l_i$, $s$ is in the fuzzy set described by $\pi$, with degree $l_i$.  
-%Possibilistic beliefs used in this work will represent fuzzy sets of possible 
-%states. If the current possibilistic belief coincide with the distribution
-%$\pi(s)=1$ $\forall s \in \mathcal{S}$, all system states are totally possible,
-%and it models therefore a total ignorance about the current system state:
-%qualitative possibilistic beliefs can model agent initial ignorance.
-%The full knowledge of the current state, say $\tilde{s} \in \mathcal{S}$, 
-%is encoded by a possibility distribution equal to the classical indicator
-%function of the singleton $\pi(s) = \mathds{1}_{\set{ s=\tilde{s} }}(s)$.
-%Between these two extrema, current knowledge of the system is described by
-%a set of entirely possible states, $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=1  }$,
-%and successive sets of less plausible ones $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=l_i}$
-%down to the set of impossible states $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=0  }$.
 
 The major originality of this work comes from the finiteness of the scale $\mathcal{L}$:
 indeed it follows that the number of possible belief states over the system state 
@@ -313,9 +80,6 @@ previous one, the resulting problem is EXPTIME. The proposed translation
 tries to generate as few epistemic states as possible taking carefully into account
 potential factorized structures of the initial POMDP.
 
-%The first section is devoted to the presentation of Markov Decision Processes,
-%the main concern of this paper. Tools from Possibility Theory are also
-%defined to make this paper self-contained. 
 This chapter begins with the description of 
 the first contribution of this work, which is the translation itself, 
 presented in a formal way.
@@ -326,210 +90,7 @@ Finally, the last section illustrates the power of this approach,
 describing the translation in practice, 
 and applying it on a simple factored POMDP problem.
 
-%\section{Background}
-
-
-%Partially Observable Markov Decision Processes (POMDPs) \cite{Smallwood_Sondik} can
-%finely model an agent acting under uncertainty in a partially hidden environment.
-%However, solving a POMDP, \textit{i.e.} computing an optimal strategy for the agent, is a
-%really difficult task: the problem of deciding if there exists a strategy 
-%leading to an expected reward greater than a given threshold
-%for a finite horizon POMDP, is a
-%%PSPACE-complete problem \cite{Papadimitriou:1987:CMD:35577.35581}. 
-%Classical approaches try to solve this problem
-%using Dynamic Programming \cite{Cassandra97incrementalpruning:}, or
-%via approximate computation: for instance via point-based methods 
-%\cite{Pineau_2003_4826}, \cite{Kurniawati-RSS08}, 
-%heuristics \cite{Smith:2004:HSV:1036843.1036906}, or 
-%Monte Carlo approach \cite{NIPS2010_4031}.
-%Most of the POMDP algorithms reason about the \textit{agent belief} during
-%the process, defined as the probability of the actual system state knowing
-%all the system observations and agent actions from the beginning.
-%This belief is updated at each time step using the Bayes
-%rule and the new observation. The initial belief, or \textit{a priori}
-%probability distribution over the system states, takes part in
-%the definition of the POMDP problem. However in practice, the initial system
-%state can be unknown with absolutely no probabilistic information: 
-%for instance, in a robotic exploration context, 
-%the initial location of the agent, or the presence of an entity in the scene. 
-%Defining the process with a uniform probability distribution as initial belief
-%(\textit{e.g.} over all locations or over entity presence) is a subjectivist
-%answer \cite{de1974theory}, \textit{i.e.} all probabilities are the same
-%because no event is more plausible than another:
-%it corresponds to equal betting rates. However following belief
-%updates will eventually mix frequentist probability distributions 
-%defining the POMDP problem with this initial belief which is a subjective probability, 
-%and it does not always make sense. 
-%the indicator (chararacteristic) function of this set.
-%Unlike classical sets, values of a fuzzy set indicator function $\pi$
-%are not only in $\set{0,1}$. Recall that the indicator function of
-%a classical set $A \subseteq \mathcal{S}$ is $\mathds{1}_{A}(s) = 1$ 
-%if $s \in A$ and $0$ otherwise.
-%Values of a fuzzy set indicator function are chosen in a totally ordered scale 
-%$\mathcal{L} = \set{ 1=l_1, l_2, \ldots, 0}$ with $l_1>l_2>\ldots>0$: 
-%%$\pi: \mathcal{S} \rightarrow \mathcal{L}$. If $s \in \mathcal{S}$ is such that
-%$\pi(s)=l_i$, $s$ is in the fuzzy set described by $\pi$, with degree $l_i$.  
-%Possibilistic beliefs used in this work will represent fuzzy sets of possible 
-%states. If the current possibilistic belief coincide with the distribution
-%$\pi(s)=1$ $\forall s \in \mathcal{S}$, all system states are totally possible,
-%and it models therefore a total ignorance about the current system state:
-%qualitative possibilistic beliefs can model agent initial ignorance.
-%The full knowledge of the current state, say $\tilde{s} \in \mathcal{S}$, 
-%is encoded by a possibility distribution equal to the classical indicator
-%function of the singleton $\pi(s) = \mathds{1}_{\set{ s=\tilde{s} }}(s)$.
-%Between these two extrema, current knowledge of the system is described by
-%a set of entirely possible states, $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=1  }$,
-%and successive sets of less plausible ones $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=l_i}$
-%down to the set of impossible states $\set{ s \in \mathcal{S} \mbox{ s.t. } \pi(s)=0  }$.
-%The work developed in this paper remains in the classical MDP and POMDP frameworks, 
-%which are recalled in this section: 
-%possibilistic material necessary to build the promised translation are then presented. 
-%\subsection{Markov Decision Processes}
-%A Markov Decision Process (MDP) \cite{Bel} is a well suited framework 
-%for sequential decision making under uncertainty, 
-%when the agent involved has full knowledge of the actual system state.
-%Such a process is formally defined by a $4$-tuple 
-%$\langle \mathcal{S}, \mathcal{A}, T, r \rangle$ where $\mathcal{S}$ is a finite
-%set of system states $s \in \mathcal{S}$. The finite set $\mathcal{A}$ consists
-%of all actions $a \in \mathcal{A}$ available for the agent. The Markov dynamics of the system
-%are described by the transition function $T: \mathcal{S} \times \mathcal{A} \times \mathcal{S} \rightarrow [0,1]$. 
-%This function is defined as the transition probability distribution
-%of the system states for each action: if action $a \in \mathcal{A}$ is chosen by
-%the agent, and the current system state is $s \in \mathcal{S}$, the next state $s' \in \mathcal{S}$
-%is reached with probability $T(s,a,s') = \textbf{p} \paren{ s' \sachant s,a }$. Finally,
-%a reward function $r: \mathcal{S} \times \mathcal{A} \rightarrow \mathbb{R}$ is defined
-%to model the goal of the agent. Indeed, solving an infinite horizon MDP problem 
-%consists in computing a \textit{strategy}, \textit{i.e.} a function $d$ 
-%defined on $\mathcal{S}$ and whose values are actions $a \in \mathcal{A}$, 
-%maximizing the expected discounted total reward: 
-%\begin{equation}
-%\label{criterion}
-%\mathbb{E} \croch{ \sum_{t=0}^{+ \infty} \gamma^t r(s_t,d_t) },
-%\end{equation}
-%where $d_t=d(s_t)$ and $0<\gamma<1$ is the discount factor.
-
-%A Partially Observable MDP (POMDP) \cite{Smallwood_Sondik} makes a step further
-%in the modeling flexibility, allowing the agent not to know which system state
-%is the current one. The formal definition of a POMDP is the $7$-tuple 
-%$\langle \mathcal{S}, \mathcal{A}, T, \Omega, O, r, b_0 \rangle$, where the system state 
-%$\mathcal{S}$, the set of actions $\mathcal{A}$, the transition function $T$ and the
-%reward function $r$ remain the same as for the MDP definition. In this model, 
-%the current system state $s \in \mathcal{S}$ cannot be used as available 
-%information for the agent: the agent knowledge about the actual system state 
-%comes from observations $o \in \Omega$, where $\Omega$ is a finite set. 
-%The observation function $O: \mathcal{S} \times \mathcal{A} \times \Omega \rightarrow [0,1]$
-%gives for each action $a \in \mathcal{A}$ and reached system state $s' \in \mathcal{S}$, 
-%the probability over possible observations $o' \in \Omega$: $O(s',a,o') = \textbf{p} \paren{ o' \sachant s', a }$. Finally, the initial belief $b_0: \mathcal{S} \rightarrow [0,1]$ is the
-%\textit{prior} probability distribution over the system state space $\mathcal{S}$: 
-%$b_0(s) = \textbf{p} \paren{ s_0 = s }$, $\forall s \in \mathcal{S}$.
-
-%At a given time step $t>0$, the agent belief is defined 
-%as the probability of the $t^{th}$ state $s_t$
-%conditionned on all the past actions and observations, 
-%and with the prior $b_0$, \textit{i.e.}
-%$b_t(s) = \textbf{p}_{s_0 \sim b_0} \paren{s_t = s \sachant a_0,o_1,\ldots,a_{t-1},o_t }$.
-%It can be easily recursively computed using Bayes rule: at time step $t$, 
-%if the belief is $b_t$, chosen action $a \in \mathcal{A}$ and new observation 
-%$\tilde{o} \in \Omega$, next belief is
-%\begin{eqnarray}
-%\label{probBayesRule}
-%b_{t+1}(s') = u(b_t,a,\tilde{o}) = \frac{ O(s',a,\tilde{o}) \cdot \sum_{s} T(s,a,s') b_t(s) }{ \sum_{\underline{s}, \overline{s}} O(\overline{s},a,\tilde{o}) \cdot T(\underline{s},a,\overline{s}) b_t(\underline{s})  } .
-%\end{eqnarray}
-%as illustrated by the Bayesian Network in Figure \ref{BayesNetPOMDP}.
-%\begin{figure}\centering
-%\begin{tikzpicture}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%vertex
-%\tikzstyle{vertex}=[circle,fill=black!30,minimum size=20pt,inner sep=0pt]
-%nodes
-%\node[vertex] (state1) at (2,1.8) {$s_t$};
-%\node[vertex] (state2) at (6,1.8) {$s_{t+1}$};
-%\node[vertex] (obs) at (10,1) {$o_{t+1}$};
-%\node[vertex] (action) at (2.5,0.5) {$a_t$};
-%%bels
-%\node (bel1) at (2.7,2.1) {$b_t(s)$};
-%\node (bel2) at (7,2) {$b_{t+1}(s')$};
-%%probas
-%\node (trans) at (3.9,1.6) {$\textbf{p} \paren{ s_{t+1} \sachant s_t, a_t }$};
-%\node (observ) at (7,1.1) {$\textbf{p} \paren{ o_{t+1} \sachant s_{t+1}, a_t }$};
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%ARROWS
-%%\draw[->,>=latex, thick] (state1) -- (state2);
-%\draw[->,>=latex, thick] (state2) -- (obs);
-%\draw[->,>=latex, thick] (action) -- (state2);
-%\draw[->,>=latex, thick] (action) -- (obs);
-%\end{tikzpicture}
-%\caption{Bayesian Network illustrating the belief update.}
-%\label{BayesNetPOMDP}
-%\end{figure}%
-
-%As successive beliefs are computed 
-%with the observations perceived by the agent,
-%they are visible. Moreover, it can be easily shown that
-%the expected total reward can be rewritten 
-%\begin{equation}
-%\label{probCriterion}
-%\mathbb{E} \croch{ \sum_{t=0}^{+ \infty} \gamma^t r(s_t,d_t) } = \mathbb{E} \croch{ \sum_{t=0}^{+ \infty} \gamma^t r(b_t,d_t) }, 
-%\end{equation}
-%defining $r(b_t,a) = \sum_s r(s,a) \cdot b_t(s)$ as the reward of belief $b_t$.
-
-%Let us denote by $\mathbb{P}_{\mathcal{S}}$ the infinite set of probability distributions 
-%over $\mathcal{S}$: 
-%solving the infinite horizon POMDP problem, consists in computing 
-%a decision function $d: \mathbb{P}_{\mathcal{S}} \rightarrow \mathcal{A}$ such that
-%$d_t = d(b_t)$ maximizes the criterion \ref{criterion}.
-%seen as an MDP whose states are probabilistic beliefs,  
-%an optimal strategy for the infinite horizon POMDP 
-%is looked for among strategies 
-%$d: \mathbb{P}_{\mathcal{S}} \rightarrow \mathcal{A}$ 
-%such that successive $d_t = d(b_t)$ maximize 
-%the expected total reward \ref{probCriterion}.
-
-%As the focused problem (POMDP) has been formally defined, possibilistic tools
-%are now presented in the next section.
-%\subsection{Possibility Theory}
-%In our context, distributions defined in the Possibility Theory framework  
-%are valued in a totally ordered scale $\mathcal{L}=\set{ 1=l_1,l_2,\ldots,0 }$ with
-%$l_1>l_2>\ldots>0$. A possibility measure $\Pi$ defined on $\mathcal{S}$ is a 
-%fuzzy measure valued in $\mathcal{L}$, such that $\forall A,B \subset \mathcal{S}$, 
-%$\Pi(A \cup B) = \max \set{ \Pi(A), \Pi(B) }$, $\Pi(\emptyset)=0$ and $\Pi(\mathcal{S})=1$.
-%It follows that this measure is entirely defined by the associated possibility distribution,
-%\textit{i.e.} the measure of the singletons: 
-%$\forall s \in \mathcal{S}$, $\pi(s) = \Pi(\set{s})$. Properties of this measure lead to
-%the possibilistic normalization: 
-%\begin{equation} 
-%\label{possNormDef}
-%\max_{s \in \mathcal{S}} \pi(s) = \Pi(\mathcal{S}) = 1.
-%\end{equation}
-%If $\overline{s},\underline{s} \in \mathcal{S}$ 
-%are such that $\pi(\overline{s})<\pi(\underline{s})$, it means
-%that $\overline{s}$ is less plausible than $\underline{s}$. States with possibility
-%degree $0$, \textit{i.e.} states $s \in \mathcal{S}$ such that $\pi(s)=0$, are impossible
-%(same meaning as $\textbf{p}(s)=0$), and those such that $\pi(s)=1$ are entirely possible
-%(but not necessary the most probable one).
-
-%After the introduction of a possibility measure over a set $\Omega$, 
-%the joint possibility measure on $\mathcal{S} \times \Omega$ 
-%is defined in a qualitative way: 
-%$\forall A \subset \mathcal{S}$, $\forall B \subset \Omega$
-%\begin{eqnarray}
-%\label{possInter} \Pi(A, B) = \min \set{ \Pi \paren{A \sachant B}, \Pi \paren{B}} = \min \set{ \Pi \paren{B \sachant A}, \Pi \paren{A}}.
-%\end{eqnarray}
-%ote the similarities between Possibility and Probability Theory, 
-%replacing $\max$ by $+$ and $\min$ by $\times$. Moreover, Possibility Theory has its
-%own counterpart of the Bayes rule \cite{Dubois199023}: 
-%\begin{eqnarray}
-%\label{possBayesRule} \Pi \paren{A \sachant B} = \left \{ \begin{array}{ccc} 1 \mbox{ if } \Pi(A, B)  =  \Pi(B) \\
-% \Pi \paren{A, B} \mbox{ otherwise} \end{array} \right.
-%\end{eqnarray}
-%which is nothing more than the least specific measure satifying Equation \ref{possInter}.
-%It can also be seen more easily as the joint measure normalized in a possibilistic
-%manner, as in Equation \ref{possNormDef}.
-
-%These few tools from Qualitative Possibility Theory are enough to define the announced
-%translation. Next section is then devoted to building an MDP with fuzzy epistemic states
-%from a POMDP.
-\section{A Hybrid POMDP}
+\section{Un PDMPO hybride}
 As claimed by Zadeh, ``most information/intelligent
 systems will be of hybrid type'' \cite{DBLP:journals/soco/Zadeh98}:
 the idea developped here is to use a granulated representation of the agent knowledge 
@@ -609,7 +170,7 @@ strong guarantees.
 A more faithful representation is given with possibility distri-
 butions modeling the inherent imprecision, defining transition and observation
 possibility distributions.
-\subsection{Set transitions}
+\subsection{Définition des transitions}
 \label{setTrans}
 First, we use here some notations:
 the transition probability distribution is denoted by $T(s,a,s') = \textbf{p} \paren{s' \sachant s,a}$,
@@ -668,7 +229,7 @@ Numerical values are then used to compute the observation probability distributi
 here, and in order to aggregate rewards according to the current epistemic state 
 in the next section.
 
-\subsection{Reward aggregation}
+\subsection{Aggrégation des récompenses}
 \label{aggreg}
 After the transition function, it remains to assign a reward to each epistemic state:
 in the classical probabilistic translation, the reward assigned to a belief state $b$ is
@@ -717,7 +278,7 @@ is to compute the Choquet integral with the possibilistic
 measure $\Pi$ induced by distribution $\beta$, rather than with
 necessity one $N$, but this is not detailed here.
 
-\subsection{MDP with epistemic states}
+\subsection{PDM avec des états épistémiques flous}
 This section summarizes the complete translation using final
 equations of the previous sections.
 This translation takes for input a POMDP: $\langle \mathcal{S},\mathcal{A},T,\mathcal{O},O,r \rangle$
@@ -741,7 +302,7 @@ Indeed, $\Pi^{\mathcal{S}}_{\mathcal{L}}$ grows exponentially
 with the number of system states (see Equation \ref{equation_numberOfPossDistrib}), 
 which makes the problem intractable even for state of the art MDP solvers.
 
-\section{Benefit from factorization}
+\section{Factorisation}
 \label{factorizationSection}
 This section carefully derives a tractable MDP problem from a factored POMDP: 
 the resulting MDP is equivalent to the former translation, but some factorization
@@ -753,7 +314,7 @@ to strongly adapt computations according to the nature of the state.
 Then follows the definition of possibility distributions, 
 and the description of the use of the possibilistic Bayes rule 
 in practice ends this section.
-\subsection{Factored POMDP}
+\subsection{PDMPO factorisé}
 Partially Observable Markov Decision Processes 
 can be defined in a factorized way.
 \begin{itemize}
@@ -772,13 +333,8 @@ with the boolean variables assumption.
 For simplicity, and as state $s_j \in \mathcal{S}$ and observation $o_i \in \mathcal{O}$ notations are no longer reused 
 in this chapter, only variables are denoted with these letters from now: $s \in \mathbb{S}$ and $o \in \mathbb{O}$.
  
-%A POMDP process evolves with discrete time steps.
 Non-primed variables correspond to the
 current time step, and primed variables to the next time-step.
-%in order to differentiate variables that address current state or observation, 
-%from those which address next ones in the functions defining the POMDP, 
-%next state variables are primed, $s_j'$, 
-%as well as next observation variables, $o_i'$.
 This notation is also used for sets of variables: $\mathbb{S}'$ is the set
 of next state variables and $\mathbb{O}'$ the set of next observable ones.
 The factorized description continues with following probability distributions:
@@ -795,7 +351,7 @@ The factorized description continues with following probability distributions:
 \end{itemize}
 These definitions lead to the following observations: $\set{ s'_j }_{j \in \set{1, \ldots, m}}$ 
 are post-action independent, and $\set{ o'_i }_{j \in \set{1, \ldots, n}}$ post-transition independent. 
-\subsection{Notations and Observation Functions}
+\subsection{Notations et fonction d'observation}
 Transitions of the final MDP make it more handy if each variable depends
 on only few previous variables: the procedure to avoid blocking such simplifications brought by the
 structure of the initial POMDP during the translation, needs the following notations.
@@ -864,11 +420,6 @@ which constitute $\mathcal{P}_a(s_j')$.}
 \label{stateVarDep}
 \end{figure}
 
-%\nico{
-%Transition and observation functions can be then rewriten respectively 
-%$T_j^a(\mathcal{P}_a(s'_j), s'_j) = \textbf{p} \paren{ s'_j \sachant \mathcal{P}_a(s'_j), a}$
-%and $O_i^a(\mathcal{P}_a(o'_j), o'_i) = \textbf{p} \paren{ o'_i \sachant \mathcal{P}_a(o'_j), a}$.\\
-%}
 Now, let us define parents whatever the chosen action: $\forall$  $i=1,\ldots,n$,
 \[ \mathcal{P}(o_i') = \cup_{a \in \mathcal{A}} \mathcal{P}_a(o_i') \subseteq \mathbb{S}' \]
 and $\forall j=1,\ldots,m$,
@@ -988,7 +539,7 @@ factored counterpart of former equation \ref{obsProb}, is:
 \textbf{p} \paren{ o_i' \sachant \beta,a } = \sum_{ v \in 2^{\mathcal{Q}(o_i')}} \textbf{p} \paren{ o_i' \sachant v,a } \cdot \overline{\beta}(v).
 \end{equation}
 
-\subsection{State variables classification}
+\subsection{Classification des variables d'état}
 \label{classif}
 State variables $s \in \mathbb{S}$ do not play the same role
 in the process: as already studied in the literature \cite{OngShaoHsuWee-IJRR10},
@@ -1036,37 +587,8 @@ data of the original problem. The counterpart of Equation \ref{probObel} is then
 \end{equation}
 where $\overline{\beta}$ is the probability distribution over $2^{\mathcal{P}(s'_v)}$ 
 extracted from the possibilistic belief over the same space, using transformation (\ref{transform}).
-%\subsection{Joint possibility distributions}
-%In this work, beliefs, or epistemic states of the agent, are reduced to
-%fuzzy sets of possible system states (instead of classical probability distributions $b: \mathcal{S} \rightarrow [0,1]$). 
-%Such successive beliefs are built using 
-%Possibility distributions of the problem are here
-%nothing more than probability distributions previously defined, normalized 
-%in a possibilistic sense: if $v \in \set{\top,\bot}$ maximizes $\textbf{p}(v)$,
-%$\pi(v)=1$, otherwise $\pi(v)=\textbf{p}(v)$.
 
-%\nico{
-%Recall the possibilistic Bayes rule: $b^{a,o'}(s')$
-%\[  =  
-%\left \{  \begin{array}{cc} 
-%1 & \mbox{ if }  \pi \paren{ o', s' \sachant b, a } \mbox{ maximizes; } \\
-%\pi \paren{ o', s' \sachant b, a } & \mbox{ otherwise }. 
-% \end{array}  \right .
-%\]
-
-%This Bayes rules can be decomposed into two step:
-
-%\textbf{joint distribution computation: } 
-%\begin{equation}
-%\pi \paren{ o', s' \sachant b, a } = \min \set{ \pi \paren{ o',s' \sachant s,a} , b(s) } \\
-%\end{equation}
-%\textbf{possibilistic normalization}:
-%\begin{eqnarray}
-%\mbox{ if } s' \in argmax_{s'} \pi \paren{ o', s' \sachant b, a }, \\
-%\nonumber \mbox{ then } \pi \paren{ o', s' \sachant b, a } = 1.
-%\end{eqnarray}
-%}
-\subsection{Belief updating process definition and handling}
+\subsection{Mise à jour et manipulation de l'état de croyance}
 This section is meant to define marginal belief distributions instead of a global one,
 in order to benefit from the factorized structure of the initial POMDP. Indeed,
 possibilistic belief distributions have different definitions according to which class of state variables they concern:
@@ -1081,8 +603,6 @@ $\beta_{v,j}' \in \set{ \top, \bot }$ per visible state variables is enough to r
 belief distribution in practice: if $s'_{v,j}=\top$, then next belief is $b'=b_{v,T}'$ represented 
 by belief variable assignment $\beta'_{v,j} = \top$, otherwise, next belief is $b'=b_{v,F}'$, and $\beta'_{v,j} = \bot$.
 A belief variable of a visible state variable is denoted by $\beta_v$.
-%Finally, a visible state variable $s_v$ and its associated belief variable $\beta_v$ are confused,
-%Visible state variables are then confused with the belief one ???($s_{v,j}=b_{v,j}$). 
 \item for each $i \in 1,\ldots,\tilde{n}$, each inferred hidden variable constituting 
 $\mathcal{P}(o'_i)$ is an input of the same possibilistic belief distribution: 
 non-normalized belief is, $\forall i=1,\ldots,\tilde{n}$
@@ -1130,7 +650,7 @@ where $\mathbb{S}$ has to be seen as a vector composed of all state variables.\\
 The latter is considered as the agent belief
 to make the final MDP factorized.
 
-\subsection{Selection and use of belief variables}
+\subsection{Construction et utilisation des variables de croyance}
 Starting with initial belief states defined for each visible state variable $s_{v,j}$,
 for each vector of inferred hidden variables $\mathcal{P}(o'_i)$ and for each fully 
 hidden variable $s_{f,j}$, these belief states are updated at each time step according to the
@@ -1178,14 +698,11 @@ Finally, a belief distribution over $\mathcal{P}(s_{v,i}')$ needed to define an
 approximate probability distribution over visible state variables (Equation \ref{probSVbel}),
 can be defined in the same way, marginalizing ($\max$) over unused variables.
 
-\section{Solving a POMDP with a discrete MDP solver}
+\section{Résoudre un PDMPO avec un algorithme pour PDM}
 The previous section leads to a factored MDP, whose the version used in practice is defined here.
 A concrete POMDP problem and its resulting MDP are then described in order to highlight
 the power in state space size reduction of the possibilistic structured translation.
-%This problem is then tested as an input of the solver PROST, and compared to POMDP solvers.
-%PROST \cite{conf/aips/KellerE12} is a state-of-the-art finite horizon and discrete MDP solver:
-%it won the two last discrete probabilistic planning competition \cite{SannerIPPC11}.
-\subsection{Resulting factored MDP:}
+\subsection{PDM factorisé résultant}
 Section \ref{classif} classifies state variables in order to define epistemic states $b$
 over sets of state variables (respectively $\forall j=1,\ldots,m_v$, $\set{s^v_j}$, 
 $\forall i=1,\ldots,\tilde{n}$, $\mathcal{P}(o'_i)$, and $\forall k=1,\ldots,m_f$, 
@@ -1345,7 +862,7 @@ This trick makes the belief update phase deterministic. Each belief variable
 transition can be then deterministically defined, and independently from
 each other: as visible state and observation variables are already post-action independent, 
 the resulting MDP is a factored MDP.
-\subsection{Results for a concrete POMDP problem}
+\subsection{Résultats pour un PDMPO concrêt}
 A problem inspired by the RockSample problem \cite{Smith:2004:HSV:1036843.1036906} is described in this section
 to illustrate the factorized possibilistic discretization of the agent belief, from a factored POMDP:
 a rover is navigating in a place described by a finite number of locations $l_1, \ldots, l_n$,

@@ -8,7 +8,7 @@ d'introduire les \textit{processus décisionnels markoviens possibilistes qualita
 et enfin les \textit{processus décisionnels markoviens partiellement observables} ($\pi$-PDMPO)
 qui constituent le point de départ de notre travail.\\
 
-\subsection{Possibility Theory}
+\section{Théorie des possibilités}
 \label{posspres}
 Les \textit{ensembles flous} ont été introduits par Lotfi Zadeh \cite{Zadeh1965338},
 et étudiés par Didier Dubois \cite{didiersgroundhogday} et Henri Prade:
@@ -179,7 +179,7 @@ Les principaux concepts de la théorie des possibilité ont été présentés.
 L'homologue du critère basé sur espérance dans les modèles probabilistes,
 nous présentons maintenant le critère qualitatif utilisé dans les modèles possibilistes qualitatifs.
 
-\subsection{Critères Qualitatifs}
+\section{Critères Qualitatifs}
 \label{subsection_qualcrit}
 
 \begin{figure}[b!]
@@ -376,7 +376,7 @@ avec certitude, mais avec une plus petite préférence.
 On peut vérifier facilement que l'action $a_2$ maximises bien le critère pessimiste (\ref{equation_critpess}):
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{$\pi$-MDPs}
+\section{$\pi$-PDM}
 \label{subsection_piMDPs}
 Ce modèle, présenté dans \cite{Sabbadin2001287,Sabbadi00,Sabbadin1999pipomdp}, 
 est la version possibiliste qualitative des PDM probabilistes décrits en introduction,
@@ -400,13 +400,14 @@ Dans ce cadre possibiliste qualitatif,
 cela signifie que la séquence $(S_t)_{t \in \mathbb{N}}$ est telle que
 $\forall t \geqslant 0,  \forall (s_0,s_1,\ldots,s_{t+1}) \in \mathcal{S}^{t+2}$
 et pour chaque séquence d'actions $(a_t)_{t\geqslant 0} \in \mathcal{A}^{\mathbb{N}}$, 
-$S_{t+1}$ est independent from variables $\set{ S_0, \ldots, S_{t-1} }$,
-conditioned on $\set{S_t = s}$ and $a_t$: 
+$S_{t+1}$ est indépendante (au sens causal) des variables $\set{ S_0, \ldots, S_{t-1} }$,
+conditionnellement à $\set{S_t = s}$ et $a_t$: 
 \begin{equation}
 \label{equation_possmarkov}
   \Pi \Big( \ S_{t+1}=s_{t+1} \ \Big\vert \ S_t=s_t, a_t \ \Big) = \Pi \Big( \ S_{t+1}=s_{t+1} \ \Big\vert \ S_t=s_t, S_{t-1}=s_{t-1}, \ldots, S_0=s_0, (a_t)_{t \geqslant 0} \ \Big).
 \end{equation}
-Cette indépendance possibiliste n'est pas la seule existante:
+Cette indépendance possibiliste, ici causale, 
+n'est pas la seule existante:
 une présentation générale des indépendances et des conditionnements,
 ainsi que de leurs conséquences dans les modèles graphiques
 est disponible dans la thèse de N.Ben Amor \cite{Be2002.7}.
@@ -510,14 +511,12 @@ $\forall s \in \mathcal{S}$,
 \end{Def}
 }
 
-
-
-As for the probabilistic MDPs (see Section \ref{subsectionDP} Theorem \ref{thm_mdp_finiteH}),
-optimal value functions and strategies can be computed with Dynamic Programming:
-\begin{theorem}[Dynamic Programming for $\pi$-MDPs]
+Les fonctions valeur optimales et les stratégies peuvent être calculée par programmation dynamique:
+\begin{theorem}[Programmation Dynamique pour $\pi$-PDM]
 \label{DPpiMDP}
-The optimal optimistic criterion and an associated optimal strategy 
-can be computed as follows: $\forall s \in \mathcal{S}$,
+Le critère optimiste optimal et la stratégie optimale associée
+peuvent être calculés comme suit: 
+$\forall s \in \mathcal{S}$,
 \begin{align}
 \nonumber 
 \overline{U_0^*}(s) & = \Psi(s), \mbox{\hspace{1cm} and, $\forall 1 \leqslant i \leqslant H$,} \\
@@ -528,8 +527,8 @@ can be computed as follows: $\forall s \in \mathcal{S}$,
 \label{equation_recursiveoptstrat} 
 \overline{\delta^*_{H-i}}(s) \in \operatorname*{argmax}_{a \in \mathcal{A}} \min \set{ \rho_{H-i}(s,a), \max_{s' \in \mathcal{S}} \min \set{ \pi_{H-i} \paren{ s' \sachant s, a  } , \overline{U^*_{i-1}}(s') }  }.
 \end{eqnarray}
-As well, the optimal pessimistic criterion and an associated optimal strategy 
-can be computed as follows: $\forall s \in \mathcal{S}$,
+De même, le critère pessimiste optimal, et la stratégie associée
+peut être calculé comme suit: $\forall s \in \mathcal{S}$,
 \begin{align}
 \nonumber 
 \underline{U_0^*}(s) & = \Psi(s), \mbox{\hspace{1cm} and, $\forall 1 \leqslant i \leqslant H$,} \\
@@ -542,379 +541,236 @@ can be computed as follows: $\forall s \in \mathcal{S}$,
 \end{eqnarray}
 \end{theorem}
 
-In this theorem, the horizon $i$ is the opposite modulo $H$ 
-of the stage of the process $t$: during execution,
-$\delta_{t} = \delta_{H-i}$ is used at time step $t$,
-\textit{i.e.} when it remains $i$ steps. 
+Dans ce théorème, l'horizon $i$ est l'opposé modulo $H$
+de l'étape du processus $t$:
+durant l'éxécution, $\delta_{t} = \delta_{H-i}$ 
+est utilisée à l'étape de temps $t$,
+\textit{i.e.} lorsque il reste $i$ étapes. 
 
-Note that a broader class of MDP models, 
-including both probabilistic and qualitative possibilistic MDPs presented above,
-is called \textit{Algebraic MDPs} \cite{LIP67955}. 
+Notons qu'une classe plus lrge de modèles PDM,
+incluant les PDM probabilistes et possibilistes,
+est appelé \textit{PDM algébrique} \cite{LIP67955}. 
 
-The next section is devoted to the presentation of the qualitative possibilistic counterpart of the POMDPs denoted by $\pi$-POMDPs: 
-the $\pi$-POMDP model is the partially observable version of the $\pi$-MDP one.
-This model has been presented first in \cite{Sabbadin:1999:pipomdp} in pessimistic settings. 
-The algorithm to solve it has been 
-also presented in case no intermediate preference degree is involved \textit{i.e.}
-in case where preference functions $\rho_t$ are not used:
-in these settings only the terminal preference function $\Psi$
-models the goal of the mission: an optimistic strategy maximizes 
-the plausibility of strategies which end with a good preference,
-and a cautious strategy minimizes the plausibility of strategies 
-ending in unwanted states. 
-As the preference of a system state trajectory $\mathcal{T} = (s_1,\ldots,s_H)$ 
-is simply $\rho(\mathcal{T}) = \Psi(s_H)$, 
-while the preference of a $\pi$-MDP trajectory is $\set{ \min_{t=0}^{H-1} \rho(s_t,a_t), \Psi(s_H) }$,
-it it sufficient to consider a classical $\pi$-MDP such that $\rho_t(s,a) = 1$, $\forall s \in \mathcal{S}$, $\forall a \in \mathcal{A}$ and $\forall t \in \set{0,\ldots,H-1}$. 
+La section suivant est dédiée
+à la présentation de l'homologue possibiliste qualitatif du PDMPO
+noté $\pi$-PDMPO: 
+le modèle $\pi$-PDMPO est la version partiellement observable du modèle $\pi$-PDM.
+Ce modèle a été présenté dans \cite{Sabbadin1999pipomdp}
+dans le cadre pessimiste.
+L'algorithme pour le résoudre a été présenté dans le cas où
+aucune préférence intermédiaire n'est impliquée 
+\textit{i.e.} dans le cas où les fonctions de préférence $\rho_t$ ne sont pas prise en compte:
+dans ce cas, seule la fonction de préférence terminale $\Psi$
+modèle le but de la mission.
+Enfin, on remarque qu'il suffit de considérer un $\pi$-PDM classique
+avec $\rho_t(s,a) = 1$, $\forall s \in \mathcal{S}$, $\forall a \in \mathcal{A}$ and $\forall t \in \set{0,\ldots,H-1}$. 
 
-\subsection{$\pi$-POMDPs}
+\section{$\pi$-PDMPO}
 \label{section_piPOMDP}
-The qualitative possibilistic POMDP ($\pi$-POMDP) model has been first presented in \cite{Sabbadin:1999:pipomdp}.
-As explained in Section \ref{section_POMDP} which presents the classical probabilistic POMDP model, 
-in partially observable settings the system state is not given anymore as input to the agent:
-the agent has to infer it using the observations $o \in \mathcal{O}$ 
-received at each time step, represented by the observation process $(O_t)_{t \in \mathbb{N}}$.
-The uncertainty about successive observation variables $O_t$
-only depends on the current action and the reached state: 
-if the agent selected action $a \in \mathcal{A}$ at time step $t$,
-and the system has reached state $s' \in \mathcal{S}$ at time step $t+1$,
-the observation $o' \in \mathcal{O}$ is received with possibility degree 
+Le modèle PDMPO possibiliste qualitatif
+($\pi$-PDMPO) a été présenté pour la première fois dans \cite{Sabbadin1999pipomdp}.
+Comme avec le modèle probabiliste,
+dans le cadre partiellement observable
+l'état du système n'est plus considéré comme une donnée d'entrée pour l'agent: 
+l'agent doit l'estimer à partir des observations $o \in \mathcal{O}$ 
+reçues à chaque étape de temps, 
+représentée par le processus d'observation $(O_t)_{t \in \mathbb{N}}$.
+L'incertitude à propos des variables d'observation successives $O_t$
+ne dépend que de l'action et de l'état atteint:
+si l'agent choisit l'action $a \in \mathcal{A}$ au temps $t$,
+et le système a atteint l'état $s' \in \mathcal{S}$ à l'étape de temps $t+1$,
+l'observation $o' \in \mathcal{O}$
+est reçue avec le degré de possibilité 
 $\pi_t \paren{ o' \sachant s', a} = \Pi \paren{ O_{t+1} = o' \sachant S_{t+1}=s', a }$:
-conditional to the next system state $s'$ and the current action $a$,
-the next observation variable is M-independent (see Definition \ref{def_mbindep}) 
-from all other variables. Figure \ref{POMDP} of Section \ref{section_POMDP}
-illustrates just as well the dynamic and the structure of a $\pi$-POMDP:
-however, the rewards $r$ and $R$ have to be replaced by preferences $\rho$ and $\Psi$, 
-and transition (resp. observation) probability distributions $\textbf{p}$ 
-have to be replaced by the possibility distribution $\pi_t \paren{s' \sachant s,a}$ 
-(resp. $\pi_t \paren{o' \sachant s',a}$).
+conditionnellement à l'état suivant $s'$ et à l'action courante $a$,
+la variable d'observation suivante est
+indépendante (au sens causal)
+de toutes les autres variables jusqu'à l'étape $t+1$. 
+La figure \ref{POMDP} illustre 
+la dynamique et la structure d'un $\pi$-PDMPO.
+Un PDMPO probabiliste a la même structure,
+sauf que les distributions de possibilité de transition (resp. d'observation)
+$\pi \paren{s' \sachant s,a}$ (resp. $\pi \paren{o' \sachant s',a}$).
+doivent être remplacée par la distribution de probabilité 
+$\textbf{p} \paren{s' \sachant s,a}$ 
+(resp. $\textbf{p} \paren{o' \sachant s',a}$).
 
 \begin{figure}[!t]
-\input{src/fig-pomdp}
-\caption[Diagramme d'Influence d'un $\pi$-POMDP et de son processus d'états de croyance]{
-Diagramme d'Influence d'un $\pi$-POMDP et de son processus d'états de croyance:
+\input{src_french/fig-pomdp}
+\caption[Diagramme d'Influence d'un $\pi$-PDMPO et de son processus d'états de croyance]{
+Diagramme d'Influence d'un $\pi$-PDMPO et de son processus d'états de croyance:
 les ronds noirs représentent les états successifs du système $S_t$,
 les bleus représentent les observations successives $O_t$,
-les carrés rouges sont les actions sélectionnées $a_t$,
-et les losanges jaunes sont les préférences associées.
+et les carrés rouges sont les actions sélectionnées $a_t$.
 Les cercles verts en haut de la figure sont les états de croyance successifs
 $B_t$ constituant le processus d'états de croyance,
 calculé avec la mise à jour $B_{t+1} = \nu(B_t,a_t,O_{t+1})$.
-Tout comme les lignes ondulée menant aux préférences,
-les lignes vertes en pointillé représentent une influence déterministe.}
+Les lignes vertes en pointillé représentent une influence déterministe.}
 \label{POMDP} 
 \end{figure}
 
 
-
-As with the probabilistic model, the computation of strategies
-is performed by translating of the $\pi$-POMDP
-into a fully observable $\pi$-MDP.
-The state space of the later is the set of 
-possible \textit{qualitative possibilistic belief states} 
-$\beta: \mathcal{S} \rightarrow \mathcal{L}$ describing the knowledge about the actual system state,
-\textit{i.e.} the set of all the possibility distributions over $\mathcal{S}$.
-This set is denoted by $\Pi^{\mathcal{S}}_{\mathcal{L}} = \set{ \pi: \mathcal{S} \rightarrow \mathcal{L} \sachant \max_{s \in \mathcal{S}} \pi(s) = 1 }$. 
-Note first that the number of possible possibilistic beliefs about the actual system state is
+Comme avec le modèle probabiliste,
+le calcul des stratégies
+est effectué en traduisant le $\pi$-PDMPO
+en un $\pi$-PDM entièrement observable.
+L'espace d'état de ce dernier est l'ensemble
+des \textit{états de croyance possibilistes qualitatifs}
+$\beta: \mathcal{S} \rightarrow \mathcal{L}$ 
+décrivant la connaissance à propos de l'état du système,
+\textit{i.e.} l'ensemble de distributions de possibilité sur $\mathcal{S}$.
+Cet ensemble est noté by $\Pi^{\mathcal{S}}_{\mathcal{L}} = \set{ \pi: \mathcal{S} \rightarrow \mathcal{L} \sachant \max_{s \in \mathcal{S}} \pi(s) = 1 }$. 
+Notons tout d'abord que le nombre d'états de croyance à propos de l'état du système est
 \begin{equation}
 \label{equation_numberOfPossDistrib}
 \paren{\# \mathcal{L}}^{\# \mathcal{S}} - \paren{\# \mathcal{L} -1}^{\# \mathcal{S}}.
 \end{equation}
-Indeed, there are $\# \mathcal{L}^{\# \mathcal{S}}$ 
-different functions from $\mathcal{S}$ to $\mathcal{L}$,
-and $\paren{ \# \mathcal{L} - 1 }^{\# \mathcal{S}}$ non-normalized ones
-\textit{i.e.} functions $f: \mathcal{S} \rightarrow \mathcal{L}$ 
-such that $\max_{s \in \mathcal{S}} f(s) <1$.
-The number of possibility distributions over $\mathcal{S}$
-is the number of normalized functions from $\mathcal{S}$ to $\mathcal{L}$,
-that is the total number of functions minus the number of non-normalized ones.
+En effet, il y a $\# \mathcal{L}^{\# \mathcal{S}}$ 
+fonctions différentes de $\mathcal{S}$ vers $\mathcal{L}$,
+et $\paren{ \# \mathcal{L} - 1 }^{\# \mathcal{S}}$ fonctions non normalisées
+\textit{i.e.} fonctions $f: \mathcal{S} \rightarrow \mathcal{L}$ 
+telles que $\max_{s \in \mathcal{S}} f(s) <1$.
+Le nombre de distributions de possibilité sur $\mathcal{S}$
+est le nombre de fonctions normalisées de $\mathcal{S}$ vers $\mathcal{L}$,
+qui est le nombre total de fonctions, moins le nombre de fonctions non normalisées.
 
-First of all, let us formally defined a $\pi$-POMDP as the 
-$7$-uple $<\mathcal{S},\mathcal{A},\mathcal{O},T^{\pi},O^{\pi},\Psi,\beta_0>$:
+Tout d'abord, définissons formellement un $\pi$-PDMPO comme le $7$-uplet 
+$<\mathcal{S},\mathcal{A},\mathcal{O},T^{\pi},O^{\pi},\Psi,\beta_0>$:
 \begin{itemize}
-\item $\mathcal{S}$, a finite set of hidden system states;
-\item $\mathcal{A}$ a finite set of actions;
-\item $\mathcal{O}$ a finite set of observations;
-\item $T^{\pi}$ the set of transition possibility distributions
-containing for each time step $t \in \mathbb{N}$, each current system state $s \in \mathcal{S}$
-and each current action $a \in \mathcal{A}$, the possibility distributions over the next system state $s' \in \mathcal{S}$, 
-$\pi_t \paren{s' \sachant s, a}$;
-\item $O^{\pi}$, the set of observation possibility distributions: 
-for each time step $t \in \mathbb{N}$, each current action $a \in \mathcal{A}$, 
-each next state $s'$, the possibility distribution over the next observation $o' \in \mathcal{O}$,
-$\pi_t \paren{ o' \sachant s',a }$ is part of $O^{\pi}$.
-\item $\Psi$ the preference function, defining for each state $s \in \mathcal{S}$, 
-the preference assigned to the situations where the system terminates in state $s$.
-\item $\beta_0$, the possibilistic \textit{initial belief state},
-is the possibility distribution defining the uncertainty about the initial state: 
+\item $\mathcal{S}$, un ensemble fini d'états cachés du système;
+\item $\mathcal{A}$ un ensemble fini d'actions;
+\item $\mathcal{O}$ un ensemble fini d'observations;
+\item $T^{\pi}$ l'ensemble des distributions de possibilité de transition $\pi \paren{s' \sachant s, a}$;
+\item $O^{\pi}$, l'ensemble des distribution de possibilité d'observation $\pi \paren{ o' \sachant s',a }$ is part of $O^{\pi}$.
+\item $\Psi$ la fonction de préférence, définissant pour chaque état $s \in \mathcal{S}$,
+la préférence associée à la situation où l'état du système termine dans l'état $s$.
+\item $\beta_0$, \textit{l'état de croyance possibiliste initial},
+est la distribution de possibilité définissant l'incertitude possibiliste
+à propos de l'état initial:
 $\forall s \in \mathcal{S}$, $\beta_0(s) = \Pi(S_0 = s)$. 
 \end{itemize}
 
-At each time step the current qualitative possibilistic belief state 
-is computed from these objects:
-the possibilistic counterpart of the probabilistic belief defined in Definition \ref{def_belief} of Section \ref{section_POMDP}.
-The initial belief state $\beta_0 \in \Pi^{\mathcal{S}}_{\mathcal{L}}$ is part of the definition of a $\pi$-POMDP.
-At a time step $t \geqslant 1$, the belief state is the possibility distribution
-over the current system state, conditional to all the data available to the agent. 
-\begin{Def}[Qualitative Possibilistic Belief state]
+\`A chaque étape de temps, l'état de croyance possibiliste
+est calculé à partir de ces objets: 
+L'état de croyance initial $\beta_0 \in \Pi^{\mathcal{S}}_{\mathcal{L}}$ 
+fait partie de la définition du $\pi$-PDMPO.
+
+\`A l'étape de temps $t \geqslant 1$, 
+l'état de croyance est la distribution de possibilité
+sur l'état courant du système, 
+conditionnellement à toutes les données accessibles pour l'agent. 
+\begin{Def}[\'Etat de croyance possibiliste qualitatif]
 \label{def_QualPossBel}
 \begin{equation}
 \beta_{t}(s) = \Pi \paren{ S_t = s \sachant O_1=o_1, \ldots, O_t=o_t, a_0, \ldots, a_{t-1} } = \Pi \paren{ S_t = s \sachant I_t = i_t }
 \end{equation}
 \end{Def}
-where $i_t = \set{o_1,\ldots,o_t,a_0,\ldots,a_{t-1}}$ 
-is the information available to the agent at time $t$ ( $i_0 = \set{} = \emptyset$ ),
-and $I_t$ the variable version (as in the probabilistic POMDP presentation).
+où $i_t = \set{o_1,\ldots,o_t,a_0,\ldots,a_{t-1}}$ 
+est l'information accessible pour l'agent à l'étape de temps $t$ ( $i_0 = \set{} = \emptyset$ ),
+et $I_t$ la variable correspondante.
 
-The possibilistic belief updating process consists in the sequence of belief states,
-which can be computed recursively: 
-\begin{theorem}[Qualitative Possibilistic Belief Update]
+La mise à jour possibiliste de l'état de croyance est basée sur l'homologue possibiliste de la règle de Bayes:
+\begin{theorem}[Mise à jour possibiliste qualitative de l'état de croyance]
 \label{belief_process_recursif_poss}
-If the belief state at time step $t$ is $b_t$,
-the selected action is $a_t \in \mathcal{A}$,
-and the next observation is $o_{t+1}$, 
-the next belief state $b_{t+1}$ is computed as follows:
+Si l'état de croyance à l'étape de temps $t$ est $b_t$,
+l'action choisie est $a_t \in \mathcal{A}$,
+et l'état suivant est $o_{t+1}$, 
+l'état suivant $b_{t+1}$
+est calculé comme suit:
 \begin{equation}
 \label{possbeliefupdate}
 \beta_{t+1}(s') = \left \{ \begin{array}{ccc}
-1 & \mbox{ if } \pi_t \paren{ s', o_{t+1} \sachant \beta_t, a_t}= \pi_t \paren{ o_{t+1} \sachant \beta_t,a_t }, \\
-\pi_t \paren{ s', o_{t+1} \sachant \beta_t, a_t} & \mbox{ otherwise. } 
+1 & \mbox{ si } \pi_t \paren{ s', o_{t+1} \sachant \beta_t, a_t}= \pi_t \paren{ o_{t+1} \sachant \beta_t,a_t }, \\
+\pi_t \paren{ s', o_{t+1} \sachant \beta_t, a_t} & \mbox{ sinon. } 
 \end{array} \right.
 \end{equation}
-where the joint distribution over system state variable $S_{t+1}$
-and observation variable $O_{t+1}$ conditional on the current information, 
-is denoted by $\pi_t \paren{ s', o' \sachant \beta_t, a_t} 
+où la distribution de possibilité jointe sur la variable d'état $S_{t+1}$
+et la variable d'observation $O_{t+1}$ 
+conditionnellement à l'information courante,
+est notée $\pi_t \paren{ s', o' \sachant \beta_t, a_t} 
 = \min \bigg\{ \pi_{t} \paren{o' \sachant s', a_t},  \max_{s \in \mathcal{S}} \min \Big\{ \pi_t \paren{ s' \sachant s, a_t }, \beta_t(s) \Big\} \bigg\}$. 
-The notation $\pi \paren{ o' \sachant \beta_t, a_t}$ is also used for $\max_{s' \in \mathcal{S}} \pi_t \paren{ s', o' \sachant \beta_t, a_t}$. 
+La notation $\pi \paren{ o' \sachant \beta_t, a_t}$ est aussi utilisée
+pour $\max_{s' \in \mathcal{S}} \pi_t \paren{ s', o' \sachant \beta_t, a_t}$. 
 
-This formula is called the \textbf{possibilistic belief update},
-and since the belief state $\beta_{t+1}$ is shown to be a function of $\beta_t$, $a_t$ and $o_{t+1}$,
-we denote it by \[ \beta_{t+1} = \nu(\beta_t,a_t,o_{t+1}),\]
-with $\nu$ called the belief update function.
+Cette formule est appelée la \textbf{mise à jour de la croyance possibiliste},
+et puisque l'état de croyance $\beta_{t+1}$
+est une fonction de $\beta_t$, $a_t$ and $o_{t+1}$,
+nous notons cette mise à jour \[ \beta_{t+1} = \nu(\beta_t,a_t,o_{t+1}),\]
+avec $\nu$ appelée \textit{fonction de mise à jour}.
 \end{theorem}
-The proof is given in Annex \ref{belief_process_recursif_poss_RETURN}.
 
-The possibilistic belief update (\ref{possbeliefupdate}) is denoted by
+La mise à jour possibiliste de l'état de croyance (\ref{possbeliefupdate}) 
+est noté
 \[ \beta_{t+1}(s') \propto^{\pi} \pi_t \paren{ s', o_{t+1} \sachant \beta_t, a_t} \]
-as it only consists in normalizing the function 
-$s' \mapsto \pi \paren{ s',o_{t+1} \sachant \beta_t,a_t }$
-in a possibilistic sense ($\max_{s} \pi(s) = 1$).
+puisqu'elle consiste seulement à normaliser
+la fonction $s' \mapsto \pi \paren{ s',o_{t+1} \sachant \beta_t,a_t }$
+au sens possibiliste ($\max_{s} \pi(s) = 1$).
 
-We denote by $B^{\pi}_t$ the belief state when considered as a variable,
-\textit{i.e.} $B^{\pi}_0$ is deterministic equal to $\beta_0$
-(but $S_0$ is uncertain with possibility distribution $\beta_0$)
-and $B^{\pi}_{t+1} = \nu(B^{\pi}_t,a_t,O_{t+1})$
-where $O_{t+1}$ is the observation variable at time step $t+1$.
+Nous notons $B^{\pi}_t$ l'état de croyance lorsque considéré comme une variable,
+\textit{i.e.} $B^{\pi}_0$ est déterministe égal à $\beta_0$
+(mais $S_0$ est incertain, ce qui est décrit par la distribution de possibilité $\beta_0$)
+et $B^{\pi}_{t+1} = \nu(B^{\pi}_t,a_t,O_{t+1})$
+où $O_{t+1}$ est la variable d'observation à l'étape de temps $t+1$.
 
-To make things clear,
-the $\pi$-POMDP model is defined here 
-only with a terminal preference function $\Psi$,
-and no intermediate ones $\rho_t$.
-The next chapter will address formally the model with intermediate preference degree:
-the pessimistic one presented in \cite{Sabbadin:1999:pipomdp} and 
-an optimistic one. 
-The criteria, or optimistic and pessimistic value functions of the $\pi$-POMDP model with terminal preference only,
-are thus similar to criteria (\ref{MDPtermprefcritopt}) and (\ref{MDPtermprefcritpess}).
-Note that the optimistic criterion has not been presented yet to the best of our knowledge,
-and is proposed now in parallel with the pessimistic one \cite{Sabbadin:1999:pipomdp}.
-\begin{Def}[$\pi$-POMDP Criteria with Terminal Preference Only]
-\label{def_piPOMDPvaluefunction}
-This is the same criteria as in the fully observable case (terminal preference case, Definition \ref{def_piMDPcriteria_TPO}):
-however, these criteria depends here on the initial belief state. 
+Afin de rendre les choses plus claires,
+le modèle $\pi$-PDMPO est ici défini sans préférences intermédiaires $\rho_t$,
+mais avec une préférence terminale $\Psi$.
 
-The optimistic $\pi$-POMDP criterion, or \textbf{optimistic value function}, 
-is the Sugeno integral of the terminal preference 
-with respect to the possibility measure of the system process
-for a given strategy $(\delta_t)_{t=0}^{H-1}$:
-the strategy which is looked for is a sequence of function of the available information $i_t$,
-\textit{i.e.} $(\delta) = (\delta_t)_{t=0}^{H-1}$ with $\delta_t: i_t \mapsto \delta(i_t) \in \mathcal{A}$.
-\begin{equation}
-\label{equation_piPOMDPcriterionopt}
-\overline{U_H}\Big(\beta_0,(\delta)_{t=0}^{H-1}\Big) = \max_{ s_H \in \mathcal{S}} \min \set{ \Psi(s_H), \pi \Big( s_H \Big\vert \beta_0, (\delta) \Big) }.
-\end{equation}
-
-As well, the $\pi$-POMDP \textbf{pessimistic value function} is the Sugeno integral of the terminal preference with respect to the necessity measure of the system process
-given such a strategy:
-\begin{equation}
-\label{equation_piPOMDPcriterionpess}
-\underline{U_H}\Big(\beta_0,(\delta)_{t=0}^{H-1}\Big) = \min_{ s_H \in \mathcal{S}} \max \set{ \Psi(s_H), 1 - \pi \Big( s_H \Big\vert \beta_0, (\delta) \Big) }.
-\end{equation}
-
-where
-\begin{align*} 
-\pi \Big( s_H \Big\vert \beta_0, (\delta) \Big) &= \Pi \Big( S_H = s_H \Big\vert (\delta) \Big) \\
-&= \max_{(s_0,\ldots,s_{H-1}) \in \mathcal{S}^H} \min \set{ \min_{t=0}^{H-1} \pi_t \Big( s_{t+1} \Big\vert s_t, \delta(i_t) \Big), \beta_0(s_0) } 
-\end{align*}
-is the possibility distribution over the last system state given the strategy.
-Thus the optimistic criterion may be denoted by $\mathbb{S}_{\Pi} \Big[ \Psi(S_H) \Big\vert \beta_0, (\delta) \Big] $ and the pessimistic one $\mathbb{S}_{\mathcal{N}} \Big[ \Psi(S_H) \Big\vert \beta_0, (\delta) \Big]$, as they are optimistic and pessimistic Sugeno integrals based on the distribution $\pi \Big( s_H \Big\vert \beta_0, (\delta) \Big)$.
-\end{Def}
-
-%Consider now the random variables representing successive actions 
-%$(A_t)_{t \in \mathbb{N}}$:
-%it includes the particular case $A_t = \delta(I_t)$ 
-%where $I_t=\set{ A_0,O_1, \ldots A_{t-1}, O_t }$.
-%The qualitative possibilistic value functions introduced in Definition \ref{equation_piPOMDPcriterionopt} 
-%can be rewritten as follows:
-As in the probabilistic framework,
-Section \ref{section_abeldepvalfunc},
-these criteria can be rewritten 
-based on a belief-dependent preference.
-Consider as previously, a strategy $(\delta_t)_{t=0}^{H-1}$ 
-based on the current information $i_0 = \emptyset$, $i_1 = \set{ a_0,o_1 }$, $i_2 = \set{ a_0,o_1,a_1,o_2 }$, \textit{etc}:
-for each time step $t \geqslant 0$, $\delta_t: i_t \mapsto \delta_t(i_t) \in \mathcal{A}$.
-Recall that $\nu$ is the belief update function defined in Theorem \ref{belief_process_recursif_poss}.
-We denote by $\widehat{O}_t = \Big(O_i\Big)_{i=1}^{t}$ the successive observations until time step $t$ seen as variables, 
-and $I_t$ the associated information. 
-The belief state at time step $t+1$, seen as a variable, 
-can be written $B_{t+1}^{\pi} = \nu^{\delta_{t},\widehat{O}_{t+1}}(B_{t}^{\pi})$, $\forall t\geqslant0$,
-with $(\delta_t)_{t=0}^{H-1}$ such a strategy, and the notation $\nu^{\delta_{t},\widehat{O}_{t+1}}: \beta \mapsto \nu\Big( \beta, \delta_{t}(I_{t}), O_{t+1} \Big)$. Thus,
-\[ B^{\pi}_{H} = \paren{ \Circle_{t=0}^{H-1} \nu^{\delta_t,\widehat{O}_{t+1}} }(B^{\pi}_0), \]
-where $\Circle$ is the function composition operator.
-Then, knowing that $\widehat{O}_H = \widehat{o}_H$ 
-with $\widehat{o}_H = \set{o_1,\ldots,o_H} \in \mathcal{O}^H$ a sequence of observations, 
-$B^{\pi}_{H}$ is known: it is denoted by $\beta^{\delta,\widehat{o}_H}_{\beta_0}$,
-and is called the belief state generated by the observation sequence $\widehat{o}_H$ and the strategy $(\delta_t)_{t=0}^{H-1}$. 
-\begin{theorem}[$\pi$-POMDP Criteria Rewritings -- Terminal Preference Case]
-\label{piPOMDPrewriting}
-%Given , let ut consider $B_{H}^{\pi} =  \nu \bigg( \nu\Big( \ldots \nu \paren{ \beta_0,\delta_0(\beta_0),O_1}, \ldots \Big), \delta_t(I_t), O_H \bigg)$ \textit{i.e.}
-%the $H^{th}$ possibilistic belief state seen as a variable.
-Let $\widehat{o}_H = \set{o_1,\ldots,o_H}$ a sequence of observations,
-and $(\delta) = (\delta)_{t=0}^{H-1}$ be a strategy 
-such that $\delta_{t+1}$ is a function of the information $i_{t+1}=\set{ \delta_t(i_t), o_{t+1} }$.
-The possibility distribution over the possible sequences of observations is denoted by\\
-\\ 
-$\pi \Big( \widehat{o}_H \Big\vert (\delta), \beta_0 \Big) = \Pi \paren{ \widehat{O}_{H} = \widehat{o}_H \sachant (\delta), \beta_0 }$
- \[ = \max_{(s_0,\ldots,s_H) \in \mathcal{S}^{H+1}} \min \bigg\{ \pi_t \Big( o_{t+1} \Big\vert s_{t+1}, \delta_t(i_t) \Big), \pi_t \Big( s_{t+1} \Big\vert s_t, \delta_t(i_t) \Big), \beta_0(s_0) \bigg\}. \]
-
-The optimistic $\pi$-POMDP criterion is equal to the Sugeno integral 
-of the belief-based optimistic preference $\overline{\Psi}(B_H^{\pi}) = \max_{s \in \mathcal{S}} \min \set{ \Psi(s), B^{\pi}_H(s) }$ 
-with respect to the possibility measure over the observation sequences.
-That is, denoting by $\beta^{\delta,\widehat{o}_H}_{\beta_0}$
-the belief state generated by the observation sequence $\widehat{o}_H$ and the strategy $(\delta_t)_{t=0}^{H-1}$,
-the \textbf{optimistic criterion can be rewritten as}
-\begin{align}
-\label{piPOMDPoptrewriting}
-\overline{U_H}\Big(\beta_0,(\delta)_{t=0}^{H-1}\Big) &= \max_{\widehat{o}_H} \min \set{ \overline{\Psi}(\beta^{\delta,\widehat{o}_H}_{\beta_0}),  \pi \Big( \widehat{o}_H \Big\vert (\delta), \beta_0 \Big) } \\
-\nonumber &= \max_{\widehat{o}_H} \min \set{  \max_{s \in \mathcal{S}} \min \set{ \Psi(s),\beta^{\delta,\widehat{o}_H}_{\beta_0}(s) },  \pi \Big( \widehat{o}_H \Big\vert (\delta), \beta_0 \Big) }.
-\end{align}
-%$\mathbb{S}_{\Pi} \Big[ \Psi(S_H) \Big\vert B^{\pi}_0 = \beta_0, (\delta) \Big] = \mathbb{S}_{\Pi_{\delta},S_0 \sim \beta_0} \Big[ \mathbb{S}_{\Pi_{\delta},S \sim B^{\pi}_H} \croch{ \Psi(S)  } \Big] = \mathbb{S}_{\Pi} \Big[ \max_{s \in \mathcal{S}} \min \set{\Psi(s), B^{\pi}_H(s) } \Big], $
-
-Likewise, the pessimistic criterion is equal to the Sugeno integral of the belief-based pessimistic preference
-$\underline{\Psi}(B^{\pi}_H) = \min_{s \in \mathcal{S}} \max \set{ \Psi(s), 1 - B^{\pi}_H(s) }$,
-with respect to the necessity measure over the observation sequences.
-The $\pi$-POMDP \textbf{pessimistic criterion can be rewritten as}
-\begin{align}
-\label{piPOMDPpessrewriting}
-\underline{U_H}\Big(\beta_0,(\delta)_{t=0}^{H-1}\Big) &= \min_{\widehat{o}_H} \max \set{ \underline{\Psi}(\beta^{\delta,\widehat{o}_H}_{\beta_0}), 1-\pi \Big( \widehat{o}_H \Big\vert (\delta), \beta_0 \Big) } \\
-\nonumber &= \min_{\widehat{o}_H} \max \set{  \min_{s \in \mathcal{S}} \max \set{ \Psi(s), 1 - \beta^{\delta,\widehat{o}_H}_{\beta_0}(s) }, 1-\pi \Big( \widehat{o}_H \Big\vert (\delta), \beta_0 \Big) }.
-\end{align}
-\end{theorem}
-The proof is given in Annex \ref{piPOMDPrewriting_RETURN}.
-
-Written as a Sugeno integral, the optimistic criterion $\mathbb{S}_{\Pi} \Big[ \Psi(S_H) \Big\vert \beta_0, (\delta) \Big]$,
-which is based, as in Definition \ref{def_piPOMDPvaluefunction}, on $\pi \Big( s_H \Big\vert \beta_0, (\delta) \Big)$ (the possibility distribution over the last system state $s_H$), 
-becomes in the previous theorem
-\[  \mathbb{S}_{\Pi} \Big[ \max_{s \in \mathcal{S}} \min \set{\Psi(s), B^{\pi}_H(s)  } \Big\vert \beta_0, (\delta) \Big] = \mathbb{S}_{\Pi} \Big[ \overline{\Psi}(B^{\pi}_H) \Big\vert \beta_0, (\delta) \Big]. \]
-These two equal Sugeno integrals are based on the possibility distribution 
-over the observation sequence $\pi \Big( \widehat{o}_H \Big\vert (\delta), \beta_0 \Big)$.
-As well, in Theorem \ref{piPOMDPrewriting}, 
-the pessimistic criterion $\mathbb{S}_{\mathcal{N}} \Big[ \Psi(S_H) \Big\vert \beta_0, (\delta) \Big]$
-is rewritten 
-\[  \mathbb{S}_{\mathcal{N}} \Big[ \min_{s \in \mathcal{S}} \max \set{\Psi(s), 1 - B^{\pi}_H(s)  } \Big\vert \beta_0, (\delta) \Big] 
-= \mathbb{S}_{\mathcal{N}} \Big[ \underline{\Psi}(B^{\pi}_H) \Big\vert \beta_0, (\delta) \Big]. \]
-Note that the belief-based preferences $\overline{\Psi}$ and $\underline{\Psi}$,
-are the $\pi$-POMDP counterparts of the POMDP belief-based reward $r(b,a) = \sum_{s \in \mathcal{S}} r(s,a) \cdot b_t(s)$.
-As well, these rewritings are the possibilistic counterpart of 
-the rewriting $\mathbb{E} \croch{ r\Big(S_t, d_t(i_t) \Big) } = \mathbb{E} \croch{ \sum_{s \in \mathcal{S}} B_t(s) \cdot r\Big(s,d_t(i_t)\Big) }$.
-
-This theorem assures us that the criteria
-can be expressed as Sugeno integrals 
-of a function of the possibilistic belief state $B^{\pi}_H$: 
-this result leads to the definition of $\pi$-MDPs whose states are the qualitative possibilistic belief states:
-these $\pi$-MDPs are denoted by $\langle \tilde{S}^{\pi}, \mathcal{A}, \tilde{T^{\pi}}, \tilde{\Psi} \rangle$.
-The state space $\tilde{ \mathcal{S}}^{\pi} $ 
-is the finite set of possibilistic belief states
-$\Pi^{\mathcal{S}}_{\mathcal{L}} = \set{ \beta \sachant \beta: \mathcal{S} \rightarrow \mathcal{L}, \max_{s \in \mathcal{S}} \beta(s) = 1 }$.
-
-Let $\beta_t$ a given qualitative possibilistic belief, 
-\textit{i.e.} a possibility distribution in $\Pi^{\mathcal{S}}_{\mathcal{L}}$.
-The sequence of variables $(B_t^{\pi})_{t \in \mathbb{N}}$ is the sequence of the belief functions seen as random variables.
-As highlighted by the possibilistic belief update (\ref{possbeliefupdate}),
-if $B^{\pi}_t=\beta_t$, and the selected action is $a_t$,
-the value of the next variable $B^{\pi}_{t+1}$ 
-is a deterministic function of the observation $O_{t+1}$. 
-
-A belief $\pi$-MDP is defined since 
-the qualitative possibilistic belief updating process is shown to be a possibilistic Markov process \textit{i.e.}
-$\forall a \in \mathcal{A}, \forall \beta' \in \Pi^{\mathcal{S}}_{\mathcal{L}}$,
-$B^{\pi}_{t+1}$ is M-independent from all previous variables conditional to the current belief $B^{\pi}_{t}$ and the selected action $a_t \in \mathcal{A}$:
-\begin{theorem}
-\label{theorem_qualpossMarkov}
-The qualitative possibilistic belief updating process is a Markov process, \textit{i.e.}
-\begin{equation}
-\label{possibilistic_belief_markov}
-\Pi \paren{ B^{\pi}_{t+1} = \beta' \sachant I_t=i_t, a_t } = \Pi \paren{ B^{\pi}_{t+1} = \beta' \sachant B^{\pi}_t=\beta_{b_0}^{i_t}, a_t },
-\end{equation}
-where $\beta_{b_0}^{i_t}$ is the qualitative belief state reached starting with $\beta_0$ and with the information $i_t = \set{ a_0,o_1,a_1,o_2, \ldots, a_{t-1},o_t }$.
-\end{theorem}
-The proof is given in Annex \ref{theorem_qualpossMarkov_RETURN}.
-
-As highlighted by the equation (\ref{possibilistic_belief_trans}) in the proof, if $B^{\pi}_t=\beta$
-and the selected action is $a \in \mathcal{A}$, 
-the possibility degree that the next belief $B^{\pi}_{t+1}$ is $\beta' \in \Pi^{\mathcal{S}}_{\mathcal{L}}$, 
-is the maximum of all the possibility degrees of observations $o'$
-such that $\nu \paren{\beta,a,o'}=\beta'$: 
-it defines the transition probability distributions of the belief process,
-\textit{i.e.} elements of $\tilde{T}$, as follows: $\forall t \geqslant 0$,
+Nous pouvons maintenant exprimer la distribution de possibilité
+de transition du processus de croyance
+\textit{i.e.} les éléments de $\tilde{T}$, 
+comme suit: $\forall t \geqslant 0$,
 \begin{align}
 \label{transition_possibilistic_belief} \pi_t \paren{ \beta' \sachant \beta,a} &= \max_{ \substack{ o' \in \mathcal{O} \mbox{ \tiny s.t. } \\ \nu(\beta,a,o') = \beta'} } \pi_t \paren{ o' \sachant \beta, a },
 \end{align}
-where $\pi_t \paren{ o' \sachant \beta, a } = \max_{(s,s') \in \mathcal{S}^2} \min \Big\{ \pi_t \paren{ o' \sachant s', a_t }, \pi_t \paren{ s' \sachant s, a_t }, \beta(s) \Big\}$,
-is the possibility degree of observing $o'$ conditional on all the previous information.
+où $\pi_t \paren{ o' \sachant \beta, a } = \max_{(s,s') \in \mathcal{S}^2} \min \Big\{ \pi_t \paren{ o' \sachant s', a_t }, \pi_t \paren{ s' \sachant s, a_t }, \beta(s) \Big\}$,
+est le degré de possibilité d'observer $o'$
+conditionnellement à toutes les informations précédentes.
 
-Finally, the preference functions associated with the possibilistic belief $\beta_H$ are defined as
-highlighted by Theorem \ref{piPOMDPoptrewriting}: for an optimistic $\pi$-POMDP, the preference function is, $\forall \beta \in \Pi^{\mathcal{S}}_{\mathcal{L}}$,
-\begin{equation}
-\label{opt_preference}
- \overline{\Psi}(\beta) = \max_{s\in\mathcal{S}} \min \set{ \Psi(s), \beta(s) } 
-\end{equation}
-and for a pessimistic one, $\forall \beta \in \Pi^{\mathcal{S}}_{\mathcal{L}}$,
+Enfin, la fonction de préférence associée à l'état de croyance possibiliste $\beta_H$ 
+est défini de manière pessimiste:
+$\forall \beta \in \Pi^{\mathcal{S}}_{\mathcal{L}}$,
 \begin{equation}
 \label{pess_preference}
  \underline{\Psi}(\beta) = \min_{s\in \mathcal{S}} \max \set{ \Psi(s), 1 - \beta(s) }.
 \end{equation}
-As for each belief $\beta \in \Pi^{\mathcal{S}}_{\mathcal{L}}$, 
-the possibility and necessity measure conditional on the information $i$ 
-don't vary if $i \in \set{ i \sachant \beta_{\beta_0}^{i} = \beta }$,
-\textit{i.e.} if the information $i$ leads to $\beta$ (see for instance the proof of Theorem \ref{theorem_qualpossMarkov}),
-it is sufficient to look for a belief-based strategy $(\delta_t)_{t=0}^{H-1}$,
-such that $\forall t \geqslant 0$, $\delta_t: \beta_t \mapsto \delta_t(\beta_t) \in \mathcal{A}$.
+Le cas optimiste donne une préférence maximale à l'ignorance totale,
+ce qui ne semble pas pouvoir mener l'agent à estimer l'état du système 
+afin d'essayer d'atteindre un état satisfaisant.
 
-The $\pi$-MDP $\langle \tilde{\mathcal{S}}^{\pi}, \mathcal{A}, \tilde{T^{\pi}}, \overline{\Psi} \mbox{ or } \underline{\Psi} \rangle$
-built from of a $\pi$-POMDP $\langle \mathcal{S}, \mathcal{A}, \mathcal{O}, T^{\pi}, O^{\pi}, \beta_0 \rangle$ is finally: 
+Il est possible de montrer qu'il est suffisant de chercher une stratégie basée sur les états de croyance
+\textit{i.e.} parmi les suites de règles de décision $(\delta_t)_{t=0}^{H-1}$,
+telles que $\forall t \geqslant 0$, $\delta_t: \beta_t \mapsto \delta_t(\beta_t) \in \mathcal{A}$.
+
+Le $\pi$-PDM $\langle \tilde{\mathcal{S}}^{\pi}, \mathcal{A}, \tilde{T^{\pi}}, \overline{\Psi} \mbox{ or } \underline{\Psi} \rangle$
+construit à partir d'un $\pi$-PDMPO 
+$\langle \mathcal{S}, \mathcal{A}, \mathcal{O}, T^{\pi}, O^{\pi}, \beta_0 \rangle$ est finalement: 
 \begin{itemize}
-\item $\tilde{\mathcal{S}}^{\pi} = \Pi_{\mathcal{L}}^{\mathcal{S}}$, the set of all qualitative possibilistic beliefs;
-\item $\tilde{T^{\pi}}$ contains all transition possibility distributions
-of the possibilistic beliefs: $\forall a \in \mathcal{A}$, $\forall \beta \in  \Pi_{\mathcal{L}}^{\mathcal{S}}$, 
-the belief transition possibility distribution defined by the equation (\ref{transition_possibilistic_belief}),
+\item $\tilde{\mathcal{S}}^{\pi} = \Pi_{\mathcal{L}}^{\mathcal{S}}$, l'ensemble de tous les états de croyance (possibilistes qualitatifs) possibles;
+\item $\tilde{T^{\pi}}$ contient toutes les distributions de possibilité de transition
+sur les états de croyance: $\forall a \in \mathcal{A}$, $\forall \beta \in  \Pi_{\mathcal{L}}^{\mathcal{S}}$, 
+ces distributions de possibilité sont définies par l'équation (\ref{transition_possibilistic_belief}),
 $\pi_t \paren{ . \sachant \beta, a }$ is in $\tilde{T^{\pi}}$; 
-\item preference functions $\overline{\Psi}$ 
-if the computed criterion is optimistic, see equation (\ref{opt_preference}),
-or $\underline{\Psi}$ if it is pessimistic, equation (\ref{pess_preference}).
+\item la fonction de préférence est l'estimation pessimiste de la préférence: $\underline{\Psi}$, \textit{cf.} équation (\ref{pess_preference}).
 \end{itemize}
 
-Note now that, using the belief state transition definition (\ref{transition_possibilistic_belief}), and the equation (\ref{equationmaxmin3}) of Property \ref{property_minmax},
-for each function from the belief space to $\mathcal{L}$, $U: \Pi^{\mathcal{S}}_{\mathcal{L}} \rightarrow \mathcal{L}$,
+Notons maintenant que,
+en utilisant la définition de la fonction de transition des états de croyance  (\ref{transition_possibilistic_belief}),
+pour chaque fonction de l'espace des états de croyance
+vers $\mathcal{L}$, $U: \Pi^{\mathcal{S}}_{\mathcal{L}} \rightarrow \mathcal{L}$,
 \begin{align*}
 \max_{\beta' \in \Pi^{\mathcal{S}}_{\mathcal{L}}} \min \set{ \pi_t \paren{ \beta' \sachant \beta, a}, U(\beta') } &= \max_{\beta' \in \Pi^{\mathcal{S}}_{\mathcal{L}}} \min \set{ \max_{ \substack{ o' \in \mathcal{O} \mbox{ \tiny s.t. } \\ \nu(\beta,a,o') = \beta'} } \pi_t \paren{ o' \sachant \beta, a } , U(\beta') }\\
 &=\max_{\beta' \in \Pi^{\mathcal{S}}_{\mathcal{L}}} \max_{ \substack{ o' \in \mathcal{O} \mbox{ \tiny s.t. } \\ \nu(\beta,a,o') = \beta'} } \min \set{  \pi_t \paren{ o' \sachant \beta, a } , U(\beta') }\\
 &= \max_{o' \in \mathcal{O}} \min \set{ \pi_t \paren{ o' \sachant \beta, a}, U\Big(\nu(\beta,a,o') \Big) }, 
 \end{align*}
-This observation leads to Algorithm \ref{PIPOMDP_algo_opt} which is the $\pi$-MDP algorithm (\ref{dynamic_programming_pimdp})
-with terminal preference criteria (\ref{MDPtermprefcritopt}), 
-applied to the $\pi$-MDP $\langle \tilde{\mathcal{S}}^{\pi}, \mathcal{A}, \tilde{T^{\pi}}, \overline{\Psi} \rangle$.
+Cette observation mène à l'algorithme \ref{PIPOMDP_algo_opt}
+qui est l'application directe du schéma de programmation dynamique
+pour $\pi$-PDM (\ref{DPpiMDP})
+avec seulement une préférence terminale:
+ce schéma est utilisé sur le $\pi$-PDM 
+$\langle \tilde{\mathcal{S}}^{\pi}, \mathcal{A}, \tilde{T^{\pi}}, \underline{\Psi} \rangle$.
 
-\begin{algorithm} \caption{Dynamic Programming Algorithm for Optimistic $\pi$-POMDP\hspace{20cm} with Terminal Preference Only} \label{PIPOMDP_algo_opt}
+\begin{algorithm} \caption{Algorithme de programmation dynamique pour $\pi$-PDMPO optimiste avec une préférence sur l'état final seulement} \label{PIPOMDP_algo_opt}
 $\overline{U^*_0} \gets \overline{\Psi}$;\\
 \For{$i \in \set{1,\ldots,H}$}{
 	\For{$\beta \in \Pi^{\mathcal{S}}_{\mathcal{L}}$}{
@@ -925,19 +781,13 @@ $\overline{U^*_0} \gets \overline{\Psi}$;\\
 \Return $\overline{U^*_H}$, $(\overline{\delta^*})$;
 \end{algorithm}
 
-As well, the equations (\ref{equationmaxmin1}) and (\ref{equationmaxmin2}) of Property \ref{property_minmax}
-leads to
-\[  \displaystyle \min_{\beta' \in \Pi^{\mathcal{S}}_{\mathcal{L}}} \max \set{ 1 - \pi_t \paren{ \beta' \sachant \beta, a}, U(\beta') } = 
-1 - \max_{\beta' \in \Pi^{\mathcal{S}}_{\mathcal{L}}} \min \set{ \pi_t \paren{ \beta' \sachant \beta, a}, 1- U(\beta') }, \]
-for each function $U: \Pi^{\mathcal{S}}_{\mathcal{L}} \rightarrow \mathcal{L}$.
-Thus, using the belief state transition definition (\ref{transition_possibilistic_belief}), 
-\[ \min_{\beta' \in \Pi^{\mathcal{S}}_{\mathcal{L}}} \max \set{ 1 - \pi_t \paren{ \beta' \sachant \beta, a}, U(\beta') } = \min_{o' \in \mathcal{O}} \max \set{ 1 - \pi_t \paren{ o' \sachant \beta, a}, U\Big( \nu(\beta,a,o')\Big) } . \]
-It leads to Algorithm \ref{PIPOMDP_algo_pess},
-which is the $\pi$-MDP algorithm (\ref{dynamic_programming_pimdppess}),
-with terminal preference criteria (\ref{MDPtermprefcritpess}),
-applied to the $\pi$-MDP $\langle \tilde{\mathcal{S}}^{\pi}, \mathcal{A}, \tilde{T^{\pi}}, \underline{\Psi} \rangle$.
+L'algorithme \ref{PIPOMDP_algo_pess},
+qui est la programmation dynamique pour $\pi$-PDM 
+(\ref{dynamic_programming_pimdppess}),
+avec une préférence terminale seulement:
+elle est appliquée au $\pi$-MDP $\langle \tilde{\mathcal{S}}^{\pi}, \mathcal{A}, \tilde{T^{\pi}}, \underline{\Psi} \rangle$.
 
-\begin{algorithm} \caption{Dynamic Programming Algorithm for Pessimistic $\pi$-POMDP\hspace{20cm} with Terminal Preference Only} \label{PIPOMDP_algo_pess}
+\begin{algorithm} \caption{Algorithme de programmation dynamique pour $\pi$-PDMPO pessimiste avec une préférence terminale seulement} \label{PIPOMDP_algo_pess}
 $\underline{U^*_0} \gets \underline{\Psi}$;\\
 \For{$i \in \set{1,\ldots,H}$}{
 	\For{$\beta \in \Pi^{\mathcal{S}}_{\mathcal{L}}$}{
@@ -948,38 +798,43 @@ $\underline{U^*_0} \gets \underline{\Psi}$;\\
 \Return $\underline{U^*_H}$, $(\underline{\delta^*})$;
 \end{algorithm}
 
-In this first chapter, probabilistic and qualitative possibilistic POMDPs have been built one after the other
-shedding some light on the similarities between both models:
-with probabilistic POMDPs, system state dynamics and observation uncertainty 
-are described with probabilities $\textbf{p} \paren{ s' \sachant s,a } \in \mathbb{R}$
-and $\textbf{p} \paren{ o' \sachant s',a } \in \mathbb{R}$
-while they are defined by possibility distributions $\pi \paren{ s' \sachant s,a } \in \mathcal{L} = \set{ 0, \frac{1}{k}, \ldots, 1}$ (with $k\geqslant1$) 
-and $\pi \paren{ o' \sachant s',a } \in \mathcal{L}$ 
-in the $\pi$-POMDP framework.
-Moreover, the probabilistic framework measures the benefit from passing through a system state $s \in \mathcal{S}$ and using action $a \in \mathcal{A}$
-with the additive reward functions $r(s,a) \in \mathbb{R}$ (and $R(s)$ for the last state in case of finite-horizon problem);
-the possibilistic framework uses qualitative preferences $\rho(s,a) \in \mathcal{L}$ and $\Psi(s) \in \mathcal{L}$.
-Thus, the probabilistic criterion (the value function) for a given strategy 
-is the expectation of the rewards written $\mathbb{E} \croch{ rewards\Big( (S_t)_{t\geqslant0} \Big) } \in \mathbb{R}$, 
-and the possibilistic framework has two criteria (value functions) which are Sugeno integrals of preferences written 
-$\mathbb{S}_{\Pi} \croch{ preferences\Big( (S_t)_{t\geqslant0} \Big) } \in \mathcal{L}$ for the optimistic one,
-and $\mathbb{S}_{\mathcal{N}} \croch{ preferences\Big( (S_t)_{t\geqslant0} \Big) } \in \mathcal{L}$ for the pessimistic one.
-A POMDP (resp. $\pi$-POMDP), is redefined in terms of fully observable MDP (resp. $\pi$-MDP)
-where the system states are the belief states $b_t \in \mathbb{P}^{\mathcal{S}}_{b_0}$ (resp. $\beta_t \in \Pi^{\mathcal{S}}_{\mathcal{L}}$), 
-\textit{i.e.} probability (resp. possibility) distributions over the system states of the initial POMDP:
-the belief-based reward has to be defined $r(b,a) = \mathbb{E}_{S \sim b} \croch{ r(S,a) } = \sum_{s \in \mathcal{S}} r(s,a) \cdot b(s)$
-in the probabilistic case. In the possibilistic case, the belief-based preference 
-can be written $\overline{\rho}(b,a) = \mathbb{S}_{\Pi, S \sim \beta} \croch{ \rho(S,a) } = \max_{s \in \mathcal{S}} \min \set{ \rho(s,a), \beta(s) }$
-for the optimistic criterion,
-and $\underline{\rho}(b,a) = \mathbb{S}_{\mathcal{N}, S \sim \beta} \croch{ \rho(S,a) } = \min_{s \in \mathcal{S}} \max \set{ \rho(s,a), 1 - \beta(s) }$
-for the pessimistic one.
+Dans ce premier chapitre la théorie des possibilités qualitatives 
+ainsi que les modèle $\pi$-PDM et $\pi$-PDMPO.
 
-The next chapter proposes some improvements of the qualitative possibilistic model: 
-first, criteria are discussed, concerning the preference aggregation, 
-and the impact of the choice of the (optimistic or pessimistic) criterion.
-Next, the Mixed-Observability property is defined:
-as for the probabilistic model,
-the complexity of solving $\pi$-POMDPs having this property is reduced.
-Finally the infinite horizon problem is formally defined
-and the proposed solving algorithm is shown to return an
-optimal strategy for a given criterion.
+Dans le cadre probabiliste des PDMPO,
+l'incertitude est décrite avec des probabilités $\textbf{p} \paren{ s' \sachant s,a } \in \mathbb{R}$
+et $\textbf{p} \paren{ o' \sachant s',a } \in \mathbb{R}$
+tandis qu'elle est définie par des distributions de possibilité $\pi \paren{ s' \sachant s,a } \in \mathcal{L} = \set{ 0, \frac{1}{k}, \ldots, 1}$ (with $k\geqslant1$) 
+et $\pi \paren{ o' \sachant s',a } \in \mathcal{L}$ 
+dans le cadre $\pi$-PDMPO.
+De plus, le cadre probabiliste mesure l'intérêt de passer par un état $s \in \mathcal{S}$
+et d'utiliser l'action $a \in \mathcal{A}$
+avec la fonction de récompense $r(s,a) \in \mathbb{R}$ 
+tandis que le cadre possibiliste qualitatif utilise des préférences $\rho(s,a) \in \mathcal{L}$ and $\Psi(s) \in \mathcal{L}$.
+Ainsi, le critère probabiliste pour une stratégie donnée,
+est l'espérance des récompenses, ce qui s'écrit $\mathbb{E} \croch{ rewards\Big( (S_t)_{t\geqslant0} \Big) } \in \mathbb{R}$:
+dans le cadre possibiliste, deux critères sont possibles 
+qui sont les intégrales de Sugeno de la préférence,
+$\mathbb{S}_{\Pi} \croch{ preferences\Big( (S_t)_{t\geqslant0} \Big) } \in \mathcal{L}$ pour l'optimiste,
+et $\mathbb{S}_{\mathcal{N}} \croch{ preferences\Big( (S_t)_{t\geqslant0} \Big) } \in \mathcal{L}$ pour la pessimiste.
+
+A PDMPO (resp. $\pi$-PDMPO), est redéfini en termes de MDP (resp. $\pi$-MDP) entièrement observable
+où l'état du système est l'état de croyance $b_t \in \mathbb{P}^{\mathcal{S}}_{b_0}$ 
+(resp. $\beta_t \in \Pi^{\mathcal{S}}_{\mathcal{L}}$), 
+\textit{i.e.} les distribution de probabilité (resp. possibilité)
+sur les états du système du PDMPO:
+la récompense basée sur la croyance est définie comme étant
+$r(b,a) = \mathbb{E}_{S \sim b} \croch{ r(S,a) } = \sum_{s \in \mathcal{S}} r(s,a) \cdot b(s)$
+dans le cas probabiliste. 
+Dans le cas possibiliste qualitatif, 
+la préférence basée sur l'état de croyance
+est $\underline{\rho}(b,a) = \mathbb{S}_{\mathcal{N}, S \sim \beta} \croch{ \rho(S,a) } = \min_{s \in \mathcal{S}} \max \set{ \rho(s,a), 1 - \beta(s) }$
+pour les pessimistes.
+
+Le chapitre suivant propose certaines amélioration au modèle possibiliste qualitatif:
+La propriété d'observabilité mixed est définie:
+comme pour le modèle probabiliste,
+la complexité de résolution des problèmes ayant cette propriété est réduite.
+Enfin, un problème à horizon infini est formellement défini,
+et il est prouvé que l'algorithme de résolution proposé pour le résoudre
+renvoie une stratégie optimale.

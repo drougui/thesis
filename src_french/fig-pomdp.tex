@@ -15,10 +15,6 @@
 % actions
 \foreach \name/\x in {a_0/0,a_{t-1}/4,a_t/9}
 \node[avertex] (G-\name) at (\x+2.3,-1.5) {$\name$};
-% rewards
-\node[rvertex] (R0) at (2,-3.5) {$r(s_0,a_0)$};
-\node[rvertex] (Rt-1) at (6,-3.5) {$r(s_{t-1},a_{t-1})$};
-\node[rvertex] (Rt) at (10.5,-3.5) {$r(s_t,a_t)$};
 % observations
 \foreach \name/\x in {O_1/4,O_t/8,O_{t+1}/13}
 \node[overtex] (G-\name) at (\x+3,2.5) {$\name$};
@@ -36,14 +32,9 @@
 % actions
 \foreach \from/\to in {a_0/S_1,a_{t-1}/S_t,a_t/S_{t+1}}
 \draw[->,>=latex,thick] (G-\from) -- (G-\to);
-\foreach \from/\to in {a_0/R0,a_{t-1}/Rt-1,a_t/Rt}
-\draw[->,decorate,decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm},thick] (G-\from) -- (\to); 
 \foreach \from/\to in {a_0/O_1,a_{t-1}/O_t,a_t/O_{t+1}}
 \draw[->,>=latex,thick] (G-\from) to[bend right]  (G-\to);
 % rewards
-\draw[->,decorate,decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm},thick] (G-S_0) -- (R0); 
-\draw[->,dashed,thick] (G-S_1) -- (Rt-1); 
-\draw[->,decorate,decoration={snake,amplitude=.4mm,segment length=2mm,post length=1mm},thick] (G-S_t) -- (Rt); 
 % observations
 \foreach \from/\to in {S_1/O_1,S_t/O_t,S_{t+1}/O_{t+1}}
 \draw[->,>=latex,thick] (G-\from) -- (G-\to);
@@ -61,14 +52,14 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % probabilities
 % state transition
-\node (proba1) at (2.25,-0.3) {$\textbf{p} \paren{ s_{1} \sachant s_{0}, a_0}$};
-\node (probat) at (11.05,-0.3) {$\textbf{p} \paren{ s_{t+1} \sachant s_t, a_t}$};
+\node (proba1) at (2.25,-0.3) {$\pi \paren{ s_{1} \sachant s_{0}, a_0}$};
+\node (probat) at (11.05,-0.3) {$\pi \paren{ s_{t+1} \sachant s_t, a_t}$};
 % observations
-\node (probo1) at (5.6,0.85) [rotate=40] {$\textbf{p} \paren{o_1 \sachant s_1,a_0}$};
-\node (probot) at (9.6,0.85) [rotate=40] {$\textbf{p} ( o_t \vert s_t,a_{t-1} )$};
-\node (probotp1) at (14.55,0.7) [rotate=45] {$\textbf{p} ( o_{t+1} \vert s_{t+1},a_{t})$};
+\node (probo1) at (5.6,0.85) [rotate=40] {$\pi \paren{o_1 \sachant s_1,a_0}$};
+\node (probot) at (9.6,0.85) [rotate=40] {$\pi ( o_t \vert s_t,a_{t-1} )$};
+\node (probotp1) at (14.55,0.7) [rotate=45] {$\pi ( o_{t+1} \vert s_{t+1},a_{t})$};
 % bel
-\node (pbb) at (11,5.8) [color=darkgreen] {$B_{t+1} = u\Big(B_{t},a_t,O_{t+1}\Big)$};
-\node (pbb) at (0.9,3.8)  {$\mathbb{P} \paren{B_0 = b_0} = 1$};% \mathds{1}_{ \set{ b = b_0}}(b)$};
-\node (pbb) at (1.1,1.2) {$\mathbb{P}(S_0 = s_0) = b_0(s_0)$};
+\node (pbb) at (11,5.8) [color=darkgreen] {$B_{t+1} = \nu\Big(B_{t},a_t,O_{t+1}\Big)$};
+\node (pbb) at (0.9,3.8)  {$\Pi \paren{B_0 = b_0} = 1$};% \mathds{1}_{ \set{ b = b_0}}(b)$};
+\node (pbb) at (1.1,1.2) {$\Pi(S_0 = s_0) = b_0(s_0)$};
 \end{tikzpicture}

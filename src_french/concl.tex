@@ -395,60 +395,11 @@ are the motivations of the last chapter,
 presenting the hybrid POMDP.
 
 
-%% chap HMI 4
-\subsection*{Estimating in a qualitative world (HMI)}
-%% TODO
-Obviously, although 
-qualitative possibilistic models 
-can lead to appropriate approximate strategies 
-for high dimensional problems, 
-they cannot lead to the best results
-for simple problems
-in purely frequentist worlds.
-On the contrary, 
-the fourth chapter focuses on
-the use of this framework
-in a purely qualitative world:
-indeed it proposes the study of
-human-machine interactions
-which only involve the deterministic 
-behavior of the machine
-and a qualitative expert knowledge
-about the human behavior. 
 
-This joint work with Sergio Pizziol 
-shows that the use of qualitative possibilistic processes
-is an appropriate choice
-when probabilities 
-cannot be defined in practice.
-Indeed, this framework produces
-useful error detections and diagnosis
-in real experiments 
-with pilots in a simulator.
-
-Finally, this work also provides 
-theoretical contributions.
-The first one is
-summed up in Theorem \ref{thmUpdate} 
-and Theorem \ref{estimHMI}.
-These theorems lead to the definition
-of the possibilistic estimation 
-of the human assessment
-within the framework of the qualitative possibilistic 
-Hidden Markov Processes ($\pi$-HMPs):
-this estimation is used to detect human attentional errors.
-Another contribution 
-is the diagnosis computation,
-using the \textit{leximin} operator.
-Finally, a toy example is also provided
-to explain the use, the meaning and the behavior 
-of these possibilistic tools in practice.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%
-%% CHAP5 %% TODO
-\subsection*{A possibilistic discretization of the belief space (hybrid POMDP}
+\section*{Perspectives}
+%%%
+%%% PERSPECTIVES
+%%%
 The work on the hybrid POMDP is motivated 
 by the proper discretization 
 provided by the use 
@@ -463,38 +414,6 @@ This approach may also lead to cautious behaviors
 as the reward definition on belief states is pessimistic
 with respect to the lack of knowledge.
 
-The computation of the transition function of the resulting MDP
-are given: it uses a \textit{possibility-probability transformation}
-called \textit{pignistic transformation} 
-to recover a probability distribution 
-from a possibilistic belief state, in a neutral way.
-
-We described also how a factored POMDP 
-leads to a factored and more tractable MDP:
-indeed, the final contribution shows how to take advantage from 
-a large class of common structures (at least among IPPC domains)
-to make the resulting MDP as simple as possible.
-Hence, efficient MDP solvers such as PROST or GOURMAND, 
-are able to solve the factored MDP 
-representing the hybrid POMDP.
-This model has been published in \cite{DBLP:conf/sum/DrougardDFT15}.
-%As ADDs are still efficient for preprocessing,
-%they can be easily used to translate any factored POMDP
-%model into a factored MDP representing the hybrid POMDP.
-
-%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%
-%%CONCL CONL
-Note finally that all the partially observable processes presented in this work
-(purely qualitative and hybrid)
-can be translated into MDP or $\pi$-MDP
-and are thus computable in finite time, 
-at most exponential in the description of the problem.
-\section*{Perspectives}
-%%%
-%%% PERSPECTIVES
-%%%
 The first perspective comes from an observation:
 the memory limitation plausibly reached with the \textit{Triangle tireworld} 
 problem of IPPC 2014 may be bypassed by a stronger discretization: 

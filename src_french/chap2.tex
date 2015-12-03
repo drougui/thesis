@@ -1,339 +1,211 @@
-% TODO ref donnée dans SUM15!!!+poupart+... FACTO PROB/POSS
-
-%% TODO!!! est-ce qu'on a dit qu'on utilisait mixed opt/pess dans les expé du chap updates??
-
-%\subsection{aaai}
-%Qualitative Possibilistic Mixed-Observable MDPs ($\pi$-MOMDPs), generalizing
-%$\pi$-MDPs and $\pi$-POMDPs, are well-suited models to planning under
-%uncertainty with mixed-observability when transition, observation and reward
-%functions are not precisely known and can be qualitatively described. 
-%Functions defining the model as well as intermediate calculations are 
-%valued in a finite possibilistic scale $\mathcal{L}$, which induces
-%a \emph{finite} belief state space under partial observability
-%contrary to its probabilistic counterpart. 
-In this chapter, we propose 
-the study of factored $\pi$-MOMDP models 
-in order to solve large
-structured planning problems 
-under qualitative uncertainty, 
-or considered
-as qualitative approximations of probabilistic problems. 
-Building upon the \textit{Stochastic Planning Using Decision Diagrams} (SPUDD)
-algorithm for solving factored probabilistic MDPs, 
-we have desined a symbolic
-algorithm named PPUDD for solving 
-factored $\pi$-MOMDPs. Whereas the number of leaves 
-of SPUDD's decision diagrams may be 
-as large as the state space since their values
-are real numbers aggregated through 
-additions and multiplications, 
-the number of leaves of PPUDD ones
-is bounded by the number of elements in $\mathcal{L}$
-because their values
-always remain in the finite scale $\mathcal{L}$ 
-via $\min$ and $\max$ operations only.
-Finally,
-we present a sound transformation from factored
-mixed-observable possibilistic problems with both hidden and visible state
-variables to fully observable ones, on which PPUDD is run.
-Our experiments show that PPUDD's 
-computation time is much smaller than SPUDD,
-Symbolic-HSVI and APPL for possibilistic 
-and probabilistic versions of the same
-benchmarks under either total 
-or mixed-observability, while still providing
-high-quality strategies. 
-The performance of the strategies
-computed by PPUDD has been tested
-in the International Probabilistic 
-Planning Competition (IPPC 2014)
-whose results are exposed here.
+Dans ce chapitre, nous proposons
+l'étude des modèles $\pi$-PDMOM 
+dans le but de résoudre 
+de très grands problèmes de planification
+lorsqu'ils sont structurés.
+Inspirés par l'algorithme \textit{Stochastic Planning Using Decision Diagrams} (SPUDD)
+construit pour résoudre les PDM probabilistes factorisés, 
+nous avons mis en place un algorithme symbolique
+appelé PPUDD conçu pour résoudre les $\pi$-PDMOM. 
+Tandis que le nombre de feuilles
+des arbres de décisions utilisés par SPUDD
+peuvent devenir aussi grand que la taille de l'espace des états,
+puisque leurs valeurs sont des nombres réels 
+agrégés par des additions et des multiplications,
+le nombre de feuilles de PPUDD 
+est borné par le nombre d'éléments dans $\mathcal{L}$
+car leurs valeurs restent dans l'échelle finie $\mathcal{L}$
+via les opérations $\min$ et $\max$ seulement.
+Enfin, nous présentons un $\pi$-PDMOM
+satisfaisant certaines hypothèses d'indépendance 
+sur ces variables visibles, cachées,
+et d'observation.
+Ce dernier résulte en un $\pi$-PDM factorisé,
+sur lequel PPUDD peut être lancé.
+Nos résultats expérimentaux montrent que 
+le temps de calcul de PPUDD 
+est beaucoup plus petit que 
+Symbolic-HSVI et APPL
+pour les versions possibilistes 
+et probabilistes des mêmes benchmarks, 
+tout en fournissant des stratégies de bonne qualité.
+Les performances des stratégies
+calculées par PPUDD ont été testées
+pendant la compétition internationale de planification probabiliste (IPPC 2014)
+dont les résultats sont exposés ici.
 
 \section{Introduction}
-%Many sequential decision-making problems under
-%uncertainty can be easily expressed in terms of Markov Decision Processes (MDPs)
-%\cite{Bel}. %,Puterman-MDP}. 
-%Partially Observable MDPs (POMDPs)
-%\cite{Smallwood_Sondik} take into account situations where the system's state is
-%not totally visible to the agent. Finally, the Mixed Observable MDP (MOMDP)
-%framework \cite{OngShaoHsuWee-IJRR10,AraThoBufCha-ICTAI10} generalizes both
-%previous ones by considering that states can be expressed in terms of two parts,
-%one visible and the other hidden to the agent, which reduces the dimension of
-%the infinite belief space. %it results in a hybrid
-% discrete/continuous belief
-% MDP.
-% Yet,
-%these frameworks encounter difficulties in computing
-%big state space fully observable MDPs requires lot of time to compute optimal
-% policies.
-%With regard to POMDPs, exact dynamic programming algorithms like incremental
-%pruning \cite{Cassandra97incrementalpruning:} can only solve very small
-%problems: many approximation algorithms have been proposed to speed up
-%computations while controlling the quality of the resulting policies
-%\cite{Pineau_2003_4826,Smith:2004:HSV:1036843.1036906,Kurniawati-RSS08}. In this
-%paper, we proceed quite differently: we start with an approximated
-%\emph{qualitative} model that we exactly solve.
-%Qualitative possibilistic MDPs ($\pi$-MDPs), POMDPs ($\pi$-POMDPs) and more
-%broadly MOMDPs ($\pi$-MOMDPs) were introduced in
-%\cite{Sabbadin2001287,DBLP:journals/ijar/SabbadinFL98,Sabbadin:1999:pipomdp,Drougard13}.
-%These possibilistic counterparts of probabilistic models
-%are based on Possibility Theory \cite{DuPr1988.4} and more specifically on
-%Qualitative Decision Theory \cite{DBLP:journals/eor/DuboisPS01,Dubois95possibilitytheory}.
-%A possibility distribution, classically models imprecision or 
-%lack of knowledge about the model. 
-%Links between probabilities and possibilities are theoretically well-understood:
-As explained at the end of the previous chapter, 
-starting from a probabilistic MOMDP \cite{OngShaoHsuWee-IJRR10,AraThoBufCha-ICTAI10},
-the use of Possibility Theory instead of Probability Theory 
-leads to an approximation of the initial 
-probabilistic model \cite{conf/ecai/Sabbadi00}:
-probabilities and rewards are replaced by 
-qualitative statements that lie in a finite scale 
-(as opposed to continuous ranges in the probabilistic framework), 
-which results in simpler computations. 
-Possibilities and probabilities have similar behaviors for problems with low
-entropy probability distributions \cite{Dubois04probability-possibilitytransformations}.
-However, the decision resulting from both models 
-can be completely different in practice.
-Consider for example a situation in which
-three actions $a_A$, $a_B$ and $a_C$ 
-lead to three different sets of system states:
-\begin{itemize}
-\item action $a_A$ leads to $\mathcal{S}_A = \set{s_A^1,s_A^2}$, with
-$\textbf{p} \paren{ s_A^1 \sachant a_A } = \textbf{p} \paren{ s_A^2 \sachant a_A } = 0.5$,
-$r(s_A^1,a_A) = 1$ and $r(s_A^2,a_A) = 0$;
-\item action $a_B$ leads to $\mathcal{S}_B = \set{s_B^1}$ 
-($\textbf{p} \paren{ s_B^1 \sachant a_B } = 1$)
-with $r(s_B^1,a_B) = 0.5$;
-\item action $a_C$ leads to $\mathcal{S}_C = \set{s_C^1,\ldots,s_C^7 }$
-with $\textbf{p} \paren{ s_C^1 \sachant a_C }=0.4$,
-$\textbf{p} \paren{ s_C^2 \sachant a_C }
-= \ldots
-= \textbf{p} \paren{ s_C^7 \sachant a_C } = 0.1$,
-$r(s_C^1,a_C) = 0$ 
-and $r(s_C^2,a_C)=\ldots=r(s_C^7,a_C) = 1$.
-\end{itemize}
-Actions $a_A$ and $a_B$ lead to the same average gain: $0.5$.
-However, action $a_C$ leads to a better one: $0.6$.
-Now, let us define a possibilistic model respecting the ranking of event plausibilities: 
-\begin{itemize}
-\item $\pi \paren{ s_A^1 \sachant a_A } = \pi \paren{ s_A^2 \sachant a_A } = 1$,
-$\rho(s_A^1,a_A) = 1$ and $\rho(s_A^2,a_A) = 0$;
-\item $\pi \paren{ s_B^1 \sachant a_B } = 1$ and $\rho(s_B^1,a_B) = \frac{3}{4}$;
-\item $\pi \paren{ s_C^1 \sachant a_C }=\frac{1}{2}$,
-$\pi \paren{ s_C^2 \sachant a_C }
-= \ldots
-= \pi \paren{ s_C^7 \sachant a_C } = \frac{1}{4}$,
-$\rho(s_C^1,a_C) = 0$ 
-and $\rho(s_C^2,a_C)=\ldots=\rho(s_C^7,a_C) = 1$.
-\end{itemize}
-The action $a_A$ is chosen by the optimistic approach.
-Indeed, it is entirely possible to reach $s_A^1$
-($\pi \paren{ s_A^1 \sachant a_A } = 1$)
-whose preference is $1$.
-The action $a_B$ is chosen by the pessimistic approach
-since the preference $\frac{3}{4}$ is reached with certainty
-with this action:
-action $a_A$ leads potentially to $s_A^1$ with the preference 
-$\rho(s_A^2,a_A)=0$, and $a_C$ leads potentially to $s_C^1$
-with $\rho(s_C^1,a_C) = 0$.
-Thus, in some cases, 
-the three approaches, (the optimistic and pessimistic possibilistic approaches, 
-and the probabilistic approach) 
-may select three different actions.
+Les travaux sur les $\pi$-PDM(MO)
+présentés précédemment ne tirent pas totalement avantage
+de la structure du problème, \textit{i.e.}
+les parties visibles ou cachées de l'état peuvent être elles-même
+factorisées en plusieurs variables d'états. 
+Dans le cadre probabiliste, 
+les PDM factorisés et les méthodes de calcul symboliques 
+\cite{BoutilierDG00,Hoey99spuddstochastic} ont été étudiés
+intensivement dans le but de raisonner directement au niveau des variables
+plutôt que sur l'espace d'état.
+Un travail récent sur ces problématiques est par exemple \cite{RadoszyckiPS14}. 
+Le célèbre algorithme SPUDD
+\cite{Hoey99spudd:stochastic} 
+résout des PDM factorisés en utilisant
+des représentation symboliques de la fonction valeur et des stratégies
+sous la forme d'arbre de décision algébriques (ADDs) \cite{Bahar1997ADD}, 
+qui représentent de manière compacte
+les fonctions réelles de variables booléennes:
+les ADDs sont des arbres 
+dont les noeuds représentent les variables d'état
+et les feuilles sont les valeurs de la fonction. 
+Au lieu de mettre à jour les valeurs de la fonction pour chaque état
+individuellement à chaque itération de l'algorithme,
+ils sont aggrégés dans les ADDs
+et les opérations sont effectués de manière symbolique
+directement entre les ADDs sur plusieurs variables en même temps.
+Cependant, SPUDD est limité par la potentielle manipulation
+d'énormes ADDs dans le pire des cas: par exemple,
+l'espérance implique des additions et des multiplications sur des valeurs réelles
+(probabilités et récompenses), 
+créant de nouvelles valeurs entres elles,
+de manière à ce que le nombre de feuille des ADDs
+peut devenir égal à l'espace d'état,
+\textit{i.e.} exponentiel en le nombre de variables d'état.
 
-Recall that the possibilistic approach benefits from computations 
-on \emph{finite} belief state spaces, 
-whereas probabilistic MOMDPs require \emph{infinite} ones. 
-It means that the same algorithmic techniques can be used to solve $\pi$-MDPs,
-$\pi$-POMDPs or $\pi$-MOMDPs. 
-What is lost in precision of the uncertainty model is saved 
-in computational complexity. Problems where the uncertainty model is
-imprecisely known are also are naturally well-modeled by $\pi$-MOMDPs \cite{Drougard13}: 
-e.g., occurrence frequencies of observations resulting from a complex
-image processing algorithm depend on many environmental factors like light
-conditions so that they are generally not precisely known.
-
-Previously presented works on $\pi$-(MO)MDPs do not totally take advantage of
-the problem structure, i.e. visible or hidden parts of the state can be
-themselves factorized into many state variables, which are flattened by
-current possibilistic approaches. In probabilistic settings, factored MDPs 
-and Symbolic Dynamic Programming (SDP) frameworks
-\cite{DBLP:journals/ai/BoutilierDG00,Hoey99spudd:stochastic} have been
-extensively studied in order to reason directly at the level of state variables
-rather than state space in extension.
-A more recent work is for instance \cite{DBLP:conf/ecai/RadoszyckiPS14}. 
-However, factored probabilistic
-MOMDPs have not yet been proposed to the best of our knowledge, probably because
-of the intricacy of reasoning with a mixture of a finite state subspace and an
-infinite belief state subspace due to the probabilistic model -- contrary to the
-possibilistic case where both subspaces are finite. The famous algorithm SPUDD
-\cite{Hoey99spudd:stochastic} solves factored probabilistic MDPs by using
-symbolic functional representations of value functions and strategies in the form
-of Algebraic Decision Diagrams (ADDs) \cite{Bahar:1997:ADD}, which compactly
-encode real-valued functions of Boolean variables: ADDs are directed acyclic
-graphs whose nodes represent state variables and leaves are the function's
-values. Instead of updating state values individually at each iteration of the
-algorithm, they are aggregated within ADDs and operations are symbolically and
-directly performed on ADDs over many states at once. However, SPUDD suffers from the manipulation of
-potentially huge ADDs in the worst case: for instance,
-expectation involves additions and multiplications of real values (probabilities
-and rewards), creating other values in-between, in such a way that the number of
-ADD leaves may equal the size of the state space, 
-\textit{i.e.} exponential in the
-number of state variables.
-Therefore, the work presented here is motivated by the simple observation that
-\textbf{symbolic operations with possibilistic MDPs would necessarily
-limit the size of ADDs}: indeed, this formalism operates over a \emph{finite}
-possibilistic scale $\mathcal{L}$ with only $\max$ and $\min$ operations involved,
-which implies that all manipulated values remain in the %$\mathcal{L}$ 
-%of their leaves would be at most equal to the cardinal of the possibilistic
-finite scale $\mathcal{L}$, which is generally far smaller than the number of states.
+Ainsi,
+le travail présenté ici
+est motivé par la simple observation
+que les \textbf{opérations symboliques avec des PDM possibilistes
+devraient nécessairement limiter la taille des ADDs}: 
+en effet, ce formalisme opère sur une échelle \emph{finie}
+$\mathcal{L}$ avec seulement les opération $\max$ et $\min$,
+ce qui implique que les valeurs manipulée restent dans
+l'échelle finie $\mathcal{L}$, 
+qui est généralement beaucoup plus petite
+que le nombre d'états.
 \begin{figure} \centering
 \begin{tikzpicture}
 \begin{axis}[grid=major,xmax=100,
-legend entries={ $8$ variables: qualitative settings, quantitative settings,  
-$10$ variables: qualitative settings, quantitative settings},legend style={at={(2,0.6)}},
-xlabel={Size of the scale $\mathcal{L}$},
-ylabel={Maximal number of nodes},
-title={Maximal number of nodes of an ADD: leaves in $\mathcal{L}$ versus in $\mathbb{R}$}]
+legend entries={ $8$ variables: cadre qualitatif, cadre quantitatif,  
+$10$ variables: cadre qualitatif, cadre quantitatif},legend style={at={(2,0.6)}},
+xlabel={Taille de l'échelle $\mathcal{L}$},
+ylabel={Nombre maximal de noeuds},
+title={Nombre maximal de noeud d'un ADD: feuilles dans $\mathcal{L}$ vs dans $\mathbb{R}$}]
 \addplot table[x=scaleSize, y=MaxNbNodesPoss]{ADDsizeFctLsize/src/MAXnbNodes_fctOf_Lsize_8VARS.txt};
 \addplot table[x=scaleSize, y=MaxNbNodes]{ADDsizeFctLsize/src/MAXnbNodes_fctOf_Lsize_8VARS.txt};
 \addplot table[x=scaleSize,y=MaxNbNodesPoss]{ADDsizeFctLsize/src/MAXnbNodes_fctOf_Lsize_10VARS.txt};
 \addplot table[x=scaleSize,y=MaxNbNodes]{ADDsizeFctLsize/src/MAXnbNodes_fctOf_Lsize_10VARS.txt};
 \end{axis}
 \end{tikzpicture}
-\caption[Limitations of the maximal size of an ADD in the possibilistic settings]{
-The maximal size (total number of nodes) 
-of an ADD whose values are in $\mathcal{L}$,
-\textit{i.e.} in qualitative settings, is limited:
-the upper bound is represented in blue and brown lines with circles,
-as a function of the size of $\mathcal{L}$.
-When the leaves of the ADD are in $\mathbb{R}$,
-the number of its nodes is potentially exponential in the number of variables:
-the upper bound is represented with red squares and black stars
-(as a constant function of the size of $\mathcal{L}$).}
+\caption[Limitations de la taille maximale d'un ADD dans le cadre qualitatif]{
+La taille maximale (nombre total de noeuds)
+d'un ADD dont les valeurs sont dans $\mathcal{L}$ is limited:
+cette taille maximale est représentée par les courbes avec les ronds bleus et marrons,
+en fonction de la taille de $\mathcal{L}$.
+Lorsque les feuilles de ADDs sont dans $\mathbb{R}$,
+le nombre de ses noeuds est potentiellement exponentiel
+en le nombre de variables:
+la borne supérieure est représentée par les courbes
+avec les carrés rouges et noirs.
+(fonctions constantes de la taille de $\mathcal{L}$).}
 \label{ADDsize}
 \end{figure}
 
-Figure \ref{ADDsize} shows that 
-ADDs used in the possibilistic settings 
-have a limited number of nodes
-since the number of their leaves 
-are at most equal 
-to the cardinality of the possibilistic
-finite scale $\mathcal{L}$:
+La figure \ref{ADDsize} montre que
+les ADDs utilisés dans le cadre possibiliste
+a un nombre limité de noeuds
+puisque le nombre de feuilled
+est au plus égal au cardinal de
+l'échelle possibiliste qualitative $\mathcal{L}$:
 %which is generally far smaller than the number of states.  
 %Figure \ref{ADDsize} shows 
-the maximal size (maximal number of nodes) of an ADD
-whose leaves are in $\mathcal{L}$, is represented
-as a function of $\# \mathcal{L}$,
-in the case of $8$ and $10$ variables. 
-The largest ADD in quantitative settings
-with $8$ (resp. $10$) variables 
-have $2^9-1$ (resp. $2^{11}-1$) nodes,
-as represented also in Figure \ref{ADDsize}.
-Operating ADDs in the possibilistic framework would behave much
-like manipulating Binary Decision Diagrams (BDDs)
-\cite{Bryant92symbolicboolean}, which are generally more compact and thus more
-efficient than ADDs. 
+la taille maximale (
+nombre maximal de noeud)
+d'un ADD
+dont les feuilles sont dans $\mathcal{L}$, 
+est représenté comme une fonction
+de $\# \mathcal{L}$,
+dans le cas de $8$ et $10$ variables. 
 
-%This paper begins with a presentation of the $\pi$-MOMDP framework.
-%As possibility
-%distributions are in a finite scale $\mathcal{L}$, we will show that all these models
-%reduce to $\pi$-MDPs with finite states, so that an algorithm for $\pi$-MDPs
-% can
-%solve all of them \emph{as is}. This is a major difference with probabilistic
-%sequential decision-making, where partial observable problems give rise to
-%continuous belief MDPs, which belong to a higher complexity class.
-In this chapter we present a Symbolic Dynamic Programming
-algorithm for solving factored $\pi$-MOMDPs named Possibilistic Planning Using
+Dans ce chapitre, nous présentons
+un algorithme basé sur la programmation dynamique symbolique
+pour résoudre les $\pi$-PDMMO factorisés
+appelé Possibilistic Planning Using
 Decision Diagram (PPUDD). 
-This contribution alone is insufficient, since it
-relies on a belief state variable whose number of values is exponential
-in the size of the state space. 
-Therefore, our second contribution is a theorem
-to factorize the belief state 
-itself in many variables under some assumptions
-about dependence relationships between state and observation 
-variables of a $\pi$-MOMDP, 
-which makes our algorithm more tractable while still exact and
-optimal. We note that our idea of factorizing the belief state under
-mixed-observability is sufficiently general to be reused in probabilistic
-models.
-Then, we experimentally assess our approach on possibilistic and
-probabilistic versions of the same benchmarks: PPUDD against SPUDD
-and APRICODD \cite{St-aubin00apricodd:approximate}
-under total observability to demonstrate that the generality of our approximate approach does
-not penalize performances on restrictive submodels; PPUDD against symbolic
-HSVI \cite{Sim:2008:SHS:1620163.1620241}
-(a symbolic version of HSVI, see Section \ref{section_SAalgo}) and APPL
-\cite{Kurniawati-RSS08,OngShaoHsuWee-IJRR10}
-(already used in previous chapter, and based on SARSOP, see Section \ref{section_SAalgo}) 
-under mixed-observability. 
-These promising results were a motivation to take part
-in the International Probabilistic Planning Competition 2014 (IPPC):
-results of PPUDD on the fully observable track of IPPC 2014
-are then provided and discussed. 
-A general practical solver for solving $\pi$-MOMDP using ADDs
-and available on the repository \url{https://github.com/drougui/ppudd})
-is finally detailed:
-performances of this solver 
-on the problems of the Partially Observable track of IPPC
-are also presented.
+Cette contribution seule
+n'est pas suffisante
+puisque les variables de croyance
+ont un nombre de valeurs
+exponentiel en la taille de l'espace des états cachés.
+Donc, notre seconde contribution est un théorème 
+pour factoriser l'état de croyance
+en de nombreuses variables de croyance marginales
+lorsque certaines hypothèses d'indépendance 
+sur les variables d'état et d'observation
+d'un $\pi$-PDMOM sont vérifiées:
+cela permet de résoudre certains problèmes
+dont les calculs sont inabordable tels quels. 
+Notons que notre idée de factorisation
+de l'état de croyance est assez général
+pour être valable pour les modèles probabilistes.
+Enfin, les performances de PPUDD sont comparées à celles de symbolic
+HSVI \cite{Sim2008SHS1620163.1620241}
+(une version symbolique de l'algorithme pour PDMPO called HSVI) 
+et APPL \cite{Kurniawati-RSS08,OngShaoHsuWee-IJRR10}
+(déjà utilisé dans le chapitre précédent, 
+et basé sur SARSOP)
+sous observabilité mixte.
+Les résultats obtenus étant prometteurs,
+nous avons participé à la compétition internationale de planification probabiliste (IPPC 2014)
+et les résultats de PPUDD durant la session entièrement observable d'IPPC 2014
+sont présentés et discutés.
+Un algorithme dédié à la résolution des $\pi$-PDMOM en utilisant des ADDs
+est disponible dans le dépôt \url{https://github.com/drougui/ppudd}).
 
-\section{Solving factored $\pi$-MOMDPs using symbolic dynamic programming} 
+\section{Résoudre des $\pi$-PDMOM en utilisant la programmation dynamique symbolique} 
 \label{section_PPUDD}
-Factored MDPs \cite{Hoey99spudd:stochastic} 
-have been used to efficiently solve structured
-sequential decision problems under probabilistic uncertainty, by symbolically
-reasoning on functions of states via decision diagrams rather than on individual
-states. Inspired by this work on factored MDPs 
-this section sets up a symbolic resolution of
-factored $\pi$-MOMDPs, which assumes that 
-the visible state space $\mathcal{S}_v$, 
-the hidden one $\mathcal{S}_h$ 
-and the set of observations $\mathcal{O}_h$
-are both Cartesian products of finite sets described by variables. 
-It boils down to solving a finite-space belief $\pi$-MDP 
-whose state space is in the form of 
+Les PDM factorisés \cite{Hoey99spuddstochastic} 
+ont été utilisés pour résoudre plus rapidement les
+problèmes structurés de décision séquentielle, 
+sous incertitude probabiliste, 
+en raisonnant symboliquement sur les fonctions
+des états du systèmes, à travers des arbres de décision algébriques. 
+Inspiré par ce travail,
+cette section présente la résolution symbolique
+des $\pi$-PDMOM factorisés:
+dans ce modèle, l'espace des états visibles $\mathcal{S}_v$, 
+l'espace des états cachés $\mathcal{S}_h$
+et l'ensemble des observations $\mathcal{O}_h$
+sont tels que l'espace d'état du $\pi$-PDM résultant 
+(basé sur l'espace des états de croyances et l'espace des variables visibles)
+est sous la forme 
 $\mathcal{S}^1_v \times \cdots \times \mathcal{S}^m_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}}$, 
-where each of those spaces is finite. 
-We will see in the next section how $\Pi^{\mathcal{S}_h}_{\mathcal{L}}$ 
-can be further factorized thanks to the factorization of $\mathcal{S}_h$
-and $\mathcal{O}_h$. 
-While probabilistic belief factorization 
-in \cite{DBLP:conf/aaai/BoyenK99,DBLP:conf/aips/ShaniPBS08} 
-is approximate, the one presented here relies on some assumptions but is exact. 
-For now, as finite spaces of size $K$ can be themselves
-factorized into $\lceil \log_2 K \rceil$ binary-variable spaces (see
-\cite{Hoey99spudd:stochastic}), we can assume that we are reasoning about a
-factorized belief state $\pi$-MDP whose state space is denoted by $\mathcal{X}$
-and fully described by variables $(X^1,\ldots,X^n)$, with  $n \in
-\mathbb{N}^{\ast}$ and $\forall i$, $X^i \in \set{\top,\bot}$:
+où chacun de ces espaces sont finis.
+Nous verrons dans la section suivante comment $\Pi^{\mathcal{S}_h}_{\mathcal{L}}$
+peut être factorisé de cette manière
+grâce à la factorisation de $\mathcal{S}_h$
+et $\mathcal{O}_h$. 
+La factorisation de la variable de la croyance probabiliste
+dans \cite{DBLP:conf/aaai/BoyenK99,DBLP:conf/aips/ShaniPBS08} 
+est approximative, tandis que celle présentée ici est exacte.
+Puisque les espaces finis de taille $K$
+peuvent être eux-même factorisés
+en $\lceil \log_2 K \rceil$ espaces binaires \cite{Hoey99spudd:stochastic}, 
+nous poubons faire l'hypothèse que nous raisonnons 
+sur un $\pi$-PDM dont l'espace d'état est noté $\mathcal{X}$
+est entièrement décrit par les variables $(X^1,\ldots,X^n)$, 
+avec $n \in \mathbb{N}^{\ast}$ et $\forall i$, $X^i \in \set{\top,\bot}$:
 $\mathcal{X} = \set{\top,\bot}^n$.
 
-%A belief variable is typically non binary because it 
-%can take at least three values: $(1,0)$, $(0,1)$ and $(1,1)$ if $\# \mathcal{S}_h = 2$.
-%%The current state is denoted by $X$ and the next one by $X'=(X_1',\ldots,X_p')$.  
-%Regrouping $c_i \geqslant 1$ potential post-action dependent binary variables $(X_j)_{j=k}^{k+c_i-1}$ into a variable $\mathbb{X}_i$ creates
-% $\mathbb{X}=(\mathbb{X}_1,\ldots,\mathbb{X}_n )$ with $n \leqslant p$, ensuring that 
-%%next state's variables 
-%%$\mathbb{X}_i'$ depend for each action only on a subset of $\mathbb{X}$ \textit{i.e.} 
-%$\mathbb{X}_1',\ldots,\mathbb{X}_n'$ 
-%are independent given $\mathbb{X}$ and $a$.
-
-Recall that Dynamic Bayesian Networks (DBNs) \cite{Dean:1989:DBN}
-already used in Section \ref{section_Markov2POMDP} 
-(for instance taking part of the influence diagrams 
-in Figure \ref{fig_mdp} and Figure \ref{POMDP})
-and in the previous chapter (Figure \ref{piMOMDP} illustrating the Mixed-Observable structure)
-are a useful graphical representation of studied processes. 
-A DBN representing the structure of a factored $\pi$-MDP is depicted 
-in Figure \ref{fig_piMDPFact}:
-the state variables at a given time step $t \geqslant 0$ 
-are denoted by $X_t = (X_t^i)_{i=1}^n$ (current variables),
-and $(X^i_{t+1})_{i=1}^n$ are the state variables at step $t+1$ (next variables).
+Rappelons que les réseaux bayésiens dynamiques (DBNs) \cite{Dean:1989:DBN}
+déjà utilisés en section \ref{section_Markov2POMDP} 
+(par exemple dans le diagramme d'influence figure \ref{POMDP})
+et dans le chapitre précédent (figure \ref{piMOMDP} 
+illustrant la structure d'observabilité mixte)
+sont des représentations graphique très utiles pour les processus étudiés. 
+Un DBN représentant la structure d'un $\pi$-PDM factorisé
+est dessiné dans la figure \ref{fig_piMDPFact}:
+les variables d'état à une étape de temps donnée $t \geqslant 0$
+sont notées $X_t = (X_t^i)_{i=1}^n$ (variables courantes),
+et $(X^i_{t+1})_{i=1}^n$ sont les variables d'état à l'étape de temps $t+1$ (variable suivante).
 \begin{figure}\centering
 \begin{tikzpicture}[scale=1.5,transform shape]
 %% vertex shape and color
@@ -402,183 +274,39 @@ and $(X^i_{t+1})_{i=1}^n$ are the state variables at step $t+1$ (next variables)
 \node (T1) at (6.4,2.7) {$T^1_a$};
 \node (T2) at (6.4,1.3) {$T^2_a$};
 \end{tikzpicture}
-\caption[Dynamic Bayesian Network of a factored ($\pi$-)MDP]
-{Dynamic Bayesian Network of a factored ($\pi$-)MDP:
-in the possibilistic (resp. probabilistic) 
-framework $T^i_a$ is the transition possibility (resp. probability) 
-distribution of next variable $X^i_{t+1}$ conditional to
-the selected action $a \in \mathcal{A}$
-and its parents $parents(X^i_{t+1}) \subseteq \set{X^1_t,\ldots,X^n_t}$
-(\textit{i.e.} $parents(X^i_{t+1})$ is a subset of the current state variables)
-where $n\geqslant1$ is the number of variables describing the state space.
+\caption[Réseau bayésien dynamique d'un ($\pi$-)PDM factorisé]
+{Réseau dynamique bayésien pour des ($\pi$-)PDM:
+dans le cadre possibiliste (resp. probabiliste) 
+$T^i_a$ est la distribution de possibilité (resp. probabilité) de transition
+sur la variable d'état $X^i_{t+1}$
+conditionnellement à
+l'action sélectionnée $a \in \mathcal{A}$
+et à ses parents $parents(X^i_{t+1}) \subseteq \set{X^1_t,\ldots,X^n_t}$
+(\textit{i.e.} $parents(X^i_{t+1})$ est un sous ensemble de l'ensemble des variables d'état courantes)
+où $n\geqslant1$ est le nombre de variables décrivant l'espace d'état.
 }
 \label{fig_piMDPFact}
 \end{figure}
-In DBN semantics 
-$parents(X^i_{t+1})$ is the set of state variables on which the next state variable $X^i_{t+1}$ ``depends'',
-\textit{i.e.} a variable $Y$, represented by a node in the DBN, 
-is in $parents(X^i_{t+1})$ if and only if there is an arrow from $Y$ to $X^j_{t+1}$.
-We assume that $parents(X^i_{t+1}) \subseteq \set{X^1_t,\ldots,X^n_t}$,
-\textit{i.e.} parents of the next state variable $X^i_{t+1}$
-are a part of the current state variables $\set{X^1_t,\ldots,X^n_t}$:
-there cannot be any arrow between state variables of the same time step.
-Methods are discussed in the literature to circumvent this restrictive assumption
-\cite{DBLP:conf/uai/Boutilier97}. 
+Dans le cadre des DBNs, $parents(X^i_{t+1})$ 
+est l'ensemble des variables d'état
+desquelles la variable d'état suivante $X^i_{t+1}$ dépend,
+\textit{i.e.} une variable $Y$, 
+représenté par un noeud dans le DBN,
+est dans $parents(X^i_{t+1})$ 
+si et seulement si il y a une flèche de $Y$ à $X^j_{t+1}$.
+Nous supposons que $parents(X^i_{t+1}) \subseteq \set{X^1_t,\ldots,X^n_t}$,
+\textit{i.e.} les parents de la variable d'état suivante $X^i_{t+1}$
+font partie des variables d'état courantes $\set{X^1_t,\ldots,X^n_t}$:
+il ne peut y avoir de flèches entre
+les variables d'état de la même étape de temps.
 
-As recalled in Section \ref{section_MarkovChains}, 
-in probabilistic settings, 
-the absence of an arrow in a Bayesian Network
-represents an independence assumption. 
-Let us consider a set of variables
-$\set{Y_1, \ldots, Y_p}$, with $p>1$, 
-and such that 
-$\forall i \in \set{1,\ldots,p}$, $Y_i \in \mathcal{Y}_i$ 
-where $\mathcal{Y}_i$ is a finite set.
-For each $i \in \set{1,\ldots,p}$, 
-the set of the parents of variables $Y_i$
-can be denoted by 
-$parents(Y_i) = \set{ Y_{pa_i(1)}, \ldots, Y_{pa_i(p_i)} } \subseteq \set{ Y_1,\ldots,Y_p }$,
-where $pa_i: \set{1,\ldots,p_i} \rightarrow \set{1,\ldots,p}$ is an increasing function.
-(note that $p_i \leqslant p$).
-Let us recall that $children(Y_i)$ is the set of all the variables $Y_j \in \set{ Y_1,\ldots,Y_p }$ 
-such that there is an arrow from $Y_i$ to $Y_j$.
-The set $descend(Y_i)$ is the set of the descendants of variable $Y_i$:
-$descend(Y_i)$ is defined as the smallest set containing $children(Y_i)$,
-and such that $\forall Y_j \in descend(Y_i)$, $children(Y_j) \subset descend(Y_i)$.
-The set of non-descendants 
-$nondescend(Y_i) = \Big\{ Y_j \in \set{ Y_1,\ldots,Y_p } \ \Big\vert \ Y_j \notin \set{Y_i} \cup descend(Y_i) \cup parents(Y_i)  \Big\}$
-can be also denoted by $\set{ Y_{nd_i(1)}, \ldots, Y_{nd_i(d_i)} } \subset \set{ Y_1,\ldots,Y_p }$
-where $nd_i: \set{1,\ldots,d_i} \rightarrow \set{1,\ldots,n}$ is an increasing function (and $d_i \leqslant p$).
-Hence, a DBN makes the assumption that
-$Y_i$ is independent from its non-descendants conditional on its parents:
-$Y_i \ \ \perp\!\!\!\perp \ \ nondescend(Y_i) \ \ \vert \ \ parents(Y_i)$.
-In the probabilistic case, it can be written
-$\forall (y_1,\ldots,y_p) \in \mathcal{Y}_1 \times \ldots \times \mathcal{Y}_p$,
-$\forall i \in \set{1,\ldots p}$,
-\[\mathbb{P} \paren{ Y_i=y_i \ \Big\vert \ Y_{pa_i(1)}=y_{pa_i(1)},\ldots, Y_{pa_i(p_i)}=y_{pa_i(p_i)}, Y_{nd_i(1)} = y_{nd_i(1)}, \ldots, Y_{nd_i(d_i)} = y_{nd_i(d_i)} }  \]
-\begin{equation}
-\label{DBNindep_prob} 
-= \mathbb{P} \paren{ Y_i=y_i \ \Big\vert \ Y_{pa_i(1)}=y_{pa_i(1)},\ldots, Y_{pa_i(p_i)}=y_{pa_i(p_i)} }.
-\end{equation}
-This equation holds with a subset of the non-descendants $N \subset nondescend(Y_i)$: 
-it suffices to consider the probability distribution 
-over the set $nondescend(Y_i)\setminus N$, 
-and compute the probabilistic expectation 
-of each parts of the equation with respect to it.
-The upper part is the probability distribution conditional on the parents of $Y_i$ and on $C$,
-and the lower part remains the same.
-
-Using this formula, if we consider the state variables $(X^i_t)_{t \in \set{0,\ldots,H}}^{i \in \set{1,\ldots,n}}$
-and actions $(a_t)_{t=0}^{H-1}$
-of a factored MDP, 
-denoting by $X_t$ the variables $(X^i_t)_{i=1}^n$,
-we get from the DBN of Figure \ref{fig_piMDPFact} that
-$\forall t \in \set{ 0,\ldots, H-1}$, $\forall (x_0,\ldots,x_{t+1}) \in \set{ \top, \bot }^{t+2}$, $\forall (a_0,\ldots,a_t) \in \mathcal{A}^{t+1}$,
-\[ \mathbb{P} \paren{ X_{t+1}=x_{t+1} \sachant X_0=x_0, \ldots, X_t=x_t, a_0,\ldots,a_{t-1} } = \mathbb{P} \paren{ X_{t+1}=x_{t+1} \sachant X_t=x_t, a_t }, \]
-which is nothing more than the Markov property,
-justifying the definition of the transition probability distributions $\textbf{p}(x' \vert x, a)$,
-$\forall (x,x') \in \set{ \top, \bot }^{2n}$ and $\forall a \in \mathcal{A}$.
-
-Section \ref{qualitative_indep} explains that Qualitative Possibility Theory 
-admits more than one independence definition:
-for instance, the non-interactivity independence (NI-independence, see Definition \ref{def_NIindep}) 
-and the causal or min-based independence (M-independence, see Definition \ref{def_mbindep})
-are two useful independence definitions for this chapter.
-If a DBN models M-dependences (causal dependences) 
-between variables, 
-then Equation \ref{DBNindep_prob} holds 
-replacing the probability measure $\mathbb{P}$ 
-by the possibility measure $\Pi$:
-\[\Pi \paren{ Y_i=y_i \ \Big\vert \ Y_{pa_i(1)}=y_{pa_i(1)},\ldots, Y_{pa_i(p_i)}=y_{pa_i(p_i)}, Y_{nd_i(1)} = y_{nd_i(1)}, \ldots, Y_{nd_i(d_i)} = y_{nd_i(d_i)} }  \]
-\begin{equation}
-\label{DBN_M_indep}
-= \Pi \paren{ Y_i=y_i \ \Big\vert \ Y_{pa_i(1)}=y_{pa_i(1)},\ldots, Y_{pa_i(p_i)}=y_{pa_i(p_i)} },
-\end{equation}
-which also holds considering only a subset of the descendants.
-The possibilistic Markov property is also deduced from 
-the DBN of Figure \ref{fig_piMDPFact} the same result for $\pi$-MDPs:
-$\forall t \in \set{ 0,\ldots, H-1}$, $\forall (x_0,\ldots,x_{t+1}) \in \set{ \top, \bot }^{t+2}$, $\forall (a_0,\ldots,a_t) \in \mathcal{A}^{t+1}$,
-\[ \Pi \paren{ X_{t+1}=x_{t+1} \sachant X_0=x_0, \ldots, X_t=x_t, a_0,\ldots,a_{t-1} } = \Pi \paren{ X_{t+1}=x_{t+1} \sachant X_t=x_t, a_t }, \]
-which has been already defined in Section \ref{subsection_piMDPs}, see Equation \ref{equation_possmarkov}.
-
-Consider again variables $(Y)_{i=1}^n$.
-Let $A$ and $B$ be two disjoint subsets
-of $\set{1,\ldots,n}$. 
-In order to simplify notations,
-if the probability 
-$\mathbb{P} \paren{ (Y_i=y_i)_{i \in A} \sachant (Y_j=y_j)_{j \in B}  }$
-is considered $\forall (y_i)_{i \in A} \in \bigtimes_{i \in A} \mathcal{Y}_i$
-and $\forall(y_i)_{i \in B} \in \bigtimes_{i \in B} \mathcal{Y}_i$,
-the probability can be denoted by 
-$\mathbb{P} \paren{ (Y_i)_{i \in A} \sachant (Y_j)_{j \in B} }$.
-For instance, Equation \ref{DBNindep_prob} can be rewritten
-\[ \mathbb{P} \paren{ Y_i \ \Big\vert \ parents(Y_i), nondescend(Y_i) } = \mathbb{P} \paren{ Y_i \ \Big\vert \ parents(Y_i) }. \]
-
-Let $(i_k)_{k=1}^s$ be an increasing sequence of indices  with $s \leqslant p$,
-defining the set of variables $\set{Y_{i_1}, \ldots, Y_{i_k}}$.
-The parents of variables $\set{Y_{i_1}, \ldots, Y_{i_k}}$ are
-\[ parents \Big( (Y_{i_k})_{k=1}^s \Big) := \displaystyle \bigcup_{k=1}^s parents(Y_{i_k}). \]
-Suppose that the set of variables $\set{Y_{i_1}, \ldots, Y_{i_k}}$
-is such that %$\forall k \in \set{1,\ldots,s}$, 
-$parents \Big( (Y_{i_k})_{k=1}^s \Big) \cap \set{Y_{i_1},\ldots,Y_{i_k}} = \emptyset$,
-\textit{i.e.} the parents of variables $\set{Y_{i_1},\ldots,Y_{i_k}}$ 
-are not in $\set{Y_{i_1},\ldots,Y_{i_k}}$.
-Then, using the equation (\ref{DBNindep_prob}),  
-we can write \\
-$\mathbb{P} \paren{ (Y_{i_k})_{k=1}^s \ \bigg\vert \  parents \Big( (Y_{i_k})_{k=1}^s \Big)  }$
-\begin{align*}
-\hspace{3cm} &= \mathbb{P} \paren{ Y_{i_1} \ \bigg\vert \  parents \Big( (Y_{i_k})_{k=1}^s \Big)  } \cdot \mathbb{P} \paren{ Y_{i_2} \ \bigg\vert \  Y_{i_1}, parents \Big( (Y_{i_k})_{k=1}^s \Big)  } \cdot \\
-&\hspace{2cm} \ldots \cdot \mathbb{P} \paren{ Y_{i_s} \ \bigg\vert \ Y_{i_1}, \ldots, Y_{i_{s-1}},  parents \Big( (Y_{i_k})_{k=1}^s \Big)  }  \\
-&= \prod_{k=1}^s \mathbb{P} \Big( Y_{i_k} \ \Big\vert \ parents(Y_{i_k})   \Big).
-\end{align*}
-As already noted, the variables of the factored MDP model depicted by Figure \ref{fig_piMDPFact},
-are such that $\forall t \geqslant 0$, $\forall i \in \set{1,\ldots,n}$, 
-$parents(X^i_{t+1}) \subseteq \set{ X^1_t,\ldots,X^n_t }$:
-thus, using the previous general equation (with variables $(Y_i)_{i=1}^p$), 
-%$\forall (x^1_t,\ldots,x^n_t,x^1_{t+1},\ldots,x^n_{t+1})=(x_t,x_{t+1}) \in \set{ \top, \bot}^{2n}$,
-\begin{align*}
-\mathbb{P} \paren{ X_{t+1} \sachant X_t, a_t } &= \mathbb{P} \paren{ X^1_{t+1}, \ldots, X^n_{t+1} \sachant X_t, a_t }\\
-&= \prod_{i=1}^{n} \mathbb{P} \Big( X^i_{t+1} \ \Big\vert parents(X^i_{t+1}), a_t \Big). 
-\end{align*}
-It shows that the transition probability distributions $\textbf{p} \paren{x' \sachant x,a}$ 
-can be computed from the simpler distributions 
-$\mathbb{P} \paren{ X^i_{t+1} \sachant parents(X^i_{t+1}), a_t  }$, $\forall i \in \set{1,\ldots,n}$.
-These transition distributions are denoted by $\textbf{p} \paren{ X_i' \sachant parents(X_i'), a }$,
-and by $T^i_a$ in Figure \ref{fig_piMDPFact}.
- 
-If we consider that the DBN involving variables $(Y_i)_{i=1}^k$ 
-represents the M-dependences, 
-Equation \ref{DBN_M_indep} holds, 
-and using the definition 
-of the qualitative possibilistic conditioning 
-(Definition \ref{def_cond}),
-we can also write \\
-$\Pi \paren{ (Y_{i_k})_{k=1}^s \ \bigg\vert \  parents \Big( (Y_{i_k})_{k=1}^s \Big)  }$
-\begin{align*}
-\hspace{3cm} &= \min \Bigg\{ \Pi \paren{ Y_{i_1} \ \bigg\vert \  parents \Big( (Y_{i_k})_{k=1}^s \Big)  }, \Pi \paren{ Y_{i_2} \ \bigg\vert \  Y_{i_1}, parents \Big( (Y_{i_k})_{k=1}^s \Big)  }, \\
-&\hspace{2cm} \ldots, \Pi \paren{ Y_{i_s} \ \bigg\vert \ Y_{i_1}, \ldots, Y_{i_{s-1}},  parents \Big( (Y_{i_k})_{k=1}^s \Big)  } \Bigg\}  \\
-&= \min_{k=1}^s \Pi \Big( Y_{i_k} \ \Big\vert \ parents(Y_{i_k})   \Big),
-\end{align*}
-under the same assumption: $parents \Big( (Y_{i_k})_{k=1}^s \Big) \cap \set{Y_{i_1},\ldots,Y_{i_k}} = \emptyset$. 
-Thus, as we consider that 
-the DBN in Figure \ref{fig_piMDPFact}
-represents the M-dependences,
-\begin{align*}
-\Pi \paren{ X_{t+1} \sachant X_t, a_t } &= \Pi \paren{ X^1_{t+1}, \ldots, X^n_{t+1} \sachant X_t, a_t }\\
-&= \min_{i=1}^{n} \Pi \Big( X^i_{t+1} \ \Big\vert parents(X^i_{t+1}), a_t \Big). 
-\end{align*}
-The transition possibility distributions $\pi \paren{x' \sachant x,a}$ 
-can be computed from the simpler distributions 
-$\Pi \paren{ X^i_{t+1} \sachant parents(X^i_{t+1}), a_t  }$, $\forall i \in \set{1,\ldots,n}$,
-denoted by $\pi \paren{ X^i_{t+1} \sachant parents(X^i_{t+1}), a }$,
-and by $T^i_a$ in Figure \ref{fig_piMDPFact}.
-
-With the $\pi$-MOMDP notations, assumptions of the Bayesian Network
-in Figure \ref{fig_piMDPFact}
-allow us to compute the joint possibility transition as 
+Avec les notations du $\pi$-PDMOM, 
+les hypothèses du réseau bayésien
+de la figure \ref{fig_piMDPFact}
+nous permettent de calculer la distribution de possibilité jointe: 
 $\pi \paren{s_v',\beta_h' \sachant s_v,\beta_h,a} = \pi \paren{ X' \sachant X,a } = \min_{i=1}^{n} \pi \paren{ X_i' \sachant parents(X_i'),a}$,
-where, given a time step $t$, 
-primed variables are variables concerning time step $t+1$
+où, étant donné l'étape de temps $t$,
+les variables primées sont les variables concernant l'étape de temps $t+1$
 (next variables), and non-primed variables are current variables 
 (at time step $t$): for instance, 
 $X_i'$ is the notation for $X^i_{t+1}$,
@@ -755,39 +483,6 @@ iteratively regressed over successive post-action state variables $X'_i ,
 \draw [dashed] (rrX2) -- (rrL2);
 \draw [dashed] (rrpX2) -- (rrL2);
 
-
-
-%\draw (2,-1) node (rXp1) {$X'_1$};
-%\draw (2.5,-2) node (rXp2) {$X'_2$};
-%\draw (1.7,-3) node (rX1) {$X_1$};
-%\draw (2,-4) node (rX2) {$X_2$};
-%\draw (1,-5) node (rL1) {$\frac{2}{3}$};
-%\draw (2.5,-5) node (rL2) {$\frac{1}{3}$};
-%\draw (3,-3) node (rL3) {$0$};
-
-%\draw [dashed] (rXp1) -- (rXp2);
-%\draw (rXp2) -- (rX1);
-%\draw [dashed] (rXp2) -- (rL3);
-%\draw (rX1) -- (rL1);
-%\draw [dashed] (rX1) -- (rX2);
-%\draw (rX2) -- (rL1);
-%\draw [dashed] (rX2) -- (rL2);
-
-%\draw (1,-2) node (gXp2) {$X'_2$};
-%\draw (0.5,-3) node (dL1) {$\frac{1}{3}$};
-%\draw [dashed] (gXp2) -- (rX1);
-%\draw (gXp2) -- (dL1);
-%\draw (rXp1) -- (gXp2);
-%\draw (3.5,-3.5) node {$\xrightarrow[\text{\ovalbox{$\max$}}_{X'_1,X'_2}]{}$};%
-
-%\draw (5,-2) node (rrX1) {$X_1$};
-%\draw (5.5,-3) node (rrX2) {$X_2$};
-%\draw (4.5,-4) node (rrL1) {$\frac{2}{3}$};
-%\draw (6,-4) node (rrL2) {$\frac{1}{3}$};
-%\draw (rrX1) -- (rrL1);
-%\draw [dashed] (rrX1) -- (rrX2);
-%\draw (rrX2) -- (rrL1);
-%\draw [dashed] (rrX2) -- (rrL2);
 \end{tikzpicture}
 \caption{Symbolic regression of the current Q-value ADD combined with the transition ADD of Figure \ref{fig_ADDtransition}\\}
 \label{fig_ADDregression}
@@ -800,16 +495,6 @@ Q-value of an action for the first state variable $X_1$ and leads to the intuiti
 smaller in practice under possibilistic settings, since their leaves lie in $\mathcal{L}$ instead
 of $\mathbb{R}$, thus yielding more sub-graph simplifications.
 
-% Contrary to factored
-%\emph{probabilistic} MDPs, for which additions and multiplications involved in
-%the computation of Q-values create new values (i.e. ADD leaves) most of the
-%time, factored $\pi$-MOMDPs' $\min$ and $\max$ operations do not create new values
-%from the input ADDs. More concretely, ADDs with probabilistic operations can have up to
-%$2^n$ leaves (i.e. as many values as the number of states), whereas ADDs with
-%possibilistic operations can have up to $\#\mathcal{L} \ll 2^n$ leaves. It means that
-%ADDs should be far smaller in practice under possibilistic settings, which was a
-%motivation for this paper and is experimentally checked in a forthcoming
-%section.
 
 \begin{algorithm} \caption{PPUDD (infinite horizon resolution)} \label{PPUDD} 
  $\overline{U^*} \gets 0$ ;
@@ -888,13 +573,13 @@ offered by reasoning about separate state variables as we do (Lines
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{$\pi$-MOMDP belief factorization}
+\section{Factorisation de la variable de croyance d'un $\pi$-PDMOM}
 %\subsection{Possibilistic Bayesian Networks and Independences}
 %\subsection{The $\pi$-MOMDP case}
 Factorizing the belief variable requires three structural assumptions on the 
 $\pi$-MOMDP's DBN, which are illustrated by the Rocksample benchmark 
 \cite{Smith:2004:HSV:1036843.1036906}.
-\subsection{Motivating example.}
+\subsection{Exemple de motivation}
 \label{section_RS_motivatingEx}
 A rover navigating in a $g \times g$ grid has to collect scientific samples from 
 interesting (``good'') rocks among $R$ ones and then to reach the exit.
@@ -923,14 +608,6 @@ and sampling the current rock, ($a_{sample}$);
 % $\mathcal{O}_{1} \times \ldots \times \mathcal{O}_{R}$ where $\forall 1 \leqslant i \leqslant R$, $\mathcal{O}_{i}=\set{ o_{good},o_{bad} }$ are observations concerning the $i^{th}$ rock. \\
 \end{itemize}
 
-%Without going into details of the model, the factorization of the observation
-%set naturally yields to the structural assumption required for factored
-%$\pi$-MOMDPs, since each observation variable is mapped to a hidden state
-%variable. 
-%Note that the observation set of this domain is best known in the
-%literature in the simpler form $\mathcal{O}=\{o_{good},o_{bad}\}$, where the
-%observation concerns the current rock, which is strictly equivalent to the
-%previous factorization but does not highlight the structure of the problem. 
 The rationale behind observation dynamics is the following: 
 the more the rover is close to
 the checked rock, the better it observes its nature. 
@@ -1187,7 +864,7 @@ and the corresponding current hidden state variable.
 \label{fig_piMOMDPFact}
 \end{figure}
 
-\subsection{Consequences of the factorization assumptions}
+\subsection{Conséquences des hypothèses de factorisation}
 \label{section_factoAssumptions}
 In this section, we formally demonstrate how the three previous independence assumptions can be
 used to factorize $\Pi^{\mathcal{S}_h}_{\mathcal{L}}$ 
@@ -1195,17 +872,6 @@ as the Cartesian product $\displaystyle \bigtimes_{j=1}^{l} \Pi^{\mathcal{S}^j_h
 indeed, the belief state $\beta_h$ about the hidden states $s_h \in \mathcal{S}_h$ 
 can be represented with marginal belief states $\beta^j_h \in \Pi^{\mathcal{S}^j_h}_{\mathcal{L}}$
 about hidden states $s^j \in \mathcal{S}^j_h$, $\forall j \in \set{1,\ldots,l}$.
-% via the $\min$ aggregation:
-%As in the probabilistic framework, the possibilistic belief at time step $t
-%\geqslant 0$ is defined as the possibility distribution over variable $s_{h,t}$
-%conditioned on history $h_t$: $\forall s_h \in \mathcal{S}_h$, $\beta_t(s_h) = \pi
-%\paren{ s_h \sachant h_t }$. %if $s_{h,1}, \ldots,s_{h,l}$ are initially
-% independent, then
-% at each time
-%step $t>0$ the belief over hidden states can be written $\beta_t =
-% \min_{j=1}^{l} \beta_{t,j}$ with
-%$\forall s_j \in \mathcal{S}_{h,j}$, $\beta_{t,j}(s_j) = \pi \paren{ s_j \sachant
-% h_t }$ the belief over $\mathcal{S}_j$.
 
 To this end, we will use the \textit{d-Separation criterion} \cite{pearl88} 
 in order to show some independence between variables from the DBN.
@@ -1291,17 +957,6 @@ concerning hidden states of the set $\mathcal{S}^j_h$.
 \end{theorem}
 The proof is given in Annex \ref{thmSHind_RETURN}.
 
-%Note that, in the Rocksample problem, independence of the natures of rocks with respect to the belief is rather intuitive.
-%This independence between hidden variables conditioned on the history can be shown using the
-%\textit{d-separation} relationship \cite{Pearl:1988:PRI:52121} used for example
-%in \cite{Witwicki:ICAPS2013}. Note that it would not be true if
-%the same observation variable $o$ would have concerned two different hidden
-%state variables $s_{h,p}$ and $s_{h,q}$: as $o$ is part of the history, there
-%would be a convergent (towards $o$) relationship between $s_{h,p}$ and $s_{h,q}$
-%and the hidden state variable would have been dependent (because d-connected)
-%conditioned on history. Moreover if hidden state variable $s_{h,p}'$ could depend 
-%on previous hidden state variable $s_{h,q}$, $s_{h,p}'$ and $s_{h,q}'$ would have 
-%been dependent conditioned on history because d-connected trough $s_{h,q}$.
 Thanks to the previous theorem, the state space accessible to the agent can now be rewritten as 
 $\mathcal{S}^1_v \times \ldots \times
 \mathcal{S}^m_v \times \Pi^{\mathcal{S}^1_h}_{\mathcal{L}} \times \cdots \times \Pi^{\mathcal{S}^l_h}_{\mathcal{L}}$ 
@@ -1340,15 +995,6 @@ Figure \ref{fig_piMDPFact},
 as successive variables $X^1_t, \ldots, X^n_t$.
 This result is based on Lemma
 \ref{lemBEL}, which shows how marginal belief state are actually updated. 
-%For this purpose, we recursively define the history concerning hidden variable
-%$s_{h,j}$: $h_{j,0} = \set{ \beta_{j,0} }$ and $\forall t \geqslant 0$,
-%$h_{j,t+1}=\set{o_{j,t+1},s_{v,t},a_{t},h_{j,t}}$.
-%Similarly to the belief update presented in the background section concerning the transformation of
-%$\pi$-MOMDPs to $\pi$-MDPs, 
- 
-%$\pi \paren{ s_{h,j}' \sachant s_v,\beta_{j},a } = \max_{s_{h,j}} \min \set{ \pi \paren{ s_{h,j}' \sachant s_v, s_{h,j}, a}, \beta_j(s_{h,j})} $ \\
-%$\pi \paren{ o_j', s_{h,j}' \sachant s_v, \beta_j,a }  = \min \set{ \pi \paren{ o_j' \sachant s_{h,j}', s_v, a } , \pi \paren{ s_{h,j}' \sachant s_v,  \beta_j,  a }  }$ \\
-
 
 \begin{Lemma}[Update of the marginal belief states]
 \label{lemBEL}
@@ -1424,71 +1070,10 @@ Moreover, probabilistic independence relation obey the axioms of semi-graphoids:
 so previous independence results due to d-Separation are also true in probabilistic settings. 
 If independence assumptions between variables of a probabilistic MOMDP \cite{OngShaoHsuWee-IJRR10,AraThoBufCha-ICTAI10} are described 
 by the DBN of Figure \ref{fig_piMOMDPFact},
-then a similar factorization result can be deduced:
-\begin{theorem}[Factored expression of the transition probability distribution]
-\label{thm_factoredPROBbelief}
-Consider a probabilistic MOMDP with independence assumptions described by the DBN of Figure \ref{fig_piMOMDPFact}.
-The following probability distributions define entirely dynamics of variables:
-\begin{itemize}
-\item the transition probability distributions of visible state variables: 
-$\forall i \in \set{1,\ldots,m}$, 
-\[ \textbf{p} \paren{ s^i_{v,t+1} \sachant s_{v,t}, a_t } = \mathbb{P} \paren{ S^i_{v,t+1} = s^i_{v,t+1} \sachant S_{v,t} = s_{v,t}, a_t  }; \]	
-\item the transition probability distributions of hidden state variables:
-$\forall j \in \set{1,\ldots,l}$,
-\[ \textbf{p} \paren{ s^j_{h,t+1} \sachant s_{v,t}, s^j_{h,t}, a_t } = \mathbb{P} \paren{ S^j_{h,t+1} = s^j_{h,t+1} \sachant S_{v,t} = s_{v,t}, S^j_{h,t} =  s^j_{h,t}, a_t  }; \]
-\item the observation probability distributions:
-$\forall j \in \set{1,\ldots,l}$,
-\[ \textbf{p} \paren{ o^j_{t+1} \sachant s_{v,t}, s^j_{h,t+1}, a_t } = \mathbb{P} \paren{ O^j_{t+1} = o^j_{t+1} \sachant S_{v,t} = s_{v,t}, S^j_{h,t+1} =  s^j_{h,t+1}, a_t  }. \]
-\end{itemize}
-Let us define probabilistic marginal belief states:
-$\forall j \in \set{1,\ldots,l}$, $\forall s \in \mathcal{S}^j_h$, 
-\[ b^j_{h,t}(s) = \mathbb{P} \paren{ S^j_{h,t} = s \sachant I_t = i_t}.\]
-Given such a marginal belief state $b^j_{h,t}$
-and a visible state $s_{v,t} \in \mathcal{S}_v$, 
-if the action $a_t \in \mathcal{A}$ is selected
-and the observation $o^j_{t+1} \in \mathcal{O}^j$
-is received, 
-then the next belief state about the $j^{th}$ hidden state variable is
-$\forall s^j_{h,t+1} \in \mathcal{S}^j_h$, 
-\[ b^j_{h,t+1}(s^j_{h,t+1}) \propto \textbf{p} \paren{ o^j_{t+1} \sachant s_{v,t}, s^j_{h,t+1}, a_t } \cdot 
-\sum_{s^j_{h,t} \in \mathcal{S}_h^j} \textbf{p} \paren{ s^j_{h,t+1} \sachant s_{v,t}, s^j_{h,t}, a_t } \cdot b(s^j_{h,t}), \]
-denoted by $b^j_{h,t+1}(s^j_{h,t+1}) = u^j(s_{v,t},b^j_{h,t},a_t,o^j_{t+1})$.
+then a similar factorization result can be deduced.
+The MDP built from such a probabilistic MOMDP is thus a factored MDP,
+with infinite state space.
 
-The transition probability distribution can be written as follows:
-$\forall b_{h,t}=(b^1_{h,t},\ldots,b^l_{h,t}) \in \mathbb{P}^{\mathcal{S}_h}, 
-b_{h,t+1} = (b^1_{h,t+1},\ldots,b^l_{h,t+1}) \in  \mathbb{P}^{\mathcal{S}_h}$, 
-$\forall (s_{v,t},s_{v,t+1}) \in (\mathcal{S}_v)^2$, 
-$\forall a_t \in \mathcal{A}$, 
-\[ \textbf{p} \paren{ s_{v,t+1}, b_{h,t+1} \sachant s_{v,t}, b_{h,t}, a }  = \displaystyle  \prod_{i=1}^{m} \textbf{p} \paren{ s^i_{v,t+1} \sachant s_{v,t}, a_t } \cdot  \prod_{j=1}^{l} \textbf{p} \paren{ b^j_{h,t+1} \sachant s_{v,t}, b^j_{h,t}, a_t  } , \]
-where 
-\[ \displaystyle \textbf{p} \paren{ b^j_{h,t+1} \sachant s_{v,t}, b^j_{h,t}, a_t  } 
-= \sum_{\substack{ o^j \in \mathcal{O}^j \mbox{ \tiny s.t. } \\ u^j(s_{v,t},\beta^j_{h,t},a_t,o^j) = \beta^j_{h,t+1}}} \textbf{p} \paren{ o^j_{t+1} \sachant b^j_{h,t}, a_t },\]
-and 
-\[ \textbf{p} \paren{ o^j_{t+1} \sachant b^j_{h,t}, a_t } = \sum_{s^j_{h,t+1} \in \mathcal{S}^j_h} \textbf{p} \paren{ o^j_{t+1} \sachant s_{v,t}, s^j_{h,t+1}, a_t } \cdot 
-\sum_{s^j_{h,t} \in \mathcal{S}_h^j} \textbf{p} \paren{ s^j_{h,t+1} \sachant s_{v,t}, s^j_{h,t}, a_t } \cdot b(s^j_{h,t}). \]
-\end{theorem}
-The MDP built from such a probabilistic MOMDP is thus a factored MDP.
-
-%Finally since belief updates can be performed independently for each $1
-% \leqslant j \leqslant l$ given corresponding observation $o_i'$,
-%since observations $o_i'$ are independent given the past, as well as $s_v'$ and
-% $o'$, post action variables of the
-%state space accessible to the agent are independent:
-%$\pi \paren{ s_v', \beta' \sachant s_v, \beta, a }$
-%$ \displaystyle = \displaystyle  \min \set{ \min_{i=1}^{k} \pi \paren{
-% s_{v,i}' \sachant s_v,\beta, a } ,  \min_{j=1}^{l} \pi \paren{ \beta_{j}'
-% \sachant s_v, \beta_j, a  } }.$
-%Note that any factored $\pi$-MDP can be obviously
-%translated into a factored $\pi$-MDP with only binary state variables that can
-%then be solved by PPUDD.
-%%%%%%
-%Grouping variables to fit a problem in DBN Figure \ref{fig_piMOMDPFact} ensures
-% this factorization.
-%We note that factored probabilistic MOMDP have not yet been
-%studied to the best of our knowledge. We would not be surprised if they would
-% require the same
-%structural assumption, which could interestingly inspire future work under
-%probabilistic settings.
 Previous theorems allow to express the transition distribution
 of the ($\pi$-)MDP resulting from a ($\pi$-)MOMDP
 with distributions which concern less variables.
@@ -1512,7 +1097,7 @@ and computations should be faster.
 These results are used in the next section to compute more efficiently
 optimal strategies of $\pi$-MOMDPs.
 
-\section{Experimental results}
+\section{Résultats expérimentaux}
 \label{section_expe_PPUDD}
 The main expected advantages of using factored
 $\pi$-(MO)MDPs over their probabilistic counterparts are: 
@@ -1541,197 +1126,15 @@ e.g. MDP solver PROST \cite{DBLP:conf/aips/KellerE12} (based on UCT algorithm \c
 and POMDP solvers described in Section \ref{section_SAalgo}.
 Our PPUDD algorithm, however, is exact.
 
-In the case of the infinite horizon probabilistic MOMDPs, 
-it is sufficient to look for a stationary strategy
-\textit{i.e.} an optimal strategy can be defined as a function
-$d^*: \mathcal{S}_v \times \mathbb{P}^{\mathcal{S}_h} \rightarrow \mathcal{A}$
-maximizing the value function given an initial visible state $s_{v,0} \in \mathcal{S}_v$ 
-and an initial belief state $b_{h,0} \in \mathbb{P}^{\mathcal{S}_h}$:
-\[ V(s_{v,0},b_{h,0},d^*) = \displaystyle \sup_{d: \ \mathcal{S}_v \times \mathbb{P}^{\mathcal{S}_h} \rightarrow \mathcal{A}} V(s_{v,0},b_{h,0},d), \]
-where $V(s_{v,0},b_{h,0},d) = \mathbb{E} \bigg[ \displaystyle  \sum_{t \geqslant 0} \gamma^t \cdot r\Big(S_t,d(S_{v,t},B_{h,t})\Big) \ \bigg\vert \ S_{v,0} = s_{v,0}, B_{h,0} = b_{h,0} \bigg] $,
-and the action defining probabilistic dynamics at time step $t$ is $d(S_{v,t},B_{h,t})$ if the strategy is $d$ (see Section \ref{section_POMDP}
-and \cite{OngShaoHsuWee-IJRR10,AraThoBufCha-ICTAI10}).
-
-Consider now qualitative possibilistic MOMDPs \cite{Drougard13}: 
-first, the optimistic criterion of an infinite horizon $\pi$-MDP
-can be written 
-\[ \max_{t \geqslant 0} \max_{\mathcal{T} \in \mathcal{T}_t} \min \set{ \pi \paren{ \mathcal{T} \sachant s_0, (\delta)  } , \Psi(s_t)  }, \]
-using Equation \ref{optcriterion} in the previous chapter and Lemma \ref{nondecreasingU} of Annex \ref{proofThmIV}. 
-In this formula, the set of $t$-length trajectories $(s_1,\ldots,s_t) \in \mathcal{S}^t$ 
-is denoted by $\mathcal{T}_t$ and recall that $\Psi: \mathcal{S} \rightarrow \mathcal{L}$ 
-is the terminal preference function.
-Let us now denote by $x_t$ the couple of visible and belief states 
-$(s_{v,t},\beta_{h,t}) \in \mathcal{S}_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}}$,
-available to the agent at time step $t \geqslant 0$:
-$\mathcal{S}_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}}$ is denoted by $\mathcal{X}$.
-%The set of all $H$-length strategies is denoted by
-%$\Delta_H = \bigg\{ (\delta_t)_{t=0}^{H-1} \ \bigg\vert \ \forall t \in \set{0,\ldots,H-1}, \delta_t: \mathcal{X} \rightarrow \mathcal{A} \bigg\}$.
-%Finally, the set of all the finite strategies 
-%is denoted here by $\Delta =\cup_{i \geqslant 1} \Delta_i$, 
-%and $\# \delta$ is the horizon (or length) of a strategy $(\delta) \in \Delta$. 
-Theorem \ref{thmIV} assures that at least one stationary strategy is optimal if a ``stay'' action, 
-which maintains the system in the same state and
-denoted by $\widehat{a} \in \mathcal{A}$, is available:
-recall that this action is only used in some goal states in the optimal strategy. 
-The qualitative infinite horizon criterion for a mixed optimistic-pessimistic $\pi$-MOMDP 
-(see the sections \ref{subsection_discuss} and \ref{sectionpiMO})
-can thus be written
-\begin{equation}
-\label{probstylerewrittenMOMDPcrit}
-\overline{U} \Big( x_0,(\delta) \Big) 
-= \max_{t \geqslant 0} \max_{ \mathcal{T} \in \mathcal{T}_t} 
-\min \bigg\{ \pi \Big( \mathcal{T} \ \Big\vert \ x_0, (\delta) \Big), \underline{\Psi}(x_t) \bigg\},
-\end{equation}
-where $\mathcal{T}_t = (x_1,\ldots,x_t)$ is a trajectory of couples $x_i = (s_{v,i}, \beta_{h,i})$,
-$\mathcal{T}_{t}$ the set of such trajectories, and 
-\[ \pi \Big( \mathcal{T} \ \Big\vert \ x_0, (\delta) \Big) 
-= \min_{i=0}^{t - 1} \pi \Big( x_{i+1} \ \Big\vert \ x_i, \delta(x_i)  \Big) \]
-the possibility degree of such trajectories,
-with the transition possibility distribution 
-$\pi \Big( x_{i+1} \Big\vert x_i, \delta(x_i) \Big)$ defined in Section \ref{sectionpiMO}.
-Recall also that the pessimistic terminal preference is denoted by $\displaystyle \underline{\Psi}(x) = \min_{s_h \in \mathcal{S}_h} \max \set{ \Psi(s_v,s_h), 1 - \beta_h(s_h) }$
-with $x = (s_v,\beta_h)$.
-An optimal strategy $\delta^*$ is thus such that
-\[ \overline{U}(s_{v,0},\beta_0,\delta^*) = \displaystyle \sup_{\delta: \ \mathcal{S}_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}} \rightarrow \mathcal{A}} \overline{U}(s_{v,0},\beta_0,\delta), \]
-see Section \ref{section_VIpiMOMDP} of the previous chapter.
-
-In the probabilistic case, as the belief state $B_{h,t}$ is a deterministic function of the current available information $I_t$,
-a strategy of an infinite probabilistic MOMDP can be defined as a sequence of functions based on the current information (and thus non stationary):
-$(d_t)_{t\geqslant0}$, with $d_t$ a function of the visible state $s_v$ and the information $i_t = \set{ s_{v,0},a_0,o_1, \ldots,s_{v,t-1}, a_{t-1}, o_t }$.
-In this way, the strategy only depends on the variables 
-of the initial problem (and not on the current belief state).
-As in the probabilistic case, the qualitative possibilistic belief state 
-$B^{\pi}_{h,t}$ is fully specified by the current available information $I_t$.
-The strategy of an infinite horizon $\pi$-MOMDP can thus be defined 
-as a sequence of functions based on the current information:
-$(\delta_t)_{t\geqslant0}$, with $\delta_t$ 
-a function of the visible state $s_{v,t}$ and the information $i_t$.
-This being so, the strategy does not depend on the current possibilistic belief state,
-but on the variables of the $\pi$-MOMDP.
-
-At execution, the agent knows the successive visible system states and the available information:
-taking into account the previous paragraph,
-he/she may thus use the optimal strategy provided by either the probabilistic model using $d^*$, or the possibilistic one using $\delta^*$.
-Obviously, if the performance of the strategy is measured using the probabilistic criterion $V$,
-\textit{i.e.} evaluating the average of rewards obtained using the given strategy during many trials, 
-the optimal possibilistic strategy $\delta^*$ is less efficient than $d^*$: 
-\[ V(s_v,b_h,d^*) \geqslant V(s_v,b_h,\delta^*). \]
-However, as dimensions of considered problems may be high enough to make the probabilistic computations intractable
-or to make probabilistic solvers require too many computation time resources,
-strategies returned by probabilistic solvers are approximations of $d^*$ which may be less efficient than $\delta^*$
-even in the probabilistic sense.
-Note also that
-\[ \overline{U}(s_v,\beta_h,\delta^*) \geqslant \overline{U}(s_v,\beta_h,d^*), \]
-but this criterion will not be used during the experiments 
-as it is not a standard performance measure when planning under uncertainty.
-Qualitative criteria can however be good performance measure of strategies in practice 
-if the probabilities of the model are in fact given arbitrarily 
-from a qualitative evaluation of variables dynamics.
-
-In this section, we compare our possibilistic approach against probabilistic solvers in order
-to answer the following question: what is the efficiency/quality tradeoff achieved
-by reasoning about an approximate model ($\pi$-MOMDP) but with an exact efficient algorithm (PPUDD)?
-Despite radically different methods, possibilistic strategies and probabilistic ones 
-are both able to return an action for each possible visible state variable and current information: 
-%can be both represented as ADDs -- 
-%whose leaves are actions of the set $\mathcal{A}$, 
-%and variables  
-they are thus directly comparable and statistically
-evaluated under identical settings 
-\textit{i.e.} using transition and reward functions defined by 
-the probabilistic model (criterion $V$). 
-
-It has been shown in \cite{conf/ecai/Sabbadi00} that 
-the optimistic $\pi$-MDP criterion 
-(see Equation \ref{equation_optqualvalue} of Section \ref{subsection_piMDPs}) 
-leads to better strategies than the pessimistic one 
-(see Equation \ref{equation_pessqualvalue})
-when the goal is to approximate 
-an optimal strategy of a probabilistic 
-fully observable MDP. 
-Moreover, we proposed an algorithm for infinite horizon $\pi$-MDPs 
-which has been proved to produce an optimal strategy 
-with the optimistic criterion,
-see Section \ref{section_infiniteHorizon} of previous chapter: 
-Algorithm \ref{algorithmIVPIMDP}. 
-This algorithm is also devoted to problems without intermediate preferences.
-The optimistic criterion, as well as the case of terminal preference only (see Definition \ref{def_piMDPcriteria_TPO}), 
-are thus preferred in the following experimentations.
-In the case of mixed-observability, 
-the mixed optimistic-pessimistic criterion (see Definition \ref{def_optpesscrit}) 
-is a good choice as the $\pi$-MOMDP boils down to an optimistic $\pi$-MDP.
-Moreover, with this criterion, the more a belief state is specific, the higher is its preference, unlike the purely optimistic ones.
 
 
-\subsection{Robotic missions}
+\subsection{Missions Robotiques}
 
-We first assessed PPUDD performances on totally observable factored problems since PPUDD 
-is also the first algorithm to solve factored $\pi$-MDPs (by inclusion in $\pi$-MOMDPs). 
-To this end, we compared PPUDD against SPUDD on the \textit{Navigation problem} used in the International Probabilistic Planning
-Competition 2011 \cite{SannerIPPC1111}. 
-In this domain, a robot navigates on a grid
-where it must reach some goal location most reliably. 
-It can apply actions going north, east, south, west and stay: 
-all these actions cost $1$ except on the goal. 
-When moving, it can suddenly disappear with
-some probability defined as a Bernoulli distribution, 
-so that a good policy
-tries to reach the goal by avoiding situations where it may disappear. 
-This probabilistic model is approximated by two possibilistic ones where: 
-the preference of reaching the goal is 1; in the first model (M1) the highest probability of each Bernoulli
-distribution is replaced by 1 (for possibility normalization reasons) and
-the same value for the lowest probability is kept; for the second model (M2), the probability of disappearing
-is replaced by 1 and the other one is kept. 
-\begin{figure}\centering
-\begin{subfigure}[t]{.48\linewidth}
-\includegraphics[width=\linewidth]{courbeTime.pdf}
-\caption{Computation time (sec)}
-\label{navigCT}
-\end{subfigure}
-\begin{subfigure}[t]{.48\linewidth}
-\includegraphics[width=\linewidth]{courbeADD.pdf}
-\caption{Size of ADD value function}
-\label{navigADD}
-\end{subfigure}\\
-\vspace{0.5cm}
-\begin{subfigure}[b]{.48\linewidth}
-\includegraphics[width=\linewidth]{courbePerfMDP.pdf}
-\caption{Reached goal frequency}
-\label{navigGOAL}
-\end{subfigure}
-\begin{subfigure}[b]{.48\linewidth}
-\includegraphics[width=\linewidth]{courbePerfMDP2.pdf}
-\caption{Time to reach the goal}
-\label{navigL}
-\end{subfigure}\\
-\vspace{0.5cm}
-\caption[PPUDD vs. SPUDD, Navigation problem]{PPUDD vs. SPUDD on the Navigation problem: the $x$-axis represents indexes of problem instances, increasing with the problem sizes.}
-\end{figure}
-Figure \ref{navigCT} shows that 
-SPUDD runs out of memory from the 6$^{\text{th}}$ problem, and PPUDD computation's time
-outperforms SPUDD by many orders of magnitude for the two models. Intuitively, this result
-comes from the fact that PPUDD's ADDs should be smaller because their leaf
-values are in the finite scale $\mathcal{L}$ rather than $\mathbb{R}$, which is indeed
-demonstrated in Figure \ref{navigADD}. Performances were evaluated 
-with two relevant criteria: frequency of runs where 
-the policy reaches the goal (see Figure \ref{navigGOAL}), and
-average length of execution runs that reach the goal (see Figure \ref{navigL}), 
-that are both functions of the problem's instance.
-As expected, model (M2) is more cautious than model (M1) and gets a better 
-reached goal frequency  (similar to SPUDD's one for the instances it can solve). 
-The later is more optimistic and gets a better average length of execution runs than model (M2) due to
-its dangerous behavior. For fairness reasons, we also compared ourselves against 
-APRICODD \cite{St-aubin00apricodd:approximate}, 
-which is an approximate algorithm for factored MDPs: however parameters impacting the approximation
-are hard to tune (either huge computation times, or zero qualities) and it is
-largely outperformed by PPUDD in both time and quality whatever the parameters %(figures not shown because APRICODD's 
-(curves are not shown since uninformative).\\
-
-Finally, we compared PPUDD on the \textit{Rocksample problem} (RS),
+We compared PPUDD on the \textit{Rocksample problem} (RS),
 described in Section \ref{section_RS_motivatingEx}, 
 against a recent probabilistic MOMDP planner, 
 APPL \cite{OngShaoHsuWee-IJRR10}, and a POMDP
-planner using ADDs, symbolic HSVI \cite{Sim:2008:SHS:1620163.1620241}. Both
+planner using ADDs, symbolic HSVI \cite{Sim2008SHS1620163.1620241}. Both
 algorithms are approximate and anytime, so we  decided to stop them when they
 reached a precision of $1$. 
 Figure \ref{figureRS1}, where problem instances
@@ -1784,7 +1187,7 @@ The next section describes the competition context
 as well as the presented versions of PPUDD,
 and discusses the results of the different competitor solvers.
 
-\subsection{International Probabilistic Planning Competition 2014}
+\subsection{Compétition de planification probabiliste internationale 2014}
 % TODO TODO TODO TODO 
 % presentation de la compet 1
 % presentation des competiteurs
@@ -1860,56 +1263,6 @@ using PPDDL encoding;
 \item our algorithm PPUDD, using LISP-like encoding too.
 \end{itemize}
 
-%4 domains from IPPC 2011:
-%Traffic Control: highly exogenous, concurrent
-%Elevator Control: highly exogenous, concurrent
-%Crossing Traffic: goal-oriented, deterministic if move far left
-%Skill Teaching: few exogenous events\\
-
-%4 new domains
-%Wildfire: from ecological literature, contributed by Zhenyu Yu
-%Academic Advising: complex prereq structure, contributed by Libby Ferland
-%Tamarisk: from ecological literature, used in 2014 RL Competition
-%Triangle Tireworld: probabilistically interesting, from IPPC 2008
-
-
-%Sum of undiscounted rewards over finite horizon
-%Averaged over 30 trials
-%server/port (up to 3 if running multiple planners)
-%We'll give competitors 24 hours   
-%All competitors should use a single EC2 m3.large instance see \url{https://aws.amazon.com/ec2/pricing/},
-%(m3.large: vCPU=2, ECU=6.5, Memory (GiB) 7.5, Storage (GB) $1 \times 32$ SSD) 
-
-%Final competition Rules:
-%(a) Competition week: The final competition will take place over a one week period where competitors will sign up for a 24 hour time slot during this period.  
-%8 competition domains not known in advance: 
-%(c) 24 hour Competition slot: The full competition domain and instance 
-%list will be released to competitors via a private web link at the start 
-%of their chosen 24 hour competition slot.  
-%(d) Post-competition: all competitors need to sign a document 
-%saying that they have honored the rules above 
-%(there will a section to explain any variations, 
-%e.g., to list changes on account of debugging).  
-%Competitors also need to submit an archive 
-%of their source code to the organizers 
-%with instructions on how to run the planner 
-%to reproduce competition results.  
-%(The organizers will not publicly release this code.)  
-%(e) Final results: released at ICAPS 2014 
-%(June 21-26) and posted to the IPPC website immediately thereafter.
-
-%Planners PPUDD and ATPPUDD are based on the simple idea that
-%approximating an MDP with a qualitative model of uncertainty like
-%possibilities that still preserves rankings of how likely events may
-%occur, can reduce computation complexity without sacrificing too much
-%to solution quality. This intuition is emphasized by the observation
-%that decision diagrams used in factored MDPs often blow up due to the
-%prohibitive number of nodes generated by probabilistic operations.
-%Starting with a SPUDD representation of the input problem, PPUDD
-%translates transition and reward decision diagrams to possibilistic
-%ADDs, then symbolically solves the possibilistic version of Bellman's
-%equation. 
-%Contrary to SPUDD, 
 As the score given to solvers only depends on the $40$ first stages of the process,
 the presented version of PPUDD consists of the Algorithm \ref{PPUDD} 
 with the ``while condition'' $\overline{U^*} \neq \overline{U^c}$ at line \ref{while_PPUDD}
@@ -2329,20 +1682,3 @@ and to benefit from a finite and factorized belief state spaces.
 This approach leads to a factored probabilistic MDP 
 which can be solved for instance by GOURMAND or PROST
 (which does not use the memory constraining LISP-like encoding).
-
-
-\vide{
-\subsection{Factored POMDPs -- RDDL}
-\begin{itemize}
-\item introduction des $\pi$-MDP factoris\'es \\
-\textit{car ils permettent la r\'esolution de gros probl\`emes totallement observables}
-\item factorization du cas partiellement observable (Pearl,BenAmor) \\
-\textit{car ils permettent la r\'esolution de certain probl\`emes totallement observables}
-\item approche symbolique, fully observable, CUDD (ADDs):  PPUDD -- IPPC \\
-\textit{car ils mettent en place les calculs pour une r\'esolution \'econome en temps de calculs, et tr\`es adapt\'es aux possibilit\'ees qualitatives}
-\item algorithme pour le cas partiellement observable \\
-\textit{car il g\'en\'eralise l'algorithme du cas totallement observable}
-\item observation des limites du qualitatif et du symbolique
-\end{itemize}
-}
-
