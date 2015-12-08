@@ -8,7 +8,7 @@ d'introduire les \textit{processus décisionnels markoviens possibilistes qualita
 et enfin les \textit{processus décisionnels markoviens partiellement observables} ($\pi$-PDMPO)
 qui constituent le point de départ de notre travail.\\
 
-\section{Théorie des possibilités}
+\section{Théorie des Possibilités Qualitatives}
 \label{posspres}
 Les \textit{ensembles flous} ont été introduits par Lotfi Zadeh \cite{Zadeh1965338},
 et étudiés par Didier Dubois \cite{didiersgroundhogday} et Henri Prade:
@@ -124,7 +124,7 @@ où $\overline{A}$ est l'événement complémentaire $A$ dans $\Omega$.
 \node (nec) at (6,3.5) [rotate=300] {{\color{orange} $\mathcal{N}_2(\set{ d, e, f })$}};
 
 \end{tikzpicture}
-\caption[Distribution de possibilité, mesure de necessité et spécificité]{
+\caption[Distribution de possibilité, mesure de nécessité et spécificité]{
 Exemple de deux distributions de possibilité sur $\Omega=\set{a,b,c,d,e,f,g,h}$:
 $\pi_1$ (ligne bleue continue) et $\pi_2$ (ligne verte pointillée), 
 avec $\pi_2$ qui est plus spécifique que $\pi_1$.
@@ -376,7 +376,7 @@ avec certitude, mais avec une plus petite préférence.
 On peut vérifier facilement que l'action $a_2$ maximises bien le critère pessimiste (\ref{equation_critpess}):
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{$\pi$-PDM}
+\section{Processus Décisionnel Markovien Possibiliste Qualitatif ($\pi$-PDM)}
 \label{subsection_piMDPs}
 Ce modèle, présenté dans \cite{Sabbadin2001287,Sabbadi00,Sabbadin1999pipomdp}, 
 est la version possibiliste qualitative des PDM probabilistes décrits en introduction,
@@ -565,7 +565,7 @@ modèle le but de la mission.
 Enfin, on remarque qu'il suffit de considérer un $\pi$-PDM classique
 avec $\rho_t(s,a) = 1$, $\forall s \in \mathcal{S}$, $\forall a \in \mathcal{A}$ and $\forall t \in \set{0,\ldots,H-1}$. 
 
-\section{$\pi$-PDMPO}
+\section{PDM Partiellement Observable Possibiliste Qualitatif ($\pi$-PDMPO)}
 \label{section_piPOMDP}
 Le modèle PDMPO possibiliste qualitatif
 ($\pi$-PDMPO) a été présenté pour la première fois dans \cite{Sabbadin1999pipomdp}.
@@ -597,7 +597,7 @@ $\textbf{p} \paren{s' \sachant s,a}$
 
 \begin{figure}[!t]
 \input{src_french/fig-pomdp}
-\caption[Diagramme d'Influence d'un $\pi$-PDMPO et de son processus d'états de croyance]{
+\caption[Diagramme d'influence d'un $\pi$-PDMPO et de son processus d'états de croyance]{
 Diagramme d'Influence d'un $\pi$-PDMPO et de son processus d'états de croyance:
 les ronds noirs représentent les états successifs du système $S_t$,
 les bleus représentent les observations successives $O_t$,

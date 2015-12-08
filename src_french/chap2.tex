@@ -50,23 +50,23 @@ Le célèbre algorithme SPUDD
 \cite{Hoey99spudd:stochastic} 
 résout des PDM factorisés en utilisant
 des représentation symboliques de la fonction valeur et des stratégies
-sous la forme d'arbre de décision algébriques (ADDs) \cite{Bahar1997ADD}, 
+sous la forme d'arbre de décision algébriques (\textit{ADDs}) \cite{Bahar1997ADD}, 
 qui représentent de manière compacte
 les fonctions réelles de variables booléennes:
-les ADDs sont des arbres 
+les \textit{ADDs} sont des arbres 
 dont les noeuds représentent les variables d'état
 et les feuilles sont les valeurs de la fonction. 
 Au lieu de mettre à jour les valeurs de la fonction pour chaque état
 individuellement à chaque itération de l'algorithme,
-ils sont aggrégés dans les ADDs
+ils sont aggrégés dans les \textit{ADDs}
 et les opérations sont effectués de manière symbolique
-directement entre les ADDs sur plusieurs variables en même temps.
+directement entre les \textit{ADDs} sur plusieurs variables en même temps.
 Cependant, SPUDD est limité par la potentielle manipulation
-d'énormes ADDs dans le pire des cas: par exemple,
+d'énormes \textit{ADDs} dans le pire des cas: par exemple,
 l'espérance implique des additions et des multiplications sur des valeurs réelles
 (probabilités et récompenses), 
 créant de nouvelles valeurs entres elles,
-de manière à ce que le nombre de feuille des ADDs
+de manière à ce que le nombre de feuille des \textit{ADDs}
 peut devenir égal à l'espace d'état,
 \textit{i.e.} exponentiel en le nombre de variables d'état.
 
@@ -95,7 +95,7 @@ title={Nombre maximal de noeud d'un ADD: feuilles dans $\mathcal{L}$ vs dans $\m
 \addplot table[x=scaleSize,y=MaxNbNodes]{ADDsizeFctLsize/src/MAXnbNodes_fctOf_Lsize_10VARS.txt};
 \end{axis}
 \end{tikzpicture}
-\caption[Limitations de la taille maximale d'un ADD dans le cadre qualitatif]{
+\caption[Limitations de la taille maximale d'un \textit{ADD} dans le cadre qualitatif]{
 La taille maximale (nombre total de noeuds)
 d'un ADD dont les valeurs sont dans $\mathcal{L}$ is limited:
 cette taille maximale est représentée par les courbes avec les ronds bleus et marrons,
@@ -160,7 +160,7 @@ sont présentés et discutés.
 Un algorithme dédié à la résolution des $\pi$-PDMOM en utilisant des ADDs
 est disponible dans le dépôt \url{https://github.com/drougui/ppudd}).
 
-\section{Résoudre des $\pi$-PDMOM en utilisant la programmation dynamique symbolique} 
+\section{Résoudre des $\pi$-PDMOM par la Programmation Dynamique Symbolique} 
 \label{section_PPUDD}
 Les PDM factorisés \cite{Hoey99spuddstochastic} 
 ont été utilisés pour résoudre plus rapidement les
@@ -499,7 +499,7 @@ elle est combiné à la fonction de transition
 représentée en ADD dans la figure \ref{fig_ADDtransition}\\}
 \label{fig_ADDregression}
 \end{subfigure}
-\caption{Arbre de décision algébrique pour PPUDD}
+\caption{Exemple d'arbre de décision algébrique comme utilisé dans l'algorithme \textit{PPUDD}}
 \label{fig_ADD}
 \end{figure}	
 La figure \ref{fig_ADDregression}
@@ -591,14 +591,14 @@ les dépendances des variables visibles et des variables de croyance).
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Factorisation de la variable de croyance d'un $\pi$-PDMOM}
+\section{Factorisation de la Variable de Croyance d'un $\pi$-PDMOM}
 
 La factorisation de la variable de croyance 
 requiert trois hypothèse d'indépendance
 sur les variables du $\pi$-PDMOM, 
 qui sont illustrées à travers le problème classique \textit{Rocksample} 
 \cite{Smith:2004HSV1036843.1036906}.
-\subsection{Exemple de motivation}
+\subsection{Exemple de Motivation}
 \label{section_RS_motivatingEx}
 Un robot se déplaçant sur une grille $g \times g$ 
 doit collecter des échantillons scientifiques 
@@ -892,7 +892,7 @@ dépend de la position précédente et de l'action choisie.
 %\node (probas) at (8.9,0.5) [rotate=355] {$ \pi \paren{s_{t+1} \sachant s_t,a_{t}}$};
 
 \end{tikzpicture}
-\caption[DBN d'un $\pi$-PDMOM dont les variables de croyances peuvent être factorisées]{
+\caption[\textit{DBN} d'un ($\pi$-)PDMOM dont les variables de croyances peuvent être factorisées]{
 DBN résumant les hypothèse d'indépendance d'un $\pi$-PDMOM
 menant à des variables de croyances marginales 
 et un $\pi$-PDM avec
@@ -907,7 +907,7 @@ et la variables d'état cachée courante correspondante.
 \label{fig_piMOMDPFact}
 \end{figure}
 
-\subsection{Conséquences des hypothèses de factorisation}
+\subsection{Conséquences des Hypothèses de Factorisation}
 \label{section_factoAssumptions}
 Dans cette section,
 nous présentons le résultat formel
@@ -1129,7 +1129,7 @@ des instances beaucoup plus compliquées.
 \label{figureRS2}
 \end{subfigure}
 \vspace{0.5cm}
-\caption[PPUDD vs. APPL et symb-HSVI, problème RockSample]{PPUDD vs. APPL and symb HSVI sur le problème RockSample: 
+\caption[Comparaison entre \textit{PPUDD} et les planificateurs probabilistes \textit{APPL} et \textit{symb-HSVI} sur le problème \textit{RockSample}]{Comparaison entre \textit{PPUDD} et les planificateurs probabilistes \textit{APPL} et \textit{symb-HSVI} sur le problème \textit{RockSample}: 
 l'axe des abscisse représente l'indice de l'instance du problème, 
 croissant avec la complexité de instance du problème.}
 \end{figure}
@@ -1166,7 +1166,7 @@ même si le calcul de stratégie pour les modèles probabilistes
 n'est pas la vocation initiale de ce planificateur.
 La section suivante discute des résultats des différents planificateurs.
 
-\subsection{Compétition internationale de planification probabiliste 2014}
+\subsection{Compétition Internationale de Planification Probabiliste 2014}
 La session entièrement observable
 de la compétition internationale de planification probabiliste
 permet de comparer des planificateurs de PDM
@@ -1360,7 +1360,7 @@ title={Problème \textit{Skill teaching}},width=11cm,height=11cm]
 \addplot[color=orange,mark=diamond,line width=2.2pt] plot[error bars/.cd,y dir=both,y explicit] table[x index=1, y index=47, y error index=48]{IPPC14_resultats/skill_teaching_inst_mdp.txt};%PPUDD 
 \end{axis}
 \end{tikzpicture}
-\caption[Résultats d'IPPC 2014: problèmes \textit{Elevators} and \textit{Skill teaching}]{
+\caption[Résultats d'IPPC 2014: problèmes \textit{Elevators} et \textit{Skill teaching}]{
 Résultats de la compétition internationale de planification probabiliste -- session entièrement observable}
 \label{figure_IPPC_ELE_SKI}
 \end{figure}
@@ -1520,7 +1520,7 @@ et deux exécutions ont été réalisée
 pour les autres instances
 (ce qui explique le faible score pour chaque instance).
 Comme déjà mentionné pour le domaine \textit{Tamarisk}, 
-l'instanciation des ADDs prend trop de temps pour les dernières instances,
+l'instanciation des \textit{ADDs} prend trop de temps pour les dernières instances,
 et aucune exécution n'est réalisée pour les $4$ dernières instances
 avec PPUDD: Symbolic LRTDP rencontre les même problèmes.
 Le dernier domaine, appelé \textit{Wildfire}, 
@@ -1567,7 +1567,7 @@ la traduction automatique naïve utilisée est
 peut être à l'origine des mauvaises performances
 de l'approche pour certain domaines
 à la dynamique, ou la fonction de récompense complexe.
-Un autre problème semble être l'utilisation des ADDs:
+Un autre problème semble être l'utilisation des \textit{ADDs}:
 l'instanciation de ces objets 
 avant même le début des calculs
 prend un temps trop important,

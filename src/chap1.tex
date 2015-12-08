@@ -595,7 +595,7 @@ of this Mixed-Observable model.
 The visible state space is integrated to the observation 
 space: $\mathcal{O}_v=\mathcal{S}_v$ and $\mathcal{O}$ = $ \mathcal{O}_v \times \mathcal{O}_h$. Then, knowing
  that the current visible component of the state is $s_v$, the agent
- \textit{necessarily} observes $o_v=s_v$ (if $o_v' \neq s_v$, $\pi_t \paren{ o_v' \sachant s_v } = 0$).
+ \textit{necessarily} observes $o_v=s_v$ (if $o_v' \neq s_v'$, $\pi_t \paren{ o_v' \sachant s_v', a } = 0$, $\forall a \in \mathcal{A}$).
  Formally, seen as a $\pi$-POMDP, its observation possibility 
 distribution can be written as:
 \begin{eqnarray} 
@@ -606,13 +606,14 @@ distribution can be written as:
 0 & \mbox{otherwise} 
 \end{array} \right.
 \end{eqnarray}
-since $\pi_t \paren{ o_v' \sachant s_v'} = 1$ if $s_v'=o_v'$ and $0$ otherwise. 
+since $\forall a \in \mathcal{A}$, 
+$\pi_t \paren{ o_v' \sachant s_v',a} = 1$ if $s_v'=o_v'$ and $0$ otherwise. 
 The following theorem, based on this equality enables the
 belief over hidden states to be defined.
 \begin{theorem}[Nature of Reachable Belief States]
 \label{thm_natureReachBel} Each reachable belief state of a $\pi$-MOMDP can be
 written as an element of $\mathcal{S}_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}}$ where $\Pi^{\mathcal{S}_h}_{\mathcal{L}}$
-is the set of possibility distributions over $\mathcal{S}_h$: any $\beta \in \Pi^{\mathcal{S}_h}_{\mathcal{L}}$
+is the set of possibility distributions over $\mathcal{S}_h$: any reachable $\beta \in \Pi^{\mathcal{S}}_{\mathcal{L}}$
 can be written as $(s_v,\beta_h)$ with $\beta_h(s_h) = \max_{\overline{s}_v \in \mathcal{S}_v} \beta(\overline{s}_v,s_h)$ and $s_v = \operatorname*{argmax}_{\overline{s}_v \in \mathcal{S}_v} \beta(\overline{s}_v,s_h)$.
 \end{theorem}
 The proof is given in Annex \ref{thm_natureReachBel_RETURN}
