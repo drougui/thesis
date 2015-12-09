@@ -1,7 +1,7 @@
 Le principal sujet de cette thèse est le processus décisionnel markovien partiellement observable (PDMPO),
 ou plus précisément son homologue possibiliste qualitatif.
 L'utilisation pratique du modèle probabiliste a été critiquée en introduction,
-cependant il résume de manière appropriée les principales caractéristiques d'un système robotique:
+cependant ce modèle résume de manière appropriée les principales caractéristiques d'un système robotique:
 son homologue possibiliste étant très similaire, son étude semble prometteuse.
 Tout d'abord, la théorie des possibilités qualitative est présentée dans le but
 d'introduire les \textit{processus décisionnels markoviens possibilistes qualitatifs} ($\pi$-PDM)
@@ -14,10 +14,10 @@ Les \textit{ensembles flous} ont été introduits par Lotfi Zadeh \cite{Zadeh19653
 et étudiés par Didier Dubois \cite{didiersgroundhogday} et Henri Prade:
 leur contributions ont mené à la fondation de la théorie des possibilités \cite{DuPr1988.4}.
 
-Comme dans la théorie des probabilités,
+Comme la théorie des probabilités,
 cette théorie est basée sur une mesure d'incertitude,
 appelée \textit{mesure de possibilité}.
-Contrairement à la mesure de probabilité mesure $\mathbb{P}$ 
+Contrairement à la mesure de probabilité $\mathbb{P}$ 
 qui est une mesure classique,
 la mesure de possibilité, notée $\Pi$,
 est une \textit{mesure floue}, ou \textit{capacité}.
@@ -31,13 +31,13 @@ des ensembles finis comme l'ensemble des états $\mathcal{S}$
 et l'ensemble des observations $\mathcal{O}$.
 
 Formellement, une mesure de possibilité est définie comme suit:
-\begin{Def}[Possibility Measure]
+\begin{Def}[Mesure de Possibilité]
 \label{poss_measure}
 Une mesure de possibilité sur l'ensemble fini $\Omega$ 
 est une fonction $2^{\Omega} \rightarrow [0,1]$
 telle que
 \begin{itemize}
-\item $\Pi(\Omega) = 1$ (\textit{normalization});
+\item $\Pi(\Omega) = 1$ (\textit{normalisation});
 \item $\forall A,B \subset \Omega$, $\Pi \set{ A \cup B } = \max \big\{ \Pi(A), \Pi(B) \big\}$ (\textit{maxitivité}).
 \end{itemize}
 \end{Def}
@@ -55,7 +55,7 @@ relatif aux connaissances d'une personne donnée.
 La théorie des possibilités est dédiée à l'incertitude
 due à un manque de connaissance, ou une imprécision à propos d'un événement.
 La théorie des possibilités quantitatives est un cas particulier de probabilités imprécises
-\textit{i.e.} une mesure de possibilité $\Pi$ représente un ensemble particulier
+\textit{i.e.} une mesure de possibilité quantitative $\Pi$ représente un ensemble particulier
 de mesures de probabilité définies sur $\Omega$.
 
 Contrairement à la théorie des possibilités quantitatives,
@@ -66,31 +66,31 @@ la seule information donnée par une mesure de possibilité qualitative
 est l'ordre de plausibilité entre les événements
 \textit{i.e.} pour $A,B \subseteq \Omega$,
 l'information ``l'événement $A$ est moins plausible que l'événement $B$'', 
-qui est s'écrit $\Pi(A) \leqslant \Pi(B)$.
+qui s'écrit $\Pi(A) \leqslant \Pi(B)$.
 Ainsi les mesures de possibilité qualitatives $\Pi$
 sont souvent définies 
 comme des fonctions $2^{\Omega} \rightarrow \mathcal{L}$,
-où $\mathcal{L}$ est un ensemble fini 
-appelé \textit{échelle possibiliste}
-associé à un ordre total. 
-Dans ce travail, et plus spécifiquement dans les trois premiers chapitres de cette thèse,
+où $\mathcal{L}$ est un ensemble fini, 
+appelé \textit{échelle possibiliste},
+et possédant un ordre total. 
+Dans ce travail, 
 l'échelle possibiliste est définie par $\mathcal{L} = \set{ 0, \frac{1}{k}, \ldots, 1 }$
 pour simplifier les notations.
 
-Nous pouvons définir la \textit{distribution de possibilité} 
-$\pi$: $\pi(\omega) = \Pi(\set{\omega})$.
+Nous pouvons définir la \textit{distribution de possibilité} $\pi$
+comme suit: $\forall \omega \in \Omega$, $\pi(\omega) = \Pi(\set{\omega})$.
 D'après la définition \ref{poss_measure},
-la mesure de possibilité est entièrement 
-définie par la distribution $\pi$.
+une mesure de possibilité $\Pi$ est entièrement 
+définie par la distribution associée $\pi$.
 Pour chaque distribution (ou mesure) de possibilité,
 une mesure duale, appelée mesure de nécessité, peut être définie:
 le degré de nécessité d'un événement augmente si le degré de possibilité de l'événement contraire décroît.
 \vbox{
 \begin{Def}[Mesure de nécessité associée à $\Pi$]
 \label{DEF_necessity}
-La mesure de nécessité associée à $\Pi$ est la mesure floue $\mathcal{N}:2^\Omega \rightarrow \mathcal{L}$ 
+La mesure de nécessité associée à la mesure de possibilité $\Pi$ est la mesure floue $\mathcal{N}:2^\Omega \rightarrow \mathcal{L}$ 
 telle que $\forall A \subset \Omega$, \[ \mathcal{N}(A)=1-\Pi(\overline{A}), \]
-où $\overline{A}$ est l'événement complémentaire $A$ dans $\Omega$. 
+où $\overline{A}$ est l'événement complémentaire de $A$ dans $\Omega$. 
 \end{Def}
 }
 \begin{figure} 
@@ -138,7 +138,7 @@ associée à $\pi_2$
 est évaluée sur le même événement:
 le degré de nécessité est égal à $0.8 = 1 - 0.2$, 
 comme illustré
-par les flèches orange en pointillées. }  
+par les flèches oranges en pointillées. }  
 \label{figure_necspec}
 \end{figure}
 
@@ -150,21 +150,20 @@ Dans ce cas,
 $\forall A \subseteq \Omega$, 
 $A \neq \Omega$, 
 $\mathcal{N}(A)=1-\Pi(\overline{A})=1-\max_{\omega \in \overline{A}} \Pi(\omega)=0$:
-contrairement à l'univers $\Omega$,
-aucun événement n'est nécessaire. 
+aucun événement n'est nécessaire, sauf l'univers entier $\Omega$.
 
-Au contraire, la connaissance parfaite que l'événement élémentaire $\omega_A \in \Omega$
-est modélisé par un distribution de possibilité $\pi$
+La connaissance parfaite que l'événement élémentaire $\omega_A \in \Omega$
+est elle modélisée par une distribution de possibilité $\pi$
 telle que $\pi(\omega_A) = 1$
 et $\pi(\omega)=0$, $\forall \omega \neq \omega_A$. 
-La nécessité du singleton $\set{\omega_A}$
-est aussi égal à un: $\mathcal{N}(\set{\omega_A})=1-\Pi(\overline{\set{\omega_A }}) = 1$. 
+Le degré de nécessité du singleton $\set{\omega_A}$
+est aussi égal à $1$: $\mathcal{N}(\set{\omega_A})=1-\Pi(\overline{\set{\omega_A }}) = 1$. 
 L'événement élémentaire $\omega_A$
-est nécessaire, et tous les autres ont un degré de nécessité nul:
+est nécessaire, et tous les autres événements élémentaires ont un degré de nécessité nul:
 si $\omega_B \neq \omega_A$, 
 $\mathcal{N}(\set{\omega_B})=1-\Pi(\overline{\set{\omega_B }}) = 1 - \pi(\omega_A) = 0$.
 
-Généralement, une distribution de possibilité est plus informative, ou plus \textit{spécifique}, que l'ignorance totale
+Généralement, une distribution de possibilité est plus informative, ou plus \textit{spécifique}, que l'ignorance totale,
 et moins \textit{spécifique} que la connaissance parfaite:
 \begin{Def}[Spécificité]
 \label{def_specificity}
@@ -173,11 +172,11 @@ est plus spécifique que la distribution de possibilité $\pi_1$,
 si $\forall \omega \in \Omega$,
 \[ \pi_2(\omega) \leqslant \pi_1(\omega).\]
 \end{Def}
-Les deux notions de nécessité et de spécificité sont illustrée en figure \ref{figure_necspec}.
+Les notions de nécessité et de spécificité sont illustrées figure \ref{figure_necspec}.
 
-Les principaux concepts de la théorie des possibilité ont été présentés.
-L'homologue du critère basé sur espérance dans les modèles probabilistes,
-nous présentons maintenant le critère qualitatif utilisé dans les modèles possibilistes qualitatifs.
+Les concepts de la théorie des possibilités qualitatives nécessaires à la compréhension de notre travail ont été présentés.
+Nous présentons maintenant l'homologue du critère basé sur l'espérance dans les modèles probabilistes:
+les critères qualitatifs utilisés dans les modèles possibilistes qualitatifs.
 
 \section{Critères Qualitatifs}
 \label{subsection_qualcrit}
@@ -212,7 +211,7 @@ coordinates { (-2, 0.6) (2,0.6)  };
 
 \end{tikzpicture}
 \caption[Résultat de l'intégrale de Sugeno]{ 
-illustration du résultat de l'intégrale de Sugeno: 
+Illustration du résultat de l'intégrale de Sugeno: 
 l'axe des abscisses représente l'ensemble $\Omega = \set{ \omega_1, \ldots, \omega_{\# \Omega} }$,
 où $\forall i \in \set{1,\ldots,\# \Omega-1}$, $f(\omega_i) \leqslant f(\omega_{i+1})$. 
 L'axe des ordonnées est $\mathcal{L}$. 
@@ -224,13 +223,15 @@ et la noire est le résultat de l'intégrale de Sugeno. }
 \end{figure}
 
 L'espérance utilisée comme critère dans les PDMPO probabilistes,
-est finalement l'integrale de la la fonction de récompense
+est simplement l'intégrale de la la fonction de récompense
 contre la mesure de probabilité.
-Le concept de l'intégrale a été étendue aux mesure floues:
-Quand la mesure est quantitative, l'extension est appelée \textit{intégrale de Choquet} \cite{Choquet1954}.
-Dans le cas des mesure qualitatives, l'objet résultant est l'\textit{intégrale de Sugeno} \cite{Sugeno74}.
+Le concept d'intégrale a été étendue aux mesure floues:
+quand la mesure est quantitative, 
+l'extension est appelée \textit{intégrale de Choquet} \cite{Choquet1954}.
+Dans le cas des mesures qualitatives, 
+l'objet résultant est l'\textit{intégrale de Sugeno} \cite{Sugeno74}.
 Nous définissons donc ici l'intégrale de Sugeno:
-\begin{Def}[Integrale de Sugeno]
+\begin{Def}[Intégrale de Sugeno]
 \label{sugeno_integral}
 L'intégrale de Sugeno d'une fonction $f:\Omega \rightarrow \mathcal{L}$ 
 contre la capacité (mesure floue) $\mu:2^{\Omega} \rightarrow \mathcal{L}$ est
@@ -247,11 +248,11 @@ Comme illustré dans la figure \ref{figure_sugeno},
 l'intégrale de Sugeno de $f: \Omega \rightarrow \mathcal{L}$ 
 contre la mesure floue $\mu$
 est le plus grand degré $\lambda \in \mathcal{L}$ 
-tel que la mesure $\mu$ of $\set{ \omega \sachant f(\omega) \geqslant \lambda}$ 
+tel que la mesure $\mu$ de $\set{ \omega \sachant f(\omega) \geqslant \lambda}$ 
 est plus grande ou égale à $\lambda$. 
 Par exemple, le $h$-indice
 (ou indice de Hirsh)
-est l'intégrale de Sugeno de la fonction $paper \mapsto \# citations$
+est l'intégrale de Sugeno de la fonction $papier \mapsto \# citations$
 contre la mesure de comptage. 
 
 L'intégrale de Sugeno contre une mesure de possibilité
@@ -269,11 +270,12 @@ sont les réécritures des intégrales de Sugeno contre les mesures de possibilité 
 
 Les critères possibilistes qualitatifs,
 \textit{i.e.} les fonctions $\mathcal{A} \rightarrow \mathcal{L}$ 
-mesurant la validité des actions étant donné un modèle possibiliste et de préférence,
-a été proposé dans \cite{DBLPjournals/ijar/SabbadinFL98,DBLPjournals/eor/DuboisPS01,Dubois95possibilitytheory},
-basé sur les intégrales de Sugeno (\ref{equation_sugenoposs}) and (\ref{equation_sugenonec}).
+mesurant la validité des actions étant donné un modèle possibiliste et une fonction de préférence,
+a été proposé dans \cite{SabbadinFL98, DuboisPS01,Dubois95possibilitytheory},
+basé sur les intégrales de Sugeno (\ref{equation_sugenoposs}) et (\ref{equation_sugenonec}).
 Rappelons que l'ensemble $\mathcal{S}$ (resp. $\mathcal{A}$) 
-est comme précédemment l'ensemble fini des états du système $s$ (resp. des actions $a$).
+est comme dans l'introduction 
+l'ensemble fini des états du système $s$ (resp. des actions $a$).
 La variable représentant l'état du système est $S \in \mathcal{S}$.
 Soit $\big(\pi_a\big)_{a \in \mathcal{A}}$ 
 une famille de distributions de possibilité sur $\mathcal{S}$,
@@ -289,36 +291,36 @@ décrivant l'incertitude à propos de l'état du système
 étant donné que l'action $a \in \mathcal{A}$ a été sélectionnée, 
 et $\rho(s)$ la préférence de l'état du système $s \in \mathcal{S}$.
 En utilisant la formule (\ref{equation_sugenoposs}) avec $f=\rho(S)$, 
-l'intégrale de Sugeno integral de la préférence contre la mesure de possibilité $\Pi_a$
+l'intégrale de Sugeno de la préférence contre la mesure de possibilité $\Pi_a$
 mène à un critère optimiste pour $a \in \mathcal{A}$:
 \label{def_qualcrit}
 \begin{align}
 \label{equation_critopt} \mathbb{S}_{\Pi_a}[\rho(S)] &= \max_{s \in \mathcal{S}} \min \set{ \rho(s), \pi_a(s) }.
 \end{align}
 De même, en utilisant la formule (\ref{equation_sugenonec}) avec $f=\rho(S)$, 
-l'intégrale de Sugeno de la préférence contre la mesure de nécessité associée à $\Pi_a$, $\mathcal{N}_a$, 
+l'intégrale de Sugeno de la préférence 
+contre la mesure de nécessité associée à $\Pi_a$, 
+notée $\mathcal{N}_a$, 
 mène au critère pessimiste pour $a \in \mathcal{A}$:
 \begin{align}
 \label{equation_critpess} \mathbb{S}_{\mathcal{N}_a}[\rho(S)] &= \min_{s \in \mathcal{S}} \max \set{ \rho(s), 1-\pi_a(s) }.
 \end{align}
 \end{Def}
 
-Le critère pessimiste (\ref{equation_critpess}) a tendance à éviter les états non désirés,
+Le critère pessimiste (\ref{equation_critpess}) cherche à éviter les états non désirés,
 tandis que le critère optimiste (\ref{equation_critopt}) souhaite rendre possible le fait d'atteindre les états préférés.
-La figure (\ref{figure_criteria}) illustre le résultat du critère 
-pour une action donnée $a\in\mathcal{A}$.
 
 L'exemple suivant, illustré en figure \ref{figure_example},
 montre bien la différence entre ces deux critères:
 soit $\mathcal{S} = \set{ s_A , s_B , s_C }$ l'ensemble des états
-et l'ensemble des actions $\mathcal{A} = \set{ a_1 , a_2 }$. 
+et $\mathcal{A} = \set{ a_1 , a_2 }$ l'ensemble des actions. 
 Le modèle de préférence et le modèle d'incertitude
 sont décrits respectivement par $\rho$ et $\paren{\pi_a}_{a \in \mathcal{A}}$:
 \begin{itemize}
 \item[$\bullet$] $1 = \rho(s_A) > \rho(s_B) > \rho(s_C) = 0$;
 \item[$\bullet$] si l'action $a_1$ est sélectionnée, $\pi_{a_1}(s_A) = \pi_{a_1}(s_C) = 1$, et $\pi(s_B) = 0$;
 \item[$\bullet$] si l'action $a_2$ est sélectionnée, $\pi_{a_2}(s_A) = \pi(s_C) = 0$, et $\pi(s_B) = 1$, \textit{i.e.}
-le système est dans l'état $s_B$ de manière déterministe.
+le système est dans l'état $s_B$ de manière déterministe (avec nécessité $1$).
 \end{itemize}
 
 \begin{figure}
@@ -357,31 +359,31 @@ le système est dans l'état $s_B$ de manière déterministe.
 \node (mu2) at (8.15,0.2) {$\rho(s_B)=0.5$};
 \node (mu3) at (8,-0.8) {$\rho(s_C)=0$};
 \end{tikzpicture}
-\caption[Exemple d'une situation pour illustrer les critères qualitatifs]{Illustration de l'example de la section \ref{subsection_qualcrit}
-à propos des critères qualitatifs. L'action $a_1$ maxmise le critère optimiste (\ref{equation_critopt}),
+\caption[Exemple d'une situation pour illustrer les critères qualitatifs]{Illustration de l'exemple de la section \ref{subsection_qualcrit}
+à propos des critères qualitatifs. L'action $a_1$ maximise le critère optimiste (\ref{equation_critopt}),
 qui peut mener au meilleur état ($s_A$), 
 mais aussi au pire ($s_C$).
 Au contraire, l'action $a_2$ maximise
 le critère pessimiste (\ref{equation_critpess})
-puisque le pire cas n'est pas atteignable avec cette action.}  \label{figure_example}
+puisque le pire état n'est pas atteignable avec cette action.}  \label{figure_example}
 \end{figure}
 
 Le critère optimiste est maximisé par l'action $a_1$,
 puisqu'avec cette action, le meilleur état du système, $s_A$, 
 est entièrement possible.
 Cependant, cette action rend le pire état du système, $s_C$,
-entièrement possible, et l'état $s_A$ n'est pas du tout nécessaire: 
+entièrement possible, donc l'état $s_A$ n'est pas du tout nécessaire: 
 une action plus prudente est $a_2$, avec laquelle l'état devient $s_B$
 avec certitude, mais avec une plus petite préférence.
-On peut vérifier facilement que l'action $a_2$ maximises bien le critère pessimiste (\ref{equation_critpess}):
+On peut vérifier facilement que l'action $a_2$ maximise bien le critère pessimiste (\ref{equation_critpess}):
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Processus Décisionnel Markovien Possibiliste Qualitatif ($\pi$-PDM)}
 \label{subsection_piMDPs}
-Ce modèle, présenté dans \cite{Sabbadin2001287,Sabbadi00,Sabbadin1999pipomdp}, 
+Un \textit{processus décisionnel markovien possibiliste qualitatif}, ou $\pi$-PDM,
+présenté dans \cite{Sabbadin2001287,Sabbadi00,Sabbadin1999pipomdp}, 
 est la version possibiliste qualitative des PDM probabilistes décrits en introduction,
-basée sur les critères (optimistes et pessimistes) présentés en section \ref{subsection_qualcrit}:
-cette version est appelée \textit{processus décisionnel markovien possibiliste qualitatif}, ou $\pi$-PDM.
+basée sur les critères (optimistes et pessimistes) présentés en section \ref{subsection_qualcrit}.
 
 L'ensemble fini des états du système
 décrivant l'agent et son environnement, 
@@ -395,12 +397,12 @@ Comme dans le cas probabiliste,
 ce modèle considère que
 les états successifs du système,
 représentés par la séquence de variables $(S_t)_{t \in \mathbb{N}}$
-avec $S_t \in \mathcal{S}$ $\forall t \geqslant 0$, is markovien.
+avec $S_t \in \mathcal{S}$ $\forall t \geqslant 0$, sont markovien.
 Dans ce cadre possibiliste qualitatif,
 cela signifie que la séquence $(S_t)_{t \in \mathbb{N}}$ est telle que
 $\forall t \geqslant 0,  \forall (s_0,s_1,\ldots,s_{t+1}) \in \mathcal{S}^{t+2}$
 et pour chaque séquence d'actions $(a_t)_{t\geqslant 0} \in \mathcal{A}^{\mathbb{N}}$, 
-$S_{t+1}$ est indépendante (au sens causal) des variables $\set{ S_0, \ldots, S_{t-1} }$,
+la variable $S_{t+1}$ est indépendante (au sens causal) des variables $\set{ S_0, \ldots, S_{t-1} }$,
 conditionnellement à $\set{S_t = s}$ et $a_t$: 
 \begin{equation}
 \label{equation_possmarkov}
@@ -409,7 +411,7 @@ conditionnellement à $\set{S_t = s}$ et $a_t$:
 Cette indépendance possibiliste, ici causale, 
 n'est pas la seule existante:
 une présentation générale des indépendances et des conditionnements,
-ainsi que de leurs conséquences dans les modèles graphiques
+ainsi que de leurs conséquences dans les modèles graphiques,
 est disponible dans la thèse de N.Ben Amor \cite{Be2002.7}.
 
 En utilisant cette propriété markovienne, 
@@ -429,12 +431,13 @@ au temps $t$.
 La fonction de préférence terminale, $\Psi$, 
 donne pour chaque état du système $s \in \mathcal{S}$, 
 le degré de préférence
-si $S_H = s$: $\Psi(s)$.
+de $S_H = s$: $\Psi(s)$.
 
 Afin de définir les critères des $\pi$-PDM
-à partir des critères possibilistes (\ref{equation_critopt}) and (\ref{equation_critpess}), 
+à partir des critères possibilistes (\ref{equation_critopt}) et (\ref{equation_critpess}), 
 nous introduisons, pour un horizon $H\geqslant0$, 
-les \textit{trajectoires de longueur $H$} $\mathcal{T} = (s_1,\ldots,s_{H})$,
+les \textit{trajectoires de longueur $H$}, 
+$\mathcal{T} = (s_1,\ldots,s_{H})$,
 et $\mathcal{T}_H = \mathcal{S}^{H}$ l'ensemble de telles trajectoires.
 Une règle de décision est notée $\delta: \mathcal{S} \rightarrow \mathcal{L}$, 
 et une stratégie de longueur $H$ est une séquence de règles de décision $\delta_t$: $(\delta_t)_{t=0}^{H-1}$.
@@ -466,7 +469,7 @@ et correspond du critère optimiste definissant la stratégie optimale,
 \begin{align} 
 \overline{U_H} \Big( s_0,(\delta_t)_{t=0}^{H-1} \Big) &= \max_{\mathcal{T} \in \mathcal{T}_H} \min \set{ \rho \Big( \mathcal{T}, (\delta) \Big), \pi \Big( \mathcal{T} \Big\vert s_0, (\delta) \Big) }. \label{equation_optqualvalue} 
 \end{align}
-C'est équivalant du critère optimiste (\ref{equation_critopt}),
+C'est équivalent au critère optimiste (\ref{equation_critopt}),
 cependant, l'intégrale est sur les trajectoires $\mathcal{T}_H$, 
 et la préférence dépend de la stratégie.
 La \textit{stratégie optimale optimiste} $\overline{\delta^*}$ est la stratégie
@@ -494,24 +497,24 @@ avec la stratégie $(\delta) \in \Delta_H$:
 \end{align}
 notée $\mathbb{S}_{\mathcal{N}} \croch{ \rho \Big( \mathcal{T},  (\delta) \Big) \sachant S_0 = s, (\delta) }$.
 Comme précédemment pour le cas optimiste,
-la \textit{stratégie optimale optimiste} $\underline{\delta^*}$ 
+la \textit{stratégie optimale pessimiste} $\underline{\delta^*}$ 
 est la stratégie maximisant
 la fonction valeur pessimiste (\ref{equation_pessqualvalue}),
 et la \textit{fonction valeur pessimiste optimale}
- est la fonction valeur maximale en faisant varier les stratégies $(\delta) \in \Delta_H$:
+ est la fonction valeur maximale en faisant varier la stratégie $(\delta) \in \Delta_H$:
 \\
 \\
 \vbox{
 \begin{Def}[Fonction valeur et stratégie pessimiste optimale]
 $\forall s \in \mathcal{S}$,
 \begin{align} 
-\label{equation_pessqualvaluestar} \underline{U_H^*}(s) &= \max_{(\delta) \in \Delta_H} \set{ \underline{U_H} \Big(s,(\delta)\Big) } & \mbox{ (fonction valeur optimale optimiste pessimiste), } \\
-\label{equation_pessqualstratstar} \underline{\delta^*}(s) &\in \operatorname*{argmax}_{(\delta) \in \Delta_H} \set{ \underline{U_H} \Big(s,(\delta)\Big) } & \mbox{ (stratégie optimale pessimistic). } 
+\label{equation_pessqualvaluestar} \underline{U_H^*}(s) &= \max_{(\delta) \in \Delta_H} \set{ \underline{U_H} \Big(s,(\delta)\Big) } & \mbox{ (fonction valeur optimale pessimiste), } \\
+\label{equation_pessqualstratstar} \underline{\delta^*}(s) &\in \operatorname*{argmax}_{(\delta) \in \Delta_H} \set{ \underline{U_H} \Big(s,(\delta)\Big) } & \mbox{ (stratégie optimale pessimiste). } 
 \end{align}
 \end{Def}
 }
 
-Les fonctions valeur optimales et les stratégies peuvent être calculée par programmation dynamique:
+Les fonctions valeur optimales et les stratégies peuvent être calculées par programmation dynamique:
 \begin{theorem}[Programmation Dynamique pour $\pi$-PDM]
 \label{DPpiMDP}
 Le critère optimiste optimal et la stratégie optimale associée
@@ -528,7 +531,7 @@ $\forall s \in \mathcal{S}$,
 \overline{\delta^*_{H-i}}(s) \in \operatorname*{argmax}_{a \in \mathcal{A}} \min \set{ \rho_{H-i}(s,a), \max_{s' \in \mathcal{S}} \min \set{ \pi_{H-i} \paren{ s' \sachant s, a  } , \overline{U^*_{i-1}}(s') }  }.
 \end{eqnarray}
 De même, le critère pessimiste optimal, et la stratégie associée
-peut être calculé comme suit: $\forall s \in \mathcal{S}$,
+peuvent être calculés comme suit: $\forall s \in \mathcal{S}$,
 \begin{align}
 \nonumber 
 \underline{U_0^*}(s) & = \Psi(s), \mbox{\hspace{1cm} and, $\forall 1 \leqslant i \leqslant H$,} \\
@@ -541,17 +544,17 @@ peut être calculé comme suit: $\forall s \in \mathcal{S}$,
 \end{eqnarray}
 \end{theorem}
 
-Dans ce théorème, l'horizon $i$ est l'opposé modulo $H$
-de l'étape du processus $t$:
+Dans ce théorème, l'horizon $i$ est l'opposé 
+de l'étape du processus $t$ modulo $H$:
 durant l'éxécution, $\delta_{t} = \delta_{H-i}$ 
 est utilisée à l'étape de temps $t$,
 \textit{i.e.} lorsque il reste $i$ étapes. 
 
-Notons qu'une classe plus lrge de modèles PDM,
+Notons qu'une classe plus large de modèles PDM,
 incluant les PDM probabilistes et possibilistes,
 est appelé \textit{PDM algébrique} \cite{LIP67955}. 
 
-La section suivant est dédiée
+La section suivante est dédiée
 à la présentation de l'homologue possibiliste qualitatif du PDMPO
 noté $\pi$-PDMPO: 
 le modèle $\pi$-PDMPO est la version partiellement observable du modèle $\pi$-PDM.
@@ -559,22 +562,22 @@ Ce modèle a été présenté dans \cite{Sabbadin1999pipomdp}
 dans le cadre pessimiste.
 L'algorithme pour le résoudre a été présenté dans le cas où
 aucune préférence intermédiaire n'est impliquée 
-\textit{i.e.} dans le cas où les fonctions de préférence $\rho_t$ ne sont pas prise en compte:
+\textit{i.e.} dans le cas où les fonctions de préférence $\rho_t$ ne sont pas prises en compte:
 dans ce cas, seule la fonction de préférence terminale $\Psi$
-modèle le but de la mission.
+modélise le but de la mission.
 Enfin, on remarque qu'il suffit de considérer un $\pi$-PDM classique
-avec $\rho_t(s,a) = 1$, $\forall s \in \mathcal{S}$, $\forall a \in \mathcal{A}$ and $\forall t \in \set{0,\ldots,H-1}$. 
+avec $\rho_t(s,a) = 1$, $\forall s \in \mathcal{S}$, $\forall a \in \mathcal{A}$ et $\forall t \in \set{0,\ldots,H-1}$. 
 
 \section{PDM Partiellement Observable Possibiliste Qualitatif ($\pi$-PDMPO)}
 \label{section_piPOMDP}
 Le modèle PDMPO possibiliste qualitatif
 ($\pi$-PDMPO) a été présenté pour la première fois dans \cite{Sabbadin1999pipomdp}.
-Comme avec le modèle probabiliste,
-dans le cadre partiellement observable
+Comme pour le modèle probabiliste,
+dans le cadre partiellement observable,
 l'état du système n'est plus considéré comme une donnée d'entrée pour l'agent: 
 l'agent doit l'estimer à partir des observations $o \in \mathcal{O}$ 
 reçues à chaque étape de temps, 
-représentée par le processus d'observation $(O_t)_{t \in \mathbb{N}}$.
+représentées par le processus d'observation $(O_t)_{t \in \mathbb{N}}$.
 L'incertitude à propos des variables d'observation successives $O_t$
 ne dépend que de l'action et de l'état atteint:
 si l'agent choisit l'action $a \in \mathcal{A}$ au temps $t$,
@@ -605,7 +608,7 @@ et les carrés rouges sont les actions sélectionnées $a_t$.
 Les cercles verts en haut de la figure sont les états de croyance successifs
 $B_t$ constituant le processus d'états de croyance,
 calculé avec la mise à jour $B_{t+1} = \nu(B_t,a_t,O_{t+1})$.
-Les lignes vertes en pointillé représentent une influence déterministe.}
+Les lignes vertes en pointillé représentent des influences déterministes.}
 \label{POMDP} 
 \end{figure}
 
@@ -619,7 +622,7 @@ des \textit{états de croyance possibilistes qualitatifs}
 $\beta: \mathcal{S} \rightarrow \mathcal{L}$ 
 décrivant la connaissance à propos de l'état du système,
 \textit{i.e.} l'ensemble de distributions de possibilité sur $\mathcal{S}$.
-Cet ensemble est noté by $\Pi^{\mathcal{S}}_{\mathcal{L}} = \set{ \pi: \mathcal{S} \rightarrow \mathcal{L} \sachant \max_{s \in \mathcal{S}} \pi(s) = 1 }$. 
+Cet ensemble est noté $\Pi^{\mathcal{S}}_{\mathcal{L}} = \set{ \pi: \mathcal{S} \rightarrow \mathcal{L} \sachant \max_{s \in \mathcal{S}} \pi(s) = 1 }$. 
 Notons tout d'abord que le nombre d'états de croyance à propos de l'état du système est
 \begin{equation}
 \label{equation_numberOfPossDistrib}
@@ -632,33 +635,33 @@ et $\paren{ \# \mathcal{L} - 1 }^{\# \mathcal{S}}$ fonctions non normalisées
 telles que $\max_{s \in \mathcal{S}} f(s) <1$.
 Le nombre de distributions de possibilité sur $\mathcal{S}$
 est le nombre de fonctions normalisées de $\mathcal{S}$ vers $\mathcal{L}$,
-qui est le nombre total de fonctions, moins le nombre de fonctions non normalisées.
+$\textit{i.e.}$ le nombre total de fonctions, moins le nombre de fonctions non normalisées.
 
 Tout d'abord, définissons formellement un $\pi$-PDMPO comme le $7$-uplet 
 $<\mathcal{S},\mathcal{A},\mathcal{O},T^{\pi},O^{\pi},\Psi,\beta_0>$:
 \begin{itemize}
-\item $\mathcal{S}$, un ensemble fini d'états cachés du système;
+\item $\mathcal{S}$, un ensemble fini d'états (cachés) du système;
 \item $\mathcal{A}$ un ensemble fini d'actions;
 \item $\mathcal{O}$ un ensemble fini d'observations;
 \item $T^{\pi}$ l'ensemble des distributions de possibilité de transition $\pi \paren{s' \sachant s, a}$;
-\item $O^{\pi}$, l'ensemble des distribution de possibilité d'observation $\pi \paren{ o' \sachant s',a }$ is part of $O^{\pi}$.
+\item $O^{\pi}$, l'ensemble des distributions de possibilité d'observation $\pi \paren{ o' \sachant s',a }$;
 \item $\Psi$ la fonction de préférence, définissant pour chaque état $s \in \mathcal{S}$,
-la préférence associée à la situation où l'état du système termine dans l'état $s$.
+la préférence associée à la situation où l'état du système est $s \in \mathcal{S}$;
 \item $\beta_0$, \textit{l'état de croyance possibiliste initial},
-est la distribution de possibilité définissant l'incertitude possibiliste
+est la distribution de possibilité définissant l'incertitude
 à propos de l'état initial:
 $\forall s \in \mathcal{S}$, $\beta_0(s) = \Pi(S_0 = s)$. 
 \end{itemize}
 
 \`A chaque étape de temps, l'état de croyance possibiliste
 est calculé à partir de ces objets: 
-L'état de croyance initial $\beta_0 \in \Pi^{\mathcal{S}}_{\mathcal{L}}$ 
+'état de croyance initial $\beta_0 \in \Pi^{\mathcal{S}}_{\mathcal{L}}$ 
 fait partie de la définition du $\pi$-PDMPO.
 
 \`A l'étape de temps $t \geqslant 1$, 
 l'état de croyance est la distribution de possibilité
 sur l'état courant du système, 
-conditionnellement à toutes les données accessibles pour l'agent. 
+conditionnellement à toutes les données visibles par l'agent. 
 \begin{Def}[\'Etat de croyance possibiliste qualitatif]
 \label{def_QualPossBel}
 \begin{equation}
@@ -666,16 +669,16 @@ conditionnellement à toutes les données accessibles pour l'agent.
 \end{equation}
 \end{Def}
 où $i_t = \set{o_1,\ldots,o_t,a_0,\ldots,a_{t-1}}$ 
-est l'information accessible pour l'agent à l'étape de temps $t$ ( $i_0 = \set{} = \emptyset$ ),
+est l'information visible par l'agent à l'étape de temps $t$ ( $i_0 = \set{} = \emptyset$ ),
 et $I_t$ la variable correspondante.
 
 La mise à jour possibiliste de l'état de croyance est basée sur l'homologue possibiliste de la règle de Bayes:
 \begin{theorem}[Mise à jour possibiliste qualitative de l'état de croyance]
 \label{belief_process_recursif_poss}
-Si l'état de croyance à l'étape de temps $t$ est $b_t$,
+Si l'état de croyance à l'étape de temps $t$ est $\beta_t$,
 l'action choisie est $a_t \in \mathcal{A}$,
 et l'état suivant est $o_{t+1}$, 
-l'état suivant $b_{t+1}$
+l'état suivant $\beta_{t+1}$
 est calculé comme suit:
 \begin{equation}
 \label{possbeliefupdate}
@@ -700,21 +703,21 @@ avec $\nu$ appelée \textit{fonction de mise à jour}.
 \end{theorem}
 
 La mise à jour possibiliste de l'état de croyance (\ref{possbeliefupdate}) 
-est noté
+est notée
 \[ \beta_{t+1}(s') \propto^{\pi} \pi_t \paren{ s', o_{t+1} \sachant \beta_t, a_t} \]
 puisqu'elle consiste seulement à normaliser
 la fonction $s' \mapsto \pi \paren{ s',o_{t+1} \sachant \beta_t,a_t }$
 au sens possibiliste ($\max_{s} \pi(s) = 1$).
 
-Nous notons $B^{\pi}_t$ l'état de croyance lorsque considéré comme une variable,
-\textit{i.e.} $B^{\pi}_0$ est déterministe égal à $\beta_0$
+Nous notons $B^{\pi}_t$ l'état de croyance lorsque considéré comme une variable: 
+$B^{\pi}_0$ est déterministe égal à $\beta_0$
 (mais $S_0$ est incertain, ce qui est décrit par la distribution de possibilité $\beta_0$)
 et $B^{\pi}_{t+1} = \nu(B^{\pi}_t,a_t,O_{t+1})$
 où $O_{t+1}$ est la variable d'observation à l'étape de temps $t+1$.
 
 Afin de rendre les choses plus claires,
 le modèle $\pi$-PDMPO est ici défini sans préférences intermédiaires $\rho_t$,
-mais avec une préférence terminale $\Psi$.
+mais avec une préférence terminale $\Psi$ uniquement.
 
 Nous pouvons maintenant exprimer la distribution de possibilité
 de transition du processus de croyance
@@ -736,13 +739,13 @@ $\forall \beta \in \Pi^{\mathcal{S}}_{\mathcal{L}}$,
 \end{equation}
 Le cas optimiste donne une préférence maximale à l'ignorance totale,
 ce qui ne semble pas pouvoir mener l'agent à estimer l'état du système 
-afin d'essayer d'atteindre un état satisfaisant.
+et à atteindre un état satisfaisant.
 
 Il est possible de montrer qu'il est suffisant de chercher une stratégie basée sur les états de croyance
 \textit{i.e.} parmi les suites de règles de décision $(\delta_t)_{t=0}^{H-1}$,
 telles que $\forall t \geqslant 0$, $\delta_t: \beta_t \mapsto \delta_t(\beta_t) \in \mathcal{A}$.
 
-Le $\pi$-PDM $\langle \tilde{\mathcal{S}}^{\pi}, \mathcal{A}, \tilde{T^{\pi}}, \overline{\Psi} \mbox{ or } \underline{\Psi} \rangle$
+Le $\pi$-PDM $\langle \tilde{\mathcal{S}}^{\pi}, \mathcal{A}, \tilde{T^{\pi}}, \underline{\Psi} \rangle$
 construit à partir d'un $\pi$-PDMPO 
 $\langle \mathcal{S}, \mathcal{A}, \mathcal{O}, T^{\pi}, O^{\pi}, \beta_0 \rangle$ est finalement: 
 \begin{itemize}
@@ -764,14 +767,14 @@ vers $\mathcal{L}$, $U: \Pi^{\mathcal{S}}_{\mathcal{L}} \rightarrow \mathcal{L}$
 &= \max_{o' \in \mathcal{O}} \min \set{ \pi_t \paren{ o' \sachant \beta, a}, U\Big(\nu(\beta,a,o') \Big) }, 
 \end{align*}
 Cette observation mène à l'algorithme \ref{PIPOMDP_algo_opt}
-qui est l'application directe du schéma de programmation dynamique
-pour $\pi$-PDM (\ref{DPpiMDP})
-avec seulement une préférence terminale:
+qui est l'application directe du schéma de programmation dynamique optimiste
+pour $\pi$-PDM (théorème \ref{DPpiMDP})
+avec seulement une préférence terminale (qui est pessimiste):
 ce schéma est utilisé sur le $\pi$-PDM 
 $\langle \tilde{\mathcal{S}}^{\pi}, \mathcal{A}, \tilde{T^{\pi}}, \underline{\Psi} \rangle$.
 
 \begin{algorithm} \caption{Algorithme de programmation dynamique pour $\pi$-PDMPO optimiste avec une préférence sur l'état final seulement} \label{PIPOMDP_algo_opt}
-$\overline{U^*_0} \gets \overline{\Psi}$;\\
+$\overline{U^*_0} \gets \underline{\Psi}$;\\
 \For{$i \in \set{1,\ldots,H}$}{
 	\For{$\beta \in \Pi^{\mathcal{S}}_{\mathcal{L}}$}{
 		$\displaystyle \overline{U^*_i}(\beta) \gets \max_{a \in \mathcal{A}} \max_{o' \in \mathcal{O}} \min \set{ \pi_t \paren{ o' \sachant \beta,a } , \overline{U^*_{i-1}}\Big(\nu(\beta,a,o')\Big) }$;\\
@@ -782,8 +785,8 @@ $\overline{U^*_0} \gets \overline{\Psi}$;\\
 \end{algorithm}
 
 L'algorithme \ref{PIPOMDP_algo_pess},
-qui est la programmation dynamique pour $\pi$-PDM 
-(\ref{dynamic_programming_pimdppess}),
+qui est la programmation dynamique pessimiste pour $\pi$-PDM 
+(théorème \ref{DPpiMDP}),
 avec une préférence terminale seulement:
 elle est appliquée au $\pi$-MDP $\langle \tilde{\mathcal{S}}^{\pi}, \mathcal{A}, \tilde{T^{\pi}}, \underline{\Psi} \rangle$.
 
@@ -799,26 +802,26 @@ $\underline{U^*_0} \gets \underline{\Psi}$;\\
 \end{algorithm}
 
 Dans ce premier chapitre la théorie des possibilités qualitatives 
-ainsi que les modèle $\pi$-PDM et $\pi$-PDMPO.
+ainsi que les modèle $\pi$-PDM et $\pi$-PDMPO ont été présentés.
 
 Dans le cadre probabiliste des PDMPO,
 l'incertitude est décrite avec des probabilités $\textbf{p} \paren{ s' \sachant s,a } \in \mathbb{R}$
 et $\textbf{p} \paren{ o' \sachant s',a } \in \mathbb{R}$
-tandis qu'elle est définie par des distributions de possibilité $\pi \paren{ s' \sachant s,a } \in \mathcal{L} = \set{ 0, \frac{1}{k}, \ldots, 1}$ (with $k\geqslant1$) 
+tandis qu'elle est définie par des distributions de possibilité $\pi \paren{ s' \sachant s,a } \in \mathcal{L} = \set{ 0, \frac{1}{k}, \ldots, 1}$ (avec $k\geqslant1$) 
 et $\pi \paren{ o' \sachant s',a } \in \mathcal{L}$ 
 dans le cadre $\pi$-PDMPO.
 De plus, le cadre probabiliste mesure l'intérêt de passer par un état $s \in \mathcal{S}$
 et d'utiliser l'action $a \in \mathcal{A}$
 avec la fonction de récompense $r(s,a) \in \mathbb{R}$ 
-tandis que le cadre possibiliste qualitatif utilise des préférences $\rho(s,a) \in \mathcal{L}$ and $\Psi(s) \in \mathcal{L}$.
+tandis que le cadre possibiliste qualitatif utilise des préférences $\rho(s,a) \in \mathcal{L}$ et $\Psi(s) \in \mathcal{L}$.
 Ainsi, le critère probabiliste pour une stratégie donnée,
 est l'espérance des récompenses, ce qui s'écrit $\mathbb{E} \croch{ rewards\Big( (S_t)_{t\geqslant0} \Big) } \in \mathbb{R}$:
-dans le cadre possibiliste, deux critères sont possibles 
+dans le cadre possibiliste, deux critères sont possibles, 
 qui sont les intégrales de Sugeno de la préférence,
 $\mathbb{S}_{\Pi} \croch{ preferences\Big( (S_t)_{t\geqslant0} \Big) } \in \mathcal{L}$ pour l'optimiste,
 et $\mathbb{S}_{\mathcal{N}} \croch{ preferences\Big( (S_t)_{t\geqslant0} \Big) } \in \mathcal{L}$ pour la pessimiste.
 
-A PDMPO (resp. $\pi$-PDMPO), est redéfini en termes de MDP (resp. $\pi$-MDP) entièrement observable
+Un PDMPO (resp. $\pi$-PDMPO), est redéfini en termes de PDM (resp. $\pi$-PDM) entièrement observable
 où l'état du système est l'état de croyance $b_t \in \mathbb{P}^{\mathcal{S}}_{b_0}$ 
 (resp. $\beta_t \in \Pi^{\mathcal{S}}_{\mathcal{L}}$), 
 \textit{i.e.} les distribution de probabilité (resp. possibilité)
@@ -832,9 +835,9 @@ est $\underline{\rho}(b,a) = \mathbb{S}_{\mathcal{N}, S \sim \beta} \croch{ \rho
 pour les pessimistes.
 
 Le chapitre suivant propose certaines amélioration au modèle possibiliste qualitatif:
-La propriété d'observabilité mixed est définie:
+La propriété d'observabilité mixte est définie:
 comme pour le modèle probabiliste,
 la complexité de résolution des problèmes ayant cette propriété est réduite.
-Enfin, un problème à horizon infini est formellement défini,
+Enfin, l'homologue du problème à horizon infini est formellement défini,
 et il est prouvé que l'algorithme de résolution proposé pour le résoudre
 renvoie une stratégie optimale.
