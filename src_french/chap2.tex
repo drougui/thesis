@@ -3,35 +3,35 @@ l'étude des modèles $\pi$-PDMOM
 dans le but de résoudre 
 de très grands problèmes de planification
 lorsqu'ils sont structurés.
-Inspirés par l'algorithme \textit{Stochastic Planning Using Decision Diagrams} (SPUDD)
+Inspirés par l'algorithme \textit{Stochastic Planning Using Decision Diagrams} (\textit{SPUDD})
 construit pour résoudre les PDM probabilistes factorisés, 
 nous avons mis en place un algorithme symbolique
 appelé PPUDD conçu pour résoudre les $\pi$-PDMOM. 
 Tandis que le nombre de feuilles
-des arbres de décisions utilisés par SPUDD
-peuvent devenir aussi grand que la taille de l'espace des états,
+des arbres de décision utilisés par \textit{SPUDD}
+peuvent devenir aussi grand que la taille de l'espace des états
 puisque leurs valeurs sont des nombres réels 
 agrégés par des additions et des multiplications,
-le nombre de feuilles de PPUDD 
+le nombre de feuilles de \textit{PPUDD} 
 est borné par le nombre d'éléments dans $\mathcal{L}$
 car leurs valeurs restent dans l'échelle finie $\mathcal{L}$
 via les opérations $\min$ et $\max$ seulement.
 Enfin, nous présentons un $\pi$-PDMOM
 satisfaisant certaines hypothèses d'indépendance 
-sur ces variables visibles, cachées,
+sur les variables visibles, cachées,
 et d'observation.
 Ce dernier résulte en un $\pi$-PDM factorisé,
-sur lequel PPUDD peut être lancé.
+sur lequel \textit{PPUDD} peut être lancé.
 Nos résultats expérimentaux montrent que 
-le temps de calcul de PPUDD 
+le temps de calcul de \textit{PPUDD} 
 est beaucoup plus petit que 
-Symbolic-HSVI et APPL
+\textit{Symbolic-HSVI} et \textit{APPL}
 pour les versions possibilistes 
-et probabilistes des mêmes benchmarks, 
+et probabilistes du même benchmark, 
 tout en fournissant des stratégies de bonne qualité.
 Les performances des stratégies
-calculées par PPUDD ont été testées
-pendant la compétition internationale de planification probabiliste (IPPC 2014)
+calculées par \textit{PPUDD} ont été testées
+pendant la compétition internationale de planification probabiliste (\textit{IPPC} 2014)
 dont les résultats sont exposés ici.
 
 \section{Introduction}
@@ -46,11 +46,11 @@ les PDM factorisés et les méthodes de calcul symboliques
 intensivement dans le but de raisonner directement au niveau des variables
 plutôt que sur l'espace d'état.
 Un travail récent sur ces problématiques est par exemple \cite{RadoszyckiPS14}. 
-Le célèbre algorithme SPUDD
-\cite{Hoey99spudd:stochastic} 
+Le célèbre algorithme \textit{SPUDD}
+\cite{Hoey99spuddstochastic} 
 résout des PDM factorisés en utilisant
-des représentation symboliques de la fonction valeur et des stratégies
-sous la forme d'arbre de décision algébriques (\textit{ADDs}) \cite{Bahar1997ADD}, 
+des représentations symboliques de la fonction valeur et des stratégies
+sous la forme d'arbres de décision algébriques (\textit{ADDs}) \cite{Bahar1997ADD}, 
 qui représentent de manière compacte
 les fonctions réelles de variables booléennes:
 les \textit{ADDs} sont des arbres 
@@ -59,25 +59,25 @@ et les feuilles sont les valeurs de la fonction.
 Au lieu de mettre à jour les valeurs de la fonction pour chaque état
 individuellement à chaque itération de l'algorithme,
 ils sont aggrégés dans les \textit{ADDs}
-et les opérations sont effectués de manière symbolique
+et les opérations sont effectuées de manière symbolique
 directement entre les \textit{ADDs} sur plusieurs variables en même temps.
-Cependant, SPUDD est limité par la potentielle manipulation
+Cependant, \textit{SPUDD} est limité par la manipulation potentielle
 d'énormes \textit{ADDs} dans le pire des cas: par exemple,
 l'espérance implique des additions et des multiplications sur des valeurs réelles
 (probabilités et récompenses), 
 créant de nouvelles valeurs entres elles,
 de manière à ce que le nombre de feuille des \textit{ADDs}
-peut devenir égal à l'espace d'état,
+puisse devenir égal à l'espace d'état,
 \textit{i.e.} exponentiel en le nombre de variables d'état.
 
 Ainsi,
 le travail présenté ici
 est motivé par la simple observation
 que les \textbf{opérations symboliques avec des PDM possibilistes
-devraient nécessairement limiter la taille des ADDs}: 
+devraient nécessairement limiter la taille des \textit{ADDs}}: 
 en effet, ce formalisme opère sur une échelle \emph{finie}
-$\mathcal{L}$ avec seulement les opération $\max$ et $\min$,
-ce qui implique que les valeurs manipulée restent dans
+$\mathcal{L}$ avec seulement les opérations $\max$ et $\min$,
+ce qui implique que les valeurs manipulées restent dans
 l'échelle finie $\mathcal{L}$, 
 qui est généralement beaucoup plus petite
 que le nombre d'états.
@@ -88,7 +88,7 @@ legend entries={ $8$ variables: cadre qualitatif, cadre quantitatif,
 $10$ variables: cadre qualitatif, cadre quantitatif},legend style={at={(2,0.6)}},
 xlabel={Taille de l'échelle $\mathcal{L}$},
 ylabel={Nombre maximal de noeuds},
-title={Nombre maximal de noeud d'un ADD: feuilles dans $\mathcal{L}$ vs dans $\mathbb{R}$}]
+title={Nombre maximal de noeud d'un \textit{ADD}: feuilles dans $\mathcal{L}$ vs dans $\mathbb{R}$}]
 \addplot table[x=scaleSize, y=MaxNbNodesPoss]{ADDsizeFctLsize/src/MAXnbNodes_fctOf_Lsize_8VARS.txt};
 \addplot table[x=scaleSize, y=MaxNbNodes]{ADDsizeFctLsize/src/MAXnbNodes_fctOf_Lsize_8VARS.txt};
 \addplot table[x=scaleSize,y=MaxNbNodesPoss]{ADDsizeFctLsize/src/MAXnbNodes_fctOf_Lsize_10VARS.txt};
@@ -97,29 +97,29 @@ title={Nombre maximal de noeud d'un ADD: feuilles dans $\mathcal{L}$ vs dans $\m
 \end{tikzpicture}
 \caption[Limitations de la taille maximale d'un \textit{ADD} dans le cadre qualitatif]{
 La taille maximale (nombre total de noeuds)
-d'un ADD dont les valeurs sont dans $\mathcal{L}$ is limited:
+d'un \textit{ADD} dont les valeurs sont dans $\mathcal{L}$ est limité:
 cette taille maximale est représentée par les courbes avec les ronds bleus et marrons,
 en fonction de la taille de $\mathcal{L}$.
-Lorsque les feuilles de ADDs sont dans $\mathbb{R}$,
+Lorsque les feuilles des \textit{ADDs} sont dans $\mathbb{R}$,
 le nombre de ses noeuds est potentiellement exponentiel
 en le nombre de variables:
 la borne supérieure est représentée par les courbes
-avec les carrés rouges et noirs.
+avec les carrés rouges et noirs
 (fonctions constantes de la taille de $\mathcal{L}$).}
 \label{ADDsize}
 \end{figure}
 
 La figure \ref{ADDsize} montre que
-les ADDs utilisés dans le cadre possibiliste
+les \textit{ADDs} utilisés dans le cadre possibiliste
 a un nombre limité de noeuds
-puisque le nombre de feuilled
-est au plus égal au cardinal de
+puisque le nombre de feuilles
+est au plus égal à la taille de
 l'échelle possibiliste qualitative $\mathcal{L}$:
 %which is generally far smaller than the number of states.  
 %Figure \ref{ADDsize} shows 
 la taille maximale (
-nombre maximal de noeud)
-d'un ADD
+nombre maximal de noeuds)
+d'un \textit{ADD}
 dont les feuilles sont dans $\mathcal{L}$, 
 est représenté comme une fonction
 de $\# \mathcal{L}$,
@@ -127,37 +127,37 @@ dans le cas de $8$ et $10$ variables.
 
 Dans ce chapitre, nous présentons
 un algorithme basé sur la programmation dynamique symbolique
-pour résoudre les $\pi$-PDMMO factorisés
+pour résoudre les $\pi$-PDMOM factorisés
 appelé Possibilistic Planning Using
-Decision Diagram (PPUDD). 
+Decision Diagram (\textit{PPUDD}). 
 Cette contribution seule
 n'est pas suffisante
 puisque les variables de croyance
 ont un nombre de valeurs
 exponentiel en la taille de l'espace des états cachés.
 Donc, notre seconde contribution est un théorème 
-pour factoriser l'état de croyance
+visant à factoriser l'état de croyance
 en de nombreuses variables de croyance marginales
 lorsque certaines hypothèses d'indépendance 
 sur les variables d'état et d'observation
 d'un $\pi$-PDMOM sont vérifiées:
 cela permet de résoudre certains problèmes
-dont les calculs sont inabordable tels quels. 
+dont les calculs sont inabordable. 
 Notons que notre idée de factorisation
 de l'état de croyance est assez général
 pour être valable pour les modèles probabilistes.
-Enfin, les performances de PPUDD sont comparées à celles de symbolic
-HSVI \cite{Sim2008SHS1620163.1620241}
-(une version symbolique de l'algorithme pour PDMPO called HSVI) 
-et APPL \cite{Kurniawati-RSS08,OngShaoHsuWee-IJRR10}
+Enfin, les performances de \textit{PPUDD} sont comparées à celles de 
+\textit{symbolic HSVI} \cite{Sim2008SHS1620163.1620241}
+(une version symbolique de l'algorithme pour PDMPO appelé \textit{HSVI} \cite{Smith2004HSV1036843.1036906}) 
+et \textit{APPL} \cite{Kurniawati-RSS08,OngShaoHsuWee-IJRR10}
 (déjà utilisé dans le chapitre précédent, 
-et basé sur SARSOP)
+et basé sur \textit{SARSOP})
 sous observabilité mixte.
 Les résultats obtenus étant prometteurs,
-nous avons participé à la compétition internationale de planification probabiliste (IPPC 2014)
-et les résultats de PPUDD durant la session entièrement observable d'IPPC 2014
+nous avons participé à la compétition internationale de planification probabiliste (\textit{IPPC} 2014)
+et les résultats de \textit{PPUDD} durant la session entièrement observable d'\textit{IPPC} 2014
 sont présentés et discutés.
-Un algorithme dédié à la résolution des $\pi$-PDMOM en utilisant des ADDs
+Un algorithme dédié à la résolution des $\pi$-PDMOM en utilisant des \textit{ADDs}
 est disponible dans le dépôt \url{https://github.com/drougui/ppudd}).
 
 \section{Résoudre des $\pi$-PDMOM par la Programmation Dynamique Symbolique} 
@@ -184,24 +184,24 @@ peut être factorisé de cette manière
 grâce à la factorisation de $\mathcal{S}_h$
 et $\mathcal{O}_h$. 
 La factorisation de la variable de la croyance probabiliste
-dans \cite{DBLP:conf/aaai/BoyenK99,DBLP:conf/aips/ShaniPBS08} 
+dans \cite{BoyenK99,ShaniPBS08} 
 est approximative, tandis que celle présentée ici est exacte.
 Puisque les espaces finis de taille $K$
 peuvent être eux-même factorisés
-en $\lceil \log_2 K \rceil$ espaces binaires \cite{Hoey99spudd:stochastic}, 
-nous poubons faire l'hypothèse que nous raisonnons 
+en $\lceil \log_2 K \rceil$ espaces binaires \cite{Hoey99spuddstochastic}, 
+nous pouvons faire l'hypothèse que nous raisonnons 
 sur un $\pi$-PDM dont l'espace d'état est noté $\mathcal{X}$
-est entièrement décrit par les variables $(X^1,\ldots,X^n)$, 
+et entièrement décrit par les variables $(X^1,\ldots,X^n)$, 
 avec $n \in \mathbb{N}^{\ast}$ et $\forall i$, $X^i \in \set{\top,\bot}$:
 $\mathcal{X} = \set{\top,\bot}^n$.
 
-Rappelons que les réseaux bayésiens dynamiques (DBNs) \cite{Dean:1989:DBN}
-déjà utilisés en section \ref{section_Markov2POMDP} 
-(par exemple dans le diagramme d'influence figure \ref{POMDP})
+Rappelons que les réseaux bayésiens dynamiques (\textit{DBNs}) \cite{Dean1989DBN}
+déjà utilisés en section \ref{section_piPOMDP} 
+(dans le diagramme d'influence figure \ref{POMDP})
 et dans le chapitre précédent (figure \ref{piMOMDP} 
 illustrant la structure d'observabilité mixte)
 sont des représentations graphique très utiles pour les processus étudiés. 
-Un DBN représentant la structure d'un $\pi$-PDM factorisé
+Un \textit{DBN} représentant la structure d'un $\pi$-PDM factorisé
 est dessiné dans la figure \ref{fig_piMDPFact}:
 les variables d'état à une étape de temps donnée $t \geqslant 0$
 sont notées $X_t = (X_t^i)_{i=1}^n$ (variables courantes),
@@ -287,11 +287,11 @@ où $n\geqslant1$ est le nombre de variables décrivant l'espace d'état.
 }
 \label{fig_piMDPFact}
 \end{figure}
-Dans le cadre des DBNs, $parents(X^i_{t+1})$ 
+Dans le cadre des \textit{DBNs}, $parents(X^i_{t+1})$ 
 est l'ensemble des variables d'état
-desquelles la variable d'état suivante $X^i_{t+1}$ dépend,
+dont la variable d'état suivante $X^i_{t+1}$ dépend,
 \textit{i.e.} une variable $Y$, 
-représenté par un noeud dans le DBN,
+représentée par un noeud dans le \textit{DBN},
 est dans $parents(X^i_{t+1})$ 
 si et seulement si il y a une flèche de $Y$ à $X^j_{t+1}$.
 Nous supposons que $parents(X^i_{t+1}) \subseteq \set{X^1_t,\ldots,X^n_t}$,
@@ -315,7 +315,7 @@ par exemple,
 $X_i'$ est la notation pour $X^i_{t+1}$,
 et $X_i$ celle pour $X_t^i$.
 Ainsi, un $\pi$-PDMOM factorisé peut être défini
-par des fonctions de transitions 
+par des fonctions de transition 
 $T^i_a= \pi \paren{X_i' \sachant parents(X_i'),a }$ 
 pour chaque action $a$
 et chaque variable $X_i'$
@@ -324,8 +324,8 @@ et chaque variable $X_i'$
 
 Chaque fonction de transition
 peut être représentée par un arbre de décision algébrique 
-(ADD) \cite{Bahar:1997:ADD}. 
-Un ADD, comme illustré dans la figure \ref{fig_ADDtransition}, 
+(\textit{ADD}) \cite{Bahar1997ADD}. 
+Un \textit{ADD}, comme illustré dans la figure \ref{fig_ADDtransition}, 
 est un arbre représentant de manière compacte
 une fonction réelle de variables binaires, 
 dont les sous-graphes identiques sont confondus
@@ -333,13 +333,13 @@ et les feuilles valant zéro ne sont pas mémorisées.
 Les notations suivantes
 sont utilisées pour rendre explicite
 le fait que nous travaillons avec des fonctions symboliques
-représentées par des ADDs:
+représentées par des \textit{ADDs}:
 \begin{itemize}
-\item $\ovalbox{$\min$} \set{f,g}$ où $f$ et $g$ sont deux ADDs;
+\item $\ovalbox{$\min$} \set{f,g}$ où $f$ et $g$ sont deux \textit{ADDs};
 \item $\ovalbox{$\max$}_{X_i} f$ = $\ovalbox{$\max$} \set{ f^{X_i=0},f^{X_i=1} }$, 
 \end{itemize}
-qui peut être facilement calculé car les ADDs
-sont construit sur la base
+qui peut être facilement calculé car les \textit{ADDs}
+sont construits sur la base
 de l'expension de Shanon: $f = \overline{X_i} \cdot f^{X_i=0} + X_i \cdot f^{X_i=1}$ 
 où $f^{X_i=1}$ et $f^{X_i=0}$ 
 sont les sous graphes représentant
@@ -361,7 +361,7 @@ et $X'=(X_1',\ldots,X_n')$ la suivante,
 la Q-valeur pour une action $a \in \mathcal{A}$
 %in a state $x \in \mathcal{X}$,
 est $\overline{q^a} = \overline{q^a}(X)= \ovalbox{$\max$}_{X'} \ovalbox{$\min$} \set{ \pi \paren{ X' \sachant X,a }, \overline{U^*}(X') }$.
-Le calcul de cet ADD ($\overline{q^a}$) 
+Le calcul de cet \textit{ADD} ($\overline{q^a}$) 
 peut être décomposé en plusieurs calculs 
 en utilisant la proposition suivante:
 \begin{Property}[Régression possibiliste de la fonction valeur]
@@ -374,14 +374,14 @@ définissons :
 \item $\overline{q^a_0} = \overline{U^*}(X'_1,\cdots,X'_n)$, 
 \item $\overline{q^a_i} = \max_{X'_i \in \set{\top,\bot}} \min \Big\{ \pi \paren{X_i' \sachant parents(X_i'),a} , \overline{q^a_{i-1}} \Big\}$.
 \end{itemize}
-Alors, la  Q-valeur possibiliste d'une action $a$ est: 
+Alors, la  Q-valeur possibiliste d'une action $a$ est 
 $\overline{q^a} = \overline{q^a_n}$,
 qui dépend des variables $X_1,\ldots,X_n$,
-et de la fonction valeur suivante, est $\overline{U^*}(X_1,\ldots,X_n) = \max_{a \in \mathcal{A}} \overline{q^a_n}(X_1,\ldots,X_n)$.
+et la fonction valeur suivante est $\overline{U^*}(X_1,\ldots,X_n) = \max_{a \in \mathcal{A}} \overline{q^a_n}(X_1,\ldots,X_n)$.
 \end{Property}
 
 La Q-valeur de l'action $a$, 
-représentée par un ADD,
+représentée par un \textit{ADD},
 peut être alors calculée en plusieurs étapes,
 une pour chaque variable d'état suivante $X'_i,
 1 \leqslant i \leqslant n$. 
@@ -410,7 +410,7 @@ une pour chaque variable d'état suivante $X'_i,
 \draw [dashed] (X2) -- (L2);
 \draw (Xp1) -- (L3);
 \end{tikzpicture}
-\caption{ADD encoding $T^a_1$ of Fig. \ref{fig_piMDPFact}\\\\}
+\caption{\textit{ADD} représentant $T^a_1$ de la figure \ref{fig_piMDPFact}\\\\}
 \label{fig_ADDtransition}
 \end{subfigure}
 \qquad
@@ -494,9 +494,9 @@ une pour chaque variable d'état suivante $X'_i,
 \draw [dashed] (rrpX2) -- (rrL2);
 
 \end{tikzpicture}
-\caption{Calcul symbolique de la Q-valeur courante sous forme d'un ADD: 
-elle est combiné à la fonction de transition
-représentée en ADD dans la figure \ref{fig_ADDtransition}\\}
+\caption{Calcul symbolique de la Q-valeur courante sous forme d'un \textit{ADD}: 
+elle est combinée à la fonction de transition
+représentée par un \textit{ADD} dans la figure \ref{fig_ADDtransition}\\}
 \label{fig_ADDregression}
 \end{subfigure}
 \caption{Exemple d'arbre de décision algébrique comme utilisé dans l'algorithme \textit{PPUDD}}
@@ -504,7 +504,7 @@ représentée en ADD dans la figure \ref{fig_ADDtransition}\\}
 \end{figure}	
 La figure \ref{fig_ADDregression}
 illustre les calculs possibilistes 
-effectués entre les arbres de décision algébriques (ADDs)
+effectués entre les arbres de décision algébriques (\textit{ADDs})
 pour calculer la Q-valeur d'une action.
 
 \begin{algorithm} \caption{PPUDD (calcul pour un horizon indéterminé)} \label{PPUDD} 
@@ -530,12 +530,12 @@ pour calculer la Q-valeur d'une action.
 L'algorithme \ref{PPUDD}
 est une version symbolique
 de l'algorithme d'itération sur les valeurs
-pour $\pi$-PDM \ref{algorithmIVPIMDP} dans le chapitre précédent),
+pour $\pi$-PDM dans le chapitre précédent, algorithme \ref{algorithmIVPIMDP}),
 qui utilise le schéma de régression défini
 dans la proposition \ref{propositionRegression}. 
-Inspiré de SPUDD \cite{Hoey99spuddstochastic},
-PPUDD signifie \emph{Possibilistic Planning Using Decision Diagrams}. 
-Comme pour SPUDD,
+Inspiré de \textit{SPUDD} \cite{Hoey99spuddstochastic},
+\textit{PPUDD} signifie \emph{Possibilistic Planning Using Decision Diagrams}. 
+Comme pour \textit{SPUDD},
 l'action de transformer les variables non primées
 en variables primées est nécessaire à chaque itération
 (\textit{cf.} ligne \ref{ppuddSwap} de l'algorithme \ref{PPUDD} 
@@ -544,11 +544,11 @@ Cette opération sert à différentier les états suivants des états courants
 lors des opérations entre les ADDs. 
 Les lignes \ref{ppuddBeginQ}-\ref{ppuddEndQ} 
 appliquent la proposition \ref{propositionRegression} 
-et correspond à la ligne
+et correspondent à la ligne
 \ref{VIupdate_OptAlgo} de l'algorithme \ref{algorithmIVPIMDP}.
 
 Nous avons mentionné au début de la section
-que l'espace de états de croyance $\Pi^{\mathcal{S}_h}_{\mathcal{L}}$
+que l'espace des états de croyance $\Pi^{\mathcal{S}_h}_{\mathcal{L}}$
 pourrait être décrit par $\lceil \log_2 K \rceil$ 
 variables binaires où $K=\#
 \mathcal{L}^{\#\mathcal{S}_h} - (\# \mathcal{L}-1)^{\# \mathcal{S}_h}$. 
@@ -558,21 +558,20 @@ dans la section qui suit,
 une méthode pour exploiter la factorisation
 de $\mathcal{S}_h$ et $\mathcal{O}_h$
 dans le but de factoriser $\Pi^{\mathcal{S}_h}_{\mathcal{L}}$
-en plusieur variables, 
-ce qui décomposera les ADDs de transition
-en plus petits ADDs facilement manipulables.
-Notons que PPUDD peut résoudre les $\pi$-PDMOM
+en plusieurs variables, 
+ce qui décomposera les \textit{ADDs} de transition
+en plus petits \textit{ADDs} facilement manipulables.
+Notons que \textit{PPUDD} peut résoudre les $\pi$-PDMOM
 même si cette factorisation de la croyance n'est pas
-possible, mais les ADDs manipulés sont plus gros dans ce cas.
+possible, mais les \textit{ADDs} manipulés sont plus gros dans ce cas.
 
 Le chapitre précédent met en évidence qu'un prétraitement
 est nécessaire
 pour traduire un
 $\pi$-PDMOM en un $\pi$-PDM dont l'espace d'état est $\mathcal{X}$.
 Nous pouvons alors raisonner sur l'espace d'état
-entièrement observable pour
-l'agent $\mathcal{X} = S_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}}$
-et résoudre le $\pi$-PDMOM en tant que $\pi$-MDP.
+entièrement visible par l'agent $\mathcal{X} = S_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}}$
+et résoudre le $\pi$-PDMOM en tant que $\pi$-PDM.
 La section suivante fait le lien entre les propriétés structurelles
 d'un $\pi$-PDMOM,
 concernant les dépendences des variables originales 
@@ -581,7 +580,7 @@ concernant les dépendences des variables originales
 \textit{i.e.} du $\pi$-PDM
 résultant, défini sur l'espace d'état $S_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}}$:
 la factorisation résultante concerne alors 
-les dépendances des variables visibles et des variables de croyance).
+les dépendances des variables visibles et des variables de croyance.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -597,34 +596,34 @@ La factorisation de la variable de croyance
 requiert trois hypothèse d'indépendance
 sur les variables du $\pi$-PDMOM, 
 qui sont illustrées à travers le problème classique \textit{Rocksample} 
-\cite{Smith:2004HSV1036843.1036906}.
+\cite{Smith2004HSV1036843.1036906}.
 \subsection{Exemple de Motivation}
 \label{section_RS_motivatingEx}
 Un robot se déplaçant sur une grille $g \times g$ 
 doit collecter des échantillons scientifiques 
-à partir de pierres dites intéressantes (``bonne'') pierres
-parmi $R$ pierres, et enfin d'atteindre la sortie de la grille.
+à partir de pierres dites intéressantes parmi $R$ pierres, et enfin d'atteindre la sortie de la grille.
 % It is 
 %equipped with a noisy long-range sensor that can be used to determine if a rock 
 %is ``good'' or not.
 Il connait les positions des $R$ pierres $(x_i,y_i)_{i=1}^R$
-mais pas lequelles sont intéressantes 
-(appelées les ``bonnes'' pierres).
+mais pas lesquelles sont intéressantes. 
+Les pierres intéressantes sont
+appelées les ``bonnes'' pierres.
 Cependant, échantillonner une pierre coûte cher:
 le robot est donc équipé d'un capteur 
-qu'il peut utiliser that can be used to déterminer 
+qu'il peut utiliser pour déterminer 
 si une pierre est ``bonne'' ou non (``mauvaise''). 
 Lorsqu'une pierre est échantillonnée,
 elle devient (ou reste) ``mauvaise'' 
 (plus intéressante scientifiquement). 
-A la fin de la mission, le robot doit atteindre la position de sortie de la grille 
-à droite de la grille:
+A la fin de la mission, le robot doit atteindre la position de sortie de la grille.
+Décrivons le PDMOM associé:
 \begin{itemize} 
 \item $\mathcal{S}_{v}$ représente l'ensemble des positions possibles du robot %$(x_r,y_r)$
 en plus de la sortie ($\# \mathcal{S}_v = g^2 +1$);
 \item $\mathcal{S}_h$ représente l'ensemble des natures possibles de chacune des pierres:
 $\mathcal{S}_h = \mathcal{S}^1_h \times \ldots \times \mathcal{S}^R_h$,
-avec $\forall 1 \leqslant i \leqslant R$, $\mathcal{S}^i_h=\set{ bonne,mauvaise }$;
+avec $\forall 1 \leqslant i \leqslant R$, $\mathcal{S}^i_h=\set{ ``bonne'', ``mauvaise'' }$;
 \item $\mathcal{A}$ contient les déplacements (déterministes) dans les $4$ directions ($a_{north},a_{east},a_{south},a_{west}$),  
 tester la pierre numéro $i$, ($a_{check_i}$) 
 $\forall 1 \leqslant i \leqslant R $, 
@@ -657,7 +656,7 @@ $\pi \paren{ o_i' \sachant s_i',a,s_v } = 1$ $ \forall o_i' \in \mathcal{O}_{i} 
 Le degré de possibilité d'une observation erronée
 devient zéro lorsque le robot se trouve sur
 la pierre testée, 
-et le plus petit degré de possibilité 
+et devient le plus petit degré de possibilité 
 non nul sinon. 
 Enfin, puisque la sémantique possibiliste ne permet
 pas de sommer les récompenses,
@@ -666,8 +665,8 @@ $s^2_v \in
 \set{ 1, \ldots, R }$
  est introduite:
 elle compte le nombre de pierres testées.
-L'aversion qualitative de l'échantillonage
-est défini par $\Psi(s)=\frac{R+2-s_{v}^{2}}{R+2} \in \mathcal{L}$
+La préférence qualitative de l'échantillonage
+est définie par $\Psi(s)=\frac{R+2-s_{v}^{2}}{R+2} \in \mathcal{L}$
 si la position est la sortie,
 et zéro sinon.
 Enfin, la position du robot
@@ -689,19 +688,19 @@ et $\mathcal{O} = \mathcal{O}^1 \times \ldots \times \mathcal{O}^l$,
 et nous pouvons maintenant associer une variable d'observation 
 $O^j \in \mathcal{O}^j$ à la variable d'état cachée correspondante $S^j_h \in \mathcal{S}^j_h$. 
 Cela permet de raisonner
-sur le DBN de la figure \ref{fig_piMOMDPFact}, 
+sur le \textit{DBN} de la figure \ref{fig_piMOMDPFact}, 
 qui exprime trois hypothèses importantes
 qui nous permettrons de factoriser l'état de croyance: 
 \begin{enumerate}
 \item toutes les variables d'état $S^1_v,S^2_v,\ldots,S^m_v,S^1_h,S^2_h,\ldots,S^l_h$ 
 sont indépendantes post-action, 
-et la variable d'état suivante ne dépend par des variables d'état cachées courantes.
-\item une variable cachée ne dépend pas d'autres variables d'état cachées précédentes: 
-la nature d'une pierre est indépendante de la nature 
+et une variable d'état suivante ne dépend par des variables d'état cachées courantes.
+\item une variable d'état cachée ne dépend pas d'autres variables d'état cachées précédentes: 
+par exemple la nature d'une pierre est indépendante de la nature 
 des autres pierres.
 \item une variable d'observation est disponible pour chaque variable d'état cachée,
 et dépend de cet état.
-Il ne dépend pas d'autres
+Elle ne dépend pas d'autres
 variables d'état cachées,
 où des variables visibles courantes,
 mais des variables visibles précédentes et de l'action choisie:
@@ -711,10 +710,10 @@ est en effet seulement associée
 à la nature de la pierre correspondante.
 La qualité de l'observation dépend de la position du robot 
 \emph{i.e.} une variable d'état visible courante, 
-ce qui n'est pas autorisé par le DBN: 
+ce qui n'est pas autorisé par le \textit{DBN}: 
 heureusement, puisque les déplacements sont déterministes,
 nous contournons le problème en considérant que cette qualité
-dépend de la position précédente et de l'action choisie.
+dépend de la position précédente et de l'action choisie, ce qui est équivalent ici.
 
 
 \begin{figure}[b!]\centering
@@ -893,7 +892,7 @@ dépend de la position précédente et de l'action choisie.
 
 \end{tikzpicture}
 \caption[\textit{DBN} d'un ($\pi$-)PDMOM dont les variables de croyances peuvent être factorisées]{
-DBN résumant les hypothèse d'indépendance d'un $\pi$-PDMOM
+\textit{DBN} résumant les hypothèses d'indépendance d'un $\pi$-PDMOM
 menant à des variables de croyances marginales 
 et un $\pi$-PDM avec
 une fonction de transition factorisée.
@@ -901,7 +900,7 @@ Les parents d'une variable d'état visible sont les variables d'état visibles pré
 Les parents d'une variable d'état cachée sont les variables d'état visibles précédentes
 et la variable d'état cachée précédente correspondante. 
 Enfin, les parents d'une variable d'observation
-sont les variables d'état visible précédentes,
+sont les variables d'état visibles précédentes,
 et la variables d'état cachée courante correspondante.
 }
 \label{fig_piMOMDPFact}
@@ -911,7 +910,7 @@ et la variables d'état cachée courante correspondante.
 \label{section_factoAssumptions}
 Dans cette section,
 nous présentons le résultat formel
-provenant des trois précédentes hypothèse:
+provenant des trois précédentes hypothèses:
 ce résultat est la factorisation de $\Pi^{\mathcal{S}_h}_{\mathcal{L}}$ 
 en le produit cartésien $\displaystyle \bigtimes_{j=1}^{l} \Pi^{\mathcal{S}^j_h}_{\mathcal{L}}$.
 En effet, l'état de croyance $\beta_h$
@@ -919,29 +918,31 @@ En effet, l'état de croyance $\beta_h$
 peut être représenté des croyances marginales $\beta^j_h \in \Pi^{\mathcal{S}^j_h}_{\mathcal{L}}$
 sur les états cachés $s^j \in \mathcal{S}^j_h$, $\forall j \in \set{1,\ldots,l}$.
 
-Le \textit{critère de d-Separation} \cite{pearl88}
+Le \textit{critère de d-Séparation} \cite{pearl88}
 qui permet de montrer graphiquement des résultats d'indépendance
-à partir du DBN, se cache derrière les résultats fournis. 
+à partir du \textit{DBN}, se cache derrière les résultats fournis. 
 Comme expliqué en section \ref{section_PPUDD}, 
-un DBN peut être construit à partir de relations d'indépendances.
+un \textit{DBN} peut être construit à partir de relations d'indépendances.
 Notons $X \perp\!\!\!\perp Y \ \vert \ Z$
 l'assertion ``$X$ est indépendant de $Y$ 
 conditionnellement à $Z$'':
-rappelons que pour une définition donnée de la relation d'indépendance 
-par exemple probabiliste, ou possibiliste causale,
-le DBN est construit de telle sorte que pour chaque variable $X$,
-$X \perp\!\!\!\perp nondescend(X) \ \vert \ parents(X)$.
-Si l'indépendance utilisée obéit aux axiomes des  \textit{semi-graphoids} 
-\cite{Pearl1988PRI52121,DBLPjournals/corr/abs-1304-2379},
-le critère graphique appelé d-Separation 
-peut être utilisé pour identifier certaines indépendances sur le DBN.
+rappelons que pour une définition donnée de la relation d'indépendance, 
+par exemple l'indépendance probabiliste, ou l'indépendance possibiliste causale,
+le \textit{DBN} est construit de telle sorte que pour chaque variable $X$,
+$X \perp\!\!\!\perp nondescend(X) \ \vert \ parents(X)$,
+où $nondescend(X)$ est l'ensemble des variables
+qui ne sont pas des descendants de $X$.
+Si l'indépendance utilisée obéit aux axiomes des  \textit{semi-graphoides} 
+\cite{Pearl1988PRI52121,abs-1304-2379},
+le critère graphique appelé d-Séparation 
+peut être utilisé pour identifier certaines indépendances sur le \textit{DBN}.
 Ce critère est utilisé, par exemple, dans le cadre des probabilités dans le travail \cite{Witwicki13icaps}.
 
-Tout d'abord, 
-le DBN de la figure \ref{fig_piMOMDPFact} 
-représentant des hypothèses d'indépendance causale
+Tout d'abord, comme
+le \textit{DBN} de la figure \ref{fig_piMOMDPFact} 
+représente des hypothèses d'indépendance causales,
 la distribution de possibilité sur la variable d'état visible numéro $i$
-$s^i_{v,t+1} \in \mathcal{S}^i_v$ peut s'écrire: 
+$s^i_{v,t+1} \in \mathcal{S}^i_v$ sachant les variables précédentes peut s'écrire: 
 \begin{equation}
 \label{EQ_possV}
 \pi \paren{ s^i_{v,t+1} \sachant s_{v,t}, a_t } = \Pi \paren{ S^i_{v,t+1} = s^i_{v,t+1} \sachant S_{v,t} = s_{v,t}, a_t   };
@@ -953,16 +954,16 @@ lorsque le modèle est un ($\pi$-)PDMOM:
  % of a $\pi$-MOMDP as: 
 $i_0 = \set{ s_{v,0} }$, et
 pour chaque étape de temps $t \geqslant 1$, 
-$i_t = \set{ o_t,s_{v,t},a_{t-1},i_{t-1} }$:
-la variable correspondante est notée $I_t$.
+$i_t = \set{ o_t,s_{v,t},a_{t-1},i_{t-1} }$.
+La variable correspondante est notée $I_t$.
 Le théorème suivant assure que l'état de croyance
 courant peut être décomposé
 en états de croyance marginaux
 dépendant de l'information courante.
 \begin{theorem}[Indépendance des variables d'état cachées sachant $i_t$]
 \label{thmSHind} 
-Considérons un $\pi$-PDMOM décrit par le DBN de la figure \ref{fig_piMOMDPFact}.
-Si les variables d'état cachées initialesv$S^1_{h,0}, \ldots,S^l_{h,0}$ 
+Considérons un $\pi$-PDMOM décrit par le \textit{DBN} de la figure \ref{fig_piMOMDPFact}.
+Si les variables d'état cachées initiales $S^1_{h,0}, \ldots,S^l_{h,0}$ 
 sont indépendantes, alors à chaque étape de temps $t>0$
 l'état de croyance sur les états cachés
 peut s'écrire 
@@ -980,21 +981,21 @@ avec $\Pi^{\mathcal{S}^j_h}_{\mathcal{L}}
 \subsetneq \mathcal{L}^{\mathcal{S}^j_h}$. 
 La taille de $\Pi^{\mathcal{S}^j_h}_{\mathcal{L}}$
 est $\#\mathcal{L}^{\#\mathcal{S}^j_h} - (\#\mathcal{L}-1)^{\#\mathcal{S}^j_h}$
-(s\textit{cf.} équation \ref{equation_numberOfPossDistrib}). 
+(\textit{cf.} équation \ref{equation_numberOfPossDistrib}). 
 Si toutes les variables d'état sont binaires,
 $\# \Pi^{\mathcal{S}^j_h}_{\mathcal{L}} = 2 \#\mathcal{L} - 1$ pour tout $1 \leqslant j \leqslant l$, 
-de telle sorte que 
+ainsi
 $\# \mathcal{S}_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}} = 2^m (2
 \#\mathcal{L} - 1)^l$: 
 contrairement au cadre probabiliste,
 {\bf les états cachés et les états visibles ont un impact
 similaire sur la complexité de résolution}, 
 \textit{i.e.} tous les deux simplement exponentiels 
-end le nombre de variables d'état. 
+en le nombre de variables d'état. 
 Dans le cas général, en notant 
 $\kappa = \max\{\max_{1 \leqslant i \leqslant m} \# S_{v,i} , \max_{1 \leqslant j \leqslant l} \# S_{h,j}\}$, 
 il y a $\mathcal{O}(\kappa^m (\# \mathcal{L})^{(\kappa - 1) l})$ 
-états de croyances, ce qui exponentiel en l'arité des variables d'état. 
+états de croyances, ce qui est exponentiel en l'arité des variables d'état. 
 
 La \textbf{fonction de mise à jour de l'état de croyance marginal} est $\nu^j$:
 \[ \beta^j_{h,t+1} = \nu^j(s_{v,t},\beta^j_{h,t},a_t,o^j_{t+1}), \]
@@ -1013,12 +1014,12 @@ peut se calculer:
 \label{trans_marg_belief}
  \Pi \paren{ B^{\pi,j}_{h,t+1} = \beta^j_{h,t+1} \sachant S_{v,t} = s_{v,t}, B^{\pi,j}_{h,t} = \beta^j_{h,t}, a_t } = \max_{\substack{ o^j \in \mathcal{O}^j \mbox{ \tiny s.t. } \\ \nu^j(s_{v,t},\beta^j_{h,t},a_t,o^j) = \beta^j_{h,t+1}}} \pi \paren{ o^j \sachant s_{v,t}, \beta^j_{h,t}, a_t  }
 \end{equation}
-définissat la distribution de possibilité de transition
+définissant la distribution de possibilité de transition
 des états de croyance marginaux
 $\pi \paren{ \beta^j_{h,t+1} \sachant s_{v,t}, \beta^j_{h,t}, a_t }$.
 
 Enfin, le théorème \ref{thmVARind} nous assure que
-les variables du $\pi$-PDM résultant d'un tel $\pi$-PDMOM 
+les variables du $\pi$-PDM résultant d'un tel $\pi$-PDMOM sont 
 indépendantes post-action conditionnellement à l'état courant du système:
 cela permet alors d'écrire
 la fonction de transition
@@ -1026,7 +1027,7 @@ de ce $\pi$-PDM sous forme factorisée:
 \begin{theorem}[Expression factorisée de la distribution de possibilité de transition]
 \label{thmVARind}
 Si les hypothèses d'indépendance d'un $\pi$-PDMOM
-sont décrites par par le DBN de la figure \ref{fig_piMOMDPFact},
+sont décrites par le \textit{DBN} de la figure \ref{fig_piMOMDPFact},
 alors
 $\forall \beta_{h,t}=(\beta^1_{h,t},\ldots,\beta^l_{h,t}) \in \Pi^{\mathcal{S}_h}_{\mathcal{L}}, 
 \beta_{h,t+1} = (\beta^1_{h,t+1},\ldots,\beta^l_{h,t+1}) \in  \Pi^{\mathcal{S}_h}_{\mathcal{L}}$, 
@@ -1036,7 +1037,7 @@ $\pi \paren{ s_{v,t+1}, \beta_{h,t+1} \sachant s_{v,t}, \beta_{h,t}, a }$
 \[  = \displaystyle  \min \set{ \min_{i=1}^{m} \pi \paren{ s^i_{v,t+1} \sachant s_{v,t}, a_t } ,  \min_{j=1}^{l} \pi \paren{ \beta^j_{h,t+1} \sachant s_{v,t}, \beta^j_{h,t}, a_t  } }, \]
 où la distribution de possibilité de transition
 des variables d'état visibles
-est donné par l'équation (\ref{EQ_possV})
+est donnée par l'équation (\ref{EQ_possV})
 et celle des variables de croyance marginales
 par l'équation (\ref{trans_marg_belief}).
 \end{theorem}
@@ -1051,58 +1052,57 @@ peuvent jouer le rôle des variables $X_1,\ldots,X_n$
 dans l'algorithme \ref{PPUDD}.	
 
 Notons que la relation d'indépendance probabiliste 
-satisfait les axiomes des semi-graphoids:
+satisfait les axiomes des semi-graphoides:
 ainsi, les résultats d'indépendance
-due à la d-Separation sont aussi vrai pour le cadre probabiliste.
-Si les hypothèse d'indépendance d'un PDMOM probabiliste \cite{OngShaoHsuWee-IJRR10,AraThoBufCha-ICTAI10} 
-sont décrit par le DBN de la figure \ref{fig_piMOMDPFact},
-alors une factorisation similaire en est déduite.
+dus à la d-Séparation sont aussi vrais pour le cadre probabiliste.
+Si les hypothèses d'indépendance d'un PDMOM probabiliste \cite{OngShaoHsuWee-IJRR10,AraThoBufCha-ICTAI10} 
+sont décrites par le \textit{DBN} de la figure \ref{fig_piMOMDPFact},
+alors une factorisation similaire peut être déduite.
 Le PDM construit à partir d'un tel PDMOM probabiliste
 est donc un PDM factorisé, 
 dont l'espace d'état est infini.
 
-Les théorèmes précédent permettent
+Les théorèmes précédents permettent
 d'écrire la fonction de transition
 d'un ($\pi$-)PDM résultant d'un ($\pi$-)PDMOM
 avec des distributions qui concernent
 moins de variables.
-La fonction valeur 
 La mise à jour de la fonction valeur
 durant la programmation dynamique
 est alors divisée
 en $n=m+l$ étapes dans le cas possibiliste,
 comme décrit par la boucle \textit{for} de l'algorithme \ref{PPUDD}.
-Cette boucle permet de manipuler des ADDs
-qui ont moins de n½uds
+Cette boucle permet de manipuler des \textit{ADDs}
+qui ont moins de noeuds
 ce qui rend les calculs plus rapides en général.
 Ces résultats sont utilisés dans la section suivante
 afin de calculer de manière plus efficace
 les stratégies optimales d'un $\pi$-PDMOM structuré.
 
-\section{Résultats expérimentaux}
+\section{Résultats Expérimentaux}
 \label{section_expe_PPUDD}
 Les calculs sont beaucoup plus simples dans le cadre possibiliste,
-mais il fait évidemment en payer le prix:
+mais il faut évidemment en payer le prix:
 les modèles possibilistes peuvent être considérés
 comme des approximations
 de modèles probabilistes.
 Comme montré dans cette section,
-une approximation possibiliste en utilisant PPUDD
+une approximation possibiliste en utilisant \textit{PPUDD}
 peut mener à de meilleures stratégies,
 au sens probabiliste,
-que celles calculées par certain 
+que celles calculées par certains 
 algorithmes probabilistes
-lorsque la dimension du problème considéré
-rend les calculs insurmontables.
+lorsque les dimensions du problème considéré
+rendent les calculs insurmontables.
 
 \subsection{Missions Robotiques}
 
-Nous avons comparé PPUDD sur le problème \textit{Rocksample} (RS),
+Nous avons comparé \textit{PPUDD} sur le problème \textit{Rocksample} (RS),
 décrit en section \ref{section_RS_motivatingEx}, 
 contre un récent planificateur probabiliste pour PDMOM, 
-APPL \cite{OngShaoHsuWee-IJRR10}, 
-et un planificateur pour PDMPO utilisant des ADDs, 
-symbolic HSVI \cite{Sim2008SHS1620163.1620241}.
+\textit{APPL} \cite{OngShaoHsuWee-IJRR10}, 
+et un planificateur pour PDMPO utilisant des \textit{ADDs}, 
+\textit{symbolic HSVI} \cite{Sim2008SHS1620163.1620241}.
 Ces deux algorithmes peuvent être arrêtés à n'importe quel moment, 
 et plus les calculs durent, 
 plus la stratégie calculée est performante:
@@ -1112,55 +1112,55 @@ passe en-dessous de $1$.
 La figure \ref{figureRS1},
 où l'instance du problème 
 augmente avec la complexité du problème,
-montre que APPL déborde en mémoire à l'instance numéro $8$, 
-et symbolic HSVI à l'instance numéro $7$,
-tandis que PPUDD
+montre que \textit{APPL} déborde en mémoire à l'instance numéro $8$, 
+et \textit{symbolic HSVI} à l'instance numéro $7$,
+tandis que \textit{PPUDD}
 peut calculer une stratégie pour
 des instances beaucoup plus compliquées. 
 \begin{figure}\centering
 \begin{subfigure}[c]{.48\linewidth}
 \includegraphics[width=\linewidth]{RockSampleCompTime.pdf}
-\caption{Computation time (sec)}
+\caption{Temps de calcul (secondes)}
 \label{figureRS1}
 \end{subfigure}
 \begin{subfigure}[c]{.48\linewidth}
 \includegraphics[width=\linewidth]{courbePerfTime.pdf}
-\caption{Expected total reward}
+\caption{Récompense totale espérée}
 \label{figureRS2}
 \end{subfigure}
 \vspace{0.5cm}
 \caption[Comparaison entre \textit{PPUDD} et les planificateurs probabilistes \textit{APPL} et \textit{symb-HSVI} sur le problème \textit{RockSample}]{Comparaison entre \textit{PPUDD} et les planificateurs probabilistes \textit{APPL} et \textit{symb-HSVI} sur le problème \textit{RockSample}: 
-l'axe des abscisse représente l'indice de l'instance du problème, 
+l'axe des abscisses représente l'indice de l'instance du problème qui est
 croissant avec la complexité de instance du problème.}
 \end{figure}
 Nous pouvons aussi fixer une durée de calcul
 aux algorithmes probabilistes utilisés:
-le temps de calcul d'APPL est alors fixé au temps de calcul de PPUDD,
+le temps de calcul d'\textit{APPL} est alors fixé au temps de calcul de \textit{PPUDD},
 et les performances de leurs stratégies respectives
 sont comparées
-en terme d'espérance de la somme des récompenses 
-(et en utilisant les récompenses du modèle probabiliste). 
+en terme d'espérances de la somme des récompenses 
+(et en utilisant les récompenses définies par le modèle probabiliste). 
 %For PPUDD, we
 %simply evaluated with the probabilistic model the policy that was computed
 % under
 %possibilistic settings.
 \'Etonnamment, la figure \ref{figureRS2} 
 montre que les récompenses récupérées 
-sont en moyenne plus grandes avec PPUDD
-qu'avec APPL.
-La raison est que APPL est en fait un planificateur 
+sont en moyenne plus grandes avec \textit{PPUDD}
+qu'avec \textit{APPL}.
+La raison est que \textit{APPL} est en fait un planificateur 
 probabiliste qui cherche à raffiner une approximation durant le temps de calcul, 
 ce qui montre qui notre approche consistant à résoudre exactement
 un modèle approximé peut mieux fonctionner que de résoudre de manière approchée
 un modèle exact.
 Enfin, nous pouvons noter que les probabilités du modèle d'observation, 
-qui représente les incertitudes concernant les réponses des capteurs, 
+qui représentent les incertitudes concernant les réponses des capteurs, 
 peut être difficile à connaître précisément en pratique,
 auquel cas les modèles possibilistes
 peuvent plus physiquement rigoureux.
 
 Ces résultats nous ont permis de juger pertinent
-la participation de PPUDD
+la participation de \textit{PPUDD}
 à la compétition internationale de planification probabiliste 2014,
 même si le calcul de stratégie pour les modèles probabilistes
 n'est pas la vocation initiale de ce planificateur.
@@ -1212,49 +1212,49 @@ appelé respectivement
 et \textit{Wildfire}.
 La compétition consiste à évaluer les planificateurs
 sur $10$ instances par domaine avec 
-$30$ exécutions par instance et
-$18$ minutes par instance: 
+$30$ exécutions de chaque instance et
+$18$ minutes allouées par instance: 
 elle dure donc $24$ heures au total.
 
 Quatre planificateurs ont été proposés pour cette compétition:
 \begin{itemize}
-\item \textit{PROST} \cite{KellerE12}, basé sur \textit{Upper Confidence bound applied to Trees} (UCT, \cite{Kocsis:2006BBM2091602.2091633});
-\item \textit{GOURMAND} \cite{KolobovMW12,Kolobov12reverseiterative}, based on \textit{Labeled Real Time Dynamic Programming} (LRTDP, \cite{Bonet03labeledrtdp});
+\item \textit{PROST} \cite{KellerE12}, basé sur l'algorithme \textit{Upper Confidence bound applied to Trees} (UCT, \cite{Kocsis2006BBM2091602.2091633});
+\item \textit{GOURMAND} \cite{KolobovMW12,Kolobov12reverseiterative}, basé sur l'algorithme \textit{Labeled Real Time Dynamic Programming} (\textit{LRTDP}, \cite{Bonet03labeledrtdp});
 \item \textit{symbolic LRTDP} \cite{symbLRTDP};
-\item our algorithm PPUDD.
+\item notre algorithme \textit{PPUDD}.
 \end{itemize}
 
 Comme le score donné aux planificateurs ne dépend que des $40$ premières
 étapes du processus,
-la version présentée de PPUDD
+la version présentée de \textit{PPUDD}
 est l'algorithme \ref{PPUDD}
 avec la ``condition du while'' $\overline{U^*} \neq \overline{U^c}$ 
 à la ligne \ref{while_PPUDD}
-remplacée par la condition ``itération $\leqslant 40$''.
+remplacée par la condition ``numéro de l'itération $\leqslant 40$''.
 Il augmente de manière incrémentale
 l'horizon de planification
 en maintenant un masque stocké sous forme
-d'un BDD (arbre de décision binaire, 
-\textit{i.e.} un ADD avec des feuilles dans $\set{0,1}$)
+d'un \textit{BDD} (arbre de décision binaire, 
+\textit{i.e.} un \textit{ADD} avec des feuilles dans $\set{0,1}$)
 représentant les états atteignables
 à partir de l'état initial: 
 le calcul de la fonction valeur courante
 est alors restreinte aux états atteignables seulement. 
-Bien que PPUDD soit un algorithme de calcul hors-ligne,
-nous avons aussi proposé \textit{AnyTime PPUDD} (ATPPUDD),
-une version qui gère les temps de calculs 
+Bien que \textit{PPUDD} soit un algorithme de calcul hors-ligne,
+nous avons aussi proposé \textit{AnyTime PPUDD} (\textit{ATPPUDD}),
+une version qui gère les temps de calcul 
 comme décrit dans \cite{KolobovMW12}. 
 
-La bibliothèque utilisée pour faire les calculs entre ADDs
-est \textit{CU Decision Diagram Package} 
-(CUDD, \url{http://vlsi.colorado.edu/~fabio/CUDD/}),
-et les versions de PPUDD décrites sont à l'adresse 
+La bibliothèque utilisée pour faire les calculs entre \textit{ADDs}
+s'appelle \textit{CU Decision Diagram Package} 
+(\textit{CUDD}, \url{http://vlsi.colorado.edu/~fabio/CUDD/}),
+et les versions de \textit{PPUDD} décrites sont disponibles à l'adresse 
 \url{https://github.com/drougui/ppudd}.
 
 Les figures qui suivent
-sont les résultat d'IPPC 2014:
-les scores sont données en fonction de l'indice de l'instance,
-qui augmente généralement avec la difficulté du problème associé.
+sont les résultats d'\textit{IPPC} 2014:
+les scores sont donnés en fonction de l'indice de l'instance,
+qui augmente généralement avec la complexité du problème associé.
 
 \begin{figure} \centering
 \definecolor{ggreen}{rgb}{0.3,0.7,0.4}
@@ -1289,7 +1289,7 @@ title={Problème \textit{Crossing traffic}},width=11cm,height=11cm]
 \addplot[color=orange,mark=diamond,line width=2.2pt] plot[error bars/.cd,y dir=both,y explicit] table[x index=1, y index=47, y error index=48]{IPPC14_resultats/crossing_traffic_inst_mdp.txt};%PPUDD 
 \end{axis}
 \end{tikzpicture}
-\caption[Résultats d'IPPC 2014: problèmes \textit{Academic advising} et \textit{Crossing traffic}]{
+\caption[Résultats d'\textit{IPPC} 2014: problèmes \textit{Academic advising} et \textit{Crossing traffic}]{
 Résultats de la compétition internationale de planification probabiliste -- session entièrement observable}
 \label{figure_IPPC_ACA_CRO}
 \end{figure}
@@ -1299,15 +1299,15 @@ par chacun des planificateurs
 pour chacune des $10$ instances du domaine \textit{Academic advising},
 \textit{i.e.} la moyenne sur les $30$ exécutions, de la somme des récompenses rencontrées.
 Les performances de notre algorithme 
-sont proches de celles des meilleures algorithmes.
+sont proches de celles des meilleurs algorithmes.
 Cependant, un bug non expliqué et indésirable
-c'est produit avec ATPPUDD lors de l'instance numéro $2$,
+s'est produit avec \textit{ATPPUDD} lors de l'instance numéro $2$,
 puisque seules trois exécutions ont été possibles
 avec ce planificateur. 
 Pour les autres instances, 
-PPUDD et ATPPUDD produisent des stratégies
+\textit{PPUDD} et \textit{ATPPUDD} produisent des stratégies
 dont les performances sont semblables à celles de PROST et GOURMAND, 
-et meilleures que Symbolic LRTDP.
+et meilleures que \textit{Symbolic LRTDP}.
 Ceci n'est plus vrai avec le problème \textit{Crossing traffic},
 dont les résultats sont décrits par la figure \ref{figure_IPPC_ACA_CRO}.
 Ce problème modélise un robot qui doit atteindre un but
@@ -1316,16 +1316,17 @@ que de nombreuses voitures empruntent.
 Ces voitures arrivent de manière aléatoire
 et vont vers la gauche.
 Comme le degré de possibilité attribué au fait
-qu'aucune voiture n'arrive a été fixé à $1$
-par notre traduction naïve de MDP en $\pi$-MDP,
+qu'aucune voiture arrive a été fixé à $1$
+par notre traduction naïve de PDM en $\pi$-PDM,
 le critère optimiste mène à la décision de traverser la route
 même si une voiture (invisible au moment de la décision) 
 peut arriver sur la droite 
-(avec une probabilité $<0.5$ mais assez grande pour être prudent). 
-Ceci explique la pauvre qualité des stratégies produites pour ce domaine.
+(avec une probabilité $<0.5$ mais assez grande pour devoir plutôt être prudent, ou pessimiste,
+et traverser la route dans une position avec une visibilité sur l'arrivée des voitures). 
+Ceci explique la pauvre qualité des stratégies produites par \textit{PPUDD} pour ce domaine.
 Notons cependant que, pour les $6$ dernières intances (\textit{i.e.} les problèmes les plus difficiles)
-notre approche mènent à de meilleures stratégies
-que le planificateur probabiliste Symbolic LRTDP.
+notre approche mène à de meilleures stratégies
+que le planificateur probabiliste \textit{Symbolic LRTDP}.
 
 \begin{figure} \centering
 \definecolor{ggreen}{rgb}{0.3,0.7,0.4}
@@ -1360,39 +1361,39 @@ title={Problème \textit{Skill teaching}},width=11cm,height=11cm]
 \addplot[color=orange,mark=diamond,line width=2.2pt] plot[error bars/.cd,y dir=both,y explicit] table[x index=1, y index=47, y error index=48]{IPPC14_resultats/skill_teaching_inst_mdp.txt};%PPUDD 
 \end{axis}
 \end{tikzpicture}
-\caption[Résultats d'IPPC 2014: problèmes \textit{Elevators} et \textit{Skill teaching}]{
+\caption[Résultats d'\textit{IPPC} 2014: problèmes \textit{Elevators} et \textit{Skill teaching}]{
 Résultats de la compétition internationale de planification probabiliste -- session entièrement observable}
 \label{figure_IPPC_ELE_SKI}
 \end{figure}
 
-Dans le problème \textit{Elevators}, 
-des gens arrivent de manière aléatoire 
+Le problème \textit{Elevators} concerne 
+des gens qui arrivent de manière aléatoire 
 devant un ascenseur
-et doivent être transportés
-à l'étage choisi d'un immeuble:
+et qui doivent être transportés
+à l'étage qu'ils ont choisi d'un immeuble:
 comme l'information fréquentiste est perdue
 lors de l'utilisation de l'approche possibiliste,
 et semble très importante dans ce problème
 (les gens ne veulent pas attendre une fois arrivés devant l'ascenseur), 
 cela explique pourquoi les scores de notre algorithme sont moins bons que ceux de
 PROST et GOURMAND.
-Cependant PPUDD et ATPPUDD sont meilleurs que Symbolic LRTDP, 
+Cependant \textit{PPUDD} et \textit{ATPPUDD} sont meilleurs que Symbolic LRTDP, 
 comme montré dans la figure \ref{figure_IPPC_ELE_SKI},
 et la stratégie qui consiste à ne rien faire (``noop'')
 ou la stratégie qui choisit des actions de manière aléatoire (``random'').
-PPUDD et ATPPUDD ont des plutôt bon comportements avec le problème \textit{Skill teaching} 
+\textit{PPUDD} et \textit{ATPPUDD} ont des comportements plutôt bons avec le problème \textit{Skill teaching} 
 comme illustré par la même figure.
-De plus, ATPPUDD mène à de meilleurs résultats
-pour les trois dernières instance:
+De plus, \textit{ATPPUDD} mène à de meilleurs résultats
+pour les trois dernières instances:
 puisque ces instances 
-sont les problèmes du domaine \textit{Skill teaching} 
+sont celles du domaine \textit{Skill teaching} 
 avec l'espace d'état le plus grand, 
 la version anytime, 
 qui gère les temps de calculs de manière plus recherchée,
 produit des stratégies avec de meilleures performances 
-que PPUDD, 
+que \textit{PPUDD}, 
 qui résout classiquement le problème 
-du $\pi$-MDP, associé,
+du $\pi$-PDM, associé,
 mais ne peut pas terminer les calculs
 et mène à des stratégies moins bonnes.
 
@@ -1431,7 +1432,7 @@ width=11cm,height=11cm]
 \addplot[color=orange,mark=diamond,line width=2.2pt] plot[error bars/.cd,y dir=both,y explicit] table[x index=1, y index=47, y error index=48]{IPPC14_resultats/traffic_inst_mdp.txt};%PPUDD 
 \end{axis}
 \end{tikzpicture}
-\caption[Résultats d'IPPC 2014: problèmes \textit{Tamarisk} et \textit{Traffic}]{
+\caption[Résultats d'\textit{IPPC} 2014: problèmes \textit{Tamarisk} et \textit{Traffic}]{
 Résultats de la compétition internationale de planification probabiliste -- session entièrement observable}
 \label{figure_IPPC_TAM_TRA}
 \end{figure}
@@ -1442,13 +1443,13 @@ avec le domaine \textit{Tamarisk},
 comme le montre la figure \ref{figure_IPPC_TAM_TRA}.
 Cependant, certaines instances 
 (par exemple les instances numéro $6$, $8$ et $10$) 
-ne sont même pas exécutés
-puisque l'instanciation des ADDs définissant le problème 
+ne sont même pas exécutées
+puisque l'instanciation des \textit{ADDs} définissant le problème 
 prennent trop de temps. 
-Symbolic LRTP fait face au mêmes problèmes
-puisqu'il utilise aussi des ADDs.
+\textit{Symbolic LRTP} fait face au mêmes problèmes
+puisqu'il utilise aussi des \textit{ADDs}.
 Le domaine \textit{Traffic} est vraiment 
-très dur à résoudre avec PPUDD et ATPPUDD (\textit{cf.} figure \ref{figure_IPPC_TAM_TRA}). 
+très dur à résoudre avec \textit{PPUDD} et \textit{ATPPUDD} (\textit{cf.} figure \ref{figure_IPPC_TAM_TRA}). 
 En fait, les pires scores sont obtenus avec ce domaine,
 et même la stratégie aléatoire ou la stratégie ``noop''
 sont meilleures.
@@ -1463,10 +1464,11 @@ le critère optimiste peut mener à des actions dangereuses,
 comme cela se produit ici.
 De plus, puisque ce problème implique
 des informations fréquentistes 
-(arrivées des voitures aléatoires).
+(arrivées des voitures aléatoires),
+notre approche est sûrement inadaptée pour cet exemple.
 Enfin, le domaine \textit{Traffic}
 est connu comme étant un des domaines les plus durs à résoudre,
-ainsi l'instanciation des ADDs en mémoire prennent trop de temps, 
+ainsi l'instanciation des \textit{ADDs} en mémoire prennent trop de temps, 
 tout comme les calculs,
 qui ne sont alors pas assez avancés
 pour produire des résultats satisfaisants. 
@@ -1492,9 +1494,9 @@ title={Problème \textit{Triangle tireworld}}]
 \vspace{0.5cm}
 \begin{tikzpicture}
 \begin{axis}[grid=major,xmin=1,xmax=10,xtick={1,2,3,4,5,6,7,8,9,10}, width=11cm,height=11cm,
-xlabel={Problème \textit{Wildfire}},
+xlabel={Instances des problèmes},
 ylabel={Moyenne brute},
-title={\textit{Wildfire} problem}]
+title={Problème \textit{Wildfire}}]
 \addplot+[line width=1pt] plot[error bars/.cd,y dir=both,y explicit] table[x index=1, y index=5, y error index=6]{IPPC14_resultats/wildfire_inst_mdp.txt};%GOURMAND
 \addplot+[line width=1pt] plot[error bars/.cd,y dir=both,y explicit] table[x index=1, y index=26, y error index=27]{IPPC14_resultats/wildfire_inst_mdp.txt};%PROST14
 \addplot+[line width=1pt] plot[error bars/.cd,y dir=both,y explicit] table[x index=1, y index=40, y error index=41]{IPPC14_resultats/wildfire_inst_mdp.txt};%FACTOREDLRTDP
@@ -1504,7 +1506,7 @@ title={\textit{Wildfire} problem}]
 \addplot[color=orange,mark=diamond,line width=2.2pt] plot[error bars/.cd,y dir=both,y explicit] table[x index=1, y index=47, y error index=48]{IPPC14_resultats/wildfire_inst_mdp.txt};%PPUDD 
 \end{axis}
 \end{tikzpicture}
-\caption[Résultats d'IPPC 2014: problèmes \textit{Triangle tireworld} et \textit{Wildfire}]{
+\caption[Résultats d'\textit{IPPC} 2014: problèmes \textit{Triangle tireworld} et \textit{Wildfire}]{
 Résultats de la compétition internationale de planification probabiliste -- session entièrement observable}
 \label{figure_IPPC_TRI_WIL}
 \end{figure}
@@ -1512,28 +1514,28 @@ Résultats de la compétition internationale de planification probabiliste -- sess
 Finalement, les deux derniers domaines,
 dont les résultats sont décrits dans la figure \ref{figure_IPPC_TRI_WIL},
 sont appelés \textit{Triangle Tireworld} et \textit{Wildfire}.
-Tout d'abord, ATPPUDD fait face
+Tout d'abord, \textit{ATPPUDD} fait face
 à un bug inexpliqué pour chaque instance du domaine \textit{Triangle Tireworld}:
 aucune exécution n'est réalisée
 à partir de l'instance numéro $5$, 
-et deux exécutions ont été réalisée
+et deux exécutions ont été réalisées
 pour les autres instances
 (ce qui explique le faible score pour chaque instance).
 Comme déjà mentionné pour le domaine \textit{Tamarisk}, 
 l'instanciation des \textit{ADDs} prend trop de temps pour les dernières instances,
 et aucune exécution n'est réalisée pour les $4$ dernières instances
-avec PPUDD: Symbolic LRTDP rencontre les même problèmes.
+avec \textit{PPUDD}: \textit{Symbolic LRTDP} rencontre les même problèmes.
 Le dernier domaine, appelé \textit{Wildfire}, 
 constitue un problème très fréquentiste:
 il implique des départs de feux.
-C'est pourquoi PPUDD et ATPPUDD ne sont pas vraiment efficaces, 
-mais pas trop distant des résultats de Symbolic LRTDP.
+C'est pourquoi \textit{PPUDD} et \textit{ATPPUDD} ne sont pas vraiment efficaces, 
+mais pas trop distant non plus des résultats de \textit{Symbolic LRTDP}.
 
 
 \section{Conclusion}
-Nous avons présenté PPUDD,
+Nous avons présenté \textit{PPUDD},
 le premier algorithme, à notre connaissance,
-que résout les PDM(MO) possibilistes qualitatifs
+qui résout les PDM(OM) possibilistes qualitatifs
 avec des calculs symboliques. 
 Nous pensons que les modèles possibilistes 
 constituent un bon compromis entre les modèles non-déterministes, 
@@ -1544,22 +1546,22 @@ où l'incertitude est complètement spécifiée,
 et parfois de manière arbitraire en pratique.
 La résolution de problèmes de planification 
 en utilisant le cadre du non-déterminisme 
-est appelé \textit{planification contingente/conformante} 
+est appelé \textit{planification contingente/conformante}, 
 étudiée par exemple dans \cite{Albore_atranslation-based,bonet2014flexible}.
 
 Nos résultats expérimentaux montrent que
-l'utilisation d'un algorithme exact (PPUDD) 
+l'utilisation d'un algorithme exact (\textit{PPUDD}) 
 pour résoudre un modèle approximé ($\pi$-PDMOM)
 peut mener à des calculs plus rapides
 que de raisonner sur des modèles exacts et complexes, 
 tout en générant des stratégies qui peuvent être 
 de meilleure qualité que celles retournées 
-par des algorithmes procédant à des approximations (APPL)
+par des algorithmes procédant à des approximations (\textit{APPL})
 sur des modèles exacts (PDMOM). 
 
 Enfin, ce chapitre présente les résultats 
 de notre approche possibiliste
-durant IPPC 2014: 
+durant \textit{IPPC} 2014: 
 un des problèmes de cette approche
 est la traduction du modèle probabiliste
 en modèle possibiliste:
@@ -1571,14 +1573,14 @@ Un autre problème semble être l'utilisation des \textit{ADDs}:
 l'instanciation de ces objets 
 avant même le début des calculs
 prend un temps trop important,
-où bien ne passe pas même pas en mémoire.
-Cette difficulté est partagée avec le planificateur Symbolic LRTDP.
+où bien ne passe même pas en mémoire.
+Cette difficulté est partagée avec le planificateur \textit{Symbolic LRTDP}.
 Des problèmes de modélisation ont aussi été mis en évidence:
 certains problèmes nécessitent une approche optimiste,
-et d'autre un approche pessimiste.
+et d'autres une approche pessimiste.
 
 Cependant, bien que PROST et GOURMAND ont des performances deux fois supérieures à
-PPUDD et ATPPUDD, ces derniers proposent des stratégies 
+\textit{PPUDD} et \textit{ATPPUDD}, ces derniers proposent des stratégies 
 dont les performances sont deux fois supérieures
-à son équivalent probabiliste Symbolic LRTDP.
-Notons finalement que PPUDD est disponible dans le dépôt \url{https://github.com/drougui/ppudd}.
+à son homologue probabiliste \textit{Symbolic LRTDP}.
+Notons finalement que \textit{PPUDD} est disponible dans le dépôt \url{https://github.com/drougui/ppudd}.

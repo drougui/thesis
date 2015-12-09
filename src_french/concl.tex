@@ -10,11 +10,11 @@ modélisant l'incertitude
 avec des distributions de possibilité qualitatives. 
 %%% CONCL INTRO
 Ainsi, dans notre travail, 
-des modèles possibiliste qualitatifs
+des modèles possibilistes qualitatifs
 pour la planification sous incertitude
 ont été développés et étudiés.
 Cette étude a été motivée 
-par différents problèmes posés par les PDMPOs  
+par différents problèmes posés par les PDMPO  
 détaillés en introduction.
 
 La motivation majeure de cette étude est
@@ -36,17 +36,17 @@ et $0$ à tous les autres puisqu'ils sont impossibles:
 c'est une représentation plus appropriée que 
 la probabilité uniforme.
 L'imprécision des distributions de probabilités
-est aussi naturellement gérée par le formalisme possibiliste.
+est aussi naturellement gérée par le formalisme possibiliste qualitatif.
 
 Plus généralement,
 les modèles possibilistes qualitatifs
 ont besoin de moins d'information à propos du système 
 que le modèle probabiliste:
-les plausibilité des événements
+les plausibilités des événements
 sont ``seulement'' classifiées
-dans l'échelle possibiliste $\mathcal{L}$ plutôt que quantifiée.
+dans l'échelle possibiliste $\mathcal{L}$ plutôt que quantifiées.
 Cette thèse propose finalement
-des contribution théoriques et pratiques
+des contributions théoriques et pratiques
 à propos de ces processus possibilistes qualitatifs:
 d'une part, les contributions théoriques
 sont par exemple l'observabilité mixte,
@@ -63,7 +63,7 @@ Ces contributions sont amenées à travers des applications robotiques
 afin de faire le lien avec les problématiques de départ:
 des missions de reconnaissance de cible sont étudiées 
 (par exemple le problème \textit{Rocksample}, 
-ou même la mission décrite par la figure \ref{robotgridfig});
+ou même la mission décrite par la figure \ref{exprobot});
 IPPC 2014 contient aussi des problèmes comparables à des systèmes robotiques 
 (par exemple le problème \textit{Elevator}, ou le problème \textit{Tamarisk}, 
 aussi utilisé lors de la compétition d'apprentissage par renforcement 2014). 
@@ -165,7 +165,7 @@ are then presented,
 and associated proofs are given 
 (see Annex \ref{theorem_specificity_belief_RETURN}).
 
-\subsection*{Graphical work on independence and factorization (PPUDD)}
+\subsection*{Graphical work on independence and factorization (\textit{PPUDD})}
 %%%%%%%%%%%%%
 %%% chap3 %%%
 %%%%%%%%%%%%%
@@ -181,12 +181,12 @@ state variables of the same time step
 are independent (conditional on the past).
 The algorithm proposed to exactly solve 
 these factorized processes,
-called PPUDD, is another contribution:
+called \textit{PPUDD}, is another contribution:
 it is the symbolic version of 
 the dynamic programming scheme 
 proposed in the previous chapter.
 Inspired by SPUDD \cite{Hoey99spudd:stochastic}, 
-PPUDD means \emph{Possibilistic Planning Using Decision Diagrams}. 
+\textit{PPUDD} means \emph{Possibilistic Planning Using Decision Diagrams}. 
 As SPUDD, it operates on ADDs 
 encoding value, preference and transition functions.
 Finally, the last theoretical contributions of the third chapter
@@ -204,7 +204,7 @@ The belief state variables of a $\pi$-MOMDP
 satisfying these assumptions
 are post-action independent,
 and the associated problem 
-can be more easily solved by PPUDD. 
+can be more easily solved by \textit{PPUDD}. 
 The independence of sensors 
 and of corresponding hidden state variables 
 suffices to fulfill these conditions:
@@ -213,7 +213,7 @@ well illustrates these conditions.
 
 %%%% PRACTICAL CONTRIB
 %% WEE!
-The motivation leading to the design of PPUDD,
+The motivation leading to the design of \textit{PPUDD},
 \textit{i.e.} the guess that the use of operators $\min$ and $\max$ 
 leads to smaller ADDs, and thus to faster computations,
 has been verified in practice:
@@ -226,19 +226,19 @@ than its probabilistic counterparts
 when computation time is limited,
 or for high dimensional problems.
 For instance, 
-PPUDD performances have been compared 
+\textit{PPUDD} performances have been compared 
 to the probabilistic MOMDP solver APPL \cite{Kurniawati-RSS08,OngShaoHsuWee-IJRR10}
 and the symbolic HSVI solver \cite{Sim:2008:SHS:1620163.1620241},
 in terms of computation time, 
 and using the average of 
 the total reward at execution. 
-PPUDD computes a strategy maximizing 
+\textit{PPUDD} computes a strategy maximizing 
 exactly the possibilistic criterion 
 while APPL and symb. HSVI compute strategies
 which approximately maximize the expected sum of rewards.
 The experimental results on the Rocksample problem 
 show that using an exact algorithm 
-(PPUDD) for an approximate model ($\pi$-MOMDPs) 
+(\textit{PPUDD}) for an approximate model ($\pi$-MOMDPs) 
 can run significantly faster 
 than reasoning about exact models, 
 while providing better policies 
@@ -246,7 +246,7 @@ than approximate algorithms (APPL)
 for exact models.
 Most of the cited contributions of this chapter
 have been published in \cite{DBLP:conf/aaai/DrougardTFD14},
-and an implementation of PPUDD 
+and an implementation of \textit{PPUDD} 
 to reproduce experiments 
 can be found 
 at the repository \url{www.github.com/drougui/ppudd}.
@@ -258,12 +258,12 @@ in a wide panel of probabilistic problems,
 the next practical contribution 
 is the participation 
 in the fully observable track of IPPC 2014
-with adapted versions of PPUDD.
+with adapted versions of \textit{PPUDD}.
 The implementation of our solver for this competition 
 was performed with the \textit{CU Decision Diagram Package}
 for the ADDs computations. 
 Comparing only solvers using ADDs, 
-PPUDD and a probabilistic solver 
+\textit{PPUDD} and a probabilistic solver 
 called symbolic LRTDP \cite{symbLRTDP}
 (as a variant of \cite{Bonet03labeledrtdp}),
 our solver produces better strategies 
@@ -309,10 +309,11 @@ although qualitative possibilistic approach
 may raise questions concerning modeling,
 this approach can be very appropriate
 in some practical situations,
-as in our case, to produce diagnosis.
+as in our case, to 
+produce diagnosis.
 
 We got really good results 
-with PPUDD in previous experiments 
+with \textit{PPUDD} in previous experiments 
 among symbolic algorithms (SPUDD, symbolic LRTDP):
 for instance, SPUDD provides good strategies, but 
 cannot solve big instances of the tested problem. 
@@ -334,13 +335,13 @@ presenting the hybrid POMDP.
 %%%
 La première perspective vient d'une observation:
 les problèmes de mémoire atteints avec le domaine \textit{Triangle tireworld} 
-d'IPPC 2014  pourrait être contourné à l'aide d'une discrétisation plus important:
-les version de PPUDD pour IPPC 2014 
+d'IPPC 2014  pourrait être contourné à l'aide d'une discrétisation plus importante:
+les version de \textit{PPUDD} pour IPPC 2014 
 utilisaient une précision de $10^{-3}$
 sur le problème probabiliste initial,
 menant à une importante échelle possibiliste $\mathcal{L}$.
-Il serait instructif d'avoir une idée de l'impact de ce traitement
-sur les performances de PPUDD: 
+Il serait instructif d'avoir une idée de l'impact de ce prétraitement
+sur les performances de \textit{PPUDD}: 
 plus généralement, un travail plus important
 sur la traduction d'un PDM probabiliste
 en approximation possibiliste 
@@ -349,12 +350,12 @@ l'approche proposée pour IPPC 2014.
 
 En terme de méthode de calculs,
 nous nous sommes concentrés sur des résolutions symboliques
-des $\pi$-PDM (PPUDD).
+des $\pi$-PDM (\textit{PPUDD}).
 Cependant, des méthodes de résolutions alternatives
 pourraient être étudiées:
 par exemple, des méthodes heuristiques,
 qui sont efficaces pour les problèmes probabilistes \cite{Teichteil-KonigsbuchVI11},
-pourraient être adaptés
+pourraient être adaptées
 au contexte possibiliste.
 En ce qui concerne l'apprentissage par renforcement
 dans le cadre des possibilités qualitatives,
@@ -362,14 +363,14 @@ nous pouvons citer le travail suivant \cite{Sabbadin01}.
 
 Enfin, les avancées de la théorie des possibilités
 peuvent permettre de raffiner 
-les PDM possibiliste qualitatifs
+les PDM possibilistes qualitatifs
 afin d'améliorer la modélisation lorsque c'est nécessaire.
 Nous pouvons par exemple mentionner l'opérateur \textit{leximin} \cite{lexirefin}:
 il permet d'éviter l'effet de noyade
 des opérateurs $\min$ et $\max$.
-Il peut être utilisé pour l'agrégation de préférences
+Il peut être utilisé pour l'aggrégation de préférences
 ou pour calculer un degré de possibilité plus fin d'une trajectoire.
-Notons que cela peut être une amélioration utilise, 
+Notons que cela peut être une amélioration utile, 
 mais qu'elle complexifie inévitablement le problème.
-Des critères plus discriminant sont aussi étudiés dans la littérature
+Des critères plus discriminants sont aussi étudiés dans la littérature
 \cite{LIP61723,GiangS01}.
