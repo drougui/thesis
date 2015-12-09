@@ -4,7 +4,7 @@ Rappelons que, dans le cadre possibiliste qualitatif,
 l'ensemble des états de croyance est fini,
 $\# \Pi^{\mathcal{S}}_{\mathcal{L}} < +\infty$ (\textit{cf.} équation \ref{equation_numberOfPossDistrib})
 tandis que l'ensemble des états de croyance est infini dans le cadre probabiliste $\mathbb{P}^{\mathcal{S}}_{b_0}$:
-pour cette raison, les $\pi$-PDMPO peuvent être vus comme un modèle plus simple
+pour cette raison, les $\pi$-PDMPO peuvent être vus comme un modèle plus simple que les PDMPO probabilistes
 pour la décision séquentielle dans l'incertain avec observabilité partielle. 
 
 Ce modèle peut simplifié de plus belle, lorsque le problème satisfait la propriété d'\textit{observabilité mixte},
@@ -88,13 +88,13 @@ comme montré dans la section qui suit.
 \caption[Réseau bayésien dynamique d'un $\pi$-PDMOM]{
 Réseau bayésien dynamique d'un $\pi$-PDMOM:
 à l'étape de temps $t$,
-l'état du système est décrit pas la variable $S_t = (S_{v,t},S_{h,t})$.
+l'état du système est décrit par la variable $S_t = (S_{v,t},S_{h,t})$.
 L'observation reçue est $O_t=(O_{v,t},O_{h,t})$
 avec $O_{v,t}=S_{v,t}$, 
-et $O_{h,t}$ dépend de on $S_t$ et de l'action $a_t$.}
+et $O_{h,t}$ dépend de $S_t$ et de l'action $a_t$.}
 \label{piMOMDP}
 \end{figure}
-La résolution d'un $\pi$-POMDP se confronte au fait que
+La résolution d'un $\pi$-PDMPO se confronte au fait que
 la taille de l'espace des états de croyance $\Pi^{\mathcal{S}}_{\mathcal{L}}$ 
 est exponentielle en fonction de la taille de l'espace des états du système 
 $\mathcal{S}$, \textit{cf.} équation (\ref{equation_numberOfPossDistrib})
@@ -105,18 +105,19 @@ Utiliser la propriété d'observabilité mixte peut être une solution:
 inspiré par un travail récent dans le cadre des PDMPO probabilistes,
 \cite{OngShaoHsuWee-IJRR10,AraThoBufCha-ICTAI10}, 
 nous présentons dans cette section
-un modèle structué qui prend en compte
-les situations dans lesquelles l'agent observe directement un partie de l'état du système. 
-Un $\pi$-POMDP qui modélise une telle situation respecte la \textit{propriété d'observabilité mixte}.
-Les états de croyance ne sont alors utilisé que
+un modèle structuré qui prend en compte
+les situations dans lesquelles l'agent observe 
+directement une partie de l'état du système. 
+Un $\pi$-PDMPO qui modélise une telle situation respecte la \textit{propriété d'observabilité mixte}.
+Les états de croyance ne sont alors utilisés que
 pour les composantes partiellement observables
-et la taille de l'espace d'état est significativement résuit.
+et la taille de l'espace d'état est significativement résuite.
 Ainsi, ce modèle généralise les $\pi$-PDM et les $\pi$-PDMPO. 
 
 Comme dans \cite{AraThoBufCha-ICTAI10}, 
 nous faisons l'hypothèse que l'espace d'état $\mathcal{S}$
 d'un PDMOM possibiliste qualitatif ($\pi$-PDMOM)
-peut être écrit comme un produit cartésien
+peut être écrit comme le produit cartésien
 d'un espace d'états visibles $\mathcal{S}_{v}$ et d'un espace d'états cachés
 $\mathcal{S}_h$: $\mathcal{S}$ = 
 $\mathcal{S}_v$ $\times$ $\mathcal{S}_h$.
@@ -137,8 +138,9 @@ L'espace d'état visible est identifié à l'espace des observations:
 $\mathcal{O}_v=\mathcal{S}_v$ 
 et $\mathcal{O}$ = $ \mathcal{O}_v \times \mathcal{O}_h$. 
 Ainsi, sachant que la composante visible de l'état est $s_v$, 
-l'agent observe \textit{nécessairement} $o_v=s_v$ (if $o_v' \neq s_v$, $\pi_t \paren{ o_v' \sachant s_v } = 0$).
-Formellement, vu comme un $\pi$-PDMOM, 
+l'agent observe \textit{nécessairement} $o_v=s_v$ 
+($\forall a \in \mathcal{A}$, si $o_v' \neq s_v$, $\pi_t \paren{ o_v' \sachant s_v',a } = 0$).
+Formellement, vu comme un $\pi$-PDMPO, 
 sa distribution de possibilité sur les observations 
 peut s'écrire:
 \begin{eqnarray} 
@@ -146,40 +148,40 @@ peut s'écrire:
 \nonumber & = & \min \set{ \pi_t \paren{o_h' \sachant s_v',s_h',a }, \pi_t \paren{ o_v' \sachant s_v'} } \\
 \label{simplif1}   & = & \left \{ \begin{array}{ccc} 
 \pi_t \paren{ o_h' \sachant s',a } & \mbox{if  } o_v' = s_v' \\
-0 & \mbox{otherwise} 
-\end{array} \right.
+0 & \mbox{sinon} 
+\end{array} \right. ,
 \end{eqnarray}
-puisque $\pi_t \paren{ o_v' \sachant s_v'} = 1$ si $s_v'=o_v'$ et $0$ sinon. 
-Le théorem suivant, basé sur cette égalité,
-permet de définir les états de croyance sur les états du système cachés.
+puisque $\forall a \in \mathcal{A}$, 
+$\pi_t \paren{ o_v' \sachant s_v'} = 1$ si $s_v'=o_v'$ et $0$ sinon. 
+Le théoreme suivant, basé sur cette égalité,
+permet de définir les états de croyance sur les états cachés du système.
 \begin{theorem}[Nature des états de croyance atteignables]
 \label{thm_natureReachBel} Chaque état de croyance atteignable d'un $\pi$-PDMOM
 peut être écrit comme un élément de 
 $\mathcal{S}_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}}$ 
 où $\Pi^{\mathcal{S}_h}_{\mathcal{L}}$
 est l'espace des distributions de possibilité sur $\mathcal{S}_h$: 
-n'importe $\beta \in \Pi^{\mathcal{S}_h}_{\mathcal{L}}$
+tout $\beta \in \Pi^{\mathcal{S}}_{\mathcal{L}}$ atteignable
 peut s'écrire $(s_v,\beta_h)$ 
 avec $\beta_h(s_h) = \max_{\overline{s}_v \in \mathcal{S}_v} \beta(\overline{s}_v,s_h)$ 
 et $s_v = \operatorname*{argmax}_{\overline{s}_v \in \mathcal{S}_v} \beta(\overline{s}_v,s_h)$.
 \end{theorem}
 
 Comme tous les états de croyance sont dans $\mathcal{S}_v \times \Pi^{\mathcal{S}_h}_{\mathcal{L}}$
-lorsque le $\pi$-PDMOM satisfait la propriété d'observabilité mixte
-le théorème suivant réécrit la mise à jour de l'état de croyance
-pour 
-$\beta_h \in \Pi^{\mathcal{S}}_{\mathcal{L}}$,
-l'état de croyance sur les états cachés du système 
+lorsque le $\pi$-PDMPO satisfait la propriété d'observabilité mixte,
+le théorème suivant réécrit la mise à jour du nouvel état de croyance
+$\beta_h \in \Pi^{\mathcal{S}}_{\mathcal{L}}$ \textit{i.e.}
+de l'état de croyance sur les états cachés du système 
 $s_h \in \mathcal{S}_h$.
 \begin{theorem}[Mise à jour de la croyance pour un $\pi$-PDMOM]
 \label{thmMomdpBelup}
-Si un problème peut se modéliser par un $\pi$-MOMDP  
-\[ \Big\langle S_v \times S_h, \mathcal{A}, \mathcal{O}_h, T^{\pi}, O^{\pi}, (\rho_t)_{t=0}^{H-1}, \Psi, \beta_0 = (s_{v,0}, \beta_{h,0})  \Big\rangle, \]
+Si un problème peut se modéliser par un $\pi$-PDMOM  
+\[ \Big\langle S_v \times S_h, \mathcal{A}, \mathcal{O}_h, T^{\pi}, O^{\pi}, \Psi, \beta_0 = (s_{v,0}, \beta_{h,0})  \Big\rangle, \]
 une nouvelle fonction de mise à jour de l'état de croyance $\nu_h$
-peut être défini:
+peut être définie:
 si, à l'étape de temps $t$,
 l'état visible courant est $s_{v,t} \in \mathcal{S}_v$,
-l'état de croyance courante sur l'état caché est 
+l'état de croyance courant sur l'état caché est 
 $\beta_{h,t} \in \Pi^{\mathcal{S}_h}_{\mathcal{L}}$,
 l'action choisie courante est $a_t \in \mathcal{A}$,
 l'état visible suivant est $s_{v,t+1} \in \mathcal{S}_v$
@@ -189,18 +191,18 @@ alors l'état de croyance suivant
 \begin{equation}
 \label{equation_piMOMDPupdate}
 \beta_{h,t+1}(s_h') = \left \{ \begin{array}{ccc}
-1 & \mbox{ if } \left. \begin{array}{cc} \pi_t \paren{ s_h', s_{v,t+1}, o_{h,t+1} \sachant s_{v,t}, \beta_{h,t}, a_t } \\
+1 & \mbox{ si } \left. \begin{array}{cc} \pi_t \paren{ s_h', s_{v,t+1}, o_{h,t+1} \sachant s_{v,t}, \beta_{h,t}, a_t } \\
 	 	= \pi_t \paren{s_{v,t+1}, o_{h,t+1} \sachant s_{v,t}, \beta_{h,t}, a_t }
 		\end{array} \right., \\
 \\
-\pi_t \paren{ s_h', s_{v,t+1}, o_{h,t+1} \sachant s_{v,t}, \beta_{h,t}, a_t } & \mbox{ otherwise } 
+\pi_t \paren{ s_h', s_{v,t+1}, o_{h,t+1} \sachant s_{v,t}, \beta_{h,t}, a_t } & \mbox{ sinon } 
 \end{array} \right. 
 \end{equation}
 où
 \[ \pi_t \paren{s_v',  s_h', o_h' \sachant s_v, \beta_h, a } = \min \Big\{ \pi_t \paren{ o_h' \sachant s', a  }, \max_{s_h \in \mathcal{S}_h} \min \set{ \pi_t \paren{s' \sachant s_v,s_h, a}, \beta_h(s_h)  } \Big\} \] 
 est la distribution de possibilité jointe sur les états du système $s_h' \in \mathcal{S}_h$
-et les objets visibles (état visible du système state et observation) $s_v' \in \mathcal{S}_v$ et $o_h' \in \mathcal{O}_h$.
-La mise à jour de l'état de croyance est noté \[ \beta_h' = \nu_h \paren{ s_v, \beta_h, a, s_v', o_h' }. \]
+et les objets visibles (état visible du système et observation) $s_v' \in \mathcal{S}_v$ et $o_h' \in \mathcal{O}_h$.
+La mise à jour de l'état de croyance est notée \[ \beta_h' = \nu_h \paren{ s_v, \beta_h, a, s_v', o_h' }. \]
 \end{theorem}
 
 L'espace d'état du $\pi$-PDM résultant d'un $\pi$-PDMOM
@@ -219,7 +221,7 @@ est telle que $\forall \set{ 0, \ldots, H-1 }$, $\forall a \in \mathcal{A}$,
 $\forall \Big[ (s_v,\beta_h), (s_v',\beta_h') \Big]  \in \Big(\tilde{S}^{\pi}\Big)^2$, 
 \[ \pi_t \Big( (s_v',\beta_h') \Big\vert (s_v,\beta_h), a  \Big) = \max_{\substack{ o_h' \in \mathcal{O}_h \mbox{ \tiny s.t. } \\ \nu_h(s_v,\beta_h,a,s_v',o_h') = \beta_h'}}
 \pi_t \paren{ s_v',o_h' \sachant s_v, \beta_h, a },  \]
-où $\pi_t \paren{ s_v',o_h' \sachant s_v, \beta_h, a }$ est défini juste au-dessus,
+où $\pi_t \paren{ s_v',o_h' \sachant s_v, \beta_h, a }$ est défini dans le théorème au-dessus,
 \item la préférence pessimiste \textit{i.e.}
 $\tilde{\Psi}=\underline{\Psi}$: elle peut être réécrite $\forall s_v \in \mathcal{S}_v$,
 $\forall \beta_h \in \Pi^{\mathcal{S}_h}_{\mathcal{L}}$, $\forall a \in \mathcal{A}$,  
@@ -229,7 +231,7 @@ $\forall \beta_h \in \Pi^{\mathcal{S}_h}_{\mathcal{L}}$, $\forall a \in \mathcal
 Un algorithme standard aurait calculé la fonction valeur pour chaque
  $\beta \in \Pi^{\mathcal{S}}_{\mathcal{L}}$ 
 tandis que l'équation de programmation dynamique
-du $\pi$-MDP résultant
+du $\pi$-PDM résultant
 mène à un algorithme
 qui la calcule
 seulement pour chaque $(s_v,\beta_h) \in \mathcal{S}_v \times 
@@ -240,10 +242,10 @@ La taille du nouvel espace des états de croyance est
 = \# \mathcal{S}_v \times \paren{ \# \mathcal{L}^{\# \mathcal{S}_h} - (\# \mathcal{L}-1)^{\# \mathcal{S}_h} }, \] 
 ce qui est exponentiellement plus petit que
 la taille de l'espace des états de croyance 
-du $\pi$-POMDP équivalent: 
+du $\pi$-PDMPO équivalent: 
 \[ \# \Pi^{\mathcal{S}}_{\mathcal{L}} = \# \mathcal{L}^{\# \mathcal{S}_v \times \# \mathcal{S}_h} - (\# \mathcal{L}-1)^{\# \mathcal{S}_v \times \# \mathcal{S}_h}. \]
 
-\section{Horizon Infini}
+\section{Horizon Indéterminé}
 \label{section_infiniteHorizon}
 Pour de nombreux problèmes en pratique,
 il est très difficile de déterminer un horizon $H$.
@@ -252,7 +254,7 @@ un algorithme pour résoudre les $\pi$-PDMOM
 avec préférence terminale,
 et horizon indéterminé.
 
-\begin{algorithm} \caption{ Optimistic $\pi$-MDP VI Algorithm -- Terminal Preference Only} 
+\begin{algorithm} \caption{Algorithme IV pour $\pi$-PDM -- Préférence Terminale} 
 \label{algorithmIVPIMDP}
 \For {$s \in \mathcal{S}$}{
 	$\overline{U^*}(s) \gets 0$ \;
@@ -272,13 +274,13 @@ et horizon indéterminé.
 \end{algorithm}
 
 \`A notre connaissance,
-nous proposons ici le premier algorithme d'itérations sur les valeurs
-pour $\pi$-PDM,
-qui renvoie une stratégie optimale.
+nous proposons ici le premier algorithme d'itération sur les valeurs (IV)
+pour $\pi$-PDM
+qui renvoie une stratégie optimale pour un critère spécifié.
 Comme mentionné dans \cite{Sabbadin1999pipomdp}, 
 nous faisons l'hypothèse de l'existence d'une action
 ``rester'', notée $\widehat{a}$, 
-qui retient le système dans sont état courant 
+qui retient le système dans son état courant 
 avec nécessité $1$. 
 Cette action est l'homologue possibiliste
 du facteur d'actualisation $\gamma$ 
@@ -287,23 +289,23 @@ puisqu'il garantit la convergence
 de l'algorithme d'itération sur les valeurs. 
 Nous verrons cependant que l'action $\widehat{a}$
 n'est finalement utilisée que sur certains états buts.
-Notons que une hypothèse similaire est utilisée
+Notons qu'une hypothèse similaire est utilisée
 pour calculer des stratégies optimales
 dans le cadre des processus déterministes (planification classique) 
 dont l'horizon
 n'est pas spécifié \cite{LaValle2006PA1213331}.
 
 Nous notons $\widehat{\delta}$
-la rège de décision telle que
+la règle de décision telle que
 $\forall s \in \mathcal{S}$, $\widehat{\delta}(s)=\widehat{a}$. 
 L'ensemble fini de toutes les statégies
 est
 $\Delta =\cup_{i \geqslant 1} \Delta_i$, 
-et $\# \delta$ est la taille de a stratégie $(\delta)$ 
+et $\# \delta$ est la taille de la stratégie $(\delta)$ 
 en termes d'étapes de décision. 
 Nous pouvons maintenant définir le critère optimiste
 pour un horizon indéterminé: 
-if $(\delta) \in \Delta$,
+si $(\delta) \in \Delta$,
 \begin{equation} 
 \label{optcriterion} 
 \overline{U} \Big( s_0,(\delta) \Big) 
@@ -325,7 +327,7 @@ si $s'=s$ et $0$ sinon,
 alors l'algorithme \ref{algorithmIVPIMDP} 
 calcule le critère maximal 
 et une stratégie optimale,
-\textit{i.e.} qui maximise le critèren (\ref{optcriterion}),
+\textit{i.e.} qui maximise le critère (\ref{optcriterion}),
 et qui est stationnaire 
 (\textit{i.e.} qui ne dépend pas de l'étape du processus $t$).
 \end{theorem}
@@ -342,7 +344,7 @@ soit $\forall a \in \mathcal{A}$,
 $\Psi(s) \geqslant \pi \paren{s' \sachant s,a}$, 
 soit $\Psi(s) \geqslant \overline{U^*}(s')$. 
 Si le problème n'est pas trivial,
-celà signifir que $s$ est un but ($\Psi(s)>0$)
+cela signifie que $s$ est un but ($\Psi(s)>0$)
 et que les degrés de possibilité de transition vers de meilleurs buts
 sont plus petit que le degré de préférence de $s$. 
 
@@ -351,14 +353,14 @@ Considérons un robot sur une grille de taille $g \times g$, avec $g>1$.
 Il connait parfaitement sa position sur la grille $(x,y) \in \{ 1, \ldots, g \}^2$ à chaque étape du processus, 
 ce qui constitue l'espace des états visibles $\mathcal{S}_v$. 
 Il se trouve initialement à la position $s_{v,0}=(1,1)$. 
-Deux cibles immobiles sont présentes sur la grille~:
+Deux cibles immobiles sont présentes sur la grille:
 la ``cible $1$'' est en $(x_1,y_1)=(1,g)$, 
 la ``cible $2$'' se trouve en $(x_2,y_2)=(g,1)$ sur la grille,
 et le robot connait parfaitement leurs positions. 
 Une des deux cibles est $A$, l'autre est $B$, 
 et la mission du robot est d'identifier et d'atteindre $A$ 
 aussi tôt que possible. 
-Le robot ne sait pas quelle cible est $A$~: 
+Le robot ne sait pas quelle cible est $A$: 
 les deux situations $A_1$ et $A_2$
 correspondent respectivement à ``la cible $1$ est $A$'' 
 et ``la cible $2$ est $A$'' et
@@ -367,7 +369,7 @@ Les actions $\mathcal{A}$ sont les déplacements
 dans les quatre directions ainsi que l'action ``rester'';
 les déplacements du robot sont déterministes.
 A chaque étape du processus, le robot analyse une image de chaque cible
-et obtient alors une observation de la nature de la cible~:
+et obtient alors une observation de la nature de la cible:
 les deux cibles peuvent sembler être $A$ ($oAA$), 
 ou bien seulement la cible $1$ ($oAB$), 
 ou seulement la cible $2$ ($oBA$),
@@ -379,7 +381,7 @@ n'est pas vraiment connue, mais est approchée par
 $Pr \paren{ good_i \sachant x,y } = \frac{1}{2} \croch{ 1 + \exp \paren{ -\frac{\sqrt{(x-x_i)^2+(y-y_i)^2}}{D} } } $ 
 où $(x,y)$ $=s_v$ $\in \{ 1,\ldots,g \}^2 $ est la position du robot, 
 $(x_i,y_i)$ la position de la cible $i$, 
-et $D$ une constante de normalisation.
+et $D>0$ une constante de normalisation.
 Les processus d'observation de chaque cible sont considérés indépendants. 
 Alors, par exemple, $Pr \paren{ oAB \sachant \hspace{-0.1cm} (x,y), A_1 }$ 
 est égal à $Pr \paren{ good_1 \sachant \hspace{-0.1cm} (x,y)} 
@@ -399,23 +401,21 @@ et $\gamma=0.99$.
 Ce problème ne peut pas être résolu par l'algorithme exact pour PDMOM \cite{AraThoBufCha-ICTAI10}
 puisque cela entraîne l'utilisation de toute la mémoire vive disponible après 15 itérations.
 
-Avec la Théorie des Possibilités Qualitatives,
-il est toujours possible d'observer correctement la cible~: 
+Avec la théorie des possibilités qualitatives,
+il est toujours possible d'observer correctement la cible: 
 $\pi \paren{good \sachant x,y}=1$. 
-Ici, $\mathcal{L}$ sera un sous ensemble fini de $[0,1]$,
-c'est pourquoi $1_{\mathcal{L}}$ peut être noté $1$. 
 Ensuite, plus le robot est loin de la cible $i$,
 plus il est susceptible de mal l'observer 
 (par exemple observer $A$ au lieu de $B$), 
 ce qui est une hypothèse raisonnable 
 compte tenu du fait que le modèle d'observation
-est mal connu~: $\pi \paren{ bad_i \sachant \hspace{-0.1cm} x,y } = \frac{\sqrt{(x-x_i)^2 + (y-y_i)^2 }}{\sqrt{2}(g-1)}$. 
+est mal connu: $\pi \paren{ bad_i \sachant \hspace{-0.1cm} x,y } = \frac{\sqrt{(x-x_i)^2 + (y-y_i)^2 }}{\sqrt{2}(g-1)}$. 
 Ainsi, par exemple, 
 $\pi \paren{ oAB \sachant \hspace{-0.1cm} (x,y), A_1 \hspace{-0.07cm} }=1$, 
 $\pi \paren{ oAA \sachant \hspace{-0.1cm} (x,y), A_1 \hspace{-0.07cm} } 
 = \pi \paren{ bad_2 \sachant \hspace{-0.1cm} x,y } $, 
 $\pi  \paren{ oBA \sachant (x,y), A_1 } 
-= \min \{ \pi \paren{ bad_1 \sachant x,y },$ \\
+= \min \{ \pi \paren{ bad_1 \sachant x,y },$ 
 $\pi \paren{ bad_2 \sachant x,y } \} $, etc.
 Puisque la situation est complètement connue lorsque le robot est sur la position d'une cible (observation déterministe), 
 il n'y a pas de risque d'être bloqué dans un état non satisfaisant,
@@ -423,33 +423,33 @@ et c'est pourquoi le modèle $\pi$-PDMOM \textit{optimiste} fonctionne bien.
 L'échelle $\mathcal{L}$ est composée de $0$, $1$, 
 et toutes les valeurs possibles de $\pi \paren{ bad_i \sachant x,y } \in [0,1]$. 
 Notons qu'une construction de ce modèle
-avec une transformation probabilité-possibilité \cite{Dubois93onpossibility/probability} 
+avec une transformation probabilité-possibilité \cite{Dubois93onpossibilityprobability} 
 aurait été équivalente. 
-La distribution de préférence $\mu$ est égale à $0$ pour tous les états du système,
+La distribution de préférence $\Psi$ est égale à $0$ pour tous les états du système,
 et à $1$ pour les états $[(x_{1},y_{1}),A_1]$ et $[(x_{2},y_{2}),A_2]$ où $(x_{i},y_{i})$ 
 est la position de la cible $i$. 
-Comme mentionné dans \cite{Sa1999.5}, 
-la stratégie calculée garantit un plus court chemin vers les états buts~:
+Comme mentionné dans \cite{Sabbadin1999pipomdp}, 
+la stratégie calculée garantit un plus court chemin vers les états buts:
 la stratégie tend à réduire le temps de la mission.
 %First, consider a $3 \times 3$-grid. There are $9$ visible states 
 %and $2$ hidden one: $\# \mathcal{S} = 18$. $\mathcal{L} = 5$ so $\# B^{\pi} = 18^5$ 
 
-Les algorithmes pour $\pi$-PDMPO standards, qui n'exploitent pas l'Observabilité Mixte
+Les algorithmes pour $\pi$-PDMPO standards, qui n'exploitent pas l'observabilité mixte
 contrairement à notre modèle $\pi$-PDMOM, ne peuvent pas résoudre le problème
 même pour de très petites grilles $3 \times 3$. 
 En effet, pour ce problème, $\# \mathcal{L} = 5$, $\# \mathcal{S}_v = 9 $, 
 et $\# \mathcal{S}_h = 2$. 
 Ainsi, $\# \mathcal{S} = \# \mathcal{S}_v \cdot \# \mathcal{S}_h = 18$ 
 et le nombre d'états de croyance est alors 
-$\# \mathcal{B}^{\pi} = \mathcal{L}^{\# \mathcal{S}} - (\mathcal{L}-1)^{\# \mathcal{S}} = 5^{18} -4^{18} \geqslant 3.7.10^{12} $ 
+$\# \Pi^{\mathcal{S}}_{\mathcal{L}} = \mathcal{L}^{\# \mathcal{S}} - (\mathcal{L}-1)^{\# \mathcal{S}} = 5^{18} -4^{18} \geqslant 3.7.10^{12} $ 
 au lieu de $81$ états
 avec un $\pi$-PDMOM. 
 Par conséquent, les résultats expérimentaux qui suivent n'auraient pas pu être obtenus
 avec des $\pi$-PDMPO standards, ce qui justifie donc ce travail sur les $\pi$-PDMOM.
 
 La comparaison des performances des modèles probabilistes et possibilistes
-est possible à l'aide des espérances de la somme des récompenses 
-de leurs stratégies respectives~:
+peut se faire à l'aide des espérances de la somme des récompenses 
+de leurs stratégies respectives:
 puisque la situation est complètement connue lorsque le robot est à la position d'une des cibles, 
 il ne peut pas terminer en choisissant la cible $B$. 
 Si $k$ est le nombre d'étapes du processus pour identifier et atteindre la bonne cible, 
@@ -459,12 +459,12 @@ Considérons maintenant qu'en réalité (donc ici pour les simulations),
 et contrairement à ce qui est décrit par le modèle, 
 la situation en pratique fait que l'algorithme de vision artificielle utilisé par le robot 
 est trompeur lorsque le robot est loin des cibles, 
-\mbox{c-à-d} si quel que soit $i \in \{1,2\}$, $\sqrt{(x-x_i)^2+(y-y_i)^2}>C$, 
+\textit{i.e.} si $\forall i \in \{1,2\}$, $\sqrt{(x-x_i)^2+(y-y_i)^2}>C$, 
 avec $C$ une constante positive, alors
 $Pr \paren{good_i \sachant x,y }$ 
 $= 1-P_{bad} < \frac{1}{2}$.  
 Dans tous les autres cas, 
-le modèle probabiliste est effectivement le bon.
+le modèle probabiliste est bien décrit, \textit{i.e.} en accord avec la réalité.
 La figure \ref{exprobot} résume le problème,
 et indique la zone où le robot a une mauvaise perception
 par la dénomination ``error zone''.
@@ -476,24 +476,36 @@ La taille de la grille était de $10 \times 10$, $D=10$ et $C=4$.
 \begin{figure}
 \centering
 \includegraphics[width=0.35\linewidth]{robotgrid.pdf} 
-\caption[Mission robotique de reconnaissance de cibles]{Mission robotique de reconnaissance de cibles}
-\label{robotgridfig}
+\caption[Mission robotique de reconnaissance de cibles]{Mission robotique de reconnaissance de cibles:
+deux cibles, la cible $1$ (T1) et la cible $2$ (T2) 
+sont disposées sur une grille $g \times g$. 
+Une des deux cibles est l'objet d'intérêt $A$,
+(et par élimination, l'autre cible est $B$):
+soit $T1=A$, soit $T2=A$. 
+Le robot reçoit des observations sur la nature de chaque cible: 
+``$Ti=A$'' ou $``Ti=B''$ pour $i \in \set{1,2}$, de manière bruitée.
+Plus le robot est proche d'une cible, moins l'observation à propos de la cible en question a de chances d'être fausse.
+Le robot doit reconnaître la cible $A$ et l'atteindre. 
+Cependant, sans avoir pu être pris en compte dans le modèle, 
+lorsque le robot est dans une zone d'erreur (\textit{error zone} en rouge)
+la probabilité qu'il observe mal $P_{bad}$ est supérieure à $0.5$}
+\label{exprobot}
 \end{figure}
 
 La figure \ref{figureexp}.a montre que le modèle probabiliste est plus affecté par l'erreur introduite
-que le modèle possibiliste~: 
+que le modèle possibiliste: 
 elle représente la moyenne de la somme des récompenses à l'exécution 
 obtenue par chaque modèle, comme une fonction de $P_{bad}$, 
 la probabilité de mal observer une cible lorsque la position 
 du robot est telle que $\sqrt{(x-x_i)^2+(y-x_i)^2} >C$. 
-C'est dû au fait que la mise à jour possibiliste de l'état de croyance 
+Cela est dû au fait que la mise à jour possibiliste de l'état de croyance 
 ne tient pas compte des nouvelles observations
 lorsque le robot en a déjà obtenu une plus fiable. 
 Au contraire, le modèle probabiliste modifie l'état de croyance courant à chaque étape.
 En effet, puisqu'il n'y a que deux états cachés $s_h^1$ et $s^2_h$, 
 si $\beta_{h}(s_{h}^1)<1$, alors la normalisation possibiliste implique que $\beta_{h}(s_{h}^2)=1$. 
 La définition de la possibilité jointe de l'état et de l'observation 
-(le minimum entre la distribution de possibilité sur l'état du système, \mbox{c-à-d} l'état de croyance, 
+(le minimum entre la distribution de possibilité sur l'état du système, \textit{i.e.} l'état de croyance, 
 et la possibilité de l'observation) 
 assure que la possibilité jointe 
 de $s_{h}^1$ et de l'observation obtenue, 
@@ -502,46 +514,45 @@ L'équivalent possibiliste de l'équation de mise à jour de l'état de croyance (3)
 assure donc que l'état de croyance suivant 
 se retrouve dans un des trois cas suivant: 
 \begin{itemize}
-\item elle est encore plus sceptique à propos de $s_{h}^1$ 
+\item il est encore plus sceptique à propos de $s_{h}^1$ 
 si l'observation est plus fiable, et confirme l'état de croyance précédent 
 ($\pi \paren{o_h \sachant s_v,s_h^1,a }$ est plus petit que $\beta_{h}(s_{h}^1)$); 
-\item elle devient l'état de croyance opposé si l'observation est plus fiable et contredit l'état de croyance précédent 
+\item il devient l'état de croyance opposé si l'observation est plus fiable et contredit l'état de croyance précédent 
 ($\pi \paren{o_h \sachant s_v,s_h^2,a }$ est à la fois plus petit que $\beta_{h}(s_{h}^1)$ et que $\pi \paren{o_h \sachant s_v,s_h^1,a }$); 
-\item elle reste simplement la même
+\item il reste simplement le même
 si l'observation n'est pas plus informative
 que l'état de croyance courant.
 \end{itemize} 
 Le théorème qui suit donne des conditions suffisantes 
 menant à une mise à jour
 informative de l'état de croyance possibiliste.
-Classiquement un état de croyance $\beta_1 \in \mathcal{B}^{\pi}$ 
-est dit plus spécifique qu'un état de croyance $\beta_2 \in \mathcal{B}^{\pi}$
+Classiquement un état de croyance $\beta_1 \in \Pi^{\mathcal{S}}_{\mathcal{L}}$ 
+est dit plus spécifique qu'un état de croyance $\beta_2 \in \Pi^{\mathcal{S}}_{\mathcal{L}}$
 si pour chaque $ s \in \mathcal{S}$, $\beta_1(s) \leqslant \beta_2(s)$.
-Afin d'avoir un ordre total sur $\mathcal{B}^{\pi}$, 
-l'échelle $\mathcal{L}$ est considérée ici 
-comme un sous ensemble de $[0,1] \subset \mathbb{R}$.
-La relation d'ordre $\preceq$ sur $\mathcal{B}^{\pi}$ peut alors être définie 
-pour classer les état de croyance selon leur spécificité~:
+La relation d'ordre $\preceq$ sur $\Pi^{\mathcal{S}}_{\mathcal{L}}$ peut alors être définie 
+pour classer les états de croyance selon leur spécificité:
 \[\beta_1 \preceq \beta_2 \Leftrightarrow \sum_{s \in \mathcal{S}} \beta_1(s) \leqslant \sum_{s \in \mathcal{S}} \beta_2(s)  \]
 Notons que si $\beta_1$ est plus spécifique que $\beta_2$, alors $\beta_1 \preceq \beta_2$.
 \begin{theorem}
-Soit $\beta_0 \in \mathcal{B}^{\pi}$ l'état de croyance initial 
-modélisant l'ignorance totale, \mbox{c-à-d} pour tous les $ s \in \mathcal{S}$, $\beta_0(s)=1$.
-Si la fonction de transition $T^{\pi}$ est déterministe,
-et si les observations ne sont pas informatives, \mbox{c-à-d} 
- $\forall s' \in \mathcal{S}$ , $\forall a \in \mathcal{A}$, $\forall o' \in \mathcal{O}$, $\Omega^{\pi} \paren{s',a, o'}=1$,
-alors si l'état de croyance $\beta_{t+1} \in \mathcal{B}^{\pi}$ 
+Soit $\beta_0 \in \Pi^{\mathcal{S}}_{\mathcal{L}}$ l'état de croyance initial 
+modélisant l'ignorance totale, \textit{i.e.} pour tous les $ s \in \mathcal{S}$, $\beta_0(s)=1$.
+Si la fonction de transition est déterministe,
+et si les observations ne sont pas informatives, \textit{i.e.} 
+ $\forall s' \in \mathcal{S}$ , $\forall a \in \mathcal{A}$, $\forall o' \in \mathcal{O}$, 
+$\pi \paren{o' \sachant s',a}=1$,
+alors si l'état de croyance $\beta_{t+1} \in \Pi^{\mathcal{S}}_{\mathcal{L}}$ 
 est le résultat de la mise à jour de l'état de croyance 
-$\beta_t \in \mathcal{B}^{\pi}$, $\beta_{t+1} \preceq \beta_{t}$.
-Ce résultat reste valable si pour chaque action $T^{\pi}$ est l'identité
+$\beta_t \in \Pi^{\mathcal{S}}_{\mathcal{L}}$, $\beta_{t+1} \preceq \beta_{t}$.
+Ce résultat reste valable si pour chaque action la fonction de transition est l'identité
 et $\forall (o',\tilde{o}) \in \mathcal{O}^2$, $\forall (a,\overline{a}) \in \mathcal{A}^2$ et
-$\forall s' \neq  \tilde{s} \in \mathcal{S}$ t.q. $\Omega^{\pi} \paren{s',a, o'} < 1_{\mathcal{L}}$,
-$\Omega^{\pi} \paren{s',a, o'} \neq \Omega^{\pi} \paren{ \tilde{s}, \overline{a}, \tilde{o} }$.
+$\forall s' \neq  \tilde{s} \in \mathcal{S}$ 
+t.q. $\pi \paren{o' \sachant s',a} < 1_{\mathcal{L}}$,
+$\pi \paren{o' \sachant s',a} \neq \pi \paren{ \tilde{o} \sachant \tilde{s}, \overline{a}}$.
 \label{theorem_specificity_belief}
 \end{theorem}
 La mise à jour probabiliste quant à elle
 ne permet pas à l'état de croyance de devenir directement l'état de croyance opposé,
-ou d'ignorer les observation moins fiables~: 
+ou d'ignorer les observations moins fiables: 
 le robot se dirige d'abord vers la mauvaise cible
 car il est initialement trop loin des deux cibles
 et les observe mal. 
@@ -549,13 +560,13 @@ Lorsqu'il est proche de cette cible, il reçoit de bonnes observations,
 et change petit à petit d'état de croyance: 
 ce dernier devient assez informatif 
 pour le convaincre de se diriger vers la cible $A$. 
-Cependant, il passe alors inévitablement par la zone d'erreur~: 
+Cependant, il passe alors inévitablement par la zone d'erreur: 
 cela modifie peu à peu son état de croyance, 
 qui devient faux avec grande probabilité, 
 et le robot se retrouve dans la situation initiale.
-Il perd donc beaucoup de temps à sortir de cette boucle. 
+Il perd ainsi beaucoup de temps à sortir de cette boucle. 
 On peut voir que la moyenne de la somme des récompenses croît lorsque la probabilité
-de mal observer $P_{bad}$ est très grande~: 
+de mal observer, $P_{bad}$, est très grande: 
 cela s'explique par le fait que cette grande erreur
 mène le robot à atteindre la mauvaise cible plus rapidement, 
 et donc à être quasiment sûr que la cible $A$ est l'autre cible.
@@ -571,12 +582,12 @@ et donc à être quasiment sûr que la cible $A$ est l'autre cible.
 
 Maintenant, fixons $P_{bad}=0.8$ 
 et évaluons la moyenne de la somme des récompenses à l'exécution
-pour différents faux états de croyance initiaux~: 
+pour différents faux états de croyance initiaux: 
 la figure \ref{figureexp}.b illustre cette évaluation,
-avec les mêmes paramètres que pour la précédente expérimentation~: 
+avec les mêmes paramètres que pour la précédente expérimentation: 
 nous comparons ici le modèle possibiliste, et la probabiliste
 lorsque l'état de croyance initial est fortement orientée
-vers la mauvaise cible (\mbox{c-à-d} l'agent pense fortement que la cible $1$ est $B$ alors que c'est $A$ en réalité). 
+vers la mauvaise cible (\textit{i.e.} l'agent pense fortement que la cible $1$ est $B$ alors que c'est $A$ en réalité). 
 Notons que l'état de croyance possibiliste en la bonne cible décroît 
 lorsque la nécessité en la mauvaise croît. 
 Cette figure montre que le modèle possibiliste 
@@ -586,19 +597,18 @@ et la fonction d'observation est imprécise:
 notons cependant que pour $\mathcal{P}_{bad} \leqslant 0.6$,
 la politique probabiliste est plus efficace~\footnote{L'implémentation de l'algorithme de résolution, 
 ainsi que la description de ce problème de reconnaissance qui en est l'entrée, 
-sont disponibles sur le dépôt accessible à l'adresse \url{https://github.com/drougui/ppudd}~:
+sont disponibles sur le dépôt accessible à l'adresse \url{https://github.com/drougui/ppudd}:
 le problème peut être simulé en utilisant la stratégie optimale possibiliste calculée par l'algorithme.}.
 
 \section{Conclusion}
-Nous avons proposé un algorithme d'Itération dans l'espace des Revenus (IR) pour les PDM possibilistes.
-Celui-ci calcule une stratégie optimale stationnaire pour un horizon infini
+Nous avons proposé un algorithme d'Itération sur les Valeurs (IV) pour les PDM possibilistes.
+Celui-ci calcule une stratégie optimale stationnaire pour un horizon indéterminé
 contrairement aux méthodes précédentes. 
-Une preuve complète de la convergence a été fournie~:
+Une preuve complète de la convergence a été fournie:
 elle repose sur l'existence d'une action ``rester''
 intermédiaire. Celle-ci est utilisée uniquement pour maintenir le processus dans les états buts.
-Enfin, cet algorithme a été étendu 
-au nouveau modèle des PDM possibilistes qualitatifs à Observabilité Mixte, 
-dont la complexité est exponentiellement plus petite que celle des PDMPO
+Enfin, le nouveau modèle des PDM possibilistes qualitatifs à observabilité mixte, 
+a été présenté, et sa complexité est exponentiellement plus petite que celle des PDMPO
 possibilistes qualitatifs.
 De ce fait, nous avons pu comparer les $\pi$-PDMOM avec leurs équivalents probabilistes 
 sur un problème robotique réaliste. 
@@ -606,28 +616,13 @@ Nos résultats expérimentaux montrent que ces stratégies possibilistes
 peuvent être plus performantes que les stratégies issues du modèle probabiliste
 lorsque la fonction d'observation n'est pas connue précisément. 
 
-Le cadre possibiliste qualitatif peut cependant être inadapté
-aux situations dans lesquelles quelques informations probabilistes 
-sont disponibles à propos du problème~: 
-les PDMPO à Paramètres Imprécis \cite{Itoh2007453} 
-et les PDMPO à Paramètres Bornés \cite{NiYaLiaZhi} 
-intègrent la méconnaissance en considérant 
-des ensembles de distributions de probabilité,
-plutôt qu'une seule. 
-Lorsque de tels ensembles ne peuvent pas être déterminés,
-ou bien lorsqu'un modèle qualitatif suffit, les $\pi$-PDMPO 
-peuvent être une bonne alternative~:
-les PDMPOPI et les PDMPOPB sont très difficiles à résoudre en pratique.
-
-La version pessimiste des $\pi$-PDM peut aussi être construite,
-mais l'optimalité de la stratégie renvoyée par l'algorithme d'IR associé
-semble dure à prouver, 
-essentiellement car il n'est pas suffisant de construire
-une trajectoire maximisante, 
-comme fait dans la preuve en \ref{proofThmIV}. 
+La version de l'algorithme d'Itération sur les Valeurs pour $\pi$-PDM  pessimiste 
+peut aussi être construite,
+mais l'optimalité de la stratégie renvoyée
+semble dure à prouver.
 Les travaux \cite{LIP61498} et \cite{0024909} 
 peuvent être utiles pour obtenir des résultats
-à propos des $\pi$-PDM pessimistes,
+à propos de ces $\pi$-PDM pessimistes,
 afin de résoudre des problèmes contenant des situations dangereuses.
 
 Finalement, comme cela a été mis en évidence par les expériences,
@@ -636,7 +631,7 @@ basés sur un modèle d'incertitude plus simple en termes de complexité
 que les PDMPO probabilistes,
 le processus de croyance
 peut avoir un comportement intéressant.
-Certaines conditions suffisantes
+Pour certaines conditions suffisantes
 données par le théorème \ref{theorem_specificity_belief},
 l'état de croyance n'est pas modifié
 par des informations moins fiables
@@ -644,8 +639,7 @@ que celles accumulées avant elles,
 mais est capable de se transformer en un état de croyance quasi opposé 
 si une information qui le suggère et qui est plus fiable est reçue.
 Des problèmes plus complexes doivent être étudiés
-pour obtenir un meilleur moyen 
-d'avoir une idée de son comportement
+pour avoir une meilleure idée de son comportement
 dans un panel de situations plus important.
 Cependant, les $\pi$-PDMPO avec un espace d'état trop grand
 (ou $\pi$-PDMOM avec un trop grand espace $\mathcal{S}_h$)
