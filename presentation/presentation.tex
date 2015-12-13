@@ -1,5 +1,8 @@
 \documentclass[12pt,svgnames,table]{beamer}
-\usetheme{onerajdt}
+\usetheme{progressbar}
+%\usetheme{onerajdt}
+
+
 \usepackage[utf8x,utf8]{inputenc}
 \usepackage{tikz}
 \usetikzlibrary{decorations.pathmorphing}
@@ -63,6 +66,7 @@ under Uncertainty}
 }
 
 % plan
+\nico{
 \section*{}
 \begin{frame}
   \frametitle{Overview}
@@ -86,34 +90,33 @@ under Uncertainty}
     \tableofcontents[sectionstyle=show/hide,subsectionstyle=show/shaded/hide]
   }
 }
-
+}
 
 % La premiere planche
 % Ci-dessous c'est a vous de remplir
-\section{Context}
+\section[context]{Context}
 
 \begin{frame}
 \frametitle{\insertsection} 
 \framesubtitle{\footnotesize Autonomous robotics } 
 \normalsize
-\begin{block}{Onera, DCSD}
-Automatics, AI, Flight Mechanics, Cognitive Sciences
+\begin{block}{Onera, Flight Dynamics $\&$ System control}
+Control Engineering, Artificial intelligence, Cognitive Sciences
 \end{block}
 \vspace{0.5cm}
 \visible<2->{
-\begin{minipage}{0.5\linewidth}
+\begin{minipage}{0.53\linewidth}
 among many other works:
 \begin{itemize}
-\item autonomy, steering architectures and\\ 
-human factors
+\item autonomy and\\ human factors
 \item decision making, planning
 \item experimental/industrial applications:
 UAVs,\\ 
-\hspace{0.9cm} orbital systems,\\
-\hspace{0.9cm} exploration robots
+human-machine interaction,\\
+exploration robots
 \end{itemize}
 \end{minipage}
-\begin{minipage}{0.45\linewidth}
+\begin{minipage}{0.42\linewidth}
 \includegraphics[scale=0.23]{ReSSAC_vol}
 \end{minipage}
 }
@@ -158,7 +161,7 @@ UAVs,\\
 \draw[color=MediumPurple,thick] (-1.4,4.2) circle (0.45cm);
 }
 \visible<12->{
-\node (pomdp6) at (3.1,3.25) {\color{red}{$b$} \textbf{belief}  \color{black}};
+\node (pomdp6) at (4.95,3.25) {\color{red}{$b$} \textbf{belief}: \color{black} \textbf{probability distribution} };
 }
 \end{tikzpicture}
 
@@ -264,7 +267,7 @@ UAVs,\\
 \node (bel3) at (13,1) {};
 \node[bvertex] (bel2) at (10.5,1) {$b_{t+1}$};
 \node[bvertex] (bel1) at (5.8,1) {$b_{t}$};
-\node (pbb) at (8.25,0.75) [color=red,thick] {$\textbf{p} \paren{ b_{t+1} \sachant b_t,a_{t} }$};
+%\node (pbb) at (8.25,0.75) [color=red,thick] {$\textbf{p} \paren{ b_{t+1} \sachant b_t,a_{t} }$};
 \draw[->,>=latex,color=red,thick] (bel1) to (bel2);
 \draw[->,>=latex,color=red,dashed,thick] (bel0) to (bel1);
 
@@ -330,9 +333,10 @@ maximizing $ \displaystyle \mathbb{E}_{s_0 \sim b_0} \croch{ \sum_{t=0}^{+ \inft
 \frametitle{Flaws of the POMDP model}
 \framesubtitle{\footnotesize POMDPs in practice}
 \begin{itemize}
-\item optimal strategy computation $\geqslant$ \textbf{PSPACE}\\
-\hspace{4cm}(\textit{Papadimitriou et al. 1987})
+\item optimal strategy computation \textbf{PSPACE-hard}\\
+{ \footnotesize \hspace{4cm}(\textit{Papadimitriou et al. 1987})}
 \end{itemize}
+\vspace{0.6cm}
 \begin{itemize}
 %\rightarrow raisonnement sur l'ensemble des probabilités $b \in \mathcal{B}_{\mathcal{S}}$
 \item probabilities are \textbf{imprecisely known} in practice
@@ -342,13 +346,13 @@ maximizing $ \displaystyle \mathbb{E}_{s_0 \sim b_0} \croch{ \sum_{t=0}^{+ \inft
 %grande variabilité d'images $\rightarrow$ classifieur dur à extraire;\\
 %$\# \mathcal{O}$ plus grand $\rightarrow$ POMDP plus complexe.
 %\item définition de la fonction d'observation $O$?
-\vspace{0.5cm}
+\vspace{1.2cm}
 \begin{itemize}
 % ignorante?\\
 %quantification si imprécision?
 %\end{itemize}
 %\begin{itemize}
-\item agent's \textbf{ignorance} not taken into account
+\item \textbf{prior ignorance} semantic/management?
 \end{itemize}
 %mission d'observation $+$ situation inconnue;\\
 %paramètres ``situation très peu probable''.
@@ -365,7 +369,7 @@ maximizing $ \displaystyle \mathbb{E}_{s_0 \sim b_0} \croch{ \sum_{t=0}^{+ \inft
 
 \begin{itemize}
 \item \textbf{POMDP optimal strategy computation undecidable}\\ 
-in infinite horizon -- {\footnotesize \textit{Madani et al. (AAAI-99)}}
+in infinite horizon {\footnotesize  (\textit{Madani et al. 1999})}
 \end{itemize}
 \visible<2->{
 $\rightarrow$ optimality for \enquote{small} or \enquote{structured} POMDPs \\
@@ -390,13 +394,13 @@ $\rightarrow$ unknown environments: image variability of the datasets?\\% (test/
 }
 \visible<5->{
 \begin{itemize}
-\vspace{0.1cm}
+\vspace{0.01cm}
 \item \textbf{Lack of prior information} on the system state: \\
 initial belief state $b_0$ 
 \end{itemize}
 }
 \visible<6->{
-$\rightarrow $uniform probability distribution $\neq$ ignorance!\\
+$\rightarrow$ uniform probability distribution {$\neq$ \color{red} ignorance!}\\
 }
 
 \end{frame}
@@ -424,9 +428,9 @@ $\rightarrow $uniform probability distribution $\neq$ ignorance!\\
 \node (finiteScale2) at (-3.1,0.5) {usually $\{ 0, \frac{1}{k}, \frac{2}{k}, \ldots, 1 \}$};
 \node at (0.4,1.65) {$1$};
 \node at (3,1.65) {\footnotesize entirely possible};
-\node at (3,1.15) {\footnotesize less plausible};
+\node at (3,1.15) {\footnotesize somewhat plausible};
 \node at (3,0.75) {\vdots};
-\node at (3,0.15) {\footnotesize very rare};
+\node at (3,0.15) {\footnotesize almost impossible};
 \node at (3,-0.35) {\footnotesize impossible};
 \node at (0.4,-0.35) {$0$};
 \draw[line width=2pt] (1.2,-0.35) -- (0.8,-0.35);
@@ -476,7 +480,7 @@ is less plausible than $e_2$} \\
 									 	& $ \displaystyle \mathbb{S}_{\Pi}[X] = \max_{x \in X} \min \set{ x, \pi(x) } $ \\
 	$\displaystyle \mathbb{E}[X] = \sum_{x \in X} x \cdot \textbf{p}(x) $	& \\
 										& \\
-										& \textbf{cautious:} \\
+										& \textbf{pessimistic:} \\
 										& \\
 										& $ \displaystyle \mathbb{S}_{\mathcal{N}}[X] = \min_{x \in X} \max \set{ x, 1  - \pi(x) } $ \\
 
@@ -504,8 +508,9 @@ is less plausible than $e_2$} \\
 \visible<3->{
 \begin{exampleblock}{}
 \begin{itemize}
-\item belief space trick: POMDP $\rightarrow$ MDP with \textbf{infinite} $\mathcal{S}$\\ 
-\hspace{2.7cm} $\pi$-POMDP $\rightarrow$ $\pi$-MDP with \textbf{finite} $\mathcal{S}$
+\item belief space trick: POMDP $\rightarrow$ MDP with \textbf{infinite} space\\% $\mathcal{S}$\\ 
+\hspace{2.7cm} $\pi$-POMDP $\rightarrow$ $\pi$-MDP with \textbf{finite} space %$\mathcal{S}$
+\item problem becomes \textbf{decidable}
 \item $\forall s \in \mathcal{S}$, $\pi(s) = 1$ $\Leftrightarrow$ total ignorance about $s$
 \end{itemize}
 \end{exampleblock}
@@ -522,7 +527,7 @@ is less plausible than $e_2$} \\
 \definecolor{bblue}{rgb}{0,0.4,0.75}
 \frametitle{A possibilistic belief state}
 \framesubtitle{\footnotesize finite belief space}
-\vspace{0.2cm}
+\vspace{0.4cm}
 $\Pi^{\mathcal{S}}_{\mathcal{L}} = \Big\{$ possibility distributions $\Big\}$: $\# \Pi^{\mathcal{S}}_{\mathcal{L}} \sim \# \mathcal{L}^{\# \mathcal{S}} < + \infty$\\ 
 \vspace{0.1cm} 
 $\rightarrow $ \textit{i.e.} \textbf{finite belief space}
@@ -558,62 +563,66 @@ ${ \color{red} \mbox{ denoted by } }  { b^{\pi}_{t+1}(s') \color{red} \propto^{\
 \visible<5->{
 \begin{block}{}
 \begin{itemize}
-\item the update \textbf{only depends on $o'$, $a$ and $b_t^{\pi}$}
+\item \textbf{Makovian update:} only depends on $o'$, $a$ and $b_t^{\pi}$
 \end{itemize}
 \end{block}
 }
 \end{frame}
 
 \begin{frame}
+\frametitle{Overview}
 \begin{block}{}
 \textbf{Qualitative Possibility Theory:}\\ 
-$\rightarrow$ simplification, ignorance and imprecision modeling
+$\rightarrow$ simplification, imprecision/prior ignorance modeling
 \end{block}
-
+\vspace{1cm}
 \visible<2->{
 \begin{enumerate}
-\item introduction
-\item natural use of a qualitative possibilistic model
-\item updates and first use of the $\pi$-POMDP model 
+\item example of a qualitative possibilistic model
+\item advancements and first use of the $\pi$-POMDP model 
 \item simplify computation: ADDs and factorization 
 \item probabilistic-possibilistic (hybrid) approach
-\item conclusion
 \end{enumerate}
 }
 \end{frame}
 
-\section{Introductory example (HMI)}
+\section[qualitative modeling]{Introductory example (HMI)}
 
 \begin{frame}
 \frametitle{Example: Human-Machine Interaction}
 \framesubtitle{\footnotesize joint work with Sergio Pizziol -- Context}
-\vspace{-0.1cm}
+\vspace{0.1cm}
 \begin{figure}
 \centering
-\begin{tikzpicture}[scale=0.8,transform shape]
+\begin{tikzpicture}[scale=1,transform shape]
 %states
 \tikzstyle{vertex}=[fill=black!20,draw=black, minimum size=20pt,line width=1pt,inner sep=5pt, minimum height=37pt]
 \tikzstyle{vertexBIG}=[fill=black!20,draw=black, minimum width=280pt, minimum height=40pt,line width=1pt,inner sep=5pt]
 
-\node[vertex] (M) at (-1,0) {\textbf{Machine}};
+\node[vertex] (M) at (-1,0) { \color{black!20} -------------};
+\node () at (-1.1,0.35) {\textbf{Machine}};
 \node[vertex] (H) at (5,0) {\textbf{Human}};
 \node[vertexBIG] (O) at (2,-2) {};
 \node () at (1.7,-1.6) {\textbf{Observer}};
 %\node[vertex] (H) at (0.4,-2.2) {Machine model};
 %\node[vertex] (H) at (3.5,-2.2) {Human error model};
 
+\node () at (-1,-0.5) {\includegraphics[scale=0.025]{fcu}};
+\node () at (-2.6,-0.1) {\includegraphics[scale=0.025]{manettegaz}};
+
 \node[ellipse,draw, thick,fill=blue!20] (el) at (-0.55,-2.2) {Machine model};
 \node[ellipse,draw, thick,fill=blue!20] (el) at (4.15,-2.2) {Human error model};
 
 
 \draw[->,>=latex,line width=2pt,color=red] (-0.15,0.3) -- (4.2,0.3);
-\draw[->,>=latex,line width=2pt,color=red] (4.24,-0.3) -- (-0.15,-0.3);
+\draw[->,>=latex,line width=2pt,color=red] (4.24,-0.3) -- (-0.05,-0.3);
 
 \draw[->,>=latex,line width=1pt,color=red, dashed] (3.9,-0.3) -- (3.9,-1.3);
 \draw[->,>=latex,line width=1pt,color=red, dashed] (1,0.3) -- (1,-1.3);
 
-\node () at (1,0.6) {Feedbacks};
-\node () at (3,-0.6) {Selections};
+\node () at (0.9,0.5) {\footnotesize Feedbacks};
+\node () at (3,-0.1) {\footnotesize Interface};
+\node () at (2.8,-0.5) {\footnotesize manipulations};
 \end{tikzpicture}
 \vspace{-0.3cm}
 %\caption{ 3 actors involved: red arrows = information flows.}
@@ -622,14 +631,14 @@ $\rightarrow$ simplification, ignorance and imprecision modeling
 \visible<2->{
 \begin{block}{}
 \textbf{Issue:} incorrect human assessment of the machine state \\ 
-\hspace{2cm} $\rightarrow$ accident
+\hspace{2cm} $\rightarrow$ \textbf{accident risk}
 \end{block}
 }
 \visible<3->{
 \begin{alertblock}{$\pi$-POMDP without actions: $\pi$-Hidden Markov Process}
 \begin{itemize}
 \item \textbf{system space} $\mathcal{S}$: set of human assessments $\rightarrow$ \textbf{hidden} 
-\item \textbf{observation space} $\mathcal{O}$: feedbacks/human selections
+\item \textbf{observation space} $\mathcal{O}$: feedbacks/human manipulations
 \end{itemize}
 \end{alertblock}
 }
@@ -639,23 +648,23 @@ $\rightarrow$ simplification, ignorance and imprecision modeling
 \begin{frame}
 \frametitle{Example: Human-Machine Interaction}
 \framesubtitle{\footnotesize Human error model from expert knowledge}
-
+\vspace{0.2cm}
 \begin{alertblock}{Machine with states $A$, $B$, $C$, $\ldots$}
 state $s_A \in \mathcal{S}$: ``human thinks machine state is $A$'' 
 \end{alertblock}
 \visible<2->{
-	\begin{exampleblock}{ Machine state $A \rightarrow B$}
+	\begin{exampleblock}{ Machine state transition $A \rightarrow B$}
 	\begin{itemize}
-		\item \textbf{machine feedback} observation $o_f \in \mathcal{O}$: 
+		\item observation: \textbf{machine feedback} $o_f' \in \mathcal{O}$: 
 	\end{itemize}
 	human usually aware of feedbacks $\rightarrow$ $\pi \paren{s_B',o_f' \sachant s_A} = 1$\\
-	\hspace{1.5cm} but may lost a feedback $\rightarrow$ $\pi \paren{s_A',o_f' \sachant s_A} = \frac{2}{3}$ 
+	\hspace{1.5cm} but may lose a feedback $\rightarrow$ $\pi \paren{s_A',o_f' \sachant s_A} = \frac{2}{3}$ 
 	\visible<3->{
 		\begin{itemize}
-			\item \textbf{human selection} observation $o_s \in \mathcal{O}$:
+			\item  observation: \textbf{human manipulation} $o_m' \in \mathcal{O}$:
 		\end{itemize}
-		selection $o_s'$ normal under $s_A$ $\rightarrow$ $\pi \paren{s_B',o_s' \sachant s_A} = 1$\\
-		\hspace{3.6cm} anormal selection \hspace{1.1cm} $ = \frac{1}{3}$ 
+		manipulation $o_m'$ normal under $s_A$ $\rightarrow$ $\pi \paren{s_B',o_m' \sachant s_A} = 1$\\
+		\hspace{3.6cm} abnormal manipulation \hspace{1.1cm} $ = \frac{1}{3}$ 
 	}
 	\visible<4->{
 		\begin{itemize}
@@ -681,7 +690,7 @@ state $s_A \in \mathcal{S}$: ``human thinks machine state is $A$''
 \tikzstyle{overtex}=[circle,fill=MediumAquamarine,minimum size=20pt,inner sep=0pt]
 
 
-\node (Oc) at (0.8,3.7) {feedbacks/selections};
+\node (Oc) at (0.8,3.7) {feedbacks/manipulations};
 \node (V) at (1.1,3.1) {(observable) \huge $\{$};
 %\node (V) at (1.5,1) {effects \huge $\{$};
 \node (H) at (1.2,0) {human \huge $\{$};
@@ -785,9 +794,8 @@ state $s_A \in \mathcal{S}$: ``human thinks machine state is $A$''
 \begin{itemize}
 \item \textbf{estimation} of the human assessment\\
 $\Leftrightarrow$ \textbf{possibilistic belief state}% over $s \in \mathcal{S}$ 
-\item \textbf{detection} of human assessment errors
-\item \textbf{diagnosis} using \textit{leximin} operator
-\item results on flight simulator missions with pilots
+\item \textbf{detection} of human assessment errors + \textbf{diagnosis}
+\item validated with pilots on a flight simulator missions
 \end{itemize}
 }
 \end{frame}
@@ -795,7 +803,7 @@ $\Leftrightarrow$ \textbf{possibilistic belief state}% over $s \in \mathcal{S}$
 
 
 %\nico{	
-\section{Updates of the qualitative possibilistic model}%Mixed-Observability and unbounded mission durations}
+\section[advances in $\pi$-POMDP]{Advances in the qualitative possibilistic MDPs}%Mixed-Observability and unbounded mission durations}
 \begin{frame}
 \frametitle{Mixed-Observability (MOMDP) -- {\footnotesize \textit{Ong et al. (RSS-05)}}}
 \framesubtitle{\footnotesize $\pi$-Mixed-Observable Markov Decision Process ($\pi$-MOMDP)}
@@ -930,18 +938,18 @@ $\rightarrow$ $\pi$-MOMDP: computations on $\mathcal{X} = \mathcal{S}_v \times \
 
 \begin{frame}
 \frametitle{Use of the $\pi$-MOMDP in practice}
-\framesubtitle{\footnotesize undefined horizon}
+\framesubtitle{\footnotesize undeterminate horizon}
 \vspace{0.1cm}
-\textbf{contribution (UAI-13): Undefined Horizon}
+\textbf{contribution (UAI-13): undeterminate Horizon}
 \visible<2->{
 \vspace{-0.2cm}
 \begin{block}{Dynamic Programming scheme: $\#$ iterations $<\# \mathcal{X}$}
 \begin{itemize}
-\item assumption: $\exists$ artificial ``stay'' action\\ 
+\item assumption: $\exists$ artificial \textbf{``stay'' action}\\ 
 as in classical planning/ $\gamma$ counterpart 
-\item value function $=$ criterion: non decreasing with horizon
+\item criterion \textbf{non decreasing} with iterations
 \visible<3->{
-\item action update for states increasing the value function
+\item action update for states increasing the criterion
 \item proof of optimality
 }
 \end{itemize}
@@ -963,7 +971,7 @@ in reality, misperception probability in the error zone: $P_{bad} > \frac{1}{2}$
 
 \end{frame}
 
-\section{Symbolic solver and factorization}
+\section[solver $\&$ factorization]{Symbolic solver and factorization}
 \begin{frame}
 \frametitle{Factored $\pi$-MOMDP and computations with ADDs}
 \framesubtitle{\footnotesize qualitative possibilistic models to reduce complexity}
@@ -986,7 +994,7 @@ Boolean variables ($X_1,\ldots,X_n$) \\
 	\textbf{Algebraic Decision Diagrams (ADD)} \\
 	\vspace{0.3cm}
 	probabilistic case:\\ 
-	SPUDD, { \footnotesize \textit{Hoey et al., UAI-99}}
+	SPUDD { \footnotesize (\textit{Hoey et al., 1999})}
 	\end{itemize}
 	\end{minipage}
 	\hspace{0.2cm}
@@ -1013,8 +1021,8 @@ $\Rightarrow$ number of leaves bounded, \textbf{ ADDs \textbf{smaller}}.
 \visible<2->{
 \begin{alertblock}{\textbf{PPUDD: Possibilistic Planning Using Decision Diagrams}}
 \begin{itemize}
-\item factorization $\Rightarrow$ DP steps divided into $n$ stages\\ 
-$\rightarrow$ used ADDs smaller $\Rightarrow$ \textbf{faster computations}
+\item factorization $\Rightarrow$ each DP steps divided into $n$ stages\\ 
+$\rightarrow$ smaller ADDs $\Rightarrow$ \textbf{faster computations}
 }
 \visible<3->{
 \item computations on trees: \textit{CU Decision Diagram Package}.
@@ -1024,7 +1032,7 @@ $\rightarrow$ used ADDs smaller $\Rightarrow$ \textbf{faster computations}
 \end{frame}
 
 \begin{frame}
-\frametitle{Simplify computations with $\pi$-MOMDPs}
+\frametitle{Simplifying computations with $\pi$-MOMDPs}
 \framesubtitle{\footnotesize Natural factorization: belief independence}
 \vspace{0.02cm}
 \textbf{contribution (AAAI-14):} 
@@ -1085,9 +1093,9 @@ d-Separation $\Rightarrow$ { \color{blue} $(s_v,\beta) = (s_{v,1}, \ldots, s_{v,
 \vspace{-0.2cm}
 \centering
 \begin{exampleblock}{}
-PPUDD vs SPUDD { \footnotesize \textit{Hoey et al.}} \\ 
+PPUDD vs SPUDD { \footnotesize (\textit{Hoey et al.})} \\ 
 { \color{red!70} Navigation benchmark}: reach a goal -- spots with accident risk \\ 
-M1 (resp. M2) optimistic (resp. cautious) criterion 	
+M1 (resp. M2) optimistic (resp. pessimistic) criterion 	
 \end{exampleblock}
 \visible<2->{
 \textbf{ Performances, function of the instance size}  \\
@@ -1134,8 +1142,8 @@ M1 (resp. M2) optimistic (resp. cautious) criterion
 \framesubtitle{\footnotesize Experiments -- imperfect sensing: RockSample problem}
 \vspace{-0.1cm}
 	\begin{exampleblock}{}
-	PPUDD vs APPL {\footnotesize \textit{Kurniawati et al.}, solver MOMDP} \\
- 	\hspace{1cm} symbolic HSVI {\footnotesize \textit{Sim et al.}, solver POMDP} \\
+	PPUDD vs APPL {\footnotesize (\textit{Kurniawati et al.}, solver MOMDP)} \\
+ 	\hspace{1cm} symbolic HSVI {\footnotesize ( \textit{Sim et al.}, solver POMDP)} \\
 	{ \color{red!70} RockSample benchmark}: recognize and sample ``good'' rocks
 	\end{exampleblock}
 	\visible<2->{
@@ -1298,11 +1306,11 @@ PPUDD $+$ BDD mask over reachable states. \\
 } %%%% FIN INTERACTIVE PROOF
 
 
-\section{An hybrid perspective} 
+\section[hybrid model]{A hybrid model} 
 \begin{frame}
 \frametitle{Qualitative possibilistic approach: benefits/drawbacks} 
 \framesubtitle{\footnotesize towards a hybrid POMDP}
-\begin{block}{Qualitative Possibilistic models:}
+\begin{block}{}
 \begin{itemize}
 \item \textbf{granulated} belief space (discrete)% representation\\% (discretization)\\ 
 %\hspace{2.03cm} 
@@ -1314,12 +1322,13 @@ PPUDD $+$ BDD mask over reachable states. \\
 \visible<2->{
 \begin{alertblock}{}
 \begin{itemize} 
-\item ADD methods $\prec$ state space search methods: \\
-winners of IPPC 2014, $2 \times$ better than PPUDD \\
+\item ADD methods $\prec$ state space search methods \\
+$\rightarrow$ winners of IPPC 2014: $2 \times$ better than PPUDD \\
 \item choice of the qualitative criterion (optimistic/pessimistic)
-\item non additive utility degrees\\ 
-same scale as possibility degrees (commensurability)
-\item frequentist information lost
+\item preference $\rightarrow$ non additive degrees\\ 
+$\rightarrow$ same scale as possibility degrees (commensurability)
+\item coarse approximation of probabilistic model\\ 
+$\rightarrow$ no frequentist information
 \end{itemize}
 \end{alertblock}
 }
@@ -1338,7 +1347,7 @@ same scale as possibility degrees (commensurability)
 \end{block}
 
 \visible<2->{
-\begin{alertblock}{}
+\begin{alertblock}{Usefullness}
 $\rightarrow$ \textbf{heuristic} for solving POMDPs:\\ 
 \hspace{1cm} results in a standard (finite state space) MDP \\
 $\rightarrow$ problem with \textbf{qualitative $\&$ quantitative} uncertainty\\
@@ -1370,13 +1379,13 @@ $\rightarrow$ problem with \textbf{qualitative $\&$ quantitative} uncertainty\\
 
 \begin{itemize}
 \item possibility distribution $\beta \rightarrow$ probability distribution $\overline{\beta}$\\ 
-using poss-prob tranformations {\footnotesize (Dubois et al., FSS-92)}% $\textbf{p} \paren{ o' \sachant s,a } = \sum_{s' \in \mathcal{S}} O(s',a,o') \cdot T(s,a,s');$
+using poss-prob tranformations {\footnotesize \textit{(Dubois et al., FSS-92)}}% $\textbf{p} \paren{ o' \sachant s,a } = \sum_{s' \in \mathcal{S}} O(s',a,o') \cdot T(s,a,s');$
 %\item observation probability $\textbf{p}\paren{o'\sachant \beta,a}$ computed from $\overline{b^{\pi}}$\\
 %as usual since $\overline{b^{\pi}} =$ probabilistic belief 
 %\item { \color{red} $ \displaystyle \textbf{p}\paren{o'\sachant b^{\pi},a} := \sum_{s\in\mathcal{S}}\textbf{p}\paren{o' \sachant s,a}\cdot\overline{b^{\pi}}(s)$.}
 \end{itemize}
-\begin{block}{}
-\[ \Rightarrow \textbf{p} \Big( \beta' \Big\vert \beta,a \Big) = \sum_{ \substack{ o' \mbox{ \footnotesize t.q. } \\ update(\beta,a,o')=\beta'} }\textbf{p}\paren{o'\sachant \beta,a}\]
+\begin{block}{Transition function on belief states}
+\[ \Rightarrow \textbf{p} \Big( \beta' \Big\vert \overline{\beta},a \Big) = \sum_{ \substack{ o' \mbox{ \footnotesize t.q. } \\ update(\beta,a,o')=\beta'} }\textbf{p}\paren{o'\sachant \overline{\beta},a}\]
 \end{block}
 %\vspace{0.5cm}
 %notation: if $a \in \mathcal{A}$ selected, $o' \in \mathcal{O}$ received,\\ 
@@ -1395,22 +1404,22 @@ using poss-prob tranformations {\footnotesize (Dubois et al., FSS-92)}% $\textbf
 
 \begin{frame}
 \frametitle{Resulting MDP}
-\framesubtitle{\footnotesize translation summary \textbf{contribution (SUM-15):}}
+\framesubtitle{\footnotesize translation from hybrid POMDP to MDP -- \textbf{contribution (SUM-15):}}
 \vspace{0.3cm}
-input: a POMDP $\langle \mathcal{S},\mathcal{A},\mathcal{O},T,O,r, \gamma \rangle$; \\
+input: a POMDP $\langle \mathcal{S},\mathcal{A},\mathcal{O},T,O,r, \gamma \rangle$ \\
 output: the MDP $\langle \tilde{\mathcal{S}},\mathcal{A},\tilde{T},\tilde{r}, \gamma \rangle$:
 \vspace{0.3cm}
 \visible<2->{
 \begin{itemize}
 \item \textbf{state space} ${ \color{red} \tilde{\mathcal{S}} = \Pi_{\mathcal{L}}^{\mathcal{S}} }$,\\ 
-the set of the possibility distributions over $\mathcal{S}$;
+the set of the possibility distributions over $\mathcal{S}$
 \end{itemize}
 }
 \vspace{0.3cm}
 \visible<3->{
 \begin{itemize}
 \item $\forall \beta, \beta'$ possibilistic belief states $\in \Pi^{\mathcal{S}}_{\mathcal{L}}$, $\forall a \in \mathcal{A}$,\\
-\textbf{transitions} ${ \color{red} \tilde{T} \Big( \beta, a, \beta' \Big) = \textbf{p} \Big( \beta' \Big\vert \beta,a \Big) }$;
+\textbf{transitions} ${ \color{red} \tilde{T} \Big( \beta, a, \beta' \Big) = \textbf{p} \Big( \beta' \Big\vert \beta,a \Big) }$
 \end{itemize}
 }
 \vspace{0.3cm}
@@ -1444,11 +1453,11 @@ the set of the possibility distributions over $\mathcal{S}$;
 
 % variables
 \tikzstyle{vertex}=[circle,fill=black!30,minimum size=20pt,inner sep=0pt]
-\node (V) at (1,10) { \underline{variable:} \color{violet} visible $s_v' \in \mathbb{S}_v$ };
+\node (V) at (1,10) { \underline{variable:} \color{violet} \textbf{visible} $s_v' \in \mathbb{S}_v$ };
 \node[vertex] (vv) at (6.5,9.7) {$s_v'$};
-\node (IHV) at (1.3,8) { {\color{gggreen} inferred hidden $ s_h' \in \mathbb{S}_h$} };
+\node (IHV) at (1.2,8) { {\color{gggreen} \textbf{inferred hidden} $ s_h' \in \mathbb{S}_h$} };
 \node[vertex] (ihv) at (6.5, 7.15) {$s_h'$};
-\node (FHV) at (2,4.75) { {\color{orangee} fully hidden $s_f' \in \mathbb{S}_f$}};
+\node (FHV) at (1.5,4.75) { {\color{orangee} \textbf{fully hidden} $s_f' \in \mathbb{S}_f$}};
 \node[vertex] (fhv) at (6.5,4) {$s_f'$};
 
 \visible<2->{
@@ -1528,7 +1537,7 @@ $\beta_{t+1}(s_1',\ldots,s_n') = \pi \paren{ s_1',\ldots,s_n' \sachant a_0,o_1, 
 \visible<2->{
 \vspace{1cm}
 \begin{itemize}
-\item $\min$ of marginals $=$ \textbf{less informative} belief state
+\item $\min$ of marginals $=$ a \textbf{less informative} belief state
 \item computed using \textbf{marginal belief states}\\ 
 $\rightarrow$ { \color{red} factorization \& smaller state space}
 \end{itemize}
@@ -1541,53 +1550,60 @@ $\rightarrow$ { \color{red} factorization \& smaller state space}
 
 
 
-\section{Conclusion/Perspectives}
+\section[conclusion]{Conclusion/Perspectives}
 
 \begin{frame}
 \frametitle{Conclusion}
 \framesubtitle{\footnotesize contributions}
+\vspace{0.1cm}
 \begin{block}{}
 \begin{itemize}
-\item udates: $\rightarrow$ mixed-observability modeling\\
-\hspace{1.3cm} $\rightarrow$ undefined horizon 
-\item modeling: $\rightarrow$ human-machine interaction \\
-$\rightarrow$ robust recognition mission with possibilistic beliefs
-\item computations: factorization work $\&$ PPUDD algorithm (competitive solver, IPPC 2014) 
-\end{itemize}
-\end{block}
+\item \textbf{modeling efforts}: $\rightarrow$ human-machine interaction
 \visible<2->{
-\begin{exampleblock}{}
-new refined criteria $\rightarrow$ finer $\pi$-POMDP 
-\end{exampleblock}
+\item \textbf{advancements}: $\rightarrow$ mixed-observability modeling\\
+\hspace{1.3cm} $\rightarrow$ undeterminate horizon + optimality proof
 }
 \visible<3->{
-\begin{alertblock}{}
-quantitative information may be available: hybrid work
-\end{alertblock}
+\item \textbf{simplifying computations}: factorization work\\ 
+\hspace{5cm} $\&$ PPUDD algorithm 
 }
+\visible<4->{
+\item \textbf{experimentations}: real problems \\
+$\rightarrow$ robust recognition mission with possibilistic beliefs\\
+$\rightarrow$ validation of the computation time reduction\\
+$\rightarrow$ IPPC 2014 
+}
+\visible<5->{
+\item \textbf{hybrid POMDP} $\xrightarrow{ \mbox{\footnotesize translation} }$ MDP\\
+$\rightarrow$ probabilities on possibilistic belief states\\ 
+\hspace{0.4cm} pessimistic rewards (Choquet integral)\\
+$\rightarrow$ factored POMDP $\xrightarrow{ \mbox{\footnotesize translation} }$ factored MPD
+}
+\end{itemize}
+\end{block}
+
+
 \end{frame}
+
 
 \begin{frame}
 \frametitle{Conclusion}
 \framesubtitle{\footnotesize perspectives}
-\
-\begin{block}{POMDP $\xrightarrow{ \mbox{\footnotesize \textbf{translation}} }$ MDP with finite state space}
+
+\begin{exampleblock}{}
 \begin{itemize}
-\item transition probabilities on the \textbf{possibilistic belief states};
-\visible<2->{
-\item \textbf{pessimistic} evaluation of the \textbf{rewards} \\
-(Choquet integral);
-}
-\visible<3->{ 
-\item factored POMDP $\xrightarrow{ \mbox{\footnotesize \textbf{translation}} }$ \textbf{factored} MPD.
-}
+\item refined criteria {\footnotesize \textit{(Weng 2005, Dubois et al. 2005)}}\\ 
+\hspace{2cm} $\Rightarrow$ finer $\pi$-POMDP \\
+\item link with statistical learning in practice
 \end{itemize}
-\end{block}
-\visible<4->{
-\textbf{perspectives:} 
+\end{exampleblock}
+
+\visible<2->{
+\begin{alertblock}{}
+quantitative information may be available: hybrid work
+\end{alertblock}
 \begin{itemize}
 \item IPPC problems (factored POMDPs);
-\visible<5->{
 \item tests of this approach: 
 \begin{enumerate}
 \item \textbf{simplification:} $\pi$ distributions definition?%\\
@@ -1595,19 +1611,28 @@ quantitative information may be available: hybrid work
 %most specific, \ldots);
 \item \textbf{imprecision:} robust in practice?
 \end{enumerate}
-}
 \end{itemize}
 }
 \end{frame}
 
 % questions
 \frame{
-  \vspace{2cm}
-  {\huge Thank you!}
+\frametitle{Conclusion}
+\vspace{0.5cm}
+{\Huge \textbf{Thank you!}}\\
+\vspace{0.3cm}
+produced work:
+\begin{itemize}
+\item \textit{Qualitative {P}ossibilistic {M}ixed-{O}bservable {MDP}s}, \textbf{UAI-2013}
+\item \textit{Structured Possibilistic Planning Using Decision Diagrams}, \textbf{AAAI-2014}
+\item \textit{Planning in Partially Observable Domains with Fuzzy Epistemic States and Probabilistic Dynamics}, \textbf{SUM-2015}
+\item \textit{Processus D\'ecisionnels de Markov Possibilistes \`a Observabilit\'e Mixte}, Revue d'Intelligence Artificielle\\ (\textbf{RIA journal})
+\item \textit{A Possibilistic Estimation of Human Attentional Errors}, submitted to \textbf{IEEE-TFS journal}
+\end{itemize}
 
 }
 
-
+\nico{
 \begin{frame}
 \frametitle{Uncertainty theories}
 \framesubtitle{\footnotesize Most known uncertainty theories and their relations}
@@ -2929,5 +2954,5 @@ $\tilde{\mathbb{S}} =$ \\
 \hspace{2cm} $\times$ \\
 $ \begin{array}{c} \mbox{\textbf{visible}} \\ \mbox{\textbf{variables}} \end{array} $: $v = f \times { \color{violet} s^1_v \times \ldots \times s^{m_v}_v } \times o_1 \times \ldots \times o_{k} $.
 \end{frame}
-
+}
 \end{document}
