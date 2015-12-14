@@ -66,22 +66,6 @@ under Uncertainty}
 }
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\nico{
 
 % La premiere planche
 % Ci-dessous c'est a vous de remplir
@@ -158,7 +142,7 @@ exploration robots
 
 
 
-\begin{tikzpicture}[scale=0.8,transform shape]
+\begin{tikzpicture}[scale=0.77,transform shape]
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %vis1: state
 %%%%%%%%%%%%%%
@@ -287,15 +271,17 @@ exploration robots
 \definecolor{bblue}{rgb}{0,0.4,0.75}
 	\frametitle{\insertsection} 
 	\framesubtitle{\footnotesize belief state, strategy, criterion}
-\center \textbf{POMDP:} $\langle \mathcal{S}, \mathcal{A}, \mathcal{O}, T, O, r, \gamma \rangle$ \textit{(Smallwood et al. 1973)}	
+\center \textbf{POMDP:} $\langle \mathcal{S}, \mathcal{A}, \mathcal{O}, T, O, r, \gamma \rangle$ {\footnotesize (\textit{Smallwood et al. 1973})}	
 \begin{itemize}
 \item \textbf{transition} function $T(s,a,s') = \textbf{p} \paren{ s' \sachant s, a }$
 \item \textbf{observation} function $O(s',a,o') = \textbf{p} \paren{ o' \sachant s', a }$
+\item \textbf{reward} function $r(s,a) \in \mathbb{R}$
 \end{itemize}
-\vspace{1cm}
+\vspace{0.5cm}
 \visible<2->{
 \[ { \textbf{belief state: }  \color{bblue} \displaystyle b_{t}(s) = \mathbb{P} \paren{ s_t = s \sachant a_0, o_1, \ldots, a_{t-1}, o_t  } } \]
 }
+\vspace{-0.1cm}
 \visible<3->{
 \begin{exampleblock}{\textbf{probabilistic} belief update -- $a$ selected, $o'$ received}
 \begin{center}
@@ -325,7 +311,7 @@ maximizing $ \displaystyle \mathbb{E}_{s_0 \sim b_0} \croch{ \sum_{t=0}^{+ \inft
 \framesubtitle{\footnotesize POMDPs in practice}
 \begin{itemize}
 \item optimal strategy computation \textbf{PSPACE-hard}\\
-{ \footnotesize \hspace{4cm}(\textit{Papadimitriou et al. 1987})}
+{ \footnotesize \hspace{4cm}(\textit{Papadimitriou et al., 1987})}
 \end{itemize}
 \vspace{0.6cm}
 \begin{itemize}
@@ -524,17 +510,17 @@ $\Pi^{\mathcal{S}}_{\mathcal{L}} = \Big\{$ possibility distributions $\Big\}$: $
 $\rightarrow $ \textit{i.e.} \textbf{finite belief space}
 \vspace{-0.1cm}
 \visible<2->{
-\[ { \color{bblue}  b^{\pi}_{t} (s) = \pi \paren{ s_t = s \sachant a_0,o_1, \ldots, a_{t-1}, o_t } } \]
+\[ { \color{bblue}  \beta_{t} (s) = \pi \paren{ s_t = s \sachant a_0,o_1, \ldots, a_{t-1}, o_t } } \]
 }
 \vspace{-0.6cm}
 \visible<3->{
 \begin{exampleblock}{\textbf{possibilistic} belief update -- $a$ selected, $o'$ received}
 \vspace{0.1cm}
-joint distribution on $\mathcal{S} \times \mathcal{O}$ from $b_t^{\pi}$: $\pi \paren{ o', s' \sachant b_t^{\pi}, a}$ \\
+joint distribution on $\mathcal{S} \times \mathcal{O}$ from $\beta_t$: $\pi \paren{ o', s' \sachant \beta_t, a}$ \\
 \vspace{0.3cm}
 \visible<4->{
-$\rightarrow$ \textbf{next belief state:} $b^{\pi}_{t+1}(s') = \pi \paren{ o', s' \sachant b_t^{\pi}, a}$ \\
-unless $s'$ maximizes $\pi \paren{ o', s' \sachant b_t^{\pi}, a}$, then $b^{\pi}_{t+1}(s') = 1$
+$\rightarrow$ \textbf{next belief state:} $\beta_{t+1}(s') = \pi \paren{ o', s' \sachant \beta_t, a}$ \\
+unless $s'$ maximizes $\pi \paren{ o', s' \sachant \beta_t, a}$, then $\beta_{t+1}(s') = 1$
 \vspace{0.3cm}
 % \left \{ \begin{array}{ccc} 1 & \hspace{-1cm} \mbox{ if } \pi \paren{ o',s' \sachant b_t^{\pi}, a} = \pi \paren{ o' \sachant b_t^{\pi}, a} \\
 %\pi \paren{ o', s' \sachant b_t^{\pi}, a} & \mbox{ otherwise}  
@@ -572,10 +558,12 @@ $\rightarrow$ simplification, imprecision/prior ignorance modeling
 \vspace{1cm}
 \visible<2->{
 \begin{enumerate}
-\item example of a qualitative possibilistic model
-\item advancements and first use of the $\pi$-POMDP model 
-\item simplify computation: ADDs and factorization 
-\item probabilistic-possibilistic (hybrid) approach
+\item introductory example: qualitative \textbf{possibilistic modeling}
+\item \textbf{advancements} in $\pi$-POMDP:\\ 
+\hspace{3cm} \textit{mixed-observability $\&$ indefinite horizon} 
+\item \textbf{simplifying computations}:\\ 
+\hspace{3cm} \textit{ADD-based solver $\&$ factorization} 
+\item \textbf{probabilistic-possibilistic} (\textit{hybrid}) approach
 \end{enumerate}
 }
 \end{frame}
@@ -583,44 +571,7 @@ $\rightarrow$ simplification, imprecision/prior ignorance modeling
 
 
 
-
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-
-
-\section[qualitative modeling]{Introductory example (HMI)}
+\section[$\pi$-modeling]{Introductory example (HMI)}
 
 \begin{frame}
 \frametitle{Example: Human-Machine Interaction (HMI)}
@@ -843,7 +794,7 @@ state $s_A \in \mathcal{S}$: ``human thinks machine state is $A$''
 }
 \end{frame}
 
-\section[advances in $\pi$-POMDP]{Advances in the qualitative possibilistic MDPs}%Mixed-Observability and unbounded mission durations}
+\section[advancements in $\pi$-POMDP]{Advances in the qualitative possibilistic MDPs}%Mixed-Observability and unbounded mission durations}
 \begin{frame}
 \frametitle{Applicability of the $\pi$-POMDPs}
 \framesubtitle{\footnotesize three advancements}
@@ -890,17 +841,19 @@ when probabilities are imprecise
 \vspace{0.1cm}
 \textbf{indefinite horizon criterion:} \\ 
 \vspace{0.2cm}
-maximizing
-\[ \min_{t=0}^{\# \delta} \min \bigg\{ \pi \Big( s' \Big\vert s, \delta_t(s) \Big), \Psi(s) \bigg\} \]
-with respect to the strategy $\delta: (t,s) \mapsto a_t \in \mathcal{A}$.
-\vspace{0.5cm}
+$\forall s \in \mathcal{S}$, maximizing $\mathbb{S}_{\Pi} \Big[ \Psi(S_{\#\delta}) \Big\vert S_0 = s \Big]$
 \visible<2->{
+\[  = \max_{(s_1,\ldots,s_{\# \delta})} \min \bigg\{ \min_{t=0}^{\# \delta-1} \pi \Big( s_{t+1} \Big\vert s_t, \delta_t(s_t) \Big), \Psi(s_{\# \delta}) \bigg\} \]
+}
+with respect to the strategy $\delta: (t,s) \mapsto a_t \in \mathcal{A}$.
+\vspace{0.2cm}
+\visible<3->{
 \begin{block}{Dynamic Programming scheme: $\#$ iterations $<\# \mathcal{S}$}
 \begin{itemize}
 \item assumption: $\exists$ artificial \textbf{``stay'' action}\\ 
 as in classical planning/ $\gamma$ counterpart 
 \item criterion \textbf{non decreasing} with iterations
-\visible<3->{
+\visible<4->{
 \item action update for states increasing the criterion
 \item \textbf{proof of optimality} of the resulting \textbf{stationary} strategy
 }
@@ -1082,6 +1035,7 @@ in reality, misperception probability in the error zone: $P_{bad} > \frac{1}{2}$
 \frametitle{Factored $\pi$-MOMDP and computations with ADDs}
 \framesubtitle{\footnotesize qualitative possibilistic models to reduce complexity}
 	\centering
+	\vspace{0.1cm}
 	\begin{exampleblock}{}
 	\textbf{contribution (AAAI-14):} factored $\pi$-MOMDP \\ 
 $\Leftrightarrow$ state space $\mathcal{X} = \mathcal{S}_v \times \Pi_{\mathcal{L}}^{\mathcal{S}_h} =$ 
@@ -1218,10 +1172,11 @@ d-Separation $\Rightarrow$ { \color{blue} $(s_v,\beta) = (s_{v,1}, \ldots, s_{v,
 % observations
 
 
+
+
 \begin{frame}
 \frametitle{Simplify computations with $\pi$-MOMDPs}
 \framesubtitle{\footnotesize Experiments -- perfect sensing: Navigation problem}
-\vspace{-0.2cm}
 \centering
 \begin{exampleblock}{}
 PPUDD vs SPUDD { \footnotesize (\textit{Hoey et al.}, 1999)} \\ 
@@ -1236,11 +1191,12 @@ M1 (resp. M2) optimistic (resp. pessimistic) criterion
 {\color{orange} reached goal frequency} \\
 \includegraphics[scale=0.4]{courbePerfMDP.png} 
 \end{minipage}
+\hspace{0.6cm}
 \begin{minipage}{0.45\linewidth}
-\hspace{0.5cm}{\color{orange} $\#$ steps to reach the goal} \\
+\hspace{0.4cm}{\color{orange} $\#$ steps to reach the goal} \\
 \includegraphics[scale=0.4]{courbePerfMDP2.png} 
 \end{minipage}\\
-\vspace{0.4cm} 
+\vspace{0.3cm} 
 \definecolor{gggreen}{rgb}{0,0.7,0.7}
 \hspace{1.2cm} {\color{gggreen} the higher the better} \hspace{1.4cm} {\color{gggreen} the lower the better}
 }
@@ -1250,15 +1206,26 @@ M1 (resp. M2) optimistic (resp. pessimistic) criterion
 \begin{frame}
 \frametitle{Simplify computations with $\pi$-MOMDPs}
 \framesubtitle{\footnotesize Experiments -- perfect sensing: Navigation problem}
+\vspace{0.3cm}
+\definecolor{gggreen}{rgb}{0,0.7,0.7}
+
 \begin{minipage}{0.45\linewidth}
 \centering
 {\color{orange} computation time} \\
-\includegraphics[scale=0.4]{courbeTime.png} 
+\includegraphics[scale=0.4]{courbeTime.png}\\
+\begin{tikzpicture} 
+\node at (-1,0) {};
+\node at (1,0) { \color{gggreen} the lower the better};
+\end{tikzpicture}
 \end{minipage}
-\hspace{0.13cm}
+\hspace{0.6cm}
 \begin{minipage}{0.45\linewidth}
-{\hspace{0.5cm} \color{orange} max size of ADDs} \\
-\includegraphics[scale=0.3]{courbeADD.png}  
+{\hspace{0.7cm} \color{orange} max size of ADDs} \\
+\includegraphics[scale=0.3]{courbeADD.png} \\
+\begin{tikzpicture} 
+\node at (-1,0) {};
+\node at (1.5,0) { \color{gggreen} the lower the better};
+\end{tikzpicture}
 \end{minipage}
 \begin{alertblock}{}
 \centering
@@ -1274,35 +1241,44 @@ M1 (resp. M2) optimistic (resp. pessimistic) criterion
 \begin{frame}
 \frametitle{Simplify computations with $\pi$-MOMDPs}
 \framesubtitle{\footnotesize Experiments -- imperfect sensing: RockSample problem}
-\vspace{-0.1cm}
+
+\definecolor{gggreen}{rgb}{0,0.7,0.7}
+\vspace{-0.2cm} 
 	\begin{exampleblock}{}
 	PPUDD vs APPL {\footnotesize (\textit{Kurniawati et al.}, 2008, solver MOMDP)} \\
  	\hspace{1cm} symbolic HSVI {\footnotesize ( \textit{Sim et al.}, 2008, solver POMDP)} \\
 	{ \color{red!70} RockSample benchmark}: recognize and sample ``good'' rocks
 	\end{exampleblock}
 	\visible<2->{
-\vspace{-0.05cm}
 	\begin{minipage}{0.55\linewidth}
 	\centering	
+\vspace{0.1cm}  
 	{\color{orange} computation time:}\\ 
-	\vspace{-0.05cm} {\footnotesize probabilistic solvers, prec. $1$} \\ 
-	\vspace{-0.15cm} {\footnotesize PPUDD, exact resolution} \\
-	\vspace{-0.05cm}
-	\includegraphics[scale=0.4]{RockSampleCompTime.png}
+\vspace{-0.03cm}
+%	 {\footnotesize probabilistic solvers, prec. $1$} \\ 
+%	\vspace{-0.15cm} {\footnotesize PPUDD, exact resolution} \\
+%	\vspace{-0.05cm}
+	\includegraphics[scale=0.4]{RockSampleCompTime.png}\\
+{ \color{gggreen} the lower the better}
 	\end{minipage}
 	\hfill
 	\begin{minipage}{0.43\linewidth}
 	\centering
-	{\color{orange} average of rewards} \\  
-	{\footnotesize APPL stopped when \\ \vspace{-0.15cm} PPUDD end }\\
-	\vspace{-0.03cm}
-	\includegraphics[scale=0.4]{courbePerfTime.png} 
+\vspace{0.1cm}  
+	{\color{orange} average of rewards} \\
+\vspace{-0.03cm}  
+%	{\footnotesize APPL stopped when \\ \vspace{-0.15cm} PPUDD end }\\
+%	\vspace{-0.03cm}
+	\includegraphics[scale=0.4]{courbePerfTime.png} \\
+{ \color{gggreen} the higher the better}
 	\end{minipage}
 
 \vspace{-0.1cm}
 \begin{alertblock}{}
 \begin{itemize}
-\item \textbf{approximate model} $+$ \textbf{exact resolution solver} \\
+\item approximate model $+$ exact resolution solver can be \\
+%can be 
+\textbf{better than} exact model $+$ approximate resolution solver
 $\rightarrow$ improvement of computation time and performances
 \end{itemize}
 \end{alertblock}
@@ -1311,39 +1287,15 @@ $\rightarrow$ improvement of computation time and performances
 
 
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\nico{
+\newcommand{\grillethird}{
+ \begin{tikzpicture}[overlay,remember picture]
+   \begin{scope}[shift={(current page.south west)}]
+	\tikzstyle{vertexBIGRED}=[fill=red!30,draw=red, minimum width=320pt, minimum height=30pt,line width=1pt,inner sep=5pt,rounded corners]
+	\node[vertexBIGRED] at (6.5,7.4) {};
+	\node at (6.5,7.4) {PPUDD outperforms its probabilistic counterpart};
+   \end{scope}
+ \end{tikzpicture}
+ }
 
 
 
@@ -1361,8 +1313,12 @@ PPUDD $+$ BDD mask over reachable states. \\
 \includegraphics[scale=0.3]{IPPC2014_results/skill_teaching.pdf} 
 \includegraphics[scale=0.3]{IPPC2014_results/tamarisk.pdf}
 \includegraphics[scale=0.3]{IPPC2014_results/triangle_tireworld.pdf} 
-\caption{{\color{orange} average of rewards over simulations}}
 \end{figure}
+\definecolor{gggreen}{rgb}{0,0.7,0.7}
+{\color{orange} average of rewards over simulations} \hspace{0.2cm} -- \hspace{0.2cm} {\color{gggreen} the higher the better }
+\visible<2->{
+\grillethird
+}
 \end{frame}
 
 \nico{ %% INTERACTIVE PROOF
@@ -1608,8 +1564,8 @@ the set of the possibility distributions over $\mathcal{S}$
 \end{frame}
 
 \begin{frame}
-\frametitle{General variable classification {\footnotesize \textbf{contribution (SUM-15):}}}
-\framesubtitle{\footnotesize $3$ classes of state variables -- state space factorization}%: extension des MOMDPs (Araya-L\'opez, Ong)}
+\frametitle{Belief variable factorization}
+\framesubtitle{\footnotesize $3$ classes of state variables -- \textbf{contribution (SUM-15)}}%: extension des MOMDPs (Araya-L\'opez, Ong)}
 \vspace{0.1cm}
 \begin{tikzpicture}
 \definecolor{violet}{rgb}{0.7,0.1,0.5};
@@ -1691,16 +1647,15 @@ the set of the possibility distributions over $\mathcal{S}$
 
 
 \begin{frame}
-\frametitle{Possibilistic belief variables}
-\framesubtitle{\footnotesize global belief state}
+\frametitle{Belief variable factorization}
+\framesubtitle{\footnotesize global belief state from marginal belief variables}
 \definecolor{violet}{rgb}{0.7,0.1,0.5}
 \definecolor{orangee}{rgb}{1,0.7,0.1}
 \definecolor{gggreen}{rgb}{0,0.7,0.7}
 \definecolor{bblue}{rgb}{0,0.4,0.75}
 %$\mathbb{O}_h = \mathbb{O} \setminus \mathbb{S}_v$.
-\begin{block}{bound over the global belief state}
-$\beta_{t+1}(s_1',\ldots,s_n') = \pi \paren{ s_1',\ldots,s_n' \sachant a_0,o_1, \ldots, a_{t},o_{t+1} } $
-\end{block}
+\textbf{bound over the global belief state}
+$\beta_{t+1}(s_1',\ldots,s_n') = \pi \paren{ s_1',\ldots,s_n' \sachant a_0,o_1, \ldots, a_{t},o_{t+1} } $\\
 \hspace{0.5cm} $ \leqslant \displaystyle \min \hspace{-0.1cm} \Bigg\{ \hspace{-0.1cm} 
 {\color{violet} \min_{s_j' \in \mathbb{S}_v} \hspace{-0.1cm} \bigg[ \mathds{1}_{ \set{s_j'=o_j'}} \bigg]} \hspace{-0.1cm}, 
 {\color{orangee} \min_{s_j' \in \mathbb{S}_f} \hspace{-0.1cm} \bigg[ \beta_{t+1}(s_j') \bigg]} \hspace{-0.1cm} , \hspace{-0.1cm} 
@@ -1708,11 +1663,13 @@ $\beta_{t+1}(s_1',\ldots,s_n') = \pi \paren{ s_1',\ldots,s_n' \sachant a_0,o_1, 
 \hspace{-0.1cm} \Big) \bigg]} \hspace{-0.1cm}  \Bigg\} \hspace{-0.3cm}$\\
 \visible<2->{
 \vspace{1cm}
+\begin{block}{}
 \begin{itemize}
 \item $\min$ of marginals $=$ a \textbf{less informative} belief state
 \item computed using \textbf{marginal belief states}\\ 
 $\rightarrow$ { \color{red} factorization \& smaller state space}
 \end{itemize}
+\end{block}
 }
 %en possibiliste, pas besoin d'enlever les $\mathcal{P}(o_i')$ grâce au min!\\
 %The possibilistic normalization, $\forall w \in 2^{\mathcal{P}(o_i')}$,
@@ -1740,7 +1697,7 @@ $\rightarrow$ { \color{red} factorization \& smaller state space}
 \hspace{5cm} $\&$ PPUDD algorithm 
 }
 \visible<4->{
-\item \textbf{experimentations}: real problems \\
+\item \textbf{experimentations}: realistic problems \\
 $\rightarrow$ robust recognition mission with possibilistic beliefs\\
 $\rightarrow$ validation of the computation time reduction\\
 $\rightarrow$ IPPC 2014 
@@ -1749,13 +1706,14 @@ $\rightarrow$ IPPC 2014
 \item \textbf{hybrid POMDP} $\xrightarrow{ \mbox{\footnotesize translation} }$ MDP\\
 $\rightarrow$ probabilities on possibilistic belief states\\ 
 \hspace{0.4cm} pessimistic rewards (Choquet integral)\\
-$\rightarrow$ factored POMDP $\xrightarrow{ \mbox{\footnotesize translation} }$ factored MPD
+$\rightarrow$ factored POMDP $\xrightarrow{ \mbox{\footnotesize translation} }$ factored \textbf{finite} MPD
 }
 \end{itemize}
 \end{block}
 
 
 \end{frame}
+
 
 
 \begin{frame}
@@ -1766,7 +1724,7 @@ $\rightarrow$ factored POMDP $\xrightarrow{ \mbox{\footnotesize translation} }$ 
 \begin{itemize}
 \item refined criteria {\footnotesize \textit{(Weng 2005, Dubois et al. 2005)}}\\ 
 \hspace{2cm} $\Rightarrow$ finer $\pi$-POMDP \\
-\item link with statistical learning in practice
+\item combination with reinforcement learning
 \end{itemize}
 \end{exampleblock}
 
@@ -1788,23 +1746,6 @@ quantitative information may be available: hybrid work
 \end{frame}
 
 
-
-}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % questions
 \frame{
