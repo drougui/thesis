@@ -65,32 +65,23 @@ under Uncertainty}
 \end{frame}
 }
 
-% plan
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \nico{
-\section*{}
-\begin{frame}
-  \frametitle{Overview}
-  \tableofcontents[section=1,hidesubsections]
-\end{frame}
-
-\AtBeginSection[]
-{
-  \frame<handout:0>
-  {
-    \frametitle{Overview}
-    \tableofcontents[currentsection,hideallsubsections]
-  }
-}
-
-\AtBeginSubsection[]
-{
-  \frame<handout:0>
-  {
-    \frametitle{Overview}
-    \tableofcontents[sectionstyle=show/hide,subsectionstyle=show/shaded/hide]
-  }
-}
-}
 
 % La premiere planche
 % Ci-dessous c'est a vous de remplir
@@ -451,8 +442,8 @@ $\rightarrow$ uniform probability distribution {$\neq$ \color{red} ignorance!}\\
 	\begin{block}{}
 	$e_1 \neq e_2$, $2$ events $\subset \Omega$ 
 	\begin{itemize}
-	\item $ \pi(e_1) < \pi(e_2) $ $\Leftrightarrow$ \enquote{$e_1$ 
-is less plausible than $e_2$} \\
+	\item $ \pi(e_1) < \pi(e_2) $ $\Leftrightarrow$ \textit{``$e_1$ 
+is less plausible than $e_2$''} \\
 	\end{itemize}	
 	\end{block}
 }
@@ -569,6 +560,9 @@ ${ \color{red} \mbox{ denoted by } }  { b^{\pi}_{t+1}(s') \color{red} \propto^{\
 }
 \end{frame}
 
+
+
+
 \begin{frame}
 \frametitle{Overview}
 \begin{block}{}
@@ -586,55 +580,98 @@ $\rightarrow$ simplification, imprecision/prior ignorance modeling
 }
 \end{frame}
 
+
+
+
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
 \section[qualitative modeling]{Introductory example (HMI)}
 
 \begin{frame}
-\frametitle{Example: Human-Machine Interaction}
-\framesubtitle{\footnotesize joint work with Sergio Pizziol -- Context}
+\frametitle{Example: Human-Machine Interaction (HMI)}
+\framesubtitle{\footnotesize joint work with \textbf{Sergio Pizziol} -- Context}
 \vspace{0.1cm}
 \begin{figure}
 \centering
 \begin{tikzpicture}[scale=1,transform shape]
 %states
-\tikzstyle{vertex}=[fill=black!20,draw=black, minimum size=20pt,line width=1pt,inner sep=5pt, minimum height=37pt]
+\tikzstyle{vertex}=[fill=black!20,draw=black,  minimum width=85pt,line width=1pt,inner sep=5pt, minimum height=60pt]
 \tikzstyle{vertexBIG}=[fill=black!20,draw=black, minimum width=280pt, minimum height=40pt,line width=1pt,inner sep=5pt]
 
-\node[vertex] (M) at (-1,0) { \color{black!20} -------------};
-\node () at (-1.1,0.35) {\textbf{Machine}};
-\node[vertex] (H) at (5,0) {\textbf{Human}};
-\node[vertexBIG] (O) at (2,-2) {};
-\node () at (1.7,-1.6) {\textbf{Observer}};
-%\node[vertex] (H) at (0.4,-2.2) {Machine model};
-%\node[vertex] (H) at (3.5,-2.2) {Human error model};
+%% HMI
+\node[vertex] (M) at (-1.5,-0.25) {};
+\node () at (-1.1,0.5) {\textbf{Machine}};
+\node[vertex] (H) at (5.5,-0.25) {};
+\node () at (4.95,0.5) {\textbf{Human}};
+\node () at (5.8,-0.47) {\includegraphics[scale=0.025]{6767906077_3f50cecffb_o}};
+\node () at (-1,-0.6) {\includegraphics[scale=0.025]{fcu}};
+\node () at (-2.45,-0.4) {\includegraphics[scale=0.02]{manettegaz}};
+%% ARROWS
+\draw[->,>=latex,line width=4pt,color=red] (-0.15,0.3) -- (4.2,0.3);
+\draw[->,>=latex,line width=4pt,color=red] (4.2,-1) -- (-0.15,-1);
+%%LEGEND
+\node () at (1,0.6) {\footnotesize Feedbacks};
+\node () at (3,-0.4) {\footnotesize Interface};
+\node () at (2.8,-0.75) {\footnotesize manipulations};
 
-\node () at (-1,-0.5) {\includegraphics[scale=0.025]{fcu}};
-\node () at (-2.6,-0.1) {\includegraphics[scale=0.025]{manettegaz}};
+\visible<3->{
+%% OBSERVER
+\node[vertexBIG] (O) at (2,-2.5) {};
+\node () at (1.9,-2.1) {\textbf{Observer}};
+\node[ellipse,draw, thick,fill=blue!20] (el) at (-0.55,-2.7) {Machine model};
+\node[ellipse,draw, thick,fill=blue!20] (el) at (4.15,-2.7) {Human error model};
 
-\node[ellipse,draw, thick,fill=blue!20] (el) at (-0.55,-2.2) {Machine model};
-\node[ellipse,draw, thick,fill=blue!20] (el) at (4.15,-2.2) {Human error model};
+\draw[->,>=latex,line width=2pt,color=red, dashed] (3,-1) -- (3,-2);
+\draw[->,>=latex,line width=2pt,color=red, dashed] (0.8,0.3) -- (0.8,-2);
+}
 
-
-\draw[->,>=latex,line width=2pt,color=red] (-0.15,0.3) -- (4.2,0.3);
-\draw[->,>=latex,line width=2pt,color=red] (4.24,-0.3) -- (-0.05,-0.3);
-
-\draw[->,>=latex,line width=1pt,color=red, dashed] (3.9,-0.3) -- (3.9,-1.3);
-\draw[->,>=latex,line width=1pt,color=red, dashed] (1,0.3) -- (1,-1.3);
-
-\node () at (0.9,0.5) {\footnotesize Feedbacks};
-\node () at (3,-0.1) {\footnotesize Interface};
-\node () at (2.8,-0.5) {\footnotesize manipulations};
 \end{tikzpicture}
-\vspace{-0.3cm}
 %\caption{ 3 actors involved: red arrows = information flows.}
 \end{figure}
-\vspace{0.3cm}
+\vspace{-0.3cm}
 \visible<2->{
 \begin{block}{}
 \textbf{Issue:} incorrect human assessment of the machine state \\ 
 \hspace{2cm} $\rightarrow$ \textbf{accident risk}
 \end{block}
 }
-\visible<3->{
+\vspace{-0.15cm}
+\visible<4->{
 \begin{alertblock}{$\pi$-POMDP without actions: $\pi$-Hidden Markov Process}
 \begin{itemize}
 \item \textbf{system space} $\mathcal{S}$: set of human assessments $\rightarrow$ \textbf{hidden} 
@@ -645,8 +682,11 @@ $\rightarrow$ simplification, imprecision/prior ignorance modeling
 \end{frame}
 
 
+
+
+
 \begin{frame}
-\frametitle{Example: Human-Machine Interaction}
+\frametitle{Example: Human-Machine Interaction (HMI)}
 \framesubtitle{\footnotesize Human error model from expert knowledge}
 \vspace{0.2cm}
 \begin{alertblock}{Machine with states $A$, $B$, $C$, $\ldots$}
@@ -657,14 +697,14 @@ state $s_A \in \mathcal{S}$: ``human thinks machine state is $A$''
 	\begin{itemize}
 		\item observation: \textbf{machine feedback} $o_f' \in \mathcal{O}$: 
 	\end{itemize}
-	human usually aware of feedbacks $\rightarrow$ $\pi \paren{s_B',o_f' \sachant s_A} = 1$\\
-	\hspace{1.5cm} but may lose a feedback $\rightarrow$ $\pi \paren{s_A',o_f' \sachant s_A} = \frac{2}{3}$ 
+	\textit{``human usually aware of feedbacks''} $\rightarrow$ $\pi \paren{s_B',o_f' \sachant s_A} = 1$\\
+	\hspace{1.5cm} \textit{``but may lose a feedback''} $\rightarrow$ $\pi \paren{s_A',o_f' \sachant s_A} = \frac{2}{3}$ 
 	\visible<3->{
 		\begin{itemize}
 			\item  observation: \textbf{human manipulation} $o_m' \in \mathcal{O}$:
 		\end{itemize}
-		manipulation $o_m'$ normal under $s_A$ $\rightarrow$ $\pi \paren{s_B',o_m' \sachant s_A} = 1$\\
-		\hspace{3.6cm} abnormal manipulation \hspace{1.1cm} $ = \frac{1}{3}$ 
+		\textit{``manipulation $o_m'$ is normal under $s_A$''} $\rightarrow$ $\pi \paren{s_B',o_m' \sachant s_A} = 1$\\
+		\hspace{2.8cm} \textit{``is abnormal''} \hspace{1.1cm} $\rightarrow $ \hspace{2cm} $ = \frac{1}{3}$ 
 	}
 	\visible<4->{
 		\begin{itemize}
@@ -675,9 +715,12 @@ state $s_A \in \mathcal{S}$: ``human thinks machine state is $A$''
 }
 \end{frame}
 
+
+
 \begin{frame}
 \frametitle{Qualitative Possibilistic Hidden Markov Process:}
-\framesubtitle{\footnotesize diagnosis tool for Human-Machine interaction (with Sergio Pizziol)}
+\framesubtitle{\footnotesize $\pi$-HMP, detection $\&$ diagnosis tool for HMI (with \textbf{Sergio Pizziol})}
+\vspace{0.3cm}
 \begin{tikzpicture}[scale=0.8,transform shape]
 
 %TIME
@@ -691,7 +734,7 @@ state $s_A \in \mathcal{S}$: ``human thinks machine state is $A$''
 
 
 \node (Oc) at (0.8,3.7) {feedbacks/manipulations};
-\node (V) at (1.1,3.1) {(observable) \huge $\{$};
+\node (V) at (1.1,3.1) {(visible) \huge $\{$};
 %\node (V) at (1.5,1) {effects \huge $\{$};
 \node (H) at (1.2,0) {human \huge $\{$};
 \node (H1) at (1,-0.6) {assessments};
@@ -793,21 +836,89 @@ state $s_A \in \mathcal{S}$: ``human thinks machine state is $A$''
 \visible<2->{
 \begin{itemize}
 \item \textbf{estimation} of the human assessment\\
-$\Leftrightarrow$ \textbf{possibilistic belief state}% over $s \in \mathcal{S}$ 
+\hspace{3cm}$\Leftrightarrow$ \textbf{possibilistic belief state}% over $s \in \mathcal{S}$ 
 \item \textbf{detection} of human assessment errors + \textbf{diagnosis}
-\item validated with pilots on a flight simulator missions
+\item validated with pilots on flight simulator missions
 \end{itemize}
+}
+\end{frame}
+
+\section[advances in $\pi$-POMDP]{Advances in the qualitative possibilistic MDPs}%Mixed-Observability and unbounded mission durations}
+\begin{frame}
+\frametitle{Applicability of the $\pi$-POMDPs}
+\framesubtitle{\footnotesize three advancements}
+\vspace{0.2cm}
+\begin{itemize}
+\item<alert@+> lack of proof of optimality in indefinite horizon settings
+\item criterion/algorithm/proof
+\end{itemize}
+\vspace{0.4cm}
+\begin{itemize}
+\item<alert@+> curse of dimensionality: \\
+$\rightarrow$ belief space size of a $\pi$-POMDP:  exponential in $\# \mathcal{S}$\\
+\item in practice, part of $s \in \mathcal{S}$ is visible\\
+\hspace{4cm} $\Rightarrow$ complexity reduction  
+\end{itemize}
+\vspace{0.4cm}
+\begin{itemize}
+\item<alert@+> lack of possibilistic strategy evaluation
+\item demonstration of usefulness\\ 
+when probabilities are imprecise 
+\end{itemize}
+
+
+\visible<4->{
+\begin{alertblock}{}
+\begin{center}
+\textbf{Indefinite Horizon, Mixed-Observability, Simulations}
+\hspace{4cm} \textit{contribution UAI 2013}
+\end{center}
+\end{alertblock}
+}
+
+
+\end{frame}
+
+
+
+
+
+
+\begin{frame}
+\frametitle{Indefinite Horizon}
+\framesubtitle{\footnotesize criterion, DP scheme, optimal strategy}
+\vspace{0.1cm}
+\textbf{indefinite horizon criterion:} \\ 
+\vspace{0.2cm}
+maximizing
+\[ \min_{t=0}^{\# \delta} \min \bigg\{ \pi \Big( s' \Big\vert s, \delta_t(s) \Big), \Psi(s) \bigg\} \]
+with respect to the strategy $\delta: (t,s) \mapsto a_t \in \mathcal{A}$.
+\vspace{0.5cm}
+\visible<2->{
+\begin{block}{Dynamic Programming scheme: $\#$ iterations $<\# \mathcal{S}$}
+\begin{itemize}
+\item assumption: $\exists$ artificial \textbf{``stay'' action}\\ 
+as in classical planning/ $\gamma$ counterpart 
+\item criterion \textbf{non decreasing} with iterations
+\visible<3->{
+\item action update for states increasing the criterion
+\item \textbf{proof of optimality} of the resulting \textbf{stationary} strategy
+}
+\end{itemize}
+\end{block}
 }
 \end{frame}
 
 
 
-%\nico{	
-\section[advances in $\pi$-POMDP]{Advances in the qualitative possibilistic MDPs}%Mixed-Observability and unbounded mission durations}
+
+
+
+
 \begin{frame}
-\frametitle{Mixed-Observability (MOMDP) -- {\footnotesize \textit{Ong et al. (RSS-05)}}}
+\frametitle{Mixed-Observability {\footnotesize (MOMDP, \textit{Ong et al., 2005}) }}
 \framesubtitle{\footnotesize $\pi$-Mixed-Observable Markov Decision Process ($\pi$-MOMDP)}
-\textbf{contribution (UAI-13):}
+\textbf{graphical model} of a $\pi$-MOMDP:
 \vspace{-0.6cm}
 \begin{figure}\centering
 \begin{tikzpicture}[scale=0.8,transform shape]
@@ -916,7 +1027,6 @@ $\Leftrightarrow$ \textbf{possibilistic belief state}% over $s \in \mathcal{S}$
 %\node (probao1) at (4,-2.2) [rotate=350] {$ \pi \paren{ o_{h,t} \sachant s_t, a_{t-1}}$};
 %\node (probao2) at (11,-2.5) [rotate=350] {$ \pi \paren{ o_{h,t+1} \sachant s_{t+1}, a_{t}}$};
 %\node (probas) at (8.9,0.5) [rotate=355] {$ \pi \paren{s_{t+1} \sachant s_t,a_{t}}$};
-
 \end{tikzpicture}
 \end{figure}
 \vspace{-0.2cm}
@@ -935,40 +1045,36 @@ $\rightarrow$ $\pi$-MOMDP: computations on $\mathcal{X} = \mathcal{S}_v \times \
 \end{frame}
 
 
+ \newcommand{\grille}{
+ \begin{tikzpicture}[overlay,remember picture]
+   \begin{scope}[shift={(current page.south west)}]
+	\draw[->,>=latex,line width=4pt, color=red] (11,7) to[bend left] (10,2.8);
+	\tikzstyle{vertexBIGRED}=[fill=red!30,draw=red, minimum width=190pt, minimum height=37pt,line width=1pt,inner sep=5pt,rounded corners]
+	\node[vertexBIGRED] at (9,7.15) {};%};
+	\node at (9,7.4) {probabilistic model inappropriate};
+	\node at (9,6.9) {with too imprecise probabilities};
+   \end{scope}
+ \end{tikzpicture}
+ }
+
 
 \begin{frame}
-\frametitle{Use of the $\pi$-MOMDP in practice}
-\framesubtitle{\footnotesize undeterminate horizon}
-\vspace{0.1cm}
-\textbf{contribution (UAI-13): undeterminate Horizon}
-\visible<2->{
-\vspace{-0.2cm}
-\begin{block}{Dynamic Programming scheme: $\#$ iterations $<\# \mathcal{X}$}
-\begin{itemize}
-\item assumption: $\exists$ artificial \textbf{``stay'' action}\\ 
-as in classical planning/ $\gamma$ counterpart 
-\item criterion \textbf{non decreasing} with iterations
-\visible<3->{
-\item action update for states increasing the criterion
-\item proof of optimality
-}
-\end{itemize}
-\end{block}
-}
-\end{frame}
-
-\begin{frame}
-\frametitle{Use of the $\pi$-MOMDP in practice}
-\framesubtitle{\footnotesize simulations}
-
+\frametitle{$\pi$-MOMDP for robotics with imprecise probabilities}
+\framesubtitle{\footnotesize simulations with machine vision behavior imprecisely known}
+\vspace{0.4cm}
 - \textbf{goal:} reach the object $A$ = $T1$ or $T2$ \\
 - noisy observations of the location of the object $A$% : $\textbf{p} \paren{ o' \sachant s',a }$
 \begin{exampleblock}{Recognition mission: robot on a grid, targets $T1$ $\&$ $T2$}
 \includegraphics[width=.45\linewidth]{robotgrid.pdf} 
-\includegraphics[width=.55\linewidth]{courbe1.pdf}\\
+\visible<2->{
+\includegraphics[width=.5\linewidth]{courbe1.pdf}\\
+\vspace{0.2cm}
 in reality, misperception probability in the error zone: $P_{bad} > \frac{1}{2}$
+}
 \end{exampleblock}
-
+\visible<3->{
+\grille
+}
 \end{frame}
 
 \section[solver $\&$ factorization]{Symbolic solver and factorization}
@@ -1006,6 +1112,9 @@ Boolean variables ($X_1,\ldots,X_n$) \\
 	}
 \end{frame}
 
+
+
+
 \begin{frame}
 \frametitle{Simplify computations with $\pi$-MOMDPs}
 \framesubtitle{\footnotesize Resulting $\pi$-MOMDP solver: PPUDD}
@@ -1031,6 +1140,25 @@ $\rightarrow$ smaller ADDs $\Rightarrow$ \textbf{faster computations}
 \end{alertblock}
 \end{frame}
 
+
+
+
+
+
+
+
+ \newcommand{\grillesecond}{
+ \begin{tikzpicture}[overlay,remember picture]
+   \begin{scope}[shift={(current page.south west)}]
+	\tikzstyle{vertexBIGRED}=[fill=red!30,draw=red, minimum width=320pt, minimum height=51pt,line width=1pt,inner sep=5pt,rounded corners]
+	\node[vertexBIGRED] at (6.5,7) {};%};
+	\node at (6,7.5) {$\perp\!\!\!\perp$ assumptions on state $\&$ observation variables};
+	\node at (6.5,7) {$\rightarrow$ belief variable factorization};
+	\node at (6.95,6.5) {$\rightarrow$ \textbf{additional} computation savings};
+   \end{scope}
+ \end{tikzpicture}
+ }
+
 \begin{frame}
 \frametitle{Simplifying computations with $\pi$-MOMDPs}
 \framesubtitle{\footnotesize Natural factorization: belief independence}
@@ -1043,12 +1171,12 @@ independent sensors, hidden states, $\ldots$ $\Rightarrow$ graphical model
 \vspace{-0.1cm}
 \visible<2->{
 d-Separation $\Rightarrow$ { \color{blue} $(s_v,\beta) = (s_{v,1}, \ldots, s_{v,m}, \beta_1, \ldots, \beta_{l})$} \\
-\hspace{3cm} { \color{red} $\beta_i \in \Pi^{\mathcal{S}_{h,i}}_{\mathcal{L}}$, belief over $s_{h,i}$}
-\vspace{-0.1cm}
+\hspace{0.4cm} { \color{red} $\beta_i \in \Pi^{\mathcal{S}_{h,i}}_{\mathcal{L}}$, belief over $s_{h,i}$}
+\vspace{-0.2cm}
 }
 \begin{tikzpicture}
 \node at (-2.2cm,0cm) {};
-\node at (0cm,9.88) {\includegraphics[scale=1]{factMOMDPdid.pdf}};
+\node at (0cm,9.9) {\includegraphics[scale=1]{factMOMDPdid.pdf}};
 \visible<2->{
 \tikzstyle{bvertex}=[circle,fill=red!60,minimum size=30pt,inner sep=0pt]
 
@@ -1082,6 +1210,9 @@ d-Separation $\Rightarrow$ { \color{blue} $(s_v,\beta) = (s_{v,1}, \ldots, s_{v,
 	\draw[color=red!60,ultra thick,>=latex,->,dashed] (bel22) to (bel21); 
 }
 \end{tikzpicture}
+\visible<3->{
+\grillesecond
+}
 \end{frame}
 
 % observations
@@ -1093,12 +1224,12 @@ d-Separation $\Rightarrow$ { \color{blue} $(s_v,\beta) = (s_{v,1}, \ldots, s_{v,
 \vspace{-0.2cm}
 \centering
 \begin{exampleblock}{}
-PPUDD vs SPUDD { \footnotesize (\textit{Hoey et al.})} \\ 
+PPUDD vs SPUDD { \footnotesize (\textit{Hoey et al.}, 1999)} \\ 
 { \color{red!70} Navigation benchmark}: reach a goal -- spots with accident risk \\ 
 M1 (resp. M2) optimistic (resp. pessimistic) criterion 	
 \end{exampleblock}
 \visible<2->{
-\textbf{ Performances, function of the instance size}  \\
+\textbf{ Performances, function of the problem index }  \\
 \vspace{0.2cm}
 \begin{minipage}{0.45\linewidth}
 \centering
@@ -1108,7 +1239,10 @@ M1 (resp. M2) optimistic (resp. pessimistic) criterion
 \begin{minipage}{0.45\linewidth}
 \hspace{0.5cm}{\color{orange} $\#$ steps to reach the goal} \\
 \includegraphics[scale=0.4]{courbePerfMDP2.png} 
-\end{minipage} 
+\end{minipage}\\
+\vspace{0.4cm} 
+\definecolor{gggreen}{rgb}{0,0.7,0.7}
+\hspace{1.2cm} {\color{gggreen} the higher the better} \hspace{1.4cm} {\color{gggreen} the lower the better}
 }
 \end{frame}
 
@@ -1142,8 +1276,8 @@ M1 (resp. M2) optimistic (resp. pessimistic) criterion
 \framesubtitle{\footnotesize Experiments -- imperfect sensing: RockSample problem}
 \vspace{-0.1cm}
 	\begin{exampleblock}{}
-	PPUDD vs APPL {\footnotesize (\textit{Kurniawati et al.}, solver MOMDP)} \\
- 	\hspace{1cm} symbolic HSVI {\footnotesize ( \textit{Sim et al.}, solver POMDP)} \\
+	PPUDD vs APPL {\footnotesize (\textit{Kurniawati et al.}, 2008, solver MOMDP)} \\
+ 	\hspace{1cm} symbolic HSVI {\footnotesize ( \textit{Sim et al.}, 2008, solver POMDP)} \\
 	{ \color{red!70} RockSample benchmark}: recognize and sample ``good'' rocks
 	\end{exampleblock}
 	\visible<2->{
@@ -1174,6 +1308,44 @@ $\rightarrow$ improvement of computation time and performances
 \end{alertblock}
 }
 \end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\nico{
+
+
 
 \begin{frame}
 \frametitle{IPPC 2014 -- ADD-based approaches:\\ 
@@ -1561,7 +1733,7 @@ $\rightarrow$ { \color{red} factorization \& smaller state space}
 \item \textbf{modeling efforts}: $\rightarrow$ human-machine interaction
 \visible<2->{
 \item \textbf{advancements}: $\rightarrow$ mixed-observability modeling\\
-\hspace{1.3cm} $\rightarrow$ undeterminate horizon + optimality proof
+\hspace{1.3cm} $\rightarrow$ indefinite horizon + optimality proof
 }
 \visible<3->{
 \item \textbf{simplifying computations}: factorization work\\ 
@@ -1615,11 +1787,34 @@ quantitative information may be available: hybrid work
 }
 \end{frame}
 
+
+
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % questions
 \frame{
-\frametitle{Conclusion}
-\vspace{0.5cm}
-{\Huge \textbf{Thank you!}}\\
+\frametitle{\hspace{0.5cm}  \includegraphics[scale=0.35]{logo2015} \hspace{0.7cm}  
+\begin{tikzpicture}
+\node[opacity=0.2] at (0,0) { \includegraphics[scale=0.32]{Logo_EDSYS2}};
+\end{tikzpicture}
+\hspace{0.6cm} \includegraphics[scale=0.5]{onera}  }
+\vspace{-0.1cm}
+{\Huge \textbf{Thank you!} }\\
 \vspace{0.3cm}
 produced work:
 \begin{itemize}
@@ -1631,6 +1826,69 @@ produced work:
 \end{itemize}
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 \nico{
 \begin{frame}
