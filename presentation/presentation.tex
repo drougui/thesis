@@ -265,6 +265,25 @@ exploration robots
 \end{frame}
 
 
+ \newcommand{\grillefour}{
+\hspace{-2.75cm}
+\begin{tikzpicture}[overlay,remember picture,scale=0.3,transform shape]
+\definecolor{ggreen}{rgb}{0.3,0.7,0.4};
+
+
+\begin{axis}[xtick=\empty,ytick=\empty,ymin=-0.1,ymax=0.55]
+%\foreach \xx in {-1.5,-1,-0.5,0,0.5,1,1.5} {
+%\addplot[black,dotted] coordinates {(\xx,0) (\xx,1)};
+%}
+
+\addplot[mark=none, red, line width=4pt] coordinates {  (-1.5, 0) (-1, 0) (-1, 0.2) (-0.5,0.2) (-0.5,0.4) (0,0.4) (0,0.3) (0.5,0.3) (0.5,0.1) (1,0.1)  (1, 0) (1.5, 0) };
+\end{axis}
+
+\node (mumu) at (5.5,4.2) {  {\color{red} {\fontsize{40}{40}\selectfont $b_{t+1}$}} };
+\node (mumu) at (2,6.2) {  {\color{red} \Huge \textbf{probabilistic normalization}} };
+
+ \end{tikzpicture}
+ }
 
 
 \begin{frame}
@@ -277,21 +296,67 @@ exploration robots
 \item \textbf{observation} function $O(s',a,o') = \textbf{p} \paren{ o' \sachant s', a }$
 \item \textbf{reward} function $r(s,a) \in \mathbb{R}$
 \end{itemize}
-\vspace{0.5cm}
+\vspace{0.2cm}
 \visible<2->{
 \[ { \textbf{belief state: }  \color{bblue} \displaystyle b_{t}(s) = \mathbb{P} \paren{ s_t = s \sachant a_0, o_1, \ldots, a_{t-1}, o_t  } } \]
 }
-\vspace{-0.1cm}
+\vspace{-0.4cm}
 \visible<3->{
-\begin{exampleblock}{\textbf{probabilistic} belief update -- $a$ selected, $o'$ received}
-\begin{center}
-$ b_{t+1}(s') %= u(b_t,a,o') 
-\propto \textbf{p} \paren{ o' \sachant s',a} \cdot \sum_{s \in \mathcal{S}} \textbf{p} \paren{ s' \sachant s,a} \cdot b_t(s)  $
-\end{center}
+\begin{exampleblock}{}
+\begin{tikzpicture}
+\node (title) at (0,1.6) {\textbf{probabilistic} belief update};
+\node (b) at (-2,1) {$b_t$};
+\node (tof) at (-2,0.5) {$T$,$O$};
+
+\visible<4->{
+\node (joint) at (1.5,0.75) { { \color{blue} $\textbf{p} \paren{ s', o' \sachant b_t, a_t }$}};
+\draw[->,>=latex,line width=2pt] (b) -- (joint);
+\draw[->,>=latex,line width=2pt] (tof) -- (joint);
+}
+
+\visible<5->{
+\node (obs) at (4.3,1.5) {received};
+\node (obs) at (4.3,1.1) {observation};
+\node (obs) at (4.3,0.4) {$o_{t+1}$ fixed};
+\node (curve) at (5.7,0.75) {};
+\draw[->,>=latex,line width=2pt] (joint) -- (curve);
+}
+\end{tikzpicture}
+%$ b_{t+1}(s') %= u(b_t,a,o') 
+%\propto \textbf{p} \paren{ o' \sachant s',a} \cdot \sum_{s \in \mathcal{S}} \textbf{p} \paren{ s' \sachant s,a} \cdot b_t(s)  $
+% -- $a$ selected, $o'$ received
+\hspace{-0.5cm}
+\visible<5->{
+\begin{tikzpicture}[scale=0.3,transform shape]
+\definecolor{ggreen}{rgb}{0.3,0.7,0.4};
+
+\begin{axis}[xtick=\empty,ymin=-0.1,ymax=0.55]
+\foreach \xx in {-1.5,-1,-0.5,0,0.5,1,1.5} {
+\addplot[black,dotted] coordinates {(\xx,0) (\xx,1)};
+}
+
+\addplot[mark=none, blue, line width=2.5pt, densely dashed] coordinates {  (-1.5, 0) (-1, 0) (-1, 0.15) (-0.5,0.15) (-0.5,0.3) (0,0.3) (0,0.225) (0.5,0.225) (0.5,0.225) (0.5,0.075) (1,0.075)  (1, 0) (1.5, 0) };
+\end{axis}
+
+\visible<5->{
+\node (a) at (1.1,0.35) {\Large $s_A$};
+\node (b) at (2.05,0.35) {\Large  $s_B$};
+\node (c) at (3,0.35) {\Large $s_C$};
+\node (d) at (3.95,0.35) {\Large $s_D$};
+\node (e) at (4.9,0.35) {\Large  $s_E$};
+\node (f) at (5.85,0.35) {\Large  $s_F$};
+}
+
+
+\end{tikzpicture}
+}
+\visible<6->{
+\grillefour
+}
 \end{exampleblock}
 \vspace{-0.15cm}
-\visible<4->{
-\begin{block}{action choices: strategy $\delta(b_t) = a_t \in \mathcal{A}$}
+\visible<7->{
+\begin{block}{strategy $d_t: b_t \mapsto a_t \in \mathcal{A}$}
 \begin{center}
 maximizing $ \displaystyle \mathbb{E}_{s_0 \sim b_0} \croch{ \sum_{t=0}^{+ \infty} \gamma^t \cdot r\Big(s_t,\delta(b_t)\Big) }$, $0<\gamma<1$
 \end{center}
@@ -500,6 +565,9 @@ is less plausible than $e_2$''} \\
 %}
 \end{frame}
 
+
+
+
 \begin{frame}
 \definecolor{bblue}{rgb}{0,0.4,0.75}
 \frametitle{A possibilistic belief state}
@@ -514,21 +582,68 @@ $\rightarrow $ \textit{i.e.} \textbf{finite belief space}
 }
 \vspace{-0.6cm}
 \visible<3->{
-\begin{exampleblock}{\textbf{possibilistic} belief update -- $a$ selected, $o'$ received}
-\vspace{0.1cm}
-joint distribution on $\mathcal{S} \times \mathcal{O}$ from $\beta_t$: $\pi \paren{ o', s' \sachant \beta_t, a}$ \\
-\vspace{0.3cm}
+
+
+
+\begin{exampleblock}{}
+\begin{tikzpicture}
+\node (title) at (0,1.8) {\textbf{possibilistic} belief update};
+\node (b) at (-2,1) {$\beta_t$};
+\node (tof) at (-2,0.5) {$T^{\pi}$,$O^{\pi}$};
+
 \visible<4->{
-$\rightarrow$ \textbf{next belief state:} $\beta_{t+1}(s') = \pi \paren{ o', s' \sachant \beta_t, a}$ \\
-unless $s'$ maximizes $\pi \paren{ o', s' \sachant \beta_t, a}$, then $\beta_{t+1}(s') = 1$
-\vspace{0.3cm}
-% \left \{ \begin{array}{ccc} 1 & \hspace{-1cm} \mbox{ if } \pi \paren{ o',s' \sachant b_t^{\pi}, a} = \pi \paren{ o' \sachant b_t^{\pi}, a} \\
-%\pi \paren{ o', s' \sachant b_t^{\pi}, a} & \mbox{ otherwise}  
-%\end{array} \right.$ \\
-\vspace{0.3cm}
-${ \color{red} \mbox{ denoted by } }  { b^{\pi}_{t+1}(s') \color{red} \propto^{\pi} \pi \paren{o',s'\sachant b_t^{\pi}, a}} $
+\node (joint) at (1.2,0.75) { { \color{blue} $\pi \paren{ s', o' \sachant \beta_t, a_t }$}};
+\draw[->,>=latex,line width=2pt] (b) -- (joint);
+\draw[->,>=latex,line width=2pt] (tof) -- (joint);
+\node (bli) at (1,-0.05) {};
 }
+
+\visible<5->{
+\node (obs) at (4,1.5) {received};
+\node (obs) at (4,1.1) {observation};
+\node (obs) at (4,0.4) {$o_{t+1}$ fixed};
+\node (curve) at (5.3,0.75) {};
+\draw[->,>=latex,line width=2pt] (joint) -- (curve);
+}
+\end{tikzpicture}
+%$ b_{t+1}(s') %= u(b_t,a,o') 
+%\propto \textbf{p} \paren{ o' \sachant s',a} \cdot \sum_{s \in \mathcal{S}} \textbf{p} \paren{ s' \sachant s,a} \cdot b_t(s)  $
+% -- $a$ selected, $o'$ received
+\hspace{-0.55cm}
+\visible<5->{
+\begin{tikzpicture}[scale=0.3,transform shape]
+\definecolor{ggreen}{rgb}{0.3,0.7,0.4};
+\begin{axis}[xtick=\empty,ymin=-0.17,ymax=1.1]
+\foreach \xx in {-1.5,-1,-0.5,0,0.5,1,1.5} {
+\addplot[black,dotted] coordinates {(\xx,0) (\xx,1)};
+}
+\addplot[mark=none, blue, line width=2.5pt, densely dashed] coordinates {  (-1.5, 0) (-1, 0) (-1, 0.4) (-0.5,0.4) (-0.5,0.8) (0,0.8) (0,0.6) (0.5,0.6) (0.5,0.2) (1,0.2)  (1, 0) (1.5, 0) };
+\end{axis}
+\visible<5->{
+\node (a) at (1.1,0.25) {\Large $s_A$};
+\node (b) at (2.05,0.25) {\Large $s_B$};
+\node (c) at (3,0.25) {\Large $s_C$};
+\node (d) at (3.95,0.25) {\Large $s_D$};
+\node (e) at (4.9,0.25) {\Large $s_E$};
+\node (f) at (5.85,0.25) {\Large $s_F$};
+}
+\end{tikzpicture}
+}
+\visible<6->{
+\hspace{-2.6cm}
+\begin{tikzpicture}[overlay,remember picture,scale=0.3,transform shape]
+	\definecolor{ggreen}{rgb}{0.3,0.7,0.4};
+	\begin{axis}[xtick=\empty,ytick=\empty,ymin=-0.17,ymax=1.1,hide axis]
+	\addplot[mark=none, red, line width=4pt] coordinates  {  (-1.5, 0.015) (-1, 0.015) (-1, 0.415) (-0.5,0.415) (-0.5,1.015) (0,1.015) (0,0.615) (0.5,0.615) (0.5,0.215) (1,0.215)  (1, 0.015) (1.5, 0.015) };
+	\end{axis}
+	\node (mumu) at (5.5,4.2) {  {\color{red} {\scalebox{3}{$\beta_{t+1}$}}} };
+\node (mumu) at (2.3,7) {  {\color{red} \Huge \textbf{possibilistic normalization}} };
+\node (bli) at (0,-1) {};
+ \end{tikzpicture}
+}
+
 \end{exampleblock}
+
 }
 %\visible<4>{
 %\begin{itemize}
@@ -536,15 +651,15 @@ ${ \color{red} \mbox{ denoted by } }  { b^{\pi}_{t+1}(s') \color{red} \propto^{\
 %\item $ \displaystyle \pi \paren{o' \sachant s', a} = \max_{s' \in \mathcal{S} } \pi \paren{ o',s' \sachant b^{\pi}_t, a  }$.
 %\end{itemize}
 %}
-\vspace{-0.2cm}
-\visible<5->{
+\visible<7->{
 \begin{block}{}
 \begin{itemize}
-\item \textbf{Makovian update:} only depends on $o'$, $a$ and $b_t^{\pi}$
+\item \textbf{Markovian update:} only depends on $o_{t+1}$, $a_t$ and $b_t^{\pi}$
 \end{itemize}
 \end{block}
 }
 \end{frame}
+
 
 
 
@@ -1756,21 +1871,20 @@ quantitative information may be available: hybrid work
 \hspace{0.5cm} \includegraphics[scale=0.25]{oneraLogoPNG}  }
 \vspace{-0.1cm}
 {\Huge \textbf{Thank you!} }\\
-\vspace{0.3cm}
+\vspace{1cm}
+{\footnotesize
 produced work:
 \begin{itemize}
 \item \textit{Qualitative {P}ossibilistic {M}ixed-{O}bservable {MDP}s}, \textbf{UAI-2013}
-\item \textit{Structured Possibilistic Planning Using Decision Diagrams}, \textbf{AAAI-2014}
-\item \textit{Planning in Partially Observable Domains with Fuzzy Epistemic States and Probabilistic Dynamics}, \textbf{SUM-2015}
-\item \textit{Processus D\'ecisionnels de Markov Possibilistes \`a Observabilit\'e Mixte}, Revue d'Intelligence Artificielle\\ (\textbf{RIA journal})
-\item \textit{A Possibilistic Estimation of Human Attentional Errors}, submitted to \textbf{IEEE-TFS journal}
+\item \textit{Structured Possibilistic Planning Using Decision Diagrams},\\ \hspace{7.2cm} \textbf{AAAI-2014}
+\item \textit{Planning in Partially Observable Domains with Fuzzy Epistemic States and Probabilistic Dynamics},  \hspace{2cm} \textbf{SUM-2015}
+\item \textit{Processus D\'ecisionnels de Markov Possibilistes\\ \`a Observabilit\'e Mixte},\\ 
+ \hspace{2cm} Revue d'Intelligence Artificielle (\textbf{RIA french journal})
+\item \textit{A Possibilistic Estimation of Human Attentional Errors},\\ 
+ \hspace{4.8cm} submitted to \textbf{IEEE-TFS journal}
 \end{itemize}
-
 }
-
-
-
-
+}
 
 
 
