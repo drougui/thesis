@@ -75,20 +75,19 @@ under Uncertainty}
 \frametitle{\insertsection} 
 \framesubtitle{\footnotesize Autonomous robotics } 
 \normalsize
-\begin{block}{Onera, Flight Dynamics $\&$ System control}
+\begin{block}{Onera, System Control $\&$ Flight Dynamics Department}
 Control Engineering, Artificial intelligence, Cognitive Sciences
 \end{block}
 \vspace{0.5cm}
 \visible<2->{
 \begin{minipage}{0.53\linewidth}
-among many other works:
 \begin{itemize}
 \item autonomy and\\ human factors
 \item decision making, planning
 \item experimental/industrial applications:
 UAVs,\\ 
-human-machine interaction,\\
-exploration robots
+exploration robots,\\
+human-machine interaction
 \end{itemize}
 \end{minipage}
 \begin{minipage}{0.42\linewidth}
@@ -506,24 +505,25 @@ is less plausible than $e_2$''} \\
 \begin{frame}
 \frametitle{Qualitative Possibility Theory}
 \framesubtitle{\footnotesize Criteria from Sugeno integral}
+\vspace{0.3cm}
 	\begin{alertblock}{}
 	\centering
-	{\hspace{-2.2cm} \color{red} Probability \hspace{0.3cm} / \hspace{0.1cm} Possibility}: \hspace{2cm}
+	{ \hspace{1cm} \color{red} Probability \hspace{0.5cm} / \ \  Qualitative Possibility \ \ Theories} \hspace{2cm}
 	\begin{tabular}{!{\vrule width 2pt}c!{\vrule width 1pt}c!{\vrule width 2pt}c!}
 	\noalign{\hrule height 2pt} 
  	 $ + $  & $ \max $ \\
 	\noalign{\hrule height 2pt}  	
 	 $ \times $  & $\min $ \\
 	\noalign{\hrule height 2pt} 
-	 $ X \in \mathbb{R} $  & $ X \in \mathcal{L} $ \\
+	$\sum_x \textbf{p}(x) = 1 $ & $\displaystyle \max_x \pi(x) = 1$\\	
+ %$ X \in \mathbb{R} $  & $ X \in \mathcal{L} $ \\
+	\noalign{\hrule height 2pt} 
+	$X \in \mathbb{R}$ & $X \in \mathcal{L}$\\	
 	\noalign{\hrule height 2pt} 
 									  	& \textbf{optimistic:}\\
-										& \\
 									 	& $ \displaystyle \mathbb{S}_{\Pi}[X] = \max_{x \in X} \min \set{ x, \pi(x) } $ \\
-	$\displaystyle \mathbb{E}[X] = \sum_{x \in X} x \cdot \textbf{p}(x) $	& \\
-										& \\
+	$\displaystyle \mathbb{E}[X] = \sum_{x} x \cdot \textbf{p}(x) $	& \\
 										& \textbf{pessimistic:} \\
-										& \\
 										& $ \displaystyle \mathbb{S}_{\mathcal{N}}[X] = \min_{x \in X} \max \set{ x, 1  - \pi(x) } $ \\
 
 	\noalign{\hrule height 2pt}  	
@@ -670,16 +670,24 @@ $\rightarrow $ \textit{i.e.} \textbf{finite belief space}
 \textbf{Qualitative Possibility Theory:}\\ 
 $\rightarrow$ simplification, imprecision/prior ignorance modeling
 \end{block}
-\vspace{1cm}
 \visible<2->{
+\begin{itemize}
+\item context
+\end{itemize}
 \begin{enumerate}
-\item introductory example: qualitative \textbf{possibilistic modeling}
+\item introductory example: qualitative \textbf{possibilistic modeling}\\
+\hspace{2.5cm} $\rightarrow$ \textit{human-machine interaction (HMI)}\\ 
+\hspace{5.5cm} with \textbf{Sergio Pizziol} 
 \item \textbf{advancements} in $\pi$-POMDP:\\ 
-\hspace{3cm} \textit{mixed-observability $\&$ indefinite horizon} 
+\hspace{2.5cm} $\rightarrow$ \textit{mixed-observability $\&$ indefinite horizon} 
 \item \textbf{simplifying computations}:\\ 
-\hspace{3cm} \textit{ADD-based solver $\&$ factorization} 
+\hspace{2.5cm} $\rightarrow$ \textit{ADD-based solver $\&$ factorization} 
 \item \textbf{probabilistic-possibilistic} (\textit{hybrid}) approach
 \end{enumerate}
+\begin{itemize}
+\item conclusion
+\end{itemize}
+
 }
 \end{frame}
 
@@ -719,8 +727,9 @@ $\rightarrow$ simplification, imprecision/prior ignorance modeling
 %% OBSERVER
 \node[vertexBIG] (O) at (2,-2.5) {};
 \node () at (1.9,-2.1) {\textbf{Observer}};
-\node[ellipse,draw, thick,fill=blue!20] (el) at (-0.55,-2.7) {Machine model};
-\node[ellipse,draw, thick,fill=blue!20] (el) at (4.15,-2.7) {Human error model};
+\definecolor{bbbbbblue}{rgb}{0,0.325,0.678}
+\node[ellipse,draw, thick,fill=bbbbbblue!30] (el) at (-0.55,-2.7) {Machine model};
+\node[ellipse,draw, thick,fill=bbbbbblue!30] (el) at (4.15,-2.7) {Human error model};
 
 \draw[->,>=latex,line width=2pt,color=red, dashed] (3,-1) -- (3,-2);
 \draw[->,>=latex,line width=2pt,color=red, dashed] (0.8,0.3) -- (0.8,-2);
@@ -1818,7 +1827,7 @@ $\rightarrow$ validation of the computation time reduction\\
 $\rightarrow$ IPPC 2014 
 }
 \visible<5->{
-\item \textbf{hybrid POMDP} $\xrightarrow{ \mbox{\footnotesize translation} }$ MDP\\
+\item \textbf{hybrid POMDP} $\xrightarrow{ \mbox{\footnotesize translation} }$ MDP with \textbf{finite} space\\
 $\rightarrow$ probabilities on possibilistic belief states\\ 
 \hspace{0.4cm} pessimistic rewards (Choquet integral)\\
 $\rightarrow$ factored POMDP $\xrightarrow{ \mbox{\footnotesize translation} }$ factored \textbf{finite} MPD
@@ -1838,15 +1847,14 @@ $\rightarrow$ factored POMDP $\xrightarrow{ \mbox{\footnotesize translation} }$ 
 \begin{exampleblock}{}
 \begin{itemize}
 \item refined criteria {\footnotesize \textit{(Weng 2005, Dubois et al. 2005)}}\\ 
-\hspace{2cm} $\Rightarrow$ finer $\pi$-POMDP \\
+\hspace{2cm} $\Rightarrow$ finer $\pi$-POMDP
+\item state space heuristic search for $\pi$-POMDPs
 \item combination with reinforcement learning
 \end{itemize}
 \end{exampleblock}
 
 \visible<2->{
-\begin{alertblock}{}
-quantitative information may be available: hybrid work
-\end{alertblock}
+\begin{block}{hybrid work}
 \begin{itemize}
 \item IPPC problems (factored POMDPs);
 \item tests of this approach: 
@@ -1857,6 +1865,7 @@ quantitative information may be available: hybrid work
 \item \textbf{imprecision:} robust in practice?
 \end{enumerate}
 \end{itemize}
+\end{block}
 }
 \end{frame}
 
