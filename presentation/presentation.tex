@@ -383,7 +383,7 @@ maximizing $ \displaystyle \mathbb{E}_{s_0 \sim b_0} \croch{ \sum_{t=0}^{+ \inft
 \vspace{0.6cm}
 \begin{itemize}
 %\rightarrow raisonnement sur l'ensemble des probabilités $b \in \mathcal{B}_{\mathcal{S}}$
-\item probabilities are \textbf{imprecisely known} in practice
+\item conditional probabilities are \textbf{imprecisely known}
 % \textit{ex:} $o \in \mathcal{O}$ sorties d'algorithmes de vision artificielle:\\
 %fonction $O$ dépendante des datasets; 
 \end{itemize}
@@ -428,7 +428,7 @@ $\rightarrow$ approximate computations}
 %probabilités $\textbf{p} \paren{ o' \sachant s', a }$
 \visible<4->{
 %$\rightarrow$ dépendante de l'ensemble des images d'entra\^inement; \\
-$\rightarrow$ unknown environments: image variability of the datasets?\\% (test/train)% $\Rightarrow$ hard extraction of a classifier \\
+$\rightarrow$ image in the database representative enough of the reality?\\% (test/train)% $\Rightarrow$ hard extraction of a classifier \\
 %$\rightarrow$ lack of perception performance $\Rightarrow$ more complex POMDP
 \vspace{-0.3cm}
 }
@@ -472,7 +472,7 @@ $\rightarrow$ uniform probability distribution {$\neq$ \color{red} ignorance!}\\
 \node (finiteScale2) at (-3.1,0.5) {usually $\{ 0, \frac{1}{k}, \frac{2}{k}, \ldots, 1 \}$};
 \node at (0.4,1.65) {$1$};
 \node at (3,1.65) {\footnotesize entirely possible};
-\node at (3,1.15) {\footnotesize somewhat plausible};
+\node at (3,1.15) {\footnotesize quite plausible};
 \node at (3,0.75) {\vdots};
 \node at (3,0.15) {\footnotesize almost impossible};
 \node at (3,-0.35) {\footnotesize impossible};
@@ -485,20 +485,24 @@ $\rightarrow$ uniform probability distribution {$\neq$ \color{red} ignorance!}\\
 \end{tikzpicture}
 %$1 = l_1 > l_2 > \ldots > l_{\# \mathcal{L}} = 0$ form the 
 \begin{exampleblock}{}	
-\flushleft events $e \subset \Omega$ (universe) \\ 
+\flushleft events $E \subset \Omega$ (universe) \\ 
 \centering
-\textbf{sorted} using possibility \textbf{degrees} $\pi(e) \in \mathcal{L}$ \\
+\textbf{sorted} using possibility \textbf{degrees} $\Pi(E) \in \mathcal{L}$ \\
 	$\neq$ \\
-	\textbf{quantified} with \textbf{frequencies} $\textbf{p}(e) \in \croch{0,1}$ (probabilities)
+	\textbf{quantified} with \textbf{frequencies} $\mathbb{P}(E) \in \croch{0,1}$ (probabilities)
 	\end{exampleblock}
 \visible<2->{
 	\begin{block}{}
-	$e_1 \neq e_2$, $2$ events $\subset \Omega$ 
-	\begin{itemize}
-	\item $ \pi(e_1) < \pi(e_2) $ $\Leftrightarrow$ \textit{``$e_1$ 
-is less plausible than $e_2$''} \\
-	\end{itemize}	
-	\end{block}
+\vspace{-0.2cm}
+\begin{center}
+\[ \Pi(E) = \max_{e \in E} \Pi(\set{e}) = \max_{e \in E} \pi(e) \]
+%	$e_1 \neq e_2$, $2$ events $\subset \Omega$ 
+%	\begin{itemize}
+%	\item $ \pi(e_1) < \pi(e_2) $ $\Leftrightarrow$ \textit{``$e_1$ 
+%is less plausible than $e_2$''} \\
+%	\end{itemize}	
+\end{center}	
+\end{block}
 }
 \end{frame}
 
@@ -510,7 +514,7 @@ is less plausible than $e_2$''} \\
 
 \begin{frame}
 \frametitle{Qualitative Possibility Theory}
-\framesubtitle{\footnotesize Criteria from Sugeno integral}
+\framesubtitle{\footnotesize Criteria from special cases of Sugeno integral}
 	\begin{alertblock}{}
 	\centering
 \setlength{\extrarowheight}{2.5pt}
@@ -556,8 +560,8 @@ is less plausible than $e_2$''} \\
 \visible<3->{
 \begin{exampleblock}{}
 \begin{itemize}
-\item belief space trick: POMDP $\rightarrow$ MDP with \textbf{infinite} space\\% $\mathcal{S}$\\ 
-\hspace{2.7cm} $\pi$-POMDP $\rightarrow$ $\pi$-MDP with \textbf{finite} space %$\mathcal{S}$
+\item belief space trick: POMDP $\Leftrightarrow$ MDP with \textbf{infinite} space\\% $\mathcal{S}$\\ 
+\hspace{2.7cm} $\pi$-POMDP $\Leftrightarrow$ $\pi$-MDP with \textbf{finite} space %$\mathcal{S}$
 \item problem becomes \textbf{decidable}
 \end{itemize}
 \end{exampleblock}
@@ -693,7 +697,7 @@ $\rightarrow$ simplification, imprecision/prior ignorance modeling
 \item introductory example: qualitative \textbf{possibilistic modeling}\\
 \hspace{2.5cm} $\rightarrow$ \textit{human-machine interaction (HMI)}\\ 
 \hspace{5.5cm} with \textbf{Sergio Pizziol} 
-\item \textbf{advancements} in $\pi$-POMDP:\\ 
+\item \textbf{advances} in $\pi$-POMDP:\\ 
 \hspace{2.5cm} $\rightarrow$ \textit{mixed-observability $\&$ indefinite horizon} 
 \item \textbf{simplifying computations}:\\ 
 \hspace{2.5cm} $\rightarrow$ \textit{ADD-based solver $\&$ factorization} 
@@ -940,10 +944,10 @@ state $s_A \in \mathcal{S}$: ``human thinks machine state is $A$''
 
 
 
-\section[advancements in $\pi$-POMDP]{Advances in the qualitative possibilistic MDPs}%Mixed-Observability and unbounded mission durations}
+\section[advances in $\pi$-POMDP]{Advances in the qualitative possibilistic MDPs}%Mixed-Observability and unbounded mission durations}
 \begin{frame}
 \frametitle{Applicability of the $\pi$-POMDPs}
-\framesubtitle{\footnotesize advancements}
+\framesubtitle{\footnotesize advances}
 \vspace{0.2cm}
 \begin{itemize}
 \item<alert@+> \textbf{lack of proof of optimality\\ 
@@ -993,7 +997,7 @@ with respect to the strategy $\delta: (t,s) \mapsto a_t \in \mathcal{A}$.
 \begin{itemize}
 \item assumption: $\exists$ artificial \textbf{``stay'' action}\\ 
 as in classical planning / $\gamma$ counterpart 
-\item criterion \textbf{non decreasing} with iterations
+\item criterion value \textbf{non decreasing} with iterations
 \visible<4->{
 \item action update for states increasing the criterion
 \item \textbf{proof of optimality} of the resulting \textbf{stationary} strategy
@@ -1258,7 +1262,7 @@ $\Rightarrow$ number of leaves bounded, \textbf{ ADDs \textbf{smaller}}.
 \visible<2->{
 \begin{alertblock}{\textbf{PPUDD: Possibilistic Planning Using Decision Diagrams}}
 \begin{itemize}
-\item factorization $\Rightarrow$ each DP steps divided into $n$ stages\\ 
+\item factorization $\Rightarrow$ each DP step divided into $n$ stages\\ 
 $\rightarrow$ smaller ADDs $\Rightarrow$ \textbf{faster computations}
 }
 \visible<3->{
@@ -1358,12 +1362,12 @@ PPUDD vs SPUDD { \footnotesize (\textit{Hoey et al.}, 1999)} \\
 M1 (resp. M2) optimistic (resp. pessimistic) criterion 	
 \end{exampleblock}
 \visible<2->{
-\textbf{ Performances, function of the problem index }  \\
+\textbf{ Performance, function of the problem index }  \\
 \vspace{0.2cm}
 \begin{minipage}{0.45\linewidth}
 \centering
 {\color{orange} reached goal frequency} \\
-\includegraphics[scale=0.4]{courbePerfMDP.png} 
+\includegraphics[scale=0.29]{courbePerfMDP.png} 
 \end{minipage}
 \hspace{0.6cm}
 \begin{minipage}{0.45\linewidth}
@@ -1405,7 +1409,7 @@ M1 (resp. M2) optimistic (resp. pessimistic) criterion
 \centering
 \begin{itemize}
 \item PPUDD + M2 (pessimistic criterion)\\ 
-\textbf{faster with same performances} as SPUDD
+\textbf{faster with same performance} as SPUDD
 \item SPUDD only solves the first $5$ instances
 \item verified intuition: ADDs are smaller
 \end{itemize}
@@ -1453,7 +1457,7 @@ M1 (resp. M2) optimistic (resp. pessimistic) criterion
 \item approximate model $+$ exact resolution solver can be \\
 %can be 
 \textbf{better than} exact model $+$ approximate resolution solver
-$\rightarrow$ improvement of computation time and performances
+$\rightarrow$ improvement of computation time and performance
 \end{itemize}
 \end{alertblock}
 }
@@ -1652,7 +1656,7 @@ $\rightarrow$ no frequentist information
 \end{block}
 
 \visible<2->{
-\begin{alertblock}{Usefullness}
+\begin{alertblock}{Usefulness}
 $\rightarrow$ \textbf{heuristic} for solving POMDPs:\\ 
 \hspace{1cm} results in a standard (finite state space) MDP \\
 $\rightarrow$ problem with \textbf{qualitative $\&$ quantitative} uncertainty\\
@@ -1684,7 +1688,7 @@ $\rightarrow$ problem with \textbf{qualitative $\&$ quantitative} uncertainty\\
 
 \begin{itemize}
 \item possibility distribution $\beta \rightarrow$ probability distribution $\overline{\beta}$\\ 
-using poss-prob tranformations {\footnotesize \textit{(Dubois et al., FSS-92)}}% $\textbf{p} \paren{ o' \sachant s,a } = \sum_{s' \in \mathcal{S}} O(s',a,o') \cdot T(s,a,s');$
+using poss-prob tranformations {\footnotesize \textit{(Dubois $\&$ Prade)}}% $\textbf{p} \paren{ o' \sachant s,a } = \sum_{s' \in \mathcal{S}} O(s',a,o') \cdot T(s,a,s');$
 %\item observation probability $\textbf{p}\paren{o'\sachant \beta,a}$ computed from $\overline{b^{\pi}}$\\
 %as usual since $\overline{b^{\pi}} =$ probabilistic belief 
 %\item { \color{red} $ \displaystyle \textbf{p}\paren{o'\sachant b^{\pi},a} := \sum_{s\in\mathcal{S}}\textbf{p}\paren{o' \sachant s,a}\cdot\overline{b^{\pi}}(s)$.}
@@ -1699,9 +1703,66 @@ using poss-prob tranformations {\footnotesize \textit{(Dubois et al., FSS-92)}}%
 \begin{itemize}
 \item reward pessimistic according to $\beta$
 \end{itemize}
-\begin{block}{Pessimistic Choquet Integral}
-\[ r(\beta,a) = \sum_{i=1}^{\# \mathcal{L}-1} (l_i - l_{i+1}) \cdot \hspace{-0.1cm} \min_{ \substack{ s \in \mathcal{S} \mbox{ \scriptsize  s.t. } \\ \beta(s) \geqslant l_i } }  r(s,a) \]
-\end{block}
+\hspace{0.5cm}
+\begin{tikzpicture}[scale=0.3,transform shape]
+\definecolor{ggreen}{rgb}{0.3,0.7,0.4};
+\begin{axis}[xtick=\empty,ymin=-0.17,ymax=1.1, xmin=-2.2]
+\foreach \xx in {-1.5,-1,-0.5,0,0.5,1,1.5} {
+\addplot[black,dotted] coordinates {(\xx,0) (\xx,1)};
+}
+
+\foreach \yy in {0,0.2,0.4,0.6,0.8,1} {
+\addplot[red,dotted,line width=2.5pt] coordinates {(-1.5,\yy) (1.5,\yy)};
+}
+
+
+\addplot[mark=none, blue, line width=2.5pt] coordinates {  (-1.5, 0) (-1, 0) (-1, 0.4) (-0.5,0.4) (-0.5,1) (0,1) (0,1) (0.5,1) (0.5,0.6) (1,0.6)  (1, 0.2) (1.5, 0.2) (1.5, 0) };
+
+
+
+
+\end{axis}
+\node (a) at (1.6,0.25) {\Large $s_A$};
+\node (b) at (2.5,0.25) {\Large $s_B$};
+\node (c) at (3.35,0.25) {\Large $s_C$};
+\node (d) at (4.2,0.25) {\Large $s_D$};
+\node (e) at (5.05,0.25) {\Large $s_E$};
+\node (f) at (5.9,0.25) {\Large $s_F$};
+\node (beta) at (5.8,4.3) {\Huge \color{blue} \scalebox{1.5}{$\beta$}};
+\node (pi1) at (0.6,5.2) {\Large $\pi_1$};
+\node (pi2) at (0.6,4.3) {\Large $\pi_2$};
+\node (pi3) at (0.6,3.4) {\Large $\pi_3$};
+\node (pi4) at (0.6,2.5) {\Large $\pi_4$};
+\node (pi5) at (0.6,1.6) {\Large $\pi_5$};
+\node (pi6) at (0.6,0.7) {\Large $\pi_6$};
+
+\node (B1) at (0.6,-0.5) {\color{ggreen} \Large $B_1$};
+\node (B2) at (0.6,-1.3) {\color{ggreen} \Large $B_2$};
+\node (B3) at (0.6,-2.1) {\color{ggreen} \Large $B_3$};
+\node (B5) at (0.6,-2.9) {\color{ggreen} \Large $B_4$};
+\node (B6) at (0.6,-3.7) {\color{ggreen} \Large $B_5$};
+\node (B6) at (0.6,-4.5) {\color{ggreen} \Large $B_6$};
+
+\draw[black,dotted] (2.85,0.5) -- (2.85,-5);
+\draw[black,dotted] (4.55,0.5) -- (4.55,-5);
+\draw[black,dotted] (2,0.5) -- (2,-5);
+\draw[black,dotted] (1.2,0.5) -- (1.2,-5);
+\draw[black,dotted] (5.4,0.5) -- (5.4,-5);
+\draw[black,dotted] (6.2,0.5) -- (6.2,-5);
+
+\draw[color=ggreen,thick] (2.9,-0.5) -- (4.55,-0.5);
+\draw[color=ggreen,thick] (2.9,-1.3) -- (4.55,-1.3);
+\draw[color=ggreen,thick] (2.9,-2.1) -- (5.4,-2.1);
+\draw[color=ggreen,thick] (2,-2.9) -- (5.4,-2.9);
+\draw[color=ggreen,thick] (2,-3.7) -- (6.2,-3.7);
+\draw[color=ggreen,thick] (1.2,-4.5) -- (6.2,-4.5);
+\end{tikzpicture}
+\begin{tikzpicture}
+\definecolor{ggreen}{rgb}{0.3,0.7,0.4};
+\node at (0,2.2) {\textbf{Pessimistic Choquet Integral}};
+\node at (0,1) {$r(\beta,a) = \displaystyle \sum_{i=1}^{\# \mathcal{L}-1} (\pi_i - \pi_{i+1}) \cdot \min_{ B_i }  r(s,a)$};
+\node at (0,0) {\color{ggreen} $B_i = \set{ s \in \mathcal{S} \mbox{ s.t. } \beta(s) \geqslant \pi_i } $};
+\end{tikzpicture}
 }
 
 \end{frame}
@@ -1712,31 +1773,31 @@ using poss-prob tranformations {\footnotesize \textit{(Dubois et al., FSS-92)}}%
 \framesubtitle{\footnotesize translation from hybrid POMDP to MDP -- \textbf{contribution (SUM-15):}}
 \vspace{0.3cm}
 input: a POMDP $\langle \mathcal{S},\mathcal{A},\mathcal{O},T,O,r, \gamma \rangle$ \\
-output: the MDP $\langle \tilde{\mathcal{S}},\mathcal{A},\tilde{T},\tilde{r}, \gamma \rangle$:
+output: the MDP $\langle \tilde{\mathcal{S}},\mathcal{A},\tilde{T},\tilde{r}, \gamma \rangle$
 \vspace{0.3cm}
 \visible<2->{
 \begin{itemize}
-\item \textbf{state space} ${ \color{red} \tilde{\mathcal{S}} = \Pi_{\mathcal{L}}^{\mathcal{S}} }$,\\ 
+\item \textbf{state space} ${ \color{red} \tilde{\mathcal{S}} = \Pi_{\mathcal{L}}^{\mathcal{S}} }$\\ 
 the set of the possibility distributions over $\mathcal{S}$
 \end{itemize}
 }
 \vspace{0.3cm}
 \visible<3->{
 \begin{itemize}
-\item $\forall \beta, \beta'$ possibilistic belief states $\in \Pi^{\mathcal{S}}_{\mathcal{L}}$, $\forall a \in \mathcal{A}$,\\
+\item $\forall \beta, \beta'$ possibilistic belief states $\in \Pi^{\mathcal{S}}_{\mathcal{L}}$, $\forall a \in \mathcal{A}$\\
 \textbf{transitions} ${ \color{red} \tilde{T} \Big( \beta, a, \beta' \Big) = \textbf{p} \Big( \beta' \Big\vert \beta,a \Big) }$
 \end{itemize}
 }
 \vspace{0.3cm}
 \visible<4->{
 \begin{itemize}
-\item \textbf{reward} ${ \color{red}  \tilde{r}(a,\beta) = \underline{Ch} \Big( r(a,.) \Big) }$,\\ 
+\item \textbf{reward} ${ \color{red}  \tilde{r}(a,\beta) = \underline{Ch} \Big( r(a,.) \Big) }$\\ 
 %$\mathcal{N}_{\beta}$ necessity measure computed from $\beta$.
 \end{itemize}
 }
 \vspace{0.2cm}
 \visible<5->{
-\[ \mbox{ \textbf{criterion:} } \mathbb{E}_{ \beta_t \sim \tilde{T}} \croch{ \sum_{t=0}^{+ \infty} \gamma^t \cdot \tilde{r} \paren{ \beta_t,d_t } }.\]
+\[ \mbox{ \textbf{criterion:} } \mathbb{E}_{ \beta_t \sim \tilde{T}} \croch{ \sum_{t=0}^{+ \infty} \gamma^t \cdot \tilde{r} \paren{ \beta_t,d_t } }\]
 }
 \end{frame}
 
@@ -1785,7 +1846,7 @@ the set of the possibility distributions over $\mathcal{S}$
 \draw[->,>=latex,thick] (ihv) to (oh);
 \node[hvertex] (sh1) at (6.5,8) {$s_h^{a}$};
 \node[hvertex] (sh2) at (6.8,6.2) {$s_h^{b}$};
-\node[hvertex] (sh3) at (7.5,5.5) {$s_h^{c}$};
+\node[hvertex] (sh3) at (7.5,5.5) {$s_v^{c}$};
 \draw[->,>=latex,thick,dashed] (sh1) to (oh);
 \draw[->,>=latex,thick,dashed] (sh2) to (oh);
 \draw[->,>=latex,thick,dashed] (sh3) to (oh);
@@ -1866,8 +1927,8 @@ $\rightarrow$ { \color{red} factorization \& smaller state space}
 \begin{itemize}
 \item \textbf{modeling efforts}: $\rightarrow$ human-machine interaction
 \visible<2->{
-\item \textbf{advancements}: $\rightarrow$ mixed-observability modeling\\
-\hspace{1.3cm} $\rightarrow$ indefinite horizon + optimality proof
+\item \textbf{advances}: $\rightarrow$ mixed-observability modeling\\
+\hspace{1.9cm} $\rightarrow$ indefinite horizon + optimality proof
 }
 \visible<3->{
 \item \textbf{simplifying computations}: factorization work\\ 
@@ -1880,9 +1941,10 @@ $\rightarrow$ validation of the computation time reduction\\
 $\rightarrow$ IPPC 2014 
 }
 \visible<5->{
-\item \textbf{hybrid POMDP} $\xrightarrow{ \mbox{\footnotesize translation} }$ MDP with \textbf{finite} space\\
-$\rightarrow$ probabilities on possibilistic belief states\\ 
-\hspace{0.4cm} pessimistic rewards (Choquet integral)\\
+\item \textbf{hybrid POMDP}\\
+%$\rightarrow$ probabilities on possibilistic belief states\\ 
+%\hspace{0.4cm} pessimistic rewards (Choquet integral)\\
+$\rightarrow$ formalization\\
 $\rightarrow$ factored POMDP $\xrightarrow{ \mbox{\footnotesize translation} }$ factored \textbf{finite} MPD
 }
 \end{itemize}
@@ -1899,15 +1961,16 @@ $\rightarrow$ factored POMDP $\xrightarrow{ \mbox{\footnotesize translation} }$ 
 
 \begin{exampleblock}{}
 \begin{itemize}
-\item refined criteria {\footnotesize \textit{(Weng 2005, Dubois et al. 2005)}}\\ 
-\hspace{2cm} $\Rightarrow$ finer $\pi$-POMDP
+\item refined criteria, intermediate preferences\\ 
+{\footnotesize \textit{(Weng 2005, Dubois $\&$ Fortemps 2005)}}\\ 
+\hspace{4cm} $\Rightarrow$ finer $\pi$-POMDP
 \item state space heuristic search for $\pi$-POMDPs
-\item combination with reinforcement learning
+\item combination with reinforcement learning (\footnotesize \textit{Sabbadin 2001})
 \end{itemize}
 \end{exampleblock}
 
 \visible<2->{
-\begin{block}{hybrid work}
+\begin{block}{hybrid model}
 \begin{itemize}
 \item IPPC problems (factored POMDPs);
 \item tests of this approach: 
@@ -2003,7 +2066,6 @@ produced work:
 
 
 
-\nico{
 \begin{frame}
 \frametitle{Uncertainty theories}
 \framesubtitle{\footnotesize Most known uncertainty theories and their relations}
@@ -3325,5 +3387,4 @@ $\tilde{\mathbb{S}} =$ \\
 \hspace{2cm} $\times$ \\
 $ \begin{array}{c} \mbox{\textbf{visible}} \\ \mbox{\textbf{variables}} \end{array} $: $v = f \times { \color{violet} s^1_v \times \ldots \times s^{m_v}_v } \times o_1 \times \ldots \times o_{k} $.
 \end{frame}
-}
 \end{document}
