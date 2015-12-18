@@ -418,35 +418,33 @@ in infinite horizon {\footnotesize  (\textit{Madani et al. 1999})}
 \visible<2->{
 $\rightarrow$ optimality for \enquote{small} or \enquote{structured} POMDPs \\
 $\rightarrow$ approximate computations}
-\visible<3->{
-\vspace{0.5cm}
+\end{frame}
+
+\begin{frame}
 \begin{itemize}
 \item \textbf{Imprecise model}, e.g. vision from statistical learning 
 %$\textbf{p} \paren{ o' \sachant s', a }$
 \end{itemize}
-}
+
 %probabilités $\textbf{p} \paren{ o' \sachant s', a }$
-\visible<4->{
+\visible<2->{
 %$\rightarrow$ dépendante de l'ensemble des images d'entra\^inement; \\
-$\rightarrow$ image in the database representative enough of the reality?\\% (test/train)% $\Rightarrow$ hard extraction of a classifier \\
+$\rightarrow$ images in the database representative enough of the reality?\\% (test/train)% $\Rightarrow$ hard extraction of a classifier \\
 %$\rightarrow$ lack of perception performance $\Rightarrow$ more complex POMDP
 \vspace{-0.3cm}
 }
-\visible<3->{
 %\vspace{-0.3cm}
 \includegraphics[scale=0.5]{fig2}
-}
-\visible<5->{
+\visible<3->{
 \begin{itemize}
 \vspace{0.01cm}
 \item \textbf{Lack of prior information} on the system state: \\
 initial belief state $b_0$ 
 \end{itemize}
 }
-\visible<6->{
+\visible<4->{
 $\rightarrow$ uniform probability distribution {$\neq$ \color{red} ignorance!}\\
 }
-
 \end{frame}
 
 
@@ -1688,7 +1686,7 @@ $\rightarrow$ problem with \textbf{qualitative $\&$ quantitative} uncertainty\\
 
 \begin{itemize}
 \item possibility distribution $\beta \rightarrow$ probability distribution $\overline{\beta}$\\ 
-using poss-prob tranformations {\footnotesize \textit{(Dubois $\&$ Prade)}}% $\textbf{p} \paren{ o' \sachant s,a } = \sum_{s' \in \mathcal{S}} O(s',a,o') \cdot T(s,a,s');$
+using poss-prob tranformations {\footnotesize \textit{(Dubois $\&$ Prade 1982)}}% $\textbf{p} \paren{ o' \sachant s,a } = \sum_{s' \in \mathcal{S}} O(s',a,o') \cdot T(s,a,s');$
 %\item observation probability $\textbf{p}\paren{o'\sachant \beta,a}$ computed from $\overline{b^{\pi}}$\\
 %as usual since $\overline{b^{\pi}} =$ probabilistic belief 
 %\item { \color{red} $ \displaystyle \textbf{p}\paren{o'\sachant b^{\pi},a} := \sum_{s\in\mathcal{S}}\textbf{p}\paren{o' \sachant s,a}\cdot\overline{b^{\pi}}(s)$.}
@@ -1998,7 +1996,7 @@ $\rightarrow$ factored POMDP $\xrightarrow{ \mbox{\footnotesize translation} }$ 
 {\Huge \textbf{Thank you!} }\\
 \vspace{1cm}
 {\footnotesize
-produced work:
+publications:
 \begin{itemize}
 \item \textit{Qualitative {P}ossibilistic {M}ixed-{O}bservable {MDP}s}, \textbf{UAI-2013}
 \item \textit{Structured Possibilistic Planning Using Decision Diagrams},\\ \hspace{7.2cm} \textbf{AAAI-2014}
@@ -2058,9 +2056,7 @@ produced work:
 
 
 
-
-
-
+%\nico{
 
 
 
@@ -3387,4 +3383,5 @@ $\tilde{\mathbb{S}} =$ \\
 \hspace{2cm} $\times$ \\
 $ \begin{array}{c} \mbox{\textbf{visible}} \\ \mbox{\textbf{variables}} \end{array} $: $v = f \times { \color{violet} s^1_v \times \ldots \times s^{m_v}_v } \times o_1 \times \ldots \times o_{k} $.
 \end{frame}
+%}
 \end{document}
